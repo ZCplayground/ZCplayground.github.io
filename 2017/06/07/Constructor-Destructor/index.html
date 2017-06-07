@@ -93,16 +93,16 @@
 
 
 
-<meta name="description" content="对于Stock类，我们还有其他一些工作要做。因为类提供被称为构造函数和析构函数的标准函数。 C++的目标之一就是让使用对象类像使用标准类型一样，然而，到上一节位置的Stock类代码还不能像初始化一个int那样来初始化Stock类对象。比如int a=1; 对于一个结构初始化等，那样的操作是不能用于Stock类的。 为什么要有构造函数？原因在于：数据部分的访问状态是私有的。程序不能直接访问私有成员。">
+<meta name="description" content="对于Stock类，我们还有其他一些工作要做。因为类提供被称为构造函数和析构函数的标准函数。 C++的目标之一就是让使用对象类像使用标准类型一样，然而在上一节的Stock类代码中还不能像初始化一个int那样来初始化Stock类对象。比如int a=1; 对于一个结构初始化等，那样的操作是不能用于Stock类的。 为什么要有构造函数？原因在于：数据部分的访问状态是私有的。程序不能直接访问私有成员。因此">
 <meta property="og:type" content="article">
 <meta property="og:title" content="C++学习之类的构造函数和析构函数">
 <meta property="og:url" content="http://yoursite.com/2017/06/07/Constructor-Destructor/index.html">
 <meta property="og:site_name" content="ZCplayground">
-<meta property="og:description" content="对于Stock类，我们还有其他一些工作要做。因为类提供被称为构造函数和析构函数的标准函数。 C++的目标之一就是让使用对象类像使用标准类型一样，然而，到上一节位置的Stock类代码还不能像初始化一个int那样来初始化Stock类对象。比如int a=1; 对于一个结构初始化等，那样的操作是不能用于Stock类的。 为什么要有构造函数？原因在于：数据部分的访问状态是私有的。程序不能直接访问私有成员。">
-<meta property="og:updated_time" content="2017-06-07T05:34:37.483Z">
+<meta property="og:description" content="对于Stock类，我们还有其他一些工作要做。因为类提供被称为构造函数和析构函数的标准函数。 C++的目标之一就是让使用对象类像使用标准类型一样，然而在上一节的Stock类代码中还不能像初始化一个int那样来初始化Stock类对象。比如int a=1; 对于一个结构初始化等，那样的操作是不能用于Stock类的。 为什么要有构造函数？原因在于：数据部分的访问状态是私有的。程序不能直接访问私有成员。因此">
+<meta property="og:updated_time" content="2017-06-07T05:56:10.693Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="C++学习之类的构造函数和析构函数">
-<meta name="twitter:description" content="对于Stock类，我们还有其他一些工作要做。因为类提供被称为构造函数和析构函数的标准函数。 C++的目标之一就是让使用对象类像使用标准类型一样，然而，到上一节位置的Stock类代码还不能像初始化一个int那样来初始化Stock类对象。比如int a=1; 对于一个结构初始化等，那样的操作是不能用于Stock类的。 为什么要有构造函数？原因在于：数据部分的访问状态是私有的。程序不能直接访问私有成员。">
+<meta name="twitter:description" content="对于Stock类，我们还有其他一些工作要做。因为类提供被称为构造函数和析构函数的标准函数。 C++的目标之一就是让使用对象类像使用标准类型一样，然而在上一节的Stock类代码中还不能像初始化一个int那样来初始化Stock类对象。比如int a=1; 对于一个结构初始化等，那样的操作是不能用于Stock类的。 为什么要有构造函数？原因在于：数据部分的访问状态是私有的。程序不能直接访问私有成员。因此">
 
 
 
@@ -374,7 +374,7 @@
 
       
         <p>对于Stock类，我们还有其他一些工作要做。因为类提供被称为<strong>构造函数</strong>和<strong>析构函数</strong>的标准函数。</p>
-<p>C++的目标之一就是让使用对象类像使用标准类型一样，然而，到上一节位置的Stock类代码还不能像初始化一个int那样来初始化Stock类对象。比如<code>int a=1</code>; 对于一个结构初始化等，那样的操作是不能用于Stock类的。</p>
+<p>C++的目标之一就是让使用对象类像使用标准类型一样，然而在上一节的Stock类代码中还不能像初始化一个int那样来初始化Stock类对象。比如<code>int a=1</code>; 对于一个结构初始化等，那样的操作是不能用于Stock类的。</p>
 <p>为什么要有构造函数？原因在于：数据部分的访问状态是私有的。程序不能直接访问私有成员。因此需要设计合适的成员函数，才能成功地初始化对象。</p>
 <p>在前面的代码中，我们是用<code>acquire</code>成员函数来初始化一个Stock类对象：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Stock A;</div><div class="line">A.acquire(abc, 10 ,10);</div><div class="line">A.buy(10, 24,75);</div></pre></td></tr></table></figure></p>
 <p>但是我们要做到的是一个名为Stock的构造函数，使得每次创建一个新对象，都能把他初始化。虽然用别的函数可以达到这个目的，但我们不能强行假设用户会每次都会去调用函数初始化。构造函数的目的就在于确保声明新的类对象时立刻初始化它，这是自动的。</p>
@@ -399,14 +399,14 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Stock(const string &amp;co, long n = 0, double pr = 0.0);</div></pre></td></tr></table></figure>
 <p>却没有提供默认构造函数，则隐式且不带初始值的声明会出错！原因就是禁止创建未初始化的对象。</p>
 <p>设置默认构造函数的方式有两种：</p>
-<ol>
+<ul>
 <li>为已有构造函数的所有参数提供默认值。<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Stock(const string &amp;co = &quot;ERROR&quot;, long n = 0, double pr = 0.0);</div></pre></td></tr></table></figure>
 </li>
-</ol>
-<ol>
+</ul>
+<ul>
 <li>通过函数重载定义另一种构造函数——没有参数的构造函数。<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Stock();</div></pre></td></tr></table></figure>
 </li>
-</ol>
+</ul>
 <p>由于只能存在一个默认构造函数，所以，<strong>不要同时使用这两种方法</strong>。实际上，通常应该初始化所有的对象，以确保一开始所有的成员就有已知的合理值。例如下面这个默认构造函数：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">Stock::Stock()</div><div class="line">&#123;</div><div class="line">	company = &quot;No name&quot;;</div><div class="line">	shares = 0;</div><div class="line">	share_val = 0.0;</div><div class="line">	total_val = 0.0;</div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
 <h1 id="析构函数"><a href="#析构函数" class="headerlink" title="析构函数"></a>析构函数</h1><p>用构造函数创建对象时，程序负责跟踪此对象，至到其过期为止。<strong>对象过期时</strong>，程序将调用一个特殊的成员函数，来完成清理工作。这个成员函数的名字就叫做<strong>析构函数</strong>。</p>
 <p>析构函数完成的就是清理工作，实际上是很有用的。例如如果构造函数用了<code>new</code>，那么在析构函数里使用<code>delete</code>来释放这些内存。Stock类的构造函数没有用<code>new</code>，因此析构函数是没啥需要完成的实际任务的。然而，了解如何声明和定义析构函数十分重要，下面我们试着来写一个Stock类的析构函数。</p>
