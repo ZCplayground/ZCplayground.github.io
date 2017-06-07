@@ -1,0 +1,998 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="This artical is reorganized based on Cisco’s White papers: Intelligent WAN Is the Foundation for the SoftwareDefined WAN by Zeus Kerravala, at September 2015. Cisco’s page link source Introduction: Di">
+<meta property="og:type" content="article">
+<meta property="og:title" content="基于Cisco IWAN 的 SDWAN 技术分析">
+<meta property="og:url" content="http://yoursite.com/2017/05/21/IWAN-en/index.html">
+<meta property="og:site_name" content="ZCplayground">
+<meta property="og:description" content="This artical is reorganized based on Cisco’s White papers: Intelligent WAN Is the Foundation for the SoftwareDefined WAN by Zeus Kerravala, at September 2015. Cisco’s page link source Introduction: Di">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/1092156/201705/1092156-20170521234016572-664702559.png">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/1092156/201705/1092156-20170521234020853-204518874.png">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/1092156/201705/1092156-20170521234030385-339956449.png">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/1092156/201705/1092156-20170521234033853-1185431835.png">
+<meta property="og:updated_time" content="2017-06-07T03:33:15.061Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="基于Cisco IWAN 的 SDWAN 技术分析">
+<meta name="twitter:description" content="This artical is reorganized based on Cisco’s White papers: Intelligent WAN Is the Foundation for the SoftwareDefined WAN by Zeus Kerravala, at September 2015. Cisco’s page link source Introduction: Di">
+<meta name="twitter:image" content="http://images2015.cnblogs.com/blog/1092156/201705/1092156-20170521234016572-664702559.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/05/21/IWAN-en/"/>
+
+
+
+
+
+  <title>基于Cisco IWAN 的 SDWAN 技术分析 | ZCplayground</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">ZCplayground</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/21/IWAN-en/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ZC">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ZCplayground">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">基于Cisco IWAN 的 SDWAN 技术分析</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-21T23:29:09+08:00">
+                2017-05-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/SDN/" itemprop="url" rel="index">
+                    <span itemprop="name">SDN</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/05/21/IWAN-en/" class="leancloud_visitors" data-flag-title="基于Cisco IWAN 的 SDWAN 技术分析">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>This artical is reorganized based on Cisco’s White papers: <em>Intelligent WAN Is the Foundation for the SoftwareDefined WAN</em> by Zeus Kerravala, at September 2015.</p>
+<p><a href="http://www.cisco.com/c/dam/en/us/solutions/collateral/enterprise-networks/intelligent-wan/intelligent-wan-foundation.pdf" target="_blank" rel="external">Cisco’s page link</a></p>
+<p><a href="http://www.cisco.com/c/en/us/solutions/enterprise-networks/intelligent-wan/index.html" target="_blank" rel="external">source</a></p>
+<h1 id="Introduction-Digital-Transformation-Drives-WAN-Evolution"><a href="#Introduction-Digital-Transformation-Drives-WAN-Evolution" class="headerlink" title="Introduction: Digital Transformation Drives WAN Evolution"></a>Introduction: Digital Transformation Drives WAN Evolution</h1><p>Digital transformation is reshaping the business landscape faster than at any time in history.  It used to take decades to disrupt a market, but natively digital companies such as <strong>Uber</strong> and <strong>Airbnb</strong> have disrupted their industries in just half a decade.</p>
+<p><strong>Digitization</strong> is creating new winners and losers at an unprecedented rate —— that is, having the ability to take advantage of market opportunities faster than the competition. This <strong>shift to being an agile business</strong> has now become a top initiative for IT and business leaders. This is why businesses spent more than $12 billion on technology to make IT more agile in 2014, according to ZK Research.</p>
+<p>However, one part of IT that has yet to <strong>evolve and lacks flexibility</strong> is the enterprise wide area network (WAN) Evolving the WAN must be a top priority for every IT and business leader.</p>
+<h2 id="Other-factors-driving-the-evolution-of-the-WAN"><a href="#Other-factors-driving-the-evolution-of-the-WAN" class="headerlink" title="Other factors driving the evolution of the WAN"></a>Other factors driving the evolution of the WAN</h2><ul>
+<li>Cloud computing continues to skyrocket.</li>
+</ul>
+<p>More applications and workloads are heading to the cloud.  Today, <strong>the cloud is the fastest growing segment of enterprise software</strong>, grow from $46 billion globally in 2014 to more than $116 billion in 2019. (Exhibit 1). The surge in cloud traffic is <strong>driving significantly different traffic patterns over enterprise WANs</strong>.</p>
+<p><img src="http://images2015.cnblogs.com/blog/1092156/201705/1092156-20170521234016572-664702559.png" alt=""></p>
+<ul>
+<li>Collaboration becomes business critical. </li>
+</ul>
+<p>For the digital enterprise, competitive advantage is based on an organization’s <strong>ability</strong> to <strong>make the right decision</strong> while <strong>involving the best people</strong> in <strong>as short a time as possible</strong>,<strong> regardless of where they are located.</strong></p>
+<p>communications (UC) and video conferencing mission are critical.  Multimedia applications, such as <strong>voice and video</strong>, are putting a strain on today’s WANs.</p>
+<ul>
+<li>Computing shifts to a network-centric model.</li>
+</ul>
+<p><strong>Mobile computing, the cloud, the Internet of Things (IoT) and big data</strong> are at the top of almost every organization’s priority list. These new compute models are all <strong>network centric</strong>, meaning the network plays a significant role in the success or failure of these initiatives. </p>
+<h1 id="II-Challenges-with-the-Traditional-WAN"><a href="#II-Challenges-with-the-Traditional-WAN" class="headerlink" title="II: Challenges with the Traditional WAN"></a>II: Challenges with the Traditional WAN</h1><p>The current architecture used to design business WANs has been in place for more than 30 years. </p>
+<p>The existing model was designed for <strong>predictable</strong> traffic flows from client/server computing and <strong>best effort</strong> Internet traffic. The centralized architecture is optimized for manageability but <strong>lacks</strong> any kind of <strong>dynamism</strong> or <strong>granular access control</strong> required for today’s diverse and varied traffic types driven from mobile users, extranets and telecommuters.</p>
+<p> video traffic consumes up to 90% of business traffic today, which is a major shift from even a decade ago when video constituted less than 10% of network traffic.</p>
+<p> The evolving business climate is putting<strong> new demands </strong>on the WAN that <strong>cannot be met with legacy deployment models</strong> because of the following challenges:</p>
+<ul>
+<li><p>Inefficient use of network bandwidth:</p>
+<p><strong>“active/passive” mode</strong> almost all organizations provision backup network connections. In most cases, the dual network connections are put in “active/passive” mode, where all traffic is sent down the primary connection and the backup link only becomes active when the primary fails. This causes organizations to pay for up to twice the amount ofbandwidth they are actually using.</p>
+</li>
+</ul>
+<ul>
+<li>High cost of bandwidth: </li>
+</ul>
+<p>the only way to ensure the availability of bandwidth for applications is to use expensive private IP network services such as Multiprotocol Label Switching (MPLS). </p>
+<ul>
+<li>Security and performance are overlay technologies:</li>
+</ul>
+<p>Securing a legacy WAN is typically accomplished by layering on additional physical appliances to add the new functionality required.  The overlay approach, which is built on multiple appliances, can further <strong>increase the complexity of the network</strong>. </p>
+<ul>
+<li>Little to no automation capabilities:</li>
+</ul>
+<p>WANs have almost no ability to automate network operations tasks.</p>
+<p>The provisioning of new services and the implementation of configuration changes are typically done manually on a box-by-box basis, <strong>creating long lead times</strong> for any kind of change to be made.</p>
+<p> In this era of network-centric IT, a network engineer’s time is extremely valuable.</p>
+<ul>
+<li><p>Difficulty optimizing the user experience:</p>
+<p>It is still difficult for most network managers to optimize the user experience of WAN-based applications.</p>
+<p>Consequently, network managers are often tuning quality-of-service (QoS) settings, creating alternative paths or changing other network parameters. This<br><strong>tweaking</strong> of the network is often done <strong>“ad hoc”</strong> <strong>when</strong> users are complaining about problems</p>
+</li>
+</ul>
+<p><img src="http://images2015.cnblogs.com/blog/1092156/201705/1092156-20170521234020853-204518874.png" alt=""></p>
+<p><img src="http://images2015.cnblogs.com/blog/1092156/201705/1092156-20170521234030385-339956449.png" alt=""></p>
+<p>Improving the quality of experience for applications requires <strong>having deep visibility</strong> into application behavior, <strong>identifying optimal paths</strong> and then <strong>automating constant changes to QoS settings</strong> and other factors.</p>
+<hr>
+<p>Business leaders must shed their legacy thinking.</p>
+<p>It’s time for the software-defined WAN.</p>
+<hr>
+<h1 id="III-Introducing-the-Software-Defined-WAN"><a href="#III-Introducing-the-Software-Defined-WAN" class="headerlink" title="III: Introducing the Software Defined WAN"></a>III: Introducing the Software Defined WAN</h1><p>A software-defined WAN can be thought of as the <strong>next generation of WAN architecture</strong> that is <strong>optimized for</strong> network-centric compute models such as <strong>cloud, mobile computing and IoT</strong>.</p>
+<p>An SD-WAN is built on the <strong>concepts</strong> of openness, agility, orchestration, analytics and security while continuously optimizing application performance. It enables application policies to be used to automate configuration changes, move traffic flows or enact other changes to ensure the network continually meets the needs of the organization. </p>
+<p>One approach to accomplishing this is to abstract the control functions into an external controller. This provides the benefit of centralized policy expressions with distributed enforcement for scalability. Other benefits include zero-touch deployment as well as simplified configuration and troubleshooting。</p>
+<p>However, it can pose challenges with enforcing security at the branch and with performance and resiliency <strong>depending on where the controller is located.</strong></p>
+<p>Another approach is to have the controller <strong>distributed</strong> as part of the network infrastructure. This provides the benefits of centralization but also enables stronger security in the branch, greater availability and more resiliency along with faster adaptation to network conditions.</p>
+<h2 id="Criteria"><a href="#Criteria" class="headerlink" title="Criteria"></a>Criteria</h2><p>In 2014, the Open Networking User Group (ONUG) defined the following 10 criteria for an SD-WAN: </p>
+<ol>
+<li><p>Ability for branch offices to leverage both public and private WAN connections in an <strong>active/active configuration</strong></p>
+</li>
+<li><p>Ability to deploy customer-premises equipment (CPE) in either a physical or a virtual form factor on <strong>any hardware</strong>, including commodity infrastructure </p>
+</li>
+<li><p><strong>Secure hybrid WAN architecture</strong> that allows for <strong>dynamic traffic engineering capabilities</strong> across private and public WAN paths as specified by application policies, network WAN availability and/or degradation at the transport or application layer</p>
+</li>
+<li><p><strong>Visibility, prioritization and steering of business-critical and real-time applications</strong> as per security and corporate governance and compliance policies</p>
+</li>
+<li><p>A <strong>highly available and resilient hybrid WAN</strong> for an optimized application experience. </p>
+</li>
+<li><p><strong>Layer 2 and layer 3 interoperability</strong> with a directly connected switch and/or router</p>
+</li>
+<li><p><strong>Management dashboard</strong> that provides site-, application- and VPN-level performance reporting</p>
+</li>
+<li><p><strong>Open, northbound (NB) APIs</strong> for controller access and management and the ability to forward specific log events to network event correlation managers and security event managers</p>
+</li>
+<li><p><strong>Zero-touch deployment capabilities</strong> at branch sites with minimal to no configuration changes directly on the infrastructure to ensure the highest level of agility</p>
+</li>
+<li><p><strong>FIPS 140-2 validation</strong> certification with automated certificate lifecycle management and reporting</p>
+</li>
+</ol>
+<p>The definition of an SD-WAN is continually evolving, and there is <strong>no “de facto standard”</strong> when it comes to what is and what is not an SD-WAN. </p>
+<hr>
+<h1 id="IV-Cisco’s-IWAN"><a href="#IV-Cisco’s-IWAN" class="headerlink" title="IV: Cisco’s IWAN"></a>IV: Cisco’s IWAN</h1><p>Cisco’s Intelligent WAN can be thought of as a platform for WAN transformation.</p>
+<p>A business could start by implementing a hybrid WAN today to gain the cost benefits of the Internet, and then migrate to an SD-WAN at a later date without adding more appliances and complexity in the branch. Once the SD-WAN is in place, the organization can use IWAN as a foundation for branch automation and service virtualization.</p>
+<h2 id="IWAN-enables-the-following-WAN-capabilities"><a href="#IWAN-enables-the-following-WAN-capabilities" class="headerlink" title="IWAN enables the following WAN capabilities:"></a>IWAN enables the following WAN capabilities:</h2><ul>
+<li>Application experience: </li>
+</ul>
+<p>Application optimization features such as intelligent path selection and WAN acceleration to ensure the best possible user experience.</p>
+<ul>
+<li>Secure access:</li>
+</ul>
+<p>Advanced threat detection to block most threats but also quickly identify any breaches that do occur and then rapidly mitigate them.</p>
+<ul>
+<li>Lower costs: </li>
+</ul>
+<p>Transport-independent WANs so that any combination of broadband, 3G/4G wireless or traditional networking services (e.g., MPLS VPNs) can be used for network transport simultaneously, with a single, common network design across every transport.</p>
+<ul>
+<li>Simplicity: </li>
+</ul>
+<p>Automation and orchestration of network services to ensure that the provisioning of new services and the implementation of network changes are driven by business policy and done at the speed required by a digital organization</p>
+<p><img src="http://images2015.cnblogs.com/blog/1092156/201705/1092156-20170521234033853-1185431835.png" alt=""></p>
+<p>some reference linking:</p>
+<ul>
+<li><a href="http://www.cisco.com/c/en/us/products/security/dynamic-multipoint-vpn-dmvpn/index.html" target="_blank" rel="external">Dynamic Multipoint VPN (DMVPN)</a></li>
+<li><a href="http://docwiki.cisco.com/wiki/PfRv3:Home" target="_blank" rel="external">Cisco Performance Routing (PfRv3)</a></li>
+<li><a href="https://en.wikipedia.org/wiki/FIPS_140-2" target="_blank" rel="external">FIPS 142-2</a></li>
+<li><a href="http://www.cisco.com/c/en/us/about/security-center/next-generation-cryptography.html" target="_blank" rel="external">Next Generation Encryption : AES-GCM-256</a></li>
+<li><a href="https://developer.cisco.com/site/apic-em/" target="_blank" rel="external">APIC Enterprise Module (APIC-EM)</a></li>
+</ul>
+<h2 id="Additional-benefits"><a href="#Additional-benefits" class="headerlink" title="Additional benefits:"></a>Additional benefits:</h2><ul>
+<li>Full system validation:</li>
+</ul>
+<p>Deploying an SD-WAN can be a daunting task for most customers. To help simplify deployment, Cisco has created a number of technology design guides, or Cisco Validated Designs (CVDs).</p>
+<ul>
+<li>End-to-end solution:</li>
+</ul>
+<p>The ability to “software define” the WAN provides many benefits to the customer. However, organizations should also consider bringing the benefits of software-defined networking to the campus edge (wired and wireless) and the data center. </p>
+<ul>
+<li>Single platform for features beyond the SDWAN:</li>
+</ul>
+<p>The Cisco Integrated Services Router(ISR)</p>
+<ul>
+<li>Open platform: </li>
+</ul>
+<p>As a company, Cisco has been committed to developing standards-based, open platforms, and the SD-WAN is no exception.The open strategy enables a broad third-party ecosystem to interoperate with and enhance Cisco’s IWAN. This includes expert-system partners such as LiveAction, Glue Networks and Akama.</p>
+<ul>
+<li>Ability to extend Cisco Application Centric Infrastructure (ACI) to the WAN edge:</li>
+</ul>
+<p>The Cisco Application Policy Infrastructure Controller Enterprise Module (APIC-EM) </p>
+<ul>
+<li>Automation capabilities:</li>
+</ul>
+<p>The Cisco APIC-EM controller’s IWAN Application automates the configuration and deployment of advanced IWAN features such as security, path optimization, enhanced application visibility and QoS on Cisco’s 4000 series Integrated Services Router.</p>
+<ul>
+<li><p>Cisco Services and large partner ecosystem…</p>
+</li>
+<li><p>Next-generation branch…</p>
+</li>
+</ul>
+<h1 id="V-Conclusion-and-Recommendations"><a href="#V-Conclusion-and-Recommendations" class="headerlink" title="V: Conclusion and Recommendations"></a>V: Conclusion and Recommendations</h1><p>The digital era is here and is creating new market leaders almost overnight. Business and IT leaders must focus on building an IT foundation that is dynamic, secure and agile to capitalize on digitization. Shifting the organization’s WAN strategy away from legacy architectures to a software-defined WAN is a key step in building an agile IT foundation.</p>
+<p>However, the SD-WAN market is still evolving, and there is no industry-wide accepted definition for this technology. Consequently, it’s important to build a flexible foundation on which services can be deployed today but can then expand in the future as the needs of the business change and as SD-WANs continue to evolve. </p>
+<p>Any organization looking to harness the power of digital transformation should make evolving to an SD-WAN a top priority. As next steps, ZK Research recommends the following: </p>
+<ul>
+<li>Evaluate solution providers on their ability to enable SD-WAN services today, but ensure the needs of the business will be met in the future. </li>
+</ul>
+<p>For example, Cisco’s IWAN takes an architectural approach to building an SD-WAN and enables businesses to start with network automation; but then it allows them to move past this phase, evolve the branch office and transition to a virtual services model to deliver any application or service to all users, no matter where they are located. </p>
+<ul>
+<li>Consider real-time traffic when building an SD-WAN.</li>
+</ul>
+<p>Real-time traffic applications such as voice and video are among the most difficult to run over a WAN. The requirements of these types of applications must be considered when architecting a next-generation WAN</p>
+<ul>
+<li>Shed conventional thinking around network design.</li>
+</ul>
+<p><strong>Many factors</strong> are involved in designing a WAN, and IT leaders must be willing to <strong>think differently today</strong>. </p>
+<p>For example, years ago, organizations <strong>would never have</strong> considered using <strong>broadband Internet</strong> or <strong>cellular services</strong> for business connectivity. Today, it’s possible to use a combination of <a href="https://zh.wikipedia.org/wiki/DSL" target="_blank" rel="external">DSL</a>, cable and 4G wireless to connect branch offices. <strong>An SD-WAN isn’t a traditional WAN</strong>, and it’s important that IT leaders <strong>not discount possible solutions</strong> because of <strong>historical biases</strong>. </p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/05/20/semaphore-PCproblems/" rel="next" title="操作系统实验之通过信号量实现复杂PC问题">
+                <i class="fa fa-chevron-left"></i> 操作系统实验之通过信号量实现复杂PC问题
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/05/24/IWAN-zh/" rel="prev" title="基于Cisco IWAN 的 SDWAN 技术分析（译）">
+                基于Cisco IWAN 的 SDWAN 技术分析（译） <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="ZC" />
+          <p class="site-author-name" itemprop="name">ZC</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Introduction-Digital-Transformation-Drives-WAN-Evolution"><span class="nav-number">1.</span> <span class="nav-text">Introduction: Digital Transformation Drives WAN Evolution</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Other-factors-driving-the-evolution-of-the-WAN"><span class="nav-number">1.1.</span> <span class="nav-text">Other factors driving the evolution of the WAN</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#II-Challenges-with-the-Traditional-WAN"><span class="nav-number">2.</span> <span class="nav-text">II: Challenges with the Traditional WAN</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#III-Introducing-the-Software-Defined-WAN"><span class="nav-number">3.</span> <span class="nav-text">III: Introducing the Software Defined WAN</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Criteria"><span class="nav-number">3.1.</span> <span class="nav-text">Criteria</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#IV-Cisco’s-IWAN"><span class="nav-number">4.</span> <span class="nav-text">IV: Cisco’s IWAN</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#IWAN-enables-the-following-WAN-capabilities"><span class="nav-number">4.1.</span> <span class="nav-text">IWAN enables the following WAN capabilities:</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Additional-benefits"><span class="nav-number">4.2.</span> <span class="nav-text">Additional benefits:</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#V-Conclusion-and-Recommendations"><span class="nav-number">5.</span> <span class="nav-text">V: Conclusion and Recommendations</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ZC</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("guhO5d3jdrym6QcCp5oIrsMc-gzGzoHsz", "ldFdhqrIxGxOqWs5mgH8pmLT");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

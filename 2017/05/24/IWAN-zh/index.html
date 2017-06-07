@@ -1,0 +1,1005 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="该文章是基于2015年9月由思科的 Zeus Kerravala 所撰 SDWAN 白皮书整理而来的：Intelligent WAN Is the Foundation for the SoftwareDefined WAN. Cisco’s page link source 引言：数字转型驱动广域网演进数字转型正在重塑商业景观，而且比历史上的任何时间都要更迅速。可能需要几十年才能扰乱了市场，但一">
+<meta property="og:type" content="article">
+<meta property="og:title" content="基于Cisco IWAN 的 SDWAN 技术分析（译）">
+<meta property="og:url" content="http://yoursite.com/2017/05/24/IWAN-zh/index.html">
+<meta property="og:site_name" content="ZCplayground">
+<meta property="og:description" content="该文章是基于2015年9月由思科的 Zeus Kerravala 所撰 SDWAN 白皮书整理而来的：Intelligent WAN Is the Foundation for the SoftwareDefined WAN. Cisco’s page link source 引言：数字转型驱动广域网演进数字转型正在重塑商业景观，而且比历史上的任何时间都要更迅速。可能需要几十年才能扰乱了市场，但一">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/1092156/201705/1092156-20170521234016572-664702559.png">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/1092156/201705/1092156-20170521234020853-204518874.png">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/1092156/201705/1092156-20170521234030385-339956449.png">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/1092156/201705/1092156-20170521234033853-1185431835.png">
+<meta property="og:updated_time" content="2017-06-07T03:33:32.110Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="基于Cisco IWAN 的 SDWAN 技术分析（译）">
+<meta name="twitter:description" content="该文章是基于2015年9月由思科的 Zeus Kerravala 所撰 SDWAN 白皮书整理而来的：Intelligent WAN Is the Foundation for the SoftwareDefined WAN. Cisco’s page link source 引言：数字转型驱动广域网演进数字转型正在重塑商业景观，而且比历史上的任何时间都要更迅速。可能需要几十年才能扰乱了市场，但一">
+<meta name="twitter:image" content="http://images2015.cnblogs.com/blog/1092156/201705/1092156-20170521234016572-664702559.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/05/24/IWAN-zh/"/>
+
+
+
+
+
+  <title>基于Cisco IWAN 的 SDWAN 技术分析（译） | ZCplayground</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">ZCplayground</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/24/IWAN-zh/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ZC">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ZCplayground">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">基于Cisco IWAN 的 SDWAN 技术分析（译）</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-24T13:05:36+08:00">
+                2017-05-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/SDN/" itemprop="url" rel="index">
+                    <span itemprop="name">SDN</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/05/24/IWAN-zh/" class="leancloud_visitors" data-flag-title="基于Cisco IWAN 的 SDWAN 技术分析（译）">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>该文章是基于2015年9月由思科的 Zeus Kerravala 所撰 SDWAN 白皮书整理而来的：<em>Intelligent WAN Is the Foundation for the SoftwareDefined WAN</em>.</p>
+<p><a href="http://www.cisco.com/c/dam/en/us/solutions/collateral/enterprise-networks/intelligent-wan/intelligent-wan-foundation.pdf" target="_blank" rel="external">Cisco’s page link</a></p>
+<p><a href="http://www.cisco.com/c/en/us/solutions/enterprise-networks/intelligent-wan/index.html" target="_blank" rel="external">source</a></p>
+<h1 id="引言：数字转型驱动广域网演进"><a href="#引言：数字转型驱动广域网演进" class="headerlink" title="引言：数字转型驱动广域网演进"></a>引言：数字转型驱动广域网演进</h1><p>数字转型正在重塑商业景观，而且比历史上的任何时间都要更迅速。可能需要几十年才能扰乱了市场，但一些数码公司如<strong>Uber</strong>和<strong>Airbnb</strong>在短短的五年间就已经扰乱了他们的行业。</p>
+<p><strong>数字化</strong>以前所未有的速度创造新的赢家和输家 - 也就是说，有能力比竞争对手更快地利用市场机会。 <strong>向敏捷业务的转变</strong>已经成为IT和商业领袖的首要举措。 据ZK研究报告，这就是为什么企业在2014年花费超过120亿美元的技术来使IT更加敏捷。</p>
+<p>然而，IT的一部分，企业广域网（WAN），目前<strong>尚未发展和缺乏灵活性</strong>。不断发展的广域网必须是每一个IT和业务领导者的第一要务。</p>
+<h2 id="推动广域网发展的其他因素"><a href="#推动广域网发展的其他因素" class="headerlink" title="推动广域网发展的其他因素"></a>推动广域网发展的其他因素</h2><ul>
+<li>云计算服务的飞涨</li>
+</ul>
+<p>更多的应用和工作负载正在移往云端。今天，云是企业软件<strong>增长最快</strong>的部分，从2014年的全球460亿美元增长到2019年的1160亿美元。（图表1）。 云流量的激增<strong>在企业广域网</strong>上显示出不同的流量模式。</p>
+<p><img src="http://images2015.cnblogs.com/blog/1092156/201705/1092156-20170521234016572-664702559.png" alt=""></p>
+<ul>
+<li>协作成为业务关键</li>
+</ul>
+<p>For the digital enterprise, competitive advantage is based on an organization’s <strong>ability</strong> to <strong>make the right decision</strong> while <strong>involving the best people</strong> in <strong>as short a time as possible</strong>,<strong> regardless of where they are located.</strong></p>
+<p>通信（UC）和视频会议任务至关重要。 多媒体应用程序（如<strong>语音和视频</strong>）正在对当今的广域网造成压力。</p>
+<ul>
+<li>计算转向以网络为中心的模式</li>
+</ul>
+<p><strong>移动计算，云，物联网（IoT）和大数据</strong>几乎在每个公司的优先列表（priority list）上。 这些新的计算模型都是<strong>以网络为中心的</strong>，这意味着网络在这些举措的成功或失败中起着重要的作用。</p>
+<h1 id="II-传统广域网面临的挑战"><a href="#II-传统广域网面临的挑战" class="headerlink" title="II: 传统广域网面临的挑战"></a>II: 传统广域网面临的挑战</h1><p>当前，用来设计企业广域网的架构已经存在了30多年。</p>
+<p>The existing model was designed for <strong>predictable</strong> traffic flows from client/server computing and <strong>best effort</strong> Internet traffic. The centralized architecture is optimized for manageability but <strong>lacks</strong> any kind of <strong>dynamism</strong> or <strong>granular access control</strong> required for today’s diverse and varied traffic types driven from mobile users, extranets and telecommuters.</p>
+<p>现有的模型，设计用于来自<strong>客户端/服务器</strong>计算、<strong>可预测的</strong>流量和<strong>best effort</strong>。集中式架构针对可管理性进行了优化，但<strong>缺乏</strong>由移动用户，外部网和远程办公人员所驱动的多样化的流量类型所需要的<strong>动态行</strong>或<strong>细粒度的访问控制</strong>。</p>
+<p>视频流量今天消耗高达90％的业务流量，这是一项重大转变，十年前视频占网络流量还不到10％。</p>
+<p> The evolving business climate is putting<strong> new demands </strong>on the WAN that <strong>cannot be met with legacy deployment models</strong> because of the following challenges:</p>
+<p>不断变化的商业环境正在使广泛对WAN提出<strong>新的需求</strong>，而这些新需求不能被面临如下挑战的传统模型所满足：</p>
+<ul>
+<li><p>网络带宽效率低下：</p>
+<p><strong>“active/passive” mode</strong> 几乎所有组织都提供备用网络连接。 在大多数情况下，双网络连接处于“主动/被动”模式，其中所有流量都在主连接上发送，备用链路仅在主要故障时才变为活动状态。 这导致组织支付高达他们实际使用的带宽数量的两倍。</p>
+</li>
+</ul>
+<ul>
+<li>高带宽成本：</li>
+</ul>
+<p>确保应用带宽可用性的唯一方法是使用昂贵的私有IP网络服务，如多协议标签交换（MPLS）。</p>
+<ul>
+<li>Security and performance are overlay technologies:</li>
+</ul>
+<p>保护传统广域网通常通过增加新的物理设备层次来实现或添加所需的新功能。 这种建立在多个设备上的<strong>覆盖方法</strong>（overlay approach）会进一步增加网络的复杂性。</p>
+<ul>
+<li>几乎没有自动化功能：</li>
+</ul>
+<p>WAN几乎无法自动执行网络操作任务。</p>
+<p>The provisioning of new services and the implementation of configuration changes are typically done manually on a box-by-box basis, <strong>creating long lead times</strong> for any kind of change to be made.</p>
+<p>新服务的配置和配置更改的实施通常是以逐个方式手动完成的，进行任何更改都要耗费大量的交货时间（long lead times）。在这个以网络为中心的IT时代，网络工程师的时间是非常有价值的。</p>
+<ul>
+<li>难以优化用户体验：</li>
+</ul>
+<p>大多数网络管理员仍然难以优化基于WAN的应用的用户体验。<br>网络管理员通常会调整服务质量（QoS）设置，创建替代路径或更改其他网络参数。 这种对于网络问题的调整通常是在当用户抱怨问题的时候，才来亡羊补牢。<strong>“ad hoc”</strong></p>
+<p><img src="http://images2015.cnblogs.com/blog/1092156/201705/1092156-20170521234020853-204518874.png" alt=""></p>
+<p><img src="http://images2015.cnblogs.com/blog/1092156/201705/1092156-20170521234030385-339956449.png" alt=""></p>
+<p>Improving the quality of experience for applications requires <strong>having deep visibility</strong> into application behavior, <strong>identifying optimal paths</strong> and then <strong>automating constant changes to QoS settings</strong> and other factors.</p>
+<p>提高应用程序的体验质量需要<strong>对应用程序行为有深刻的可视化</strong>，<strong>识别最佳路径</strong>，然后自动对QoS设置<strong>进行不断的更改</strong>等因素。</p>
+<hr>
+<p>商界领袖必须摆脱传统思维。</p>
+<p>现在是软件定义的广域网的时候了。</p>
+<hr>
+<h1 id="III：软件定义的WAN"><a href="#III：软件定义的WAN" class="headerlink" title="III：软件定义的WAN"></a>III：软件定义的WAN</h1><p>A software-defined WAN can be thought of as the <strong>next generation of WAN architecture</strong> that is <strong>optimized for</strong> network-centric compute models such as <strong>cloud, mobile computing and IoT</strong>.</p>
+<p>软件定义的广域网可以被认为是<strong>下一代的广域网架构</strong>，针对以网络为中心的计算模型，例如<strong>云</strong>、<strong>移动计算</strong>和<strong>物联网</strong>。</p>
+<p>SD-WAN建立如下的重要概念上：开放性，敏捷性，编排，分析，安全性，（ openness, agility, orchestration, analytics and security）不断优化应用程序性能。 它使应用程序策略可用于自动化配置更改，移动流量或执行其他更改，以确保网络不断满足组织的需求。</p>
+<p>实现的一个方法是将控制功能抽象为外部控制器。这提供了集中策略控制表达的优点，具有可扩展性。 其他好处包括零触摸部署（zero-touch deployment）以及简化配置和故障排除。</p>
+<p>但是，根据控制器所在的位置，它可能会在分支机构执行安全性和性能和弹性方面带来挑战。另一种方法是将控制器作为网络基础设施的一部分<strong>分发</strong>（distributed）。 这提供了集中化的好处，但也可以实现分支机构更强的安全性，更高的可用性和更大的弹性以及更快地适应网络条件。</p>
+<h2 id="标准"><a href="#标准" class="headerlink" title="标准"></a>标准</h2><p>在2014年，开放网络用户组（the Open Networking User Group，ONUG）为SD-WAN定义了以下10个标准：</p>
+<ol>
+<li><p>分支机构能够在<strong>主动/主动配置</strong>（active/active configuration）中利用公共和私有WAN连接</p>
+</li>
+<li><p>能够在<strong>任何硬件</strong>上（包括商品基础设施） ，以物理或虚拟形式，部署客户端设备（CPE）</p>
+</li>
+<li><p><strong>安全混合广域网（hybrid WAN）架构</strong>，允许通过应用策略指定的私有和公共WAN路径上的动态流量工程功能，确保传输或应用层的网络WAN可用性和/或降级（network WAN availability and/or degradation at the transport or application layer）</p>
+</li>
+</ol>
+<ol>
+<li><p>根据安全政策和公司治理和合规政策的<strong>业务关键型和实时应用程序的可视化、优先级实现</strong> </p>
+</li>
+<li><p><strong>高可用性和弹性</strong>的混合广域网，以优化应用体验。</p>
+</li>
+<li><p><strong>第2层和第3层的互操作性</strong> </p>
+</li>
+<li><p><strong>管理仪表板</strong>，提供站点，应用程序和VPN级别的性能报告</p>
+</li>
+<li><p><strong>开放北向API</strong>，用于控制器访问和管理，以及将特定日志事件转发到网络事件相关管理器和安全事件管理器的能力</p>
+</li>
+<li><p><strong>零触摸部署功能</strong> 要在分支站点做改动，能直接在基础架构上进行最少的配置更改，以确保最高级别的敏捷性</p>
+</li>
+<li><p><strong>FIPS 140-2 认证</strong> 自动证书生命周期管理和报告。（automated certificate lifecycle management and reporting）</p>
+</li>
+</ol>
+<blockquote>
+<p>联邦信息处理标准（FIPS）出版物140-2（FIPS PUB 140-2），是用于批准加密模块的美国政府计算机安全标准，是加密模块的安全要求。 初步出版于2001年5月25日，最后更新于2002年12月3日。</p>
+</blockquote>
+<p>SD-WAN的定义不断发展，当提到什么是以及什么不是SD-WAN的时候，没有<strong>“事实上的标准”</strong></p>
+<hr>
+<h1 id="IV-Cisco’s-IWAN"><a href="#IV-Cisco’s-IWAN" class="headerlink" title="IV: Cisco’s IWAN"></a>IV: Cisco’s IWAN</h1><p>思科的智能广域网（Intelligent WAN，IW）可以被认为是广域网转型的平台。</p>
+<p>业务可以从今天实施混合广域网开始，以获得互联网的成本优势，然后在以后迁移到SD-WAN，而不会增加分支机构和复杂性。 一旦SD-WAN到位，组织可以使用IWAN作为分支自动化和服务虚拟化的基础。</p>
+<h2 id="IWAN启用以下WAN功能："><a href="#IWAN启用以下WAN功能：" class="headerlink" title="IWAN启用以下WAN功能："></a>IWAN启用以下WAN功能：</h2><ul>
+<li>应用程序的体验优化: </li>
+</ul>
+<p>应用优化功能，如智能路径选择和广域网加速，以确保最佳的用户体验。</p>
+<ul>
+<li>安全访问：</li>
+</ul>
+<p>高级威胁检测可以阻止大多数威胁，但也可以快速识别发生的任何违规行为，然后快速缓解这些威胁。</p>
+<ul>
+<li>降低成本：</li>
+</ul>
+<p>与传输无关的广域网（Transport-independent WANs），宽带，3G / 4G无线或传统网络服务（例如，MPLS VPN）的<strong>任何组合</strong>都可以可以<strong>同时</strong>用于网络传输，以单一的共同网络设计，跨越每个传输。</p>
+<ul>
+<li>简便：</li>
+</ul>
+<p>网络服务的自动化和编排，以确保提供新服务和实施网络变更是由业务政策驱动的，并以数码公司所需的速度完成。</p>
+<p><img src="http://images2015.cnblogs.com/blog/1092156/201705/1092156-20170521234033853-1185431835.png" alt=""></p>
+<p>一些参考链接：</p>
+<ul>
+<li><a href="http://www.cisco.com/c/en/us/products/security/dynamic-multipoint-vpn-dmvpn/index.html" target="_blank" rel="external">动态多点VPN，Dynamic Multipoint VPN (DMVPN)</a></li>
+<li><a href="http://docwiki.cisco.com/wiki/PfRv3:Home" target="_blank" rel="external">思科性能路由，Cisco Performance Routing (PfRv3)</a></li>
+<li><a href="https://en.wikipedia.org/wiki/FIPS_140-2" target="_blank" rel="external">联邦信息处理标准（FIPS）出版物140-2（FIPS PUB 140-2）</a></li>
+<li><a href="http://www.cisco.com/c/en/us/about/security-center/next-generation-cryptography.html" target="_blank" rel="external">下一代加密：AES-GCM-256</a></li>
+<li><a href="https://developer.cisco.com/site/apic-em/" target="_blank" rel="external">APIC企业模块：APIC Enterprise Module (APIC-EM)</a></li>
+</ul>
+<h2 id="额外的优点："><a href="#额外的优点：" class="headerlink" title="额外的优点："></a>额外的优点：</h2><ul>
+<li>全系统验证：</li>
+</ul>
+<p>为大多数客户部署SD-WAN可能是一项艰巨的任务。 为了简化部署，Cisco已经创建了许多技术设计指南，或Cisco认证设计（CVD）。</p>
+<ul>
+<li>端对端解决方案：（End-to-end solution）</li>
+</ul>
+<p>SDWAN的能力为客户带来了许多好处。 然而，组织还应考虑将软件定义网络的优势带到校园边缘（campus edge）（有线和无线）和数据中心。</p>
+<ul>
+<li>SDWAN以外的功能的平台：</li>
+</ul>
+<p>思科集成业务路由器（ISR）</p>
+<ul>
+<li>开放平台：</li>
+</ul>
+<p>作为一家公司，思科一直致力于开发基于标准的开放式平台，而SD-WAN也不例外。开放式战略使广泛的第三方生态系统能够与思科的IWAN进行互操作和增强。 这包括专家系统合作伙伴，如LiveAction，Glue Networks和Akama。</p>
+<ul>
+<li>能够将思科应用中心基础设施（Cisco Application Centric Infrastructure，ACI）扩展到WAN边缘：</li>
+</ul>
+<p>思科应用策略基础架构控制器企业模块（APIC-EM） </p>
+<ul>
+<li>自动化功能：</li>
+</ul>
+<p>思科APIC-EM控制器的IWAN应用程序可自动配置和部署高级IWAN功能，例如Cisco 4000系列集成服务路由器上的安全性，路径优化，增强的应用程序可见性和QoS。</p>
+<ul>
+<li><p>思科服务和大型合作伙伴生态系统</p>
+</li>
+<li><p>下一代的分支网…</p>
+</li>
+</ul>
+<h1 id="V：结论和建议"><a href="#V：结论和建议" class="headerlink" title="V：结论和建议"></a>V：结论和建议</h1><p>如今，数字时代几乎在一夜之间创造了新的市场领导者。 企业和IT领导者必须注重建立一个动态，安全和敏捷的IT基础，以利用数字化。 将组织的广域网战略从传统架构转移到软件定义的广域网是构建敏捷IT基础的关键一步。</p>
+<p>然而，SD-WAN市场仍在不断发展，对于这项技术来说，没有业界可以接受的定义。 因此，重要的是建立一个灵活的基础，今天可以部署哪些服务，但随着业务需求的变化以及随着SD-WAN的不断发展，将来可以扩展。 </p>
+<p>任何希望利用数字转换功能的组织都应该发展成为SD-WAN的首要任务。</p>
+<p>接下来的步骤，ZK建议如下：</p>
+<ul>
+<li>评估解决方案提供商今天能够启用SD-WAN服务的能力，但确保将来满足业务需求。</li>
+</ul>
+<p>例如，思科的IWAN采用架构方式构建SD-WAN，并使企业能够从网络自动化开始; 但是，它允许他们走过这个阶段，发展分支机构并转换到虚拟服务模型，以便将所有应用程序或服务交付给所有用户，无论它们位于何处。</p>
+<ul>
+<li>在构建SD-WAN时考虑实时流量。</li>
+</ul>
+<p>实时流量应用程序（如语音和视频）是通过WAN时最难运行的。 在构建下一代WAN时，必须考虑这些类型的应用程序的要求</p>
+<ul>
+<li>Shed conventional thinking around network design.</li>
+</ul>
+<p>广域网的设计涉及许多因素，IT领导者今天必须愿意以不同的角度去思考。</p>
+<p>例如，多年以前，组织永远不会考虑使用宽带互联网或蜂窝业务进行业务连接。 而在今天，我们可以使用<a href="https://zh.wikipedia.org/wiki/DSL" target="_blank" rel="external">DSL</a>、有线、无线4G连接分支机构。 <strong>SD-WAN不是传统的WAN</strong>，对于IT行业的领导者来说，不要因为历史偏见（historical biases）而忽视（discount）可能的解决方案是很重要的。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/05/21/IWAN-en/" rel="next" title="基于Cisco IWAN 的 SDWAN 技术分析">
+                <i class="fa fa-chevron-left"></i> 基于Cisco IWAN 的 SDWAN 技术分析
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/06/06/OldDriver/" rel="prev" title="OldDriver">
+                OldDriver <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="ZC" />
+          <p class="site-author-name" itemprop="name">ZC</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#引言：数字转型驱动广域网演进"><span class="nav-number">1.</span> <span class="nav-text">引言：数字转型驱动广域网演进</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#推动广域网发展的其他因素"><span class="nav-number">1.1.</span> <span class="nav-text">推动广域网发展的其他因素</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#II-传统广域网面临的挑战"><span class="nav-number">2.</span> <span class="nav-text">II: 传统广域网面临的挑战</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#III：软件定义的WAN"><span class="nav-number">3.</span> <span class="nav-text">III：软件定义的WAN</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#标准"><span class="nav-number">3.1.</span> <span class="nav-text">标准</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#IV-Cisco’s-IWAN"><span class="nav-number">4.</span> <span class="nav-text">IV: Cisco’s IWAN</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#IWAN启用以下WAN功能："><span class="nav-number">4.1.</span> <span class="nav-text">IWAN启用以下WAN功能：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#额外的优点："><span class="nav-number">4.2.</span> <span class="nav-text">额外的优点：</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#V：结论和建议"><span class="nav-number">5.</span> <span class="nav-text">V：结论和建议</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ZC</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("guhO5d3jdrym6QcCp5oIrsMc-gzGzoHsz", "ldFdhqrIxGxOqWs5mgH8pmLT");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
