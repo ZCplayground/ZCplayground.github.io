@@ -1,0 +1,874 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="this指针对于Stock类，还有很多工作要做。到目前为止，每种类成员函数都最多只涉及一个对象，即调用它的对象。但显然有时候方法可能不只涉及到一个对象，在这种情况下需要用到C++的this指针。 例如，Stock类虽然能显示各种数据，但缺乏分析能力，如果我们要设计一个输出哪一只股票的价格最高，由于程序无法直接访问total_val，因此无法做出判断。我们设计两个函数，一个函数查看total_val">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C++学习之类的this指针、对象数组、作用域、ADT">
+<meta property="og:url" content="http://yoursite.com/2017/06/07/More-class-design/index.html">
+<meta property="og:site_name" content="ZCplayground">
+<meta property="og:description" content="this指针对于Stock类，还有很多工作要做。到目前为止，每种类成员函数都最多只涉及一个对象，即调用它的对象。但显然有时候方法可能不只涉及到一个对象，在这种情况下需要用到C++的this指针。 例如，Stock类虽然能显示各种数据，但缺乏分析能力，如果我们要设计一个输出哪一只股票的价格最高，由于程序无法直接访问total_val，因此无法做出判断。我们设计两个函数，一个函数查看total_val">
+<meta property="og:updated_time" content="2017-06-07T05:46:39.912Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="C++学习之类的this指针、对象数组、作用域、ADT">
+<meta name="twitter:description" content="this指针对于Stock类，还有很多工作要做。到目前为止，每种类成员函数都最多只涉及一个对象，即调用它的对象。但显然有时候方法可能不只涉及到一个对象，在这种情况下需要用到C++的this指针。 例如，Stock类虽然能显示各种数据，但缺乏分析能力，如果我们要设计一个输出哪一只股票的价格最高，由于程序无法直接访问total_val，因此无法做出判断。我们设计两个函数，一个函数查看total_val">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/06/07/More-class-design/"/>
+
+
+
+
+
+  <title>C++学习之类的this指针、对象数组、作用域、ADT | ZCplayground</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">ZCplayground</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/07/More-class-design/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ZC">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ZCplayground">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">C++学习之类的this指针、对象数组、作用域、ADT</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-07T13:35:32+08:00">
+                2017-06-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Cpp/" itemprop="url" rel="index">
+                    <span itemprop="name">Cpp</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/06/07/More-class-design/" class="leancloud_visitors" data-flag-title="C++学习之类的this指针、对象数组、作用域、ADT">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="this指针"><a href="#this指针" class="headerlink" title="this指针"></a>this指针</h1><p>对于Stock类，还有很多工作要做。到目前为止，每种类成员函数都最多只涉及一个对象，即调用它的对象。但显然有时候方法可能不只涉及到一个对象，在这种情况下需要用到C++的this指针。</p>
+<p>例如，Stock类虽然能显示各种数据，但缺乏分析能力，如果我们要设计一个输出哪一只股票的价格最高，由于程序无法直接访问<code>total_val</code>，因此无法做出判断。我们设计两个函数，一个函数查看<code>total_val</code>的值，另一个函数比较两个对象的<code>total_val</code>的值。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">double total()const &#123; return total_val; &#125;</div></pre></td></tr></table></figure>
+<p>另一个函数，我们定义一个成员函数，它查看两个Stock类对象，并返回股价较高的那个对象的引用。</p>
+<p>由此我们可以引出以下两个问题来讨论：</p>
+<ol>
+<li>如何将两个对象提供给成员函数呢？假设这个方法命名为topval()，则stock1.topval()将访问stock1的数据，则必须将第二个对象作为参数传递给它。出于效率方面的考虑，我们就可以按引用来传递参数。</li>
+<li>如何返回答案呢？最直接的方案就是返回那个引用。因此可以这么写原型：<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">const Stock &amp; topval(const Stock &amp;s)const;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>好的，假设实现完了topval细节，如何调用呢？很明显下面两个语句都是可行的：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">top = stock1.topval(stock2);//隐式访问stock1，显示访问stock2</div><div class="line">top = stock2.topval(stock1);//隐式访问stock2，显示访问stock1</div></pre></td></tr></table></figure></p>
+<p>这表示法也挺反人类的，但不要紧，我们这里就要着重介绍<strong>this指针</strong>的用法。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">const Stock &amp; topval(const Stock &amp;s)const</div><div class="line">&#123;</div><div class="line">	if(s.total_val&gt;total_val)</div><div class="line">		return s;</div><div class="line">	else </div><div class="line">		return ???????;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><code>s.total_va</code>是参数的成员，<code>total_val</code>是调用这个方法的对象的成员。问题在于在else分支内，<code>stock1</code>是没有别名的，如何称呼这个调用这个方法的对象自己呢？</p>
+<p>C++解决这种问题的方法就是使用<strong>名称为this的特殊指针</strong>。this指针是<strong>指向用来调用成员函数的对象</strong>。这样，函数调用<code>stock1.topval(stock2);</code>，<code>this</code>指针就是<code>stock1</code>对象的地址。一般来说，所以的类方法都将this指针设置为调用它的对象的地址。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">const Stock &amp; topval(const Stock &amp;s)const</div><div class="line">&#123;</div><div class="line">	if(s.total_val&gt;total_val)</div><div class="line">		return s;</div><div class="line">	else </div><div class="line">		return *this;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>因为是返回的是整个引用，this只是地址，记得加上*运算符。</p>
+<h1 id="对象数组"><a href="#对象数组" class="headerlink" title="对象数组"></a>对象数组</h1><p>类似于结构体数组，可以创建同一个类的多个对象，就是使用创建对象数组。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Stock a[3];</div></pre></td></tr></table></figure></p>
+<p>数组里的每一个元素都是对象。都可以使用类方法。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">a[0].update();</div><div class="line">a[1].show();</div><div class="line">const Stock * tops = a[2].topval(a[1]);</div></pre></td></tr></table></figure></p>
+<p>使用构造函数初始化数组元素。如果这样做，必须为每个元素调用构造函数<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">Stock a[3] = &#123;</div><div class="line">	Stock(&quot;a&quot;,1,2);</div><div class="line">	Stock(&quot;b&quot;,3,4);</div><div class="line">	Stock(&quot;c&quot;,5,6);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>如果有多种构造函数，可以对不同的元素使用不同的构造函数，没有调用构造函数的将使用默认构造函数。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">Stock b[10] = &#123;</div><div class="line">	Stock(&quot;d&quot;,7,8);</div><div class="line">	Stock();</div><div class="line">	Stock(&quot;e&quot;,9,10);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>初始化的方案是：首先使用默认构造函数创建数组，然后花括号中的构造函数将创建临时对象，然后将临时对象的内容复制到相应元素中。要创建对象数组，要求这个类必须有默认构造函数。</p>
+<h1 id="作用域"><a href="#作用域" class="headerlink" title="作用域"></a>作用域</h1><p>在类定义的名称（成员名、成员函数名）的作用域都为整个类。</p>
+<p>作用域在整个类的名称，只在该类中是可知的，在类外是不可知的。因此可以在不同类中使用相同类成员名而不会引起冲突。另外，类作用于以为着不能从外部直接访问类成员，公有成员函数也是如此。也就是说，要调用公有成员函数，必须通过对象。</p>
+<h2 id="作用域为类的常量"><a href="#作用域为类的常量" class="headerlink" title="作用域为类的常量"></a>作用域为类的常量</h2><p>有时候，使符号常量的作用域为类很有用。例如，类声明用字面值30来指定数组的长度，由于该常量对所有对象来说都是相同的，因此创建一个所有对象共享的常量是个不错的主意。</p>
+<p>错误的代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">class Bakery</div><div class="line">&#123;</div><div class="line">private:</div><div class="line">	const int Months = 12;//wrong</div><div class="line">	double costs[Months];</div><div class="line">	...</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<p>这是行不通的，因为声明类值描述对象形式，并没有创建对象。因此，将没有储存这个值的空间。然而，有两种方法可以实现这个目标，而且效果相同。</p>
+<h3 id="方法1"><a href="#方法1" class="headerlink" title="方法1"></a>方法1</h3><p>类中声明枚举。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">class Bakery</div><div class="line">&#123;</div><div class="line">private:</div><div class="line">	enum &#123;Months = 12&#125;;</div><div class="line">	double costs[Months];</div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
+<p>在类声明中的枚举的作用域为整个类，因此可以用枚举为整型常量提供类作用域的符号名称。而且这种方式声明枚举并不会创建类数据成员，也就是说，所以对象其实都不包含枚举，Months也只是一个符号名称，在类的代码里遇到Months编译器都是会用12来代替。</p>
+<p>方法2<br>C++提供了另一种在类中定义常量的方式——使用关键字static。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">class Bakery</div><div class="line">&#123;</div><div class="line">private:</div><div class="line">	static const int Months;</div><div class="line">	double costs[Months];</div><div class="line">&#125;;</div><div class="line"></div><div class="line">const int Bakery::Months = 12;</div></pre></td></tr></table></figure></p>
+<p>这将创建一个静态变量Months，该常量将于其他静态变量存储在一起，不存储在对象中。因此，这只有一个Months常量，被所有的类对象共享。</p>
+<h1 id="ADT-——-抽象数据类型"><a href="#ADT-——-抽象数据类型" class="headerlink" title="ADT —— 抽象数据类型"></a>ADT —— 抽象数据类型</h1><p>Stock类非常具体。然而，程序员常常通过定义类来表示很多更通用的概念。例如，就实现抽象数据类型（abstract  date type， ADT）而言，使用类就是非常好的方式。类概念非常适合ADT方法，可以用公有成员函数表示ADT操作的接口，公有接口应隐藏数据，而且使用通用的术语来表达，例如栈的压入，弹出等。私有数据成员负责存储ADT数据，需要表明数据的存储方式，可以使用常规数组、动态分配或者更高级的数据结构等。</p>
+<p>下面是一个栈的class实现。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div></pre></td><td class="code"><pre><div class="line">//stack.h -- class defination for the Stack ADT</div><div class="line"></div><div class="line">typedef unsigned long Item;</div><div class="line"></div><div class="line">class Stack</div><div class="line">&#123;</div><div class="line">private:</div><div class="line">	enum &#123; MAX = 100 &#125;;</div><div class="line">	Item items[MAX];</div><div class="line">	int top;</div><div class="line">public:</div><div class="line">	Stack();</div><div class="line">	bool isempty() const;</div><div class="line">	bool isfull() const;</div><div class="line">	bool push(const Item &amp; item);</div><div class="line">	bool pop(Item &amp; item);</div><div class="line">&#125;;</div><div class="line"></div><div class="line">//stack.cpp -- Stack member functions</div><div class="line">//#include &quot;stack.h&quot;</div><div class="line">Stack::Stack()</div><div class="line">&#123;</div><div class="line">	top = 0;</div><div class="line">&#125;</div><div class="line"></div><div class="line">bool Stack::isempty()const</div><div class="line">&#123;</div><div class="line">	return top == 0;</div><div class="line">&#125;</div><div class="line"></div><div class="line">bool Stack::isfull()const</div><div class="line">&#123;</div><div class="line">	return top == MAX;</div><div class="line">&#125;</div><div class="line"></div><div class="line">bool Stack::push(const Item &amp; item)</div><div class="line">&#123;</div><div class="line">	if (top &lt; MAX)</div><div class="line">	&#123;</div><div class="line">		items[top++] = item;</div><div class="line">		return true;</div><div class="line">	&#125;</div><div class="line">	else</div><div class="line">		return false;</div><div class="line">&#125;</div><div class="line"></div><div class="line">bool Stack::pop(Item &amp; item)</div><div class="line">&#123;</div><div class="line">	if (top &gt; 0)</div><div class="line">	&#123;</div><div class="line">		item = items[--top];</div><div class="line">		return true;</div><div class="line">	&#125;</div><div class="line">	else</div><div class="line">		return false;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h1 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h1><ol>
+<li>面对对象编程强调的是程序如何表示数据。使用OOP方法解决问题的第一步是根据它与程序间的接口来描述数据。</li>
+<li>公有成员函数，又称为方法，提供访问数据的途径。</li>
+<li>类将数据和方法组合成一个单元，其私有性实现数据隐藏。</li>
+<li>通常将类声明放在头文件中、定义成员函数的源代码放在方法文件中，便将接口描述与实现细节分开了。从理论上说，只需知道公有接口就可以使用类。</li>
+<li>类是用户定义的类型，对象是类的实例。如果提供了构造函数，则在创建对象时可以初始化对象。如果提供了析构函数，则对象消亡时将执行析构函数。</li>
+<li>如果希望成员函数对多个对象进行操作，则可以使用this指针。*this是这个对象的别名。</li>
+<li>类很适合用来描述ADT。</li>
+</ol>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/06/07/Constructor-Destructor/" rel="next" title="C++学习之类的构造函数和析构函数">
+                <i class="fa fa-chevron-left"></i> C++学习之类的构造函数和析构函数
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="ZC" />
+          <p class="site-author-name" itemprop="name">ZC</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#this指针"><span class="nav-number">1.</span> <span class="nav-text">this指针</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#对象数组"><span class="nav-number">2.</span> <span class="nav-text">对象数组</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#作用域"><span class="nav-number">3.</span> <span class="nav-text">作用域</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#作用域为类的常量"><span class="nav-number">3.1.</span> <span class="nav-text">作用域为类的常量</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#方法1"><span class="nav-number">3.1.1.</span> <span class="nav-text">方法1</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ADT-——-抽象数据类型"><span class="nav-number">4.</span> <span class="nav-text">ADT —— 抽象数据类型</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#小结"><span class="nav-number">5.</span> <span class="nav-text">小结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ZC</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("guhO5d3jdrym6QcCp5oIrsMc-gzGzoHsz", "ldFdhqrIxGxOqWs5mgH8pmLT");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

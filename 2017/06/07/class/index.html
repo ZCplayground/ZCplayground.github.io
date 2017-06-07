@@ -1,0 +1,878 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="定义一个类12345678910111213141516class Stock //class declaration&amp;#123;private:	std::string company;	long shares;	double shares_val;	double total_val;	void set_tot() &amp;#123; total_val = shares*shares_val; &amp;#">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C++学习之类的简单定义">
+<meta property="og:url" content="http://yoursite.com/2017/06/07/class/index.html">
+<meta property="og:site_name" content="ZCplayground">
+<meta property="og:description" content="定义一个类12345678910111213141516class Stock //class declaration&amp;#123;private:	std::string company;	long shares;	double shares_val;	double total_val;	void set_tot() &amp;#123; total_val = shares*shares_val; &amp;#">
+<meta property="og:updated_time" content="2017-06-07T05:33:37.767Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="C++学习之类的简单定义">
+<meta name="twitter:description" content="定义一个类12345678910111213141516class Stock //class declaration&amp;#123;private:	std::string company;	long shares;	double shares_val;	double total_val;	void set_tot() &amp;#123; total_val = shares*shares_val; &amp;#">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/06/07/class/"/>
+
+
+
+
+
+  <title>C++学习之类的简单定义 | ZCplayground</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">ZCplayground</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/07/class/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ZC">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ZCplayground">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">C++学习之类的简单定义</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-07T13:10:47+08:00">
+                2017-06-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Cpp/" itemprop="url" rel="index">
+                    <span itemprop="name">Cpp</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/06/07/class/" class="leancloud_visitors" data-flag-title="C++学习之类的简单定义">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="定义一个类"><a href="#定义一个类" class="headerlink" title="定义一个类"></a>定义一个类</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">class Stock //class declaration</div><div class="line">&#123;</div><div class="line">private:</div><div class="line">	std::string company;</div><div class="line">	long shares;</div><div class="line">	double shares_val;</div><div class="line">	double total_val;</div><div class="line">	void set_tot() &#123; total_val = shares*shares_val; &#125;</div><div class="line">public:</div><div class="line">	void acquire(const std::string &amp;co, long n, double pr);</div><div class="line">	void buy(long num, double price);</div><div class="line">	void sell(long num, double price);</div><div class="line">	void update(double price);</div><div class="line">	void show();</div><div class="line"></div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<p>C++关键字<code>class</code>指出这些代码定义了一个类设计。Stock是这个新类的类型名。该声明能够让我们声明新的Stock类型变量——被称为对象。每个对象都代表一个Stock（股票）</p>
+<p>例子：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Stock A;</div><div class="line">Stock B;</div></pre></td></tr></table></figure></p>
+<p>我们通过对象声明了新的Stock类型变量，可以代表A、B分别持有的某股票。<br>接下来，要储存的数据以类数据成员的形式出现（例如company，shares）</p>
+<p>例如：<br>A的<code>ompany</code>存储了公司的名称，<code>shares</code>成员存储了A持有股票的数量，<code>shares_val</code>存储了每股的价格，<code>total_val</code>存储了股票总价格。</p>
+<p>要执行的操作以类成员函数的形式出现（又称为方法），例如set_tot()。</p>
+<h2 id="访问控制"><a href="#访问控制" class="headerlink" title="访问控制"></a>访问控制</h2><p>关键字<code>private</code>和<code>public</code>，描述了对类成员的访问控制。使用类对象， 都可以直接访问公用部分，到只能通过公有成员函数来访问对象的私有成员。因此，公有成员函数是程序与对象的私有成员之间的桥梁，提供了对象和程序之间的接口。防止程序直接访问数据，被称为数据隐藏。</p>
+<ul>
+<li>private：类内可见。</li>
+<li>public：类内外可见。</li>
+</ul>
+<p>类设计尽可能将公有接口和实现细节分开。将实践细节放在一起并将它们与抽象数据类型分开，被称为封装。数据隐藏（数据放在private里）也是封装。将实现的细节放在private里，如<code>set_tot()</code>也是封装。</p>
+<p>数据隐藏不仅防止了数据被直接访问，还让用户无需了解数据是如何被表示的。所需要的只是各种类函数的功能，需要接受什么样的参数，返回什么样的结果。原则是将实现的细节从接口设计中分离出来，如果以后对代码进行维护、升级就直接对细节进行修改而无需修改接口。这样对维护程序更有利。</p>
+<p>无论类成员是数据成员还是成员函数，都可以在共有部分或者私有部分去声明它。但由于数据隐藏是OOP的主要目标之一，所以数据项通常放在私有部分，组成接口的成员函数放在共有部分。否则无法从程序中调用这些函数。如果把成员函数放在私有部分，则不能直接在程序中调用这种函数，只有公有部分能使用它们。通常这么做是使用私有成员函数来处理不属于公有接口的实现细节部分。</p>
+<h2 id="class-和-struct-的区别"><a href="#class-和-struct-的区别" class="headerlink" title="class 和 struct 的区别"></a>class 和 struct 的区别</h2><p>类的描述看上去很像是有一个带有private和public这样的标签的结构声明。实际上，C++对结构进行了扩展，使之具有与类相同的特效。它们之间的唯一区别是，结构的默认访问类型是public，而类的默认类型是private。</p>
+<p>C++程序员通常使用类来描述，结构只是用来表示纯粹的数据对象。</p>
+<p>tips：如果没有写private就定义对象，默认是private。private是类对象的默认访问控制。</p>
+<h2 id="实现类成员函数"><a href="#实现类成员函数" class="headerlink" title="实现类成员函数"></a>实现类成员函数</h2><p>定义成员函数时，使用<strong>作用域解析运算符</strong><code>::</code>来标识函数所属的类。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">void Stock::update(double price)</div></pre></td></tr></table></figure>
+<p>这种表示法意味着我们定义的update是Stock类的成员，不仅表明了update是成员函数，还允许我们把另一个类的成员函数也命名为update。</p>
+<p>作用域解析运算符还确定了方法定义的类的身份。所以<code>update()</code>具有<strong>类的作用域</strong>（class scope），Stock类的其他成员函数不必使用作用域解析运算符就可以使用<code>update()</code>方法，这是因为它们同属一个类，所以update是可见的。</p>
+<h2 id="使用类"><a href="#使用类" class="headerlink" title="使用类"></a>使用类</h2><p>如果创建两个Stock类<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Stock A;</div><div class="line">Stock B;</div></pre></td></tr></table></figure></p>
+<p>要使用对象的成员函数，和结构体成员一样，使用<strong>成员运算符</strong>。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">A.show();</div><div class="line">B.show();</div></pre></td></tr></table></figure></p>
+<p>A调用show()时，<code>share</code>是<code>A.shares</code>，<code>share_val</code>是<code>A.share_val</code>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div></pre></td><td class="code"><pre><div class="line">void Stock::acquire(const std::string &amp; co, long n, double pr)</div><div class="line">&#123;</div><div class="line">	company = co;</div><div class="line">	if (n &lt; 0)</div><div class="line">	&#123;</div><div class="line">		std::cout &lt;&lt; &quot;Number of shares can&apos;t be negative.&quot;</div><div class="line">			&lt;&lt; company &lt;&lt; &quot; shares set to 0.\n&quot;;</div><div class="line">		shares = 0;</div><div class="line">	&#125;</div><div class="line">	else</div><div class="line">		shares = n;</div><div class="line">	share_val = pr;</div><div class="line">	set_tot();</div><div class="line">&#125;</div><div class="line"></div><div class="line">void Stock::buy(long num, double price)</div><div class="line">&#123;</div><div class="line">	if (num &lt; 0)</div><div class="line">	&#123;</div><div class="line">		std::cout &lt;&lt; &quot;Number of shares purchased can&apos;t be negative.&quot;</div><div class="line">			&lt;&lt; &quot; Transaction is aborted.\n&quot;;</div><div class="line">	&#125;</div><div class="line">	else</div><div class="line">	&#123;</div><div class="line">		shares += num;</div><div class="line">		share_val = price;</div><div class="line">		set_tot();</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">void Stock::sell(long num, double price)</div><div class="line">&#123;</div><div class="line">	if (num &lt; 0)</div><div class="line">	&#123;</div><div class="line">		std::cout &lt;&lt; &quot;Number of shares sold can&apos;t be negative.&quot;</div><div class="line">			&lt;&lt; &quot; Transaction is aborted.\n&quot;;</div><div class="line">	&#125;</div><div class="line">	else if (num&gt;shares)</div><div class="line">	&#123;</div><div class="line">		std::cout &lt;&lt; &quot;You can&apos;t sell more than you have!&quot;</div><div class="line">			&lt;&lt; &quot; Transaction is aborted.\n&quot;;</div><div class="line">	&#125;</div><div class="line">	else </div><div class="line">	&#123;</div><div class="line">		shares -= num;</div><div class="line">		share_val = price;</div><div class="line">		set_tot();</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">void Stock::update(double price)</div><div class="line">&#123;</div><div class="line">	share_val = price;</div><div class="line">	set_tot();</div><div class="line">&#125;</div><div class="line"></div><div class="line">void Stock::show()</div><div class="line">&#123;</div><div class="line">	std::cout &lt;&lt; &quot;Company: &quot; &lt;&lt; company</div><div class="line">			  &lt;&lt; &quot;   Shares: &quot; &lt;&lt; shares &lt;&lt; &apos;\n&apos;</div><div class="line">			  &lt;&lt; &quot;   Share Price: $&quot; &lt;&lt; share_val</div><div class="line">			  &lt;&lt; &quot;   Total Worth: $&quot; &lt;&lt; total_val &lt;&lt; &apos;\n&apos;;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h1 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h1><p>设计一个类</p>
+<pre><code>1. 提供类声明。
+    ○ 包括数据成员和函数成员
+    ○ 声明有私有部分，只能通过成员函数进行访问。公有部分，可以被程序直接访问
+    ○ 基本格式如下：
+
+    class classname
+    {
+    private:
+        data member declarations
+    public:
+        member function prototypes
+    };
+
+    ○ 公有部分的内容形成了公有接口，因此C++通过类来实现了抽象、数据隐藏、封装的OOP特性
+
+2. 实现类成员函数。
+    ○ 可以在类声明里提供完整的函数定义，而不是函数原型。但通常做法是单独提供函数定义，除非函数很小。
+    ○ 需要用作用域解析运算符来指明成员函数到底属于哪个类。
+</code></pre>
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/06/07/Object-Oriented/" rel="next" title="C++学习之 Object Oriented">
+                <i class="fa fa-chevron-left"></i> C++学习之 Object Oriented
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/06/07/Constructor-Destructor/" rel="prev" title="C++学习之类的构造函数和析构函数">
+                C++学习之类的构造函数和析构函数 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="ZC" />
+          <p class="site-author-name" itemprop="name">ZC</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#定义一个类"><span class="nav-number">1.</span> <span class="nav-text">定义一个类</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#访问控制"><span class="nav-number">1.1.</span> <span class="nav-text">访问控制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#class-和-struct-的区别"><span class="nav-number">1.2.</span> <span class="nav-text">class 和 struct 的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实现类成员函数"><span class="nav-number">1.3.</span> <span class="nav-text">实现类成员函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用类"><span class="nav-number">1.4.</span> <span class="nav-text">使用类</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#小结"><span class="nav-number">2.</span> <span class="nav-text">小结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ZC</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("guhO5d3jdrym6QcCp5oIrsMc-gzGzoHsz", "ldFdhqrIxGxOqWs5mgH8pmLT");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
