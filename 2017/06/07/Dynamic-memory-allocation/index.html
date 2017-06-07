@@ -1,0 +1,877 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="动态内存动态分配内存——防止大量浪费或者增加计算机内存负载。也就是程序运行时（而不是编译时）确定使用多少内存的问题。在类构造函数中使用new，在这种情况下，析构函数是必不可少的。有时候，还必须重载赋值运算符。 为了学习动态内存分配在类设计中的相关知识，我们先设计一个StringBad类，然后设计一个功能稍强的String类。 123456789101112131415161718192021222">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C++学习之类与动态内存分配">
+<meta property="og:url" content="http://yoursite.com/2017/06/07/Dynamic-memory-allocation/index.html">
+<meta property="og:site_name" content="ZCplayground">
+<meta property="og:description" content="动态内存动态分配内存——防止大量浪费或者增加计算机内存负载。也就是程序运行时（而不是编译时）确定使用多少内存的问题。在类构造函数中使用new，在这种情况下，析构函数是必不可少的。有时候，还必须重载赋值运算符。 为了学习动态内存分配在类设计中的相关知识，我们先设计一个StringBad类，然后设计一个功能稍强的String类。 123456789101112131415161718192021222">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/1092156/201706/1092156-20170607190628981-1576764955.png">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/1092156/201706/1092156-20170607190632809-1648528248.png">
+<meta property="og:updated_time" content="2017-06-07T11:20:10.815Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="C++学习之类与动态内存分配">
+<meta name="twitter:description" content="动态内存动态分配内存——防止大量浪费或者增加计算机内存负载。也就是程序运行时（而不是编译时）确定使用多少内存的问题。在类构造函数中使用new，在这种情况下，析构函数是必不可少的。有时候，还必须重载赋值运算符。 为了学习动态内存分配在类设计中的相关知识，我们先设计一个StringBad类，然后设计一个功能稍强的String类。 123456789101112131415161718192021222">
+<meta name="twitter:image" content="http://images2015.cnblogs.com/blog/1092156/201706/1092156-20170607190628981-1576764955.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/06/07/Dynamic-memory-allocation/"/>
+
+
+
+
+
+  <title>C++学习之类与动态内存分配 | ZCplayground</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">ZCplayground</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/07/Dynamic-memory-allocation/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ZC">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ZCplayground">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">C++学习之类与动态内存分配</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-07T14:15:45+08:00">
+                2017-06-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Cpp/" itemprop="url" rel="index">
+                    <span itemprop="name">Cpp</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/06/07/Dynamic-memory-allocation/" class="leancloud_visitors" data-flag-title="C++学习之类与动态内存分配">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="动态内存"><a href="#动态内存" class="headerlink" title="动态内存"></a>动态内存</h1><p>动态分配内存——防止大量浪费或者增加计算机内存负载。也就是程序运行时（而不是编译时）确定使用多少内存的问题。在类构造函数中使用new，在这种情况下，析构函数是必不可少的。有时候，还必须重载赋值运算符。</p>
+<p>为了学习动态内存分配在类设计中的相关知识，我们先设计一个StringBad类，然后设计一个功能稍强的String类。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div></pre></td><td class="code"><pre><div class="line">//stringbad.h -- 有缺陷的string类声明</div><div class="line">#include&lt;iostream&gt;</div><div class="line">class StringBad</div><div class="line">&#123;</div><div class="line">private:</div><div class="line">	char *str;</div><div class="line">	int len;</div><div class="line">	static int num_strings;//静态类成员，对象的数量。</div><div class="line">public:</div><div class="line">	StringBad(const char *s);</div><div class="line">	StringBad();</div><div class="line">	~StringBad();</div><div class="line">	friend std::ostream &amp; operator&lt;&lt;(std::ostream &amp; os, const StringBad &amp; st);</div><div class="line">&#125;;</div><div class="line"></div><div class="line">#include&lt;cstring&gt;</div><div class="line">using std::cout;</div><div class="line"></div><div class="line">int StringBad::num_strings = 0;</div><div class="line"></div><div class="line">StringBad::StringBad(const char *s)</div><div class="line">&#123;</div><div class="line">	len = std::strlen(s);</div><div class="line">	str = new char[len + 1];//用到了new，动态内存分配</div><div class="line">	std::strcpy(str, s);</div><div class="line">	num_strings++;</div><div class="line">	cout &lt;&lt; num_strings &lt;&lt; &quot;: \&quot;&quot; &lt;&lt; str</div><div class="line">		&lt;&lt; &quot;\&quot; object created\n&quot;;//调用构造函数时，打印一句提示</div><div class="line">&#125;</div><div class="line"></div><div class="line">StringBad::StringBad()</div><div class="line">&#123;</div><div class="line">	len = 4;</div><div class="line">	str = new char[4];</div><div class="line">	std::strcpy(str, &quot;C++&quot;);</div><div class="line">	num_strings++;</div><div class="line">	cout &lt;&lt; num_strings &lt;&lt; &quot;: \&quot;&quot; &lt;&lt; str</div><div class="line">		&lt;&lt; &quot;\&quot; object created\n&quot;;</div><div class="line">&#125;</div><div class="line"></div><div class="line">StringBad::~StringBad()</div><div class="line">&#123;</div><div class="line">	cout &lt;&lt; &quot;\&quot;&quot; &lt;&lt; str &lt;&lt; &quot;\&quot;object deleted. &quot;;//调用析构函数时，打印一句提示</div><div class="line">	num_strings--;</div><div class="line">	cout &lt;&lt; num_strings &lt;&lt; &quot; left\n&quot;;</div><div class="line">	delete [] str;//析构函数保证对象过期时，由new分配的内存被释放</div><div class="line">&#125;</div><div class="line"></div><div class="line">std::ostream &amp; operator&lt;&lt;(std::ostream &amp; os, const StringBad &amp; st)</div><div class="line">&#123;</div><div class="line">	os &lt;&lt; st.str;</div><div class="line">	return os;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line">void callme1(StringBad &amp;);//按引用传递的函数</div><div class="line">void callme2(StringBad);//按值传递的函数</div><div class="line"></div><div class="line">int main()</div><div class="line">&#123;</div><div class="line">	using std::endl;</div><div class="line">	&#123;</div><div class="line">		StringBad a1(&quot;abc&quot;);</div><div class="line">		StringBad a2(&quot;def&quot;);</div><div class="line">		StringBad a3(&quot;ghi&quot;);</div><div class="line">		cout &lt;&lt; &quot;用a1传递给某按引用传递的函数&quot; &lt;&lt; endl;</div><div class="line">		callme1(a1);</div><div class="line">		cout &lt;&lt; &quot;将a2传递给某按值传递的函数&quot; &lt;&lt; endl;</div><div class="line">		callme2(a1);</div><div class="line"></div><div class="line">		cout &lt;&lt; &quot;初始化对象a4，用a3为其赋值&quot; &lt;&lt; endl;</div><div class="line">		StringBad a4 = a3;</div><div class="line"></div><div class="line">		cout &lt;&lt; &quot;初始化对象a5，分配给另一个对象a1&quot; &lt;&lt; endl;</div><div class="line">		StringBad a5;</div><div class="line">		a5 = a1;</div><div class="line">		cout &lt;&lt; &quot;a5:&quot; &lt;&lt; a5 &lt;&lt; endl;</div><div class="line"></div><div class="line">		cout &lt;&lt; &quot;main函数结束&quot; &lt;&lt; endl;</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">void callme1(StringBad &amp;s)</div><div class="line">&#123;</div><div class="line">	cout &lt;&lt; &quot;按引用传递了字符串：&quot; &lt;&lt; &quot; &quot; &lt;&lt; s &lt;&lt; &quot;\n&quot;;</div><div class="line">&#125;</div><div class="line"></div><div class="line">void callme2(StringBad s)</div><div class="line">&#123;</div><div class="line">	cout &lt;&lt; &quot;按值传递了字符串：&quot; &lt;&lt; &quot; &quot; &lt;&lt; s &lt;&lt; &quot;\n&quot;;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>执行结果如下：</p>
+<p>从执行结果来看，StringBad类是一个名副其实的，有缺陷的类。存在以下问题：</p>
+<ol>
+<li>按值传递的函数，使得对象作为函数参数来传递时会导致析构函数被调用，会使得原始字符串无法识别。a2过早的被delete。</li>
+<li>main里删除对象和建立对象的顺序相反，所以最先删除的三个对象会是a5、a4和a3。a5中出现了很奇怪的字符串<code>↓h</code></li>
+</ol>
+<p>下面的语句：<code>StringBad a4 = a3;</code>这用的是哪个构造函数呢？显然不是默认构造函数，也不是参数为<code>const char *</code>的构造函数，而是<strong>复制构造函数</strong>，原型如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">StringBad(const StringBad &amp;);</div></pre></td></tr></table></figure>
+<p>上述main代码测试出的问题都是由编译器自动形成的<strong>特殊成员函数</strong>引起的。下面介绍这个主题。</p>
+<h1 id="特殊成员函数"><a href="#特殊成员函数" class="headerlink" title="特殊成员函数"></a>特殊成员函数</h1><p>对于C++的类，在没有提供这种类型的函数时，会<strong>自动</strong>提供如下的成员函数：</p>
+<p>• 默认构造函数<br>• 默认析构函数<br>• 复制构造函数<br>• 赋值运算符<br>• 地址运算符</p>
+<h2 id="默认复制构造函数（copy-constructor）"><a href="#默认复制构造函数（copy-constructor）" class="headerlink" title="默认复制构造函数（copy constructor）"></a>默认复制构造函数（copy constructor）</h2><h3 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h3><p>原型如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Class_name(const Class_name &amp;);</div></pre></td></tr></table></figure></p>
+<p>调用时机：<strong>新建一个对象并将其初始化为同类现有对象时</strong>。例如a1是一个StringBad对象，则下面四种声明都会调用复制构造函数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">StringBad a2(a1);</div><div class="line">StringBad a3 = a1;</div><div class="line">StringBad a4 = StringBad(a1);</div><div class="line">StringBad *a5 = new StringBad(a1);</div></pre></td></tr></table></figure>
+<p>还有就是每当程序生成对象副本（按值传递时意味着创建原始变量的一个<strong>副本</strong>），编译器都将使用复制构造函数。具体地说，当函数按值传递对象，（如上一章的<code>callme2()</code>函数）或按值传递的函数返回对象时，都将调用复制构造函数。</p>
+<p>由于按值传递对象将调用复制构造函数，因此应该按引用传递对象。这样可以节省调用构造函数的时间空间。</p>
+<h3 id="功能和存在的问题"><a href="#功能和存在的问题" class="headerlink" title="功能和存在的问题"></a>功能和存在的问题</h3><p>默认的复制构造函数逐个复制非静态成员，复制的是成员的<strong>值</strong>。</p>
+<p><code>callme2()</code>被调用时，复制构造函数被用来初始化<code>callme2()</code>的形参，以及语句：<code>StringBad a4 = a3;</code>也会用到复制构造函数。</p>
+<p>第一个异常是计数器的异常。由于是默认的复制构造函数，所以不会增加计数器<code>num_strings</code>的值（<code>num_strings</code>的值是在构造函数中自增的）。但是析构函数会在任何对象过期时调用，而不管对象是如何被创建的。</p>
+<p>第二个异常更加危险。由于隐式复制构造函数是<strong>按值复制</strong>的。所以<strong>复制的并不是字符串</strong>，<strong>而</strong>是一个指向字符串的<strong>指针</strong>。也就是说，将a4初始化为a3后，得到的是两个指向同一个字符串的指针。当析构函数被调用的时候，会出现问题。当a4先被删除时，会被正常删除，但a3对象过期时，<strong>调用析构函数时会把已经释放的内存再次释放</strong>，对同一块内存delete两次，这有可能导致程序崩溃。</p>
+<p>解决方法：进行<strong>深度复制</strong>，而不是浅度复制。也就是说，复制的时候应当创建副本，并将副本赋给str成员，而<strong>不仅仅复制字符串地址</strong>。这样每个对象都有自己的字符串，而不是引用另一个对象的字符串。</p>
+<h3 id="浅复制"><a href="#浅复制" class="headerlink" title="浅复制"></a>浅复制</h3><p>浅复制的原理图：</p>
+<p><img src="http://images2015.cnblogs.com/blog/1092156/201706/1092156-20170607190628981-1576764955.png" alt=""></p>
+<h3 id="深度复制"><a href="#深度复制" class="headerlink" title="深度复制"></a>深度复制</h3><p>深度复制的原理图：</p>
+<p><img src="http://images2015.cnblogs.com/blog/1092156/201706/1092156-20170607190632809-1648528248.png" alt=""></p>
+<h3 id="定义新的复制构造函数，实现深度复制"><a href="#定义新的复制构造函数，实现深度复制" class="headerlink" title="定义新的复制构造函数，实现深度复制"></a>定义新的复制构造函数，实现深度复制</h3><p>如果类中包含使用了new初始化的指针成员，应当定义一个复制构造函数，用来复制指向的数据，而不是复制指向数据的指针（默认复制构造函数就是复制成员的值，导致错误）。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">StringBad(const StringBad &amp; st);</div><div class="line"></div><div class="line">StringBad::StringBad(const StringBad &amp; st)</div><div class="line">&#123;</div><div class="line">	num_strings++;</div><div class="line">	len = st.len;</div><div class="line">	str = new char[len + 1];</div><div class="line">	std::strcpy(str, st.str);</div><div class="line">	cout &lt;&lt; num_strings &lt;&lt; &quot;: \&quot;&quot; &lt;&lt; str</div><div class="line">		&lt;&lt; &quot;\&quot; object created\n&quot;;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="赋值运算符（assignment）"><a href="#赋值运算符（assignment）" class="headerlink" title="赋值运算符（assignment）"></a>赋值运算符（assignment）</h2><h3 id="定义-1"><a href="#定义-1" class="headerlink" title="定义"></a>定义</h3><p>将<strong>已有</strong>的对象赋值给另一个对象将使用重载的赋值运算符。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">StringBad a5;</div><div class="line">a5 = a1;</div></pre></td></tr></table></figure></p>
+<p>如果在一条语句内初始化对象，不一定会使用赋值运算符，而是复制构造函数。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">String a4 = a3;</div></pre></td></tr></table></figure></p>
+<p>这个是使用复制构造函数的例子。但实际也可能分两步来实现，就是使用复制构造函数创建临时对象，再把临时对象赋值给新对象。</p>
+<p>也就是说，初始化一定会调用复制构造函数，而使用<code>=</code>运算符时允许调用赋值运算符。</p>
+<h3 id="默认重载的赋值运算符对StringBad类有什么问题？"><a href="#默认重载的赋值运算符对StringBad类有什么问题？" class="headerlink" title="默认重载的赋值运算符对StringBad类有什么问题？"></a>默认重载的赋值运算符对StringBad类有什么问题？</h3><p>和隐式复制构造函数一样，存在数据受损的问题，原理也是成员复制的问题。也会进行浅度复制。也会造成同一段内存被释放两次的错误。</p>
+<p>提供赋值运算符的深度复制的定义。与复制构造函数有一些差别是：<br>• 由于目标对象可能引用了以前分配的数据，所以应先使用<code>delete[]</code>。<br>• <strong>应当避免对象赋值给自身</strong>；否则释放内存的操作可能删除对象的内容。<br>• <strong>返回一个引用。使得可以连续赋值</strong>。</p>
+<h3 id="为StringBad类编写赋值运算符"><a href="#为StringBad类编写赋值运算符" class="headerlink" title="为StringBad类编写赋值运算符"></a>为StringBad类编写赋值运算符</h3><p>赋值运算符是<strong>只能用成员函数重载</strong>的几个运算符之一。详见重载限制。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">StringBad &amp; StringBad::operator=(const StringBad &amp; st)</div><div class="line">&#123;</div><div class="line">	if(this==&amp;st)             //避免赋值给自身</div><div class="line">		return *this;</div><div class="line">		</div><div class="line">	delete [] str;            //释放原来的内存</div><div class="line">	len = str.len;</div><div class="line">	str= new char [len + 1];</div><div class="line">	std::strcpy(str,st.str);</div><div class="line">	return *this;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>如果在构造函数中使用new来初始化指针对象，则</p>
+<p>• 析构函数不再是可有可无的了，必须在析构函数中使用delete。<br>• new和delete必须互相兼容。new对应delete，new []对应delete[];<br>• 如果有多个构造函数，则必须用相同的方法使用new。要么都带中括号，要么都不带。因为只能有一个析构函数，要与所有构造函数兼容。<br>• 应定义一个复制构造函数，通过深度复制将一个对象初始化给另一个对象。<br>• 应定义一个赋值运算符，通过深度复制将一个对象赋值给另一个对象。</p>
+<h1 id="改进后的String类"><a href="#改进后的String类" class="headerlink" title="改进后的String类"></a>改进后的String类</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div></pre></td><td class="code"><pre><div class="line">//string1.h -- 改进后的string类</div><div class="line">#ifndef  STRING1_H_</div><div class="line">#define  STRING1_H_</div><div class="line">#include&lt;iostream&gt;</div><div class="line">using std::ostream;</div><div class="line">using std::istream;</div><div class="line"></div><div class="line">class String</div><div class="line">&#123;</div><div class="line">private:</div><div class="line">	char *str;</div><div class="line">	int len;</div><div class="line">	static int num_strings;</div><div class="line">	static const int CINLIM = 80;	//通过cin输入的上限</div><div class="line">public:</div><div class="line">	String(const char *s);			//构造函数</div><div class="line">	String();						//默认构造函数</div><div class="line">	String(const String &amp;st);		//复制构造函数</div><div class="line">	~String();						//析构函数</div><div class="line">	int length()const &#123; return len; &#125;</div><div class="line"></div><div class="line">	//运算符重载</div><div class="line">	String &amp; operator=(const String &amp;);</div><div class="line">	String &amp; operator=(const char *);</div><div class="line">	char &amp; operator[](int i);</div><div class="line">	const char &amp; operator[](int i)const;</div><div class="line"></div><div class="line">	//友元函数重载</div><div class="line">	friend bool operator&lt;(const String &amp;st1, const String &amp;st2);</div><div class="line">	friend bool operator&gt;(const String &amp;st1, const String &amp;st2);</div><div class="line">	friend bool operator==(const String &amp;st1, const String &amp;st2);</div><div class="line">	friend ostream &amp; operator&lt;&lt;(ostream &amp; os, const String &amp;st);</div><div class="line">	friend istream &amp; operator&gt;&gt;(istream &amp; is, String &amp;st);</div><div class="line"></div><div class="line">	//静态类成员函数</div><div class="line">	static int HowMany();</div><div class="line">&#125;;</div><div class="line">#endif // ! STRING1_H_</div><div class="line"></div><div class="line"></div><div class="line">//string1.cpp -- 方法定义</div><div class="line">#include&lt;cstring&gt;</div><div class="line">//#include &quot;string1.h&quot;</div><div class="line">using std::cin;</div><div class="line">using std::cout;</div><div class="line"></div><div class="line">int String::num_strings = 0;</div><div class="line"></div><div class="line">int String::HowMany()</div><div class="line">&#123;</div><div class="line">	return num_strings;</div><div class="line">&#125;</div><div class="line"></div><div class="line">String::String(const char *s)//由c风格字符串来创建类对象</div><div class="line">&#123;</div><div class="line">	len = std::strlen(s);</div><div class="line">	str = new char[len + 1];</div><div class="line">	std::strcpy(str, s);</div><div class="line">	num_strings++;</div><div class="line">&#125;</div><div class="line"></div><div class="line">String::String()</div><div class="line">&#123;</div><div class="line">	len = 4;</div><div class="line">	str = new char[1];</div><div class="line">	str[0] = &apos;\0&apos;;</div><div class="line">	num_strings++;</div><div class="line">&#125;</div><div class="line"></div><div class="line">String::String(const String &amp;st)//深度复制的复制构造函数</div><div class="line">&#123;</div><div class="line">	num_strings++;</div><div class="line">	len = st.len;</div><div class="line">	str = new char[len + 1];</div><div class="line">	std::strcpy(str, st.str);</div><div class="line">&#125;</div><div class="line"></div><div class="line">String::~String()//必要的析构函数</div><div class="line">&#123;</div><div class="line">	--num_strings;</div><div class="line">	delete[]str;</div><div class="line">&#125;</div><div class="line"></div><div class="line">String &amp; String::operator=(const String &amp;st)//赋值运算符，用一个String对象赋值给另一个对象</div><div class="line">&#123;</div><div class="line">	if (this == &amp;st)</div><div class="line">		return *this;</div><div class="line">	delete[]str;</div><div class="line">	len = st.len;</div><div class="line">	str = new char[len + 1];</div><div class="line">	std::strcpy(str, st.str);</div><div class="line">	return *this;</div><div class="line">&#125;</div><div class="line"></div><div class="line">String &amp; String::operator=(const char *s)//赋值运算符，用C风格字符串赋值给一个String对象</div><div class="line">&#123;</div><div class="line">	delete[]str;</div><div class="line">	len = std::strlen(s);</div><div class="line">	str = new char[len + 1];</div><div class="line">	std::strcpy(str, s);</div><div class="line">	return *this;</div><div class="line">&#125;</div><div class="line"></div><div class="line">char &amp; String::operator[](int i)//重载中括号，使得可以使用中括号访问法访问String类对象的字符</div><div class="line">&#123;</div><div class="line">	return str[i];</div><div class="line">&#125;</div><div class="line"></div><div class="line">const char &amp; String::operator[](int i)const//为const String对象编写的相同功能的重载版本</div><div class="line">&#123;</div><div class="line">	return str[i];</div><div class="line">&#125;</div><div class="line"></div><div class="line">bool operator&lt;(const String &amp;st1, const String &amp;st2)//比较函数</div><div class="line">&#123;</div><div class="line">	return (std::strcmp(st1.str, st2.str) &lt; 0);</div><div class="line">&#125;</div><div class="line"></div><div class="line">bool operator&gt;(const String &amp;st1, const String &amp;st2)</div><div class="line">&#123;</div><div class="line">	return st2 &lt; st1;</div><div class="line">&#125;</div><div class="line"></div><div class="line">bool operator==(const String &amp;st1, const String &amp;st2)</div><div class="line">&#123;</div><div class="line">	return(std::strcmp(st1.str, st2.str) == 0);</div><div class="line">&#125;</div><div class="line"></div><div class="line">ostream &amp; operator&lt;&lt;(ostream &amp; os, const String &amp;st)</div><div class="line">&#123;</div><div class="line">	os &lt;&lt; st.str;</div><div class="line">	return os;</div><div class="line">&#125;</div><div class="line"></div><div class="line">istream &amp; operator&gt;&gt;(istream &amp; is, String &amp;st)</div><div class="line">&#123;</div><div class="line">	char temp[String::CINLIM];</div><div class="line">	is.get(temp, String::CINLIM);</div><div class="line">	if (is)</div><div class="line">		st = temp;</div><div class="line">	while (is&amp;&amp;is.get() != &apos;\n&apos;)</div><div class="line">		continue;</div><div class="line">	return is;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/06/07/Type-Conversion/" rel="next" title="C++学习之类的自动转换和强制类型转换">
+                <i class="fa fa-chevron-left"></i> C++学习之类的自动转换和强制类型转换
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/06/07/Passing-and-Returing-Objects/" rel="prev" title="C++学习之传递和返回对象">
+                C++学习之传递和返回对象 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="ZC" />
+          <p class="site-author-name" itemprop="name">ZC</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">15</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#动态内存"><span class="nav-number">1.</span> <span class="nav-text">动态内存</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#特殊成员函数"><span class="nav-number">2.</span> <span class="nav-text">特殊成员函数</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#默认复制构造函数（copy-constructor）"><span class="nav-number">2.1.</span> <span class="nav-text">默认复制构造函数（copy constructor）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#定义"><span class="nav-number">2.1.1.</span> <span class="nav-text">定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#功能和存在的问题"><span class="nav-number">2.1.2.</span> <span class="nav-text">功能和存在的问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#浅复制"><span class="nav-number">2.1.3.</span> <span class="nav-text">浅复制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#深度复制"><span class="nav-number">2.1.4.</span> <span class="nav-text">深度复制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#定义新的复制构造函数，实现深度复制"><span class="nav-number">2.1.5.</span> <span class="nav-text">定义新的复制构造函数，实现深度复制</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#赋值运算符（assignment）"><span class="nav-number">2.2.</span> <span class="nav-text">赋值运算符（assignment）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#定义-1"><span class="nav-number">2.2.1.</span> <span class="nav-text">定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#默认重载的赋值运算符对StringBad类有什么问题？"><span class="nav-number">2.2.2.</span> <span class="nav-text">默认重载的赋值运算符对StringBad类有什么问题？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#为StringBad类编写赋值运算符"><span class="nav-number">2.2.3.</span> <span class="nav-text">为StringBad类编写赋值运算符</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">3.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#改进后的String类"><span class="nav-number">4.</span> <span class="nav-text">改进后的String类</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ZC</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("guhO5d3jdrym6QcCp5oIrsMc-gzGzoHsz", "ldFdhqrIxGxOqWs5mgH8pmLT");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

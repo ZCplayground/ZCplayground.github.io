@@ -1,0 +1,881 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="类型转换：将一个标准类型变量的值赋给另一种标准类型变量时，如果两种类型兼容，则C++会自动将这个值转换为接收变量的类型。例如：123long count = 8;double time = 11;int side = 3.33; 上述语句都是可行的，C++包含进行转换的内置规则。这些转换将降低精度。例如3.33赋给int型变量将保留3，丢失0.33。 不兼容的两种类型如下：1int *p = 10">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C++学习之类的自动转换和强制类型转换">
+<meta property="og:url" content="http://yoursite.com/2017/06/07/Type-Conversion/index.html">
+<meta property="og:site_name" content="ZCplayground">
+<meta property="og:description" content="类型转换：将一个标准类型变量的值赋给另一种标准类型变量时，如果两种类型兼容，则C++会自动将这个值转换为接收变量的类型。例如：123long count = 8;double time = 11;int side = 3.33; 上述语句都是可行的，C++包含进行转换的内置规则。这些转换将降低精度。例如3.33赋给int型变量将保留3，丢失0.33。 不兼容的两种类型如下：1int *p = 10">
+<meta property="og:updated_time" content="2017-06-07T10:25:14.901Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="C++学习之类的自动转换和强制类型转换">
+<meta name="twitter:description" content="类型转换：将一个标准类型变量的值赋给另一种标准类型变量时，如果两种类型兼容，则C++会自动将这个值转换为接收变量的类型。例如：123long count = 8;double time = 11;int side = 3.33; 上述语句都是可行的，C++包含进行转换的内置规则。这些转换将降低精度。例如3.33赋给int型变量将保留3，丢失0.33。 不兼容的两种类型如下：1int *p = 10">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/06/07/Type-Conversion/"/>
+
+
+
+
+
+  <title>C++学习之类的自动转换和强制类型转换 | ZCplayground</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">ZCplayground</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/07/Type-Conversion/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ZC">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ZCplayground">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">C++学习之类的自动转换和强制类型转换</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-07T14:09:53+08:00">
+                2017-06-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Cpp/" itemprop="url" rel="index">
+                    <span itemprop="name">Cpp</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/06/07/Type-Conversion/" class="leancloud_visitors" data-flag-title="C++学习之类的自动转换和强制类型转换">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>类型转换：将一个标准类型变量的值赋给另一种标准类型变量时，如果两种类型兼容，则C++会自动将这个值转换为接收变量的类型。例如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">long count = 8;</div><div class="line">double time = 11;</div><div class="line">int side = 3.33;</div></pre></td></tr></table></figure></p>
+<p>上述语句都是可行的，C++包含进行转换的内置规则。这些转换将降低精度。例如3.33赋给int型变量将保留3，丢失0.33。</p>
+<p>不兼容的两种类型如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">int *p = 10;</div></pre></td></tr></table></figure></p>
+<p>虽然计算机内部可能有某个整数代表某个地址，但从概念上来说地址和整数完全不同。所以，这是无法自动转换的。当无法自动转换时，可以使用强制类型转换：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">int *p = (int *)10;</div></pre></td></tr></table></figure></p>
+<p>将指针设置成地址10，可以做是可以这么做，当然有没有意义是另一回事。</p>
+<p>对于类来说，可以将类定义成与基本类型、或者另一个类相关，使得从基本类型或者别的类转换成另一种类型是有意义的。即在某些情况下，程序员<strong>可以指示C++如何进行自动转换</strong>，或通过<strong>强制类型转换</strong>来完成。</p>
+<h1 id="通过转换函数来实现自动类型转换，显式、隐式转换，强制转换。"><a href="#通过转换函数来实现自动类型转换，显式、隐式转换，强制转换。" class="headerlink" title="通过转换函数来实现自动类型转换，显式、隐式转换，强制转换。"></a>通过转换函数来实现自动类型转换，显式、隐式转换，强制转换。</h1><p>下面看一个类，是英式单位重量：磅与英石的类。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div></pre></td><td class="code"><pre><div class="line">//stonewt.h -- （英式）重量的单位：磅与英石</div><div class="line"></div><div class="line">class Stonewt</div><div class="line">&#123;</div><div class="line">private:</div><div class="line">	enum &#123; Lbs_per_stn = 14 &#125;;	//每英石是14磅</div><div class="line">	int stone;					//重量，单位英石，整数</div><div class="line">	double pds_left;			//剩余的重量，单位磅</div><div class="line">	double pounds;				//总重，单位磅</div><div class="line">public:</div><div class="line">	Stonewt(double lbs);</div><div class="line">	Stonewt(int stn, double lbs);</div><div class="line">	Stonewt();</div><div class="line">	~Stonewt();</div><div class="line">	void show_lbs()const;</div><div class="line">	void show_stn()const;</div><div class="line">&#125;;</div><div class="line"></div><div class="line">#include&lt;iostream&gt;</div><div class="line">using std::cout;</div><div class="line"></div><div class="line">Stonewt::Stonewt(double lbs)//构造函数，参数为磅</div><div class="line">&#123;</div><div class="line">	stone = int(lbs) / Lbs_per_stn;</div><div class="line">	pds_left = int(lbs) % Lbs_per_stn + lbs - int(lbs);</div><div class="line">	pounds = lbs;</div><div class="line">&#125;</div><div class="line"></div><div class="line">Stonewt::Stonewt(int stn, double lbs)//构造函数，参数为英石和磅</div><div class="line">&#123;</div><div class="line">	stone = stn;</div><div class="line">	pds_left = lbs;</div><div class="line">	pounds = stn*Lbs_per_stn + lbs;</div><div class="line">&#125;</div><div class="line"></div><div class="line">Stonewt::Stonewt()//默认构造函数</div><div class="line">&#123;</div><div class="line">	stone = pounds = pds_left = 0;</div><div class="line">&#125;</div><div class="line"></div><div class="line">Stonewt::~Stonewt()//析构函数</div><div class="line">&#123;</div><div class="line">	</div><div class="line">&#125;</div><div class="line"></div><div class="line">void Stonewt::show_lbs()const</div><div class="line">&#123;</div><div class="line">	cout &lt;&lt; stone &lt;&lt; &quot;stone, &quot; &lt;&lt; pds_left &lt;&lt; &quot; pound(s)\n&quot;;</div><div class="line">&#125;</div><div class="line"></div><div class="line">void Stonewt::show_stn()const</div><div class="line">&#123;</div><div class="line">	cout &lt;&lt; pounds &lt;&lt; &quot; pound(s)\n&quot;;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>如何实现类的自动类型转换呢？提供一个将整型数、浮点数转换为Stonewt对象的方法就可以了。下面的构造函数就把一个double型的值转换成为了Stonewt类型。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Stonewt::Stonewt(double lbs)//构造函数，参数为磅</div></pre></td></tr></table></figure></p>
+<p>也就是说可以编写如下代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Stonewt mycat;</div><div class="line">mycat = 19.6;</div></pre></td></tr></table></figure></p>
+<p>这一过程叫<strong>隐式转换</strong>，因为它自动创建一个临时对象，把19.6作为初始化值，然后逐个把临时对象的内容复制到mycat里。</p>
+<p>只有接受一个参数的构造函数才能作为<strong>转换函数</strong>。下面的构造函数有两个参数，因此不能作为类型转换函数：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Stonewt::Stonewt(int stn, double lbs)//构造函数，参数为英石和磅</div></pre></td></tr></table></figure></p>
+<p>但是如果在函数声明中给第二个参数提供默认值，它就可以用于转换int。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Stonewt(int stn, double lbs = 0);</div></pre></td></tr></table></figure></p>
+<h1 id="显式转换和隐式转换的差别"><a href="#显式转换和隐式转换的差别" class="headerlink" title="显式转换和隐式转换的差别"></a>显式转换和隐式转换的差别</h1><p>将构造函数用作自动转换类型函数似乎是一项不错的特性，然而，当程序员拥有更丰富的C++经验时，将发现这种自发转换类型并非总是需要的，有可能会导致意外的类型转换。因此C++提供了关键字<strong>explicit</strong>，用于关闭这种自动特性。也就是说，如果这样声明函数：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">explicit Stonewt(double lbs);    //不允许隐式转换（自动转换类型）</div></pre></td></tr></table></figure></p>
+<p>就不会允许隐式转换了，但任然允许显式转换，显式转换即强制类型转换：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">Stonewt mycat;</div><div class="line">mycat = 19.6;               //不允许，必须显式转换</div><div class="line">mycat = Stonewt(19.6);      //允许</div><div class="line">mycat = (Stonewt)19.6;      //允许</div></pre></td></tr></table></figure></p>
+<h2 id="到底哪些算隐式转换？"><a href="#到底哪些算隐式转换？" class="headerlink" title="到底哪些算隐式转换？"></a>到底哪些算隐式转换？</h2><p>• 将Stonewt对象初始化为double值。 例子：<code>Stonewt mycat=19.6;</code><br>• 将double值赋给Stonewt对象。例子：<code>mycat=19.6;</code><br>• 将double值传递给接受Stonewt对象作为参数的函数。<br>• 返回值被声明为Stonewt对象的函数试图返回double值时。</p>
+<h2 id="注意防止二义性"><a href="#注意防止二义性" class="headerlink" title="注意防止二义性"></a>注意防止二义性</h2><p>例如有这样的语句：<code>Stonewt mydog(50);</code> 因为50是int值，所以会被自动转换为double值再使用<code>Stonewt(double lbs)</code>构造函数。当且仅当不存在二义性错误时才会进行这种二步转换。也就是说，如果这个类还定义了<code>Stonewt(long lbs);</code>这种函数，则编译器会报错。（int可能被转换成double或long都可以）</p>
+<h2 id="谨慎使用隐式转换函数"><a href="#谨慎使用隐式转换函数" class="headerlink" title="谨慎使用隐式转换函数"></a>谨慎使用隐式转换函数</h2><p>例如有如下写错的代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">int array[20];</div><div class="line">...</div><div class="line">...</div><div class="line">Stonewt temp(14,4);</div><div class="line">...</div><div class="line">int Temp = 0;</div><div class="line">...</div><div class="line">cout&lt;&lt;array[temp];/*t写错成小写，本应用Temp作为数组下标*/</div></pre></td></tr></table></figure></p>
+<p>如果使用的是允许<strong>隐式转换</strong>的转换函数，这里坏处就体现了：在debug时编译器并不能捕捉使用了对象作为数组下标，因为定义了<code>operator int()</code>，所以对象可以变成int值并用做数组下标。</p>
+<p>所以说，原则上，最好使用显式转换，避免隐式转换。</p>
+<ul>
+<li>方法1：在原型前使用<code>explicit</code>限定符。</li>
+<li>方法2：用一个功能相同的非转换函数替代转换函数，因为不是转换函数，所以必须显式调用。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">int Stonewt::Stone_to_int()&#123; return int(pounds+0.5); &#125;</div></pre></td></tr></table></figure>
+<p>总之：应谨慎地使用隐式转换函数。通常，最好选择仅在被显式调用才会执行的函数。</p>
+<h1 id="通过转换函数，将对象转换成数字"><a href="#通过转换函数，将对象转换成数字" class="headerlink" title="通过转换函数，将对象转换成数字"></a>通过转换函数，将对象转换成数字</h1><p>上述的工作是将各种类型的数字转换成Stonewt对象，那么能做相反的操作嘛？例如可否将一个Stonewt对象转换成double值？</p>
+<p>答案是：可以这样做，但不是使用构造函数。构造函数能适用于从某种类型到类类型的转换。要进行相反的操作，需要用到C++中特殊的运算符函数——<strong>转换函数</strong>。</p>
+<p>转换函数是用户定义的强制类型转换，定义了转换函数之后，可以像使用强制类型转换那样去转换类型。编译器在发现由类转到基本类型的语句后，会寻找是否有定义与此匹配的转换函数，否则会报错。</p>
+<p>定义转换函数的方法：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">operator typeName();</div></pre></td></tr></table></figure></p>
+<p>有以下几个注意点<br>• 转换函数必须是类方法。<br>• 不能指定返回类型。<br>• 不能有参数。</p>
+<p>所以，某类类型转换为double型的函数原型如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">operator double();</div></pre></td></tr></table></figure></p>
+<p>在Stonewt类中，这样编写转换函数：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">//转换函数</div><div class="line">operator int()const;</div><div class="line">operator double()const;</div><div class="line"></div><div class="line">//方法定义</div><div class="line">Stonewt::operator int()const</div><div class="line">&#123;</div><div class="line">	return int(pounds + 0.5);//四舍五入</div><div class="line">&#125;</div><div class="line"></div><div class="line">Stonewt::operator double()const</div><div class="line">&#123;</div><div class="line">	return pounds;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>还是要注意防范二义性错误。下面举一个例子。</p>
+<p>在C++中，int值和double值都可以被赋给long变量，如果一个类有转换成int类和double类的函数，但出现了如下语句：（b是一个类对象）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">long a = b;</div></pre></td></tr></table></figure></p>
+<p>因为编译器使用任何一个转换函数都是合法的，编译器不想承担选择转换函数的责任，所以会报错。（这就是<strong>二义性错误</strong>）但是删掉其中一条之后编译可以通过。如果删掉了double定义，则编译器使用int定义，先把b对象转换成int值，再把int值赋给long变量。</p>
+<p>当定义了很多的转换函数时，仍可以使用显式强制类型转换来指明到底使用哪个转换函数，下列的语句就是可行的：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">long a = (double)b;</div><div class="line">long a = int (b);</div></pre></td></tr></table></figure></p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><ol>
+<li>友元函数避开了通过使用类方法才能访问类成员的限制。</li>
+<li>运算符重载可以是类成员函数，也可以是友元函数。</li>
+<li>之所以要使用友元函数来重载运算符是因为这个运算符有两个操作数，而且为了使第一个操作数不是类对象。</li>
+<li>注意不要出现二义性错误。例如重载运算符加号使两个同类对象相加，却同时使用了非友元和友元的方法（例如对于Time类的两个对象a和b来说，无论a+b或者b+a都是一样的，定义一个即可）。</li>
+<li>重载&lt;&lt;运算符特别需要知道声明返回类型为<code>std::ostream &amp;</code>，以及一条<code>return os</code>;</li>
+<li>C++允许指定类和基本类型之间进行互相转换的方式。首先，任何接受唯一参数的构造函数都可以作为转换函数，将参数类型转换成类对象。例如假设有一个<code>String</code>类，它包含一个将<code>char *</code>值作为其唯一参数的构造函数，且a是一个String对象，则可以使用像<code>a = &quot;abc&quot;;</code>这样的语句了。如果在函数声明前加上<code>explicit</code> 将限制隐式转换，则只能这样显式地转换：<code>a = String(&quot;abc&quot;);</code></li>
+<li>将类转换成别的类型的函数原型是：<code>operator typeName();</code>经验表明，最好不要依赖隐式转换函数。多多注意防止出现二义性的转换函数。注意过多转换函数很容易导致在隐式转换时出现二义性。</li>
+<li>与简单的C风格编程结构相比，使用类时必须更加小心谨慎，但作为补偿，它能为我们做的工作也更多。</li>
+</ol>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/06/07/Operator-overload/" rel="next" title="C++学习之运算符重载">
+                <i class="fa fa-chevron-left"></i> C++学习之运算符重载
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/06/07/Dynamic-memory-allocation/" rel="prev" title="C++学习之类与动态内存分配">
+                C++学习之类与动态内存分配 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="ZC" />
+          <p class="site-author-name" itemprop="name">ZC</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">15</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#通过转换函数来实现自动类型转换，显式、隐式转换，强制转换。"><span class="nav-number">1.</span> <span class="nav-text">通过转换函数来实现自动类型转换，显式、隐式转换，强制转换。</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#显式转换和隐式转换的差别"><span class="nav-number">2.</span> <span class="nav-text">显式转换和隐式转换的差别</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#到底哪些算隐式转换？"><span class="nav-number">2.1.</span> <span class="nav-text">到底哪些算隐式转换？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#注意防止二义性"><span class="nav-number">2.2.</span> <span class="nav-text">注意防止二义性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#谨慎使用隐式转换函数"><span class="nav-number">2.3.</span> <span class="nav-text">谨慎使用隐式转换函数</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#通过转换函数，将对象转换成数字"><span class="nav-number">3.</span> <span class="nav-text">通过转换函数，将对象转换成数字</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ZC</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("guhO5d3jdrym6QcCp5oIrsMc-gzGzoHsz", "ldFdhqrIxGxOqWs5mgH8pmLT");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
