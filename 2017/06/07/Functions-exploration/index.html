@@ -1,0 +1,952 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="C++提供许多新的函数特性，使之有别于C语言。包括内联函数、按引用传递变量、默认参数值、函数重载（多态）以及模板函数。 内联函数内联函数定义内联函数是C++为了提高程序运行速度而做出的一项改进。内联函数与常规函数的主要区别不在于编写方式，而在于C++编译器如何把它们组合到程序中。 常规函数调用会使程序立即跳到一个地址（函数的地址），并在函数结束时返回。执行函数调用时，程序在函数调用后立即存储该指令">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C++学习之函数探幽">
+<meta property="og:url" content="http://yoursite.com/2017/06/07/Functions-exploration/index.html">
+<meta property="og:site_name" content="ZCplayground">
+<meta property="og:description" content="C++提供许多新的函数特性，使之有别于C语言。包括内联函数、按引用传递变量、默认参数值、函数重载（多态）以及模板函数。 内联函数内联函数定义内联函数是C++为了提高程序运行速度而做出的一项改进。内联函数与常规函数的主要区别不在于编写方式，而在于C++编译器如何把它们组合到程序中。 常规函数调用会使程序立即跳到一个地址（函数的地址），并在函数结束时返回。执行函数调用时，程序在函数调用后立即存储该指令">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/1092156/201706/1092156-20170607124020122-109433244.png">
+<meta property="og:updated_time" content="2017-06-07T04:45:13.020Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="C++学习之函数探幽">
+<meta name="twitter:description" content="C++提供许多新的函数特性，使之有别于C语言。包括内联函数、按引用传递变量、默认参数值、函数重载（多态）以及模板函数。 内联函数内联函数定义内联函数是C++为了提高程序运行速度而做出的一项改进。内联函数与常规函数的主要区别不在于编写方式，而在于C++编译器如何把它们组合到程序中。 常规函数调用会使程序立即跳到一个地址（函数的地址），并在函数结束时返回。执行函数调用时，程序在函数调用后立即存储该指令">
+<meta name="twitter:image" content="http://images2015.cnblogs.com/blog/1092156/201706/1092156-20170607124020122-109433244.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/06/07/Functions-exploration/"/>
+
+
+
+
+
+  <title>C++学习之函数探幽 | ZCplayground</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">ZCplayground</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/07/Functions-exploration/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ZC">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ZCplayground">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">C++学习之函数探幽</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-07T12:19:38+08:00">
+                2017-06-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Cpp/" itemprop="url" rel="index">
+                    <span itemprop="name">Cpp</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/06/07/Functions-exploration/" class="leancloud_visitors" data-flag-title="C++学习之函数探幽">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>C++提供许多新的函数特性，使之有别于C语言。包括内联函数、按引用传递变量、默认参数值、函数重载（多态）以及模板函数。</p>
+<h1 id="内联函数"><a href="#内联函数" class="headerlink" title="内联函数"></a>内联函数</h1><h2 id="内联函数定义"><a href="#内联函数定义" class="headerlink" title="内联函数定义"></a>内联函数定义</h2><p>内联函数是C++为了提高程序运行速度而做出的一项改进。内联函数与常规函数的<strong>主要区别不在于编写方式</strong>，而在于C++编译器<strong>如何把它们组合到程序中</strong>。</p>
+<p>常规函数调用会使程序立即跳到一个地址（函数的地址），并在函数结束时返回。执行函数调用时，程序在函数调用后立即存储该指令的内存地址，并且把函数参数复制到堆栈，跳到标记函数起点的地址，然而执行函数代码，最后跳回之前保存的指令地址处。来回跳跃并记录跳跃位置意味着使用常规函数，需要一定的内存开销。</p>
+<p>内联函数提供了另一种选择。内联函数的代码编译与其他程序代码“内联”起来了。<strong>也就是说，对于内联函数代码，程序无需跳到一个位置处理函数，再跳回来</strong>。因此内联函数的执行速度会稍快，但是代价是更多的内存。</p>
+<p><strong>应有选择地使用内联函数</strong>。如果执行函数代码的时间比函数调用机制的时间长，则节省的时间只是占整个过程的很小一部分。如果代码执行时间短，则内联函数调用机制可以节省大部分时间。但是另一方面，虽然节省了大部分时间，但实际上节省的时间也不长，除非该函数会被反复调用多次。</p>
+<h2 id="实现方法"><a href="#实现方法" class="headerlink" title="实现方法"></a>实现方法</h2><p>使用这项特性，采取以下方法中的一种：</p>
+<ul>
+<li>在函数声明前加上关键字inline</li>
+<li>在函数定义前加上关键字inline</li>
+</ul>
+<p>编译器<strong>不一定</strong>会满足<code>inline</code>的要求。它有可能认为函数调用了自己（内联函数不允许递归），或者有的编译器没有这种特性。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">#include&lt;iostream&gt;</div><div class="line"></div><div class="line">//an inline function definition</div><div class="line"></div><div class="line">inline double square(double x) &#123; return x*x; &#125;</div><div class="line"></div><div class="line">int main()</div><div class="line">&#123;</div><div class="line">	using namespace std;</div><div class="line">	double a, b;</div><div class="line">	double c = 13.0;</div><div class="line">	a = square(5.0);</div><div class="line">	b = square(4.5 + 7.5);//can pass expression</div><div class="line"></div><div class="line">	cout &lt;&lt; &quot;a = &quot; &lt;&lt; a &lt;&lt; &quot;, b = &quot; &lt;&lt; b &lt;&lt; endl;</div><div class="line">	cout &lt;&lt; &quot;c = &quot; &lt;&lt; c;</div><div class="line">	cout &lt;&lt; &quot;, csquared = &quot; &lt;&lt; square(c++) &lt;&lt; endl;</div><div class="line">	cout &lt;&lt; &quot;Now c = &quot; &lt;&lt; c &lt;&lt; endl;</div><div class="line"></div><div class="line">	return 0;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>函数定义都放在了一行之中，（不是非得这样做，但是请保证函数尽量简短）然而如果函数定义占多行，则将其作为内联函数就不太合适。</li>
+<li><ul>
+<li>tips1：对于函数语句内有while、switch如果内联函数有这些语句，则编译将该函数视同普通函数那样产生函数调用代码,递归函数(自己调用自己的函数)是不能被用来做内联函数的。</li>
+</ul>
+</li>
+<li><ul>
+<li>tips2：对一个含有许多语句的大函数，函数调用和返回的开销相对来说微不足道，所以也没有必要用内联函数实现。</li>
+</ul>
+</li>
+<li><p>内联扩展是用来消除函数调用时的时间开销。它通常用于频繁执行的函数。 一个小内存空间的函数非常受益。</p>
+</li>
+<li><p>注意到，内联函数和常规函数一样，也是按值传递参数的。如果参数为表达式，如4.5+7.5，则内联函数能传递表达式的值（C语言中实参可以是表达式，形参不能是表达式）。这使得C++的内联功能胜过C语言的宏定义。</p>
+</li>
+</ul>
+<h2 id="与宏定义的比较"><a href="#与宏定义的比较" class="headerlink" title="与宏定义的比较"></a>与宏定义的比较</h2><p>内联函数的功能和预处理宏的功能相似。相信大家都用过预处理宏，我们会经常定义一些宏，如</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">#define SQUARE(X) X*X</div></pre></td></tr></table></figure>
+<p>宏定义最重要的性质是它通过<strong>替换字符串</strong>来实现功能。所以如果<code>a=SQUARE(5)</code>，能得到正确结果25，但是如果<code>b=SQRARE(4.5+7.5)</code>，结果会是<code>4.5+7.5*4.5+7.5</code>，不会是我们要的结果144。</p>
+<p>所以在写宏定义的时候一般都是这么写：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">#define SQUARE(X) ((X)*(X))</div></pre></td></tr></table></figure>
+<p>tips：所有用到参数的地方加上左右括号，最后再用左右括号把整个定义括起来。</p>
+<p>但仍然存在问题：不能按值传递。所以当遇到SQRARE(c++)这样的情况，会把C递增两次。但如果依照上面的内联函数写法，会求出C的平方值后，只递增一次。</p>
+<p>而且事实上我们可以用内联函数完全取代预处理宏。</p>
+<p>内联函数和宏的区别在于，宏是由预处理器对宏进行替代，而内联函数是通过编译器控制来实现的。而且内联函数是真正的函数，只是在需要用到的时候，内联函数像宏一样的展开，所以取消了函数的参数压栈，减少了调用的开销。你可以象调用函数一样来调用内联函数，而不必担心会产生于处理宏的一些问题。</p>
+<h1 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h1><p>C++ 新增了一种符合类型——引用变量。引用，是已定义的变量的别名。例如将a作为已经定义的b变量的引用，则可以交替使用a和b来表示改变量。</p>
+<p>这有何作用呢？</p>
+<h2 id="使用引用变量"><a href="#使用引用变量" class="headerlink" title="使用引用变量"></a>使用引用变量</h2><p>C 和 C++使用<code>&amp;</code>来表示变量的地址。C++给<code>&amp;</code>赋予了另一个意义，可以用来声明引用。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">int a = 101;</div><div class="line">int &amp; b = a;</div></pre></td></tr></table></figure>
+<p>那么 <code>b</code> 就是 <code>a</code> 的一个<strong>别名</strong>。</p>
+<p>其中，<code>&amp;</code> 不是地址运算符，而且类型标示符的一部分。<br>就像 <code>char *</code> 指的是指向 char 的指针一样，<code>int &amp;</code> 就是指向 int 的引用。</p>
+<p>引用：支持已定义变量和其引用变量互换</p>
+<ul>
+<li>他们代表相同的值，指向相同的内存单元。</li>
+<li>将其中一个变量改变会影响两个变量。</li>
+<li>声明一个引用，不是新定义了一个变量，它只表示该引用名是目标变量名的一个<strong>别名</strong>，它本身不是一种数据类型，因此引用本身不占存储单元，系统也不给引用分配存储单元。</li>
+</ul>
+<h2 id="引用与指针、地址的关系"><a href="#引用与指针、地址的关系" class="headerlink" title="引用与指针、地址的关系"></a>引用与指针、地址的关系</h2><p>初始引用变量，我们很容易想到原本C语言中就有的指针和地址。<br>那么，具体区别如下：</p>
+<p>表达式b和*c都可以和a互换。<br>&amp;b和c都可以和&amp;a互换。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">int a = 1;</div><div class="line">int &amp;b = a;//reference</div><div class="line">int *c = &amp;a;//pointer</div></pre></td></tr></table></figure>
+<p>在上段代码中，各种表达式的意义如下：</p>
+<table>
+<thead>
+<tr>
+<th>b</th>
+<th>&amp;b</th>
+<th>c</th>
+<th>*c</th>
+<th>a</th>
+<th>&amp;a</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>引用</td>
+<td>引用的地址</td>
+<td>指针</td>
+<td>间接访问</td>
+<td>变量</td>
+<td>变量的地址</td>
+</tr>
+</tbody>
+</table>
+<p>引用看起来很像伪装表示的指针。实际上，引用还是很不同于指针的。除了表示法不同以外，还有其他的差别，例如差别之一是<strong>必须在声明引用的同时初始化</strong>，不能像指针那样先声明，后赋值。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">int a = 1;</div><div class="line">int *c;</div><div class="line">c = &amp;a; //yes</div><div class="line"></div><div class="line">int &amp;b;</div><div class="line">b = a;//no</div></pre></td></tr></table></figure>
+<p>编译器会报错：引用变量“b”需要初始值设定项。</p>
+<p>引用有一种const指针的味道——必须在声明的时候初始化，一旦初始化，就和某个变量关联起来，而且一直效忠于它。</p>
+<p>引用作为真实对象的别名，必须进行初始化，除非满足下列条件之一：</p>
+<ol>
+<li>引用变量被声明为外部的，它可以在任何地方初始化</li>
+<li>引用变量作为类的成员，在构造函数里对它进行初始化</li>
+<li>引用变量作为函数声明的形参，在函数调用时，用调用者的实参来进行初始化</li>
+</ol>
+<p>声明一个引用，不是新定义了一个变量，它只表示该引用名是目标变量名的一个别名，它本身不是一种数据类型，因此引用本身不占存储单元，系统也不给引用分配存储单元。故：对引用求地址，就是对目标变量求地址。（ra是a的引用）&amp;ra与&amp;a相等。</p>
+<p>可以建立数组的引用，C++中解决数组做形参的降价问题就是通过使用数组的引用。<br>不能建立引用的引用，不能建立指向引用的指针。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">int &amp;&amp;r=n；//错误</div><div class="line">int &amp;*p=n;//错误</div></pre></td></tr></table></figure></p>
+<p>可以建立指针的引用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">int *p;</div><div class="line">int *&amp;q=p;//正确，即指针p起别名q。</div></pre></td></tr></table></figure>
+<h2 id="引用作为函数参数"><a href="#引用作为函数参数" class="headerlink" title="引用作为函数参数"></a>引用作为函数参数</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line">void swapr(int &amp;a, int &amp;b);//a,b are aliases for ints;</div><div class="line">void swapp(int *p, int *q);//q,p are addresses</div><div class="line">void swapv(int a, int b);//a,b are variables</div><div class="line"></div><div class="line">void swapr(int &amp; a, int &amp; b)</div><div class="line">&#123;</div><div class="line">	int temp;</div><div class="line"></div><div class="line">	temp = a;</div><div class="line">	a = b;</div><div class="line">	b = temp;</div><div class="line">&#125;</div><div class="line"></div><div class="line">void swapp(int *p, int *q)</div><div class="line">&#123;</div><div class="line">	int temp;</div><div class="line"></div><div class="line">	temp = *p;//use *q and *p for values of variables</div><div class="line">	*p = *q;</div><div class="line">	*q = temp;</div><div class="line">&#125;</div><div class="line"></div><div class="line">void swapv(int a, int b)</div><div class="line">&#123;</div><div class="line">	int temp;</div><div class="line"></div><div class="line">	temp = a;</div><div class="line">	a = b;</div><div class="line">	b = temp;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>引用常常被作为参数来传递，使得函数中的变量名是程序中变量的别名。这种传递方法叫做<strong>按引用传递</strong>。按引用传递可以<strong>允许被调用函数访问变量</strong>。C语言只能按值传递，调用函数使用的是程序中变量值的拷贝。所以C语言函数为了修改变量，得避开按值传递的限制，使用修改地址的方法。</p>
+<p>像这个交换两个值的函数，我们知道函数swapv不起作用的原因是函数交换的是原变量的副本值，而不是交换变量。但传递引用，就可以使得函数使用原始数据。</p>
+<p>还有内在区别：<br>如果a和b分别是w1和w2的引用，调用swapr(a,b)和swapv(a,b)。因为a和b是变量的别名，所以swapr交换两个引用的值，自然相当于交换变量a和b的值。但在swapv中，变量a和b只是复制了w1和w2的值的新变量，因此交换两个变量的值并不会影响w1和w2。</p>
+<p>引用的最多用处就是作为函数的参数（常见于结构体和对象），通过引用变量作参数可以是函数使用原始数据，而不是拷贝。</p>
+<h2 id="与按值传递的区别"><a href="#与按值传递的区别" class="headerlink" title="与按值传递的区别"></a>与按值传递的区别</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line">#include&lt;iostream&gt;</div><div class="line">//regular and reference arguments</div><div class="line">double cube(double a);</div><div class="line">double refcube(double &amp;ra);</div><div class="line">int main()</div><div class="line">&#123;</div><div class="line">	using namespace std;</div><div class="line">	double x = 3.0;</div><div class="line"></div><div class="line">	cout &lt;&lt; cube(x);</div><div class="line">	cout &lt;&lt; &quot; = cube of &quot; &lt;&lt; x &lt;&lt; endl;</div><div class="line">	cout &lt;&lt; refcube(x);</div><div class="line">	cout &lt;&lt; &quot; = cube of &quot; &lt;&lt; x &lt;&lt; endl;</div><div class="line">	</div><div class="line">	return 0;</div><div class="line">&#125;</div><div class="line">/*这儿故意写的求立方函数写的比较奇怪（对本身参数进行了修改）*/</div><div class="line">double cube(double a)</div><div class="line">&#123;</div><div class="line">	a *= a*a;</div><div class="line">	return a;</div><div class="line">&#125;</div><div class="line"></div><div class="line">double refcube(double &amp;ra)</div><div class="line">&#123;</div><div class="line">	ra *= ra*ra;</div><div class="line">	return ra;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>运行结果为：<br><img src="http://images2015.cnblogs.com/blog/1092156/201706/1092156-20170607124020122-109433244.png" alt=""></p>
+<p><code>refcube(x)</code>函数修改了 main 里的 x 的值，而 <code>cube(x)</code>没有。</p>
+<p>这提醒我们为何通常选择按值传递。变量 a 位于 cube()中，它被初始化为 x 的值，但修改 a 并不会影响 x。但由于 refcube() 使用了引用参数，因此修改 ra 实际上就是修改 x。</p>
+<p>如果程序员的意图是让函数使用参数，但不对参数进行修改，同时又想使用按引用传递，则应该使用按常量引用。例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">double refcube(const double &amp;ra);</div></pre></td></tr></table></figure>
+<p>如有const，检测到函数要修改ra，会生成报错信息。</p>
+<h2 id="何时使用引用参数？"><a href="#何时使用引用参数？" class="headerlink" title="何时使用引用参数？"></a>何时使用引用参数？</h2><p>主要原因有两个：<br>    • 程序员要修改调用函数中的数据对象<br>    • 通过传递引用，而不是整个数据对象，提高运行速度</p>
+<p>下面有一些指导原则</p>
+<p>如果数据对象<br>    • 很小，选择按值传递。<br>    • 是数组，选用指针，这是唯一的选择，如果不修改数组内容，用const<br>    • 是较大的结构，使用const指针或者const引用。<br>    • 是类对象，const引用。类设计的语义常常需要使用引用。传递类对象参数的标准方式是按引用传递</p>
+<p>对于修改调用函数中的数据的函数：<br>如果数据对象<br>    • 是内置数据类型，则使用指针。如果看到类似func(int &amp;x)这样的代码，很明显函数会修改x的。<br>    • 是数组，则只能使用指针。不能有const<br>    • 结构，使用指针或引用<br>    • 类对象，只能使用引用</p>
+<h1 id="默认参数"><a href="#默认参数" class="headerlink" title="默认参数"></a>默认参数</h1><p>下面介绍C++的一项新内容——默认参数。默认参数是指当函数调用时，省略了实参时自动使用的一个值。</p>
+<p>例如有函数func(int n)，设置n的默认值为1，则函数调用func()相当于func(1)，这极大提高了使用函数的灵活性。</p>
+<h2 id="设置默认参数"><a href="#设置默认参数" class="headerlink" title="设置默认参数"></a>设置默认参数</h2><p>设置默认值，<strong>必须</strong>通过函数原型。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">char *left(const char * str, int n = 1);</div></pre></td></tr></table></figure></p>
+<p>例如，left函数它有两个参数，字符串str和int型整数n，它的作用是返回字符串的前n个字符。准确的说，这个函数返回一个char型指针，指针指向由原始字符串中被选中的部分组成的字符串。</p>
+<p>如果调用left(“theory”,3)，则会返回指向新的字符串”the”的指针。假设第二个参数n的默认值被设定成了1，那么3会覆盖默认值。但是调用函数left(“theory”)将不会出错，它认为第二个参数是默认值1，会返回新的字符串”t”的指针。</p>
+<p>如果说，这个程序经常需要抽取一个字符，偶尔需要抽取很长的字符，那么这种默认值的设置会很有帮助。</p>
+<p><strong>！默认参数定义的顺序为自右到左</strong></p>
+<p>对于带参数列表的函数，<strong>必须从右向左</strong>添加默认值，也就是说，为某个参数设置了默认值，则必须为它右边的所有参数都设置默认值。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">int func(int n, int m = 1, int j);//invalid</div></pre></td></tr></table></figure></p>
+<p>实参必须按照从左至右的顺序依次赋给相应的形参，而不能跳过任何参数。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">void mal(int a, int b=3, int c=5); //默认参数</div><div class="line">mal(3, 8, 9); //调用时有指定参数，则不使用默认参数</div><div class="line">mal(3, 5); //调用时只指定两个参数，按从左到右顺序调用，相当于mal(3,5,5);</div><div class="line">mal(3); //调用时只指定1个参数，按从左到右顺序调用,相当于mal(3,3,5);</div><div class="line">mal( ); //错误，因为a没有默认值</div><div class="line">mal(3, , 9) //错误，应按从左到右顺序逐个调用（调用实参，即，实参必须是连续的）</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">void mal(int a=8, int b=3, int c=5); //默认参数</div><div class="line">mal( ); //正确，调用所有默认参数，相当于mal(8,3,5);</div></pre></td></tr></table></figure>
+<p>实际上，默认函数并非编程方面的重大突破，而是提供了一种便捷的方式。在设计类的时候，通过默认函数，可以减少析构函数、方法、方法重载的数量。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/06/07/start-learning-C/" rel="next" title="开始学习C++">
+                <i class="fa fa-chevron-left"></i> 开始学习C++
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/06/07/Object-Oriented/" rel="prev" title="Object-Oriented">
+                Object-Oriented <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="ZC" />
+          <p class="site-author-name" itemprop="name">ZC</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#内联函数"><span class="nav-number">1.</span> <span class="nav-text">内联函数</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#内联函数定义"><span class="nav-number">1.1.</span> <span class="nav-text">内联函数定义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实现方法"><span class="nav-number">1.2.</span> <span class="nav-text">实现方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#与宏定义的比较"><span class="nav-number">1.3.</span> <span class="nav-text">与宏定义的比较</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#引用"><span class="nav-number">2.</span> <span class="nav-text">引用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#使用引用变量"><span class="nav-number">2.1.</span> <span class="nav-text">使用引用变量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#引用与指针、地址的关系"><span class="nav-number">2.2.</span> <span class="nav-text">引用与指针、地址的关系</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#引用作为函数参数"><span class="nav-number">2.3.</span> <span class="nav-text">引用作为函数参数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#与按值传递的区别"><span class="nav-number">2.4.</span> <span class="nav-text">与按值传递的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#何时使用引用参数？"><span class="nav-number">2.5.</span> <span class="nav-text">何时使用引用参数？</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#默认参数"><span class="nav-number">3.</span> <span class="nav-text">默认参数</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#设置默认参数"><span class="nav-number">3.1.</span> <span class="nav-text">设置默认参数</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ZC</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("guhO5d3jdrym6QcCp5oIrsMc-gzGzoHsz", "ldFdhqrIxGxOqWs5mgH8pmLT");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

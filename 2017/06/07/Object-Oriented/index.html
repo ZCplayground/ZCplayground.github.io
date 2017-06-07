@@ -1,0 +1,895 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="面对对象编程面对对象编程（Object Oriented Programming）是一种特殊的设计程序的概念性方法，C++就是通过一些特性的修改，改进了C语言，使得应用这种方法更加简便。下面是最重要的OOP特性：  抽象 封装和数据隐藏 多态 继承 代码的可重用性  抽象面向对象程序设计的基本要素是抽象,程序员通过抽象来管理复杂性.  管理抽象的有效方法是使用层次式的分类特性,这种方法允许用户根据">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Object-Oriented">
+<meta property="og:url" content="http://yoursite.com/2017/06/07/Object-Oriented/index.html">
+<meta property="og:site_name" content="ZCplayground">
+<meta property="og:description" content="面对对象编程面对对象编程（Object Oriented Programming）是一种特殊的设计程序的概念性方法，C++就是通过一些特性的修改，改进了C语言，使得应用这种方法更加简便。下面是最重要的OOP特性：  抽象 封装和数据隐藏 多态 继承 代码的可重用性  抽象面向对象程序设计的基本要素是抽象,程序员通过抽象来管理复杂性.  管理抽象的有效方法是使用层次式的分类特性,这种方法允许用户根据">
+<meta property="og:updated_time" content="2017-06-07T05:05:51.297Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Object-Oriented">
+<meta name="twitter:description" content="面对对象编程面对对象编程（Object Oriented Programming）是一种特殊的设计程序的概念性方法，C++就是通过一些特性的修改，改进了C语言，使得应用这种方法更加简便。下面是最重要的OOP特性：  抽象 封装和数据隐藏 多态 继承 代码的可重用性  抽象面向对象程序设计的基本要素是抽象,程序员通过抽象来管理复杂性.  管理抽象的有效方法是使用层次式的分类特性,这种方法允许用户根据">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/06/07/Object-Oriented/"/>
+
+
+
+
+
+  <title>Object-Oriented | ZCplayground</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">ZCplayground</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/07/Object-Oriented/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ZC">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ZCplayground">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Object-Oriented</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-07T12:45:51+08:00">
+                2017-06-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Cpp/" itemprop="url" rel="index">
+                    <span itemprop="name">Cpp</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/06/07/Object-Oriented/" class="leancloud_visitors" data-flag-title="Object-Oriented">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="面对对象编程"><a href="#面对对象编程" class="headerlink" title="面对对象编程"></a>面对对象编程</h1><p>面对对象编程（Object Oriented Programming）是一种特殊的设计程序的概念性方法，C++就是通过一些特性的修改，改进了C语言，使得应用这种方法更加简便。下面是最重要的OOP特性：</p>
+<ol>
+<li>抽象</li>
+<li>封装和数据隐藏</li>
+<li>多态</li>
+<li>继承</li>
+<li>代码的可重用性</li>
+</ol>
+<h2 id="抽象"><a href="#抽象" class="headerlink" title="抽象"></a>抽象</h2><p>面向对象程序设计的基本要素是抽象,程序员通过抽象来管理复杂性. </p>
+<p>管理抽象的有效方法是使用层次式的分类特性,这种方法允许用户根据物理含义<strong>分解一个复杂的系统</strong>,把它划分成更容易管理的块.例如,一个计算机系统是一个独立的对象.而在计算机系统内部由几个子系统组成:显示器,键盘,硬盘驱动器,DVD-ROM,软盘,音响等,这些子系统每个又由专门的部件组成.关键是需要使用层次抽象来管理计算机系统(或其他任何复杂系统)的复杂性. </p>
+<p>面向对象程序设计的本质:这些抽象的对象可以被看作具体的实体,这些实体对用来告诉我们作什么的消息进行响应. </p>
+<h2 id="封装"><a href="#封装" class="headerlink" title="封装"></a>封装</h2><p>封装是一种<strong>把代码和代码所操作的数据捆绑在一起,使这两者不受外界干扰和误用的机制</strong>.封装可被理解为一种用做保护的包装器,以防止代码和数据被包装器外部所定义的其他代码任意访问.对包装器内部代码与数据的访问通过一个明确定义的接口来控制.封装代码的好处是<strong>每个人都知道怎样访问代码,进而无需考虑实现细节就能直接使用它,同时不用担心不可预料的副作用</strong>. </p>
+<p>在定义一个类时,需要指定构成该类的代码与数据.特别是,类所定义的对象叫做<strong>成员变量</strong>或实例变量.操作数据的代码叫做成员<strong>方法</strong>.方法定义怎样使用成员变量,这意味着类的行为和接口要由操作实例数据的方法来定义. </p>
+<p>由于类的用途是封装复杂性,所以类的内部有隐藏实现复杂性的机制.所以C++提供了私有和公有的访问模式,类的公有接口代表外部的用户应该知道或可以知道的每件东西.私有的方法数据只能通过该类的成员代码来访问.这就可以确保不会发生不希望的事情. </p>
+<p>C语言函数不是也是封装吗？</p>
+<p>按照软件工程的要求，程序是要强调<strong>“强内聚”和“弱耦合”</strong>的，简单地说，就是强调封装，封装好了易于重用; C语言其实也强调封装，就比如函数就是C语言的一种封装机制，但<strong>函数的封装能力非常有限</strong>，只能封装某个功能，保持合理的封装无法靠机制来实现，只能靠程序员的自觉。C++正是因为C语言的封装能力不足，才产生的，C++从机制上就保证了封装的必然性，一个对象可以有多种行为，可以把相关的一组行为封装在一起，而<strong>把不相关的行为彻底与它分开</strong>。这样做从机制上保证了封装的必然性，减少了随意性。当然只有用封装的思维去使用它，C++的优势才能充分发挥。封装和重用是面向对象的核心目的，其他特点都是为这两者服务的。</p>
+<h2 id="继承"><a href="#继承" class="headerlink" title="继承"></a>继承</h2><p><strong>继承是指一个对象从另一个对象中获得属性的过程.</strong>是面向对象程序设计的三大原则之二,它支持按层次分类的概念.例如,波斯猫是猫的一种,猫又是哺乳动物的一种,哺乳动物又是动物的一种.如果不使用层次的概念,每个对象需要明确定义各自的全部特征.通过层次分类方式,一个对象只需要在它的类中定义是它成为唯一的 各个属性,然后从父类中继承它的通用属性.因此,正是由于继承机制,才使得一个对象可以成为一个通用类的一个特定实例.一个深度继承的子类将继承它在类层次中的每个祖先的所有属性. </p>
+<p>继承与封装可以互相作用.<strong>如果一个给定的类封装了某些属性,它的任何子类将会含有同样得属性,另加各个子类所有得属性.</strong>这是面向对象程序在复杂性上呈线性而非几何增长的一个重要概念.新的子类继承其所有祖先的所有属性.子类和系统中的其他代码不会产生无法预料的交互作用. </p>
+<h2 id="多态"><a href="#多态" class="headerlink" title="多态"></a>多态</h2><p><strong>多态是指一个方法只能有一个名称,但可以有许多形态</strong>,也就是程序中可以定义多个同名的方法,用”一个接口,多个方法”来描述.可以通过方法的参数和类型引用. </p>
+<h2 id="封装-继承-多态的组合使用"><a href="#封装-继承-多态的组合使用" class="headerlink" title="封装,继承,多态的组合使用"></a>封装,继承,多态的组合使用</h2><p>在由封装，继承,多态所组成的环境中,程序员可以编写出比面向过程模型更健壮,更具扩展性的程序.经过仔细设计的类层次结构是重用代码的基础.封装能让程序员不必修改公有接口的代码即可实现程序的移植.多态能使程序员开发出简洁,易懂,易修改的代码.例如:汽车 </p>
+<p>从继承的角度看,驾驶员都依靠继承性来驾驶不同类型(子类)的汽车,无论这辆车是轿车还是卡车,是奔驰牌还是菲亚特牌,驾驶员都能找到方向盘,手刹,换档器.经过一段时间驾驶后,都能知道手动档与自动档之间的差别,因为他们实际上都知道这两者的共同超类:传动装置. </p>
+<p>从封装的角度看,驾驶员总是看到封装好的特性.刹车隐藏了许多复杂性,其外观如此简单,用脚就能操作它.发动机,手刹,轮胎大小的实现对与刹车类的定义没有影响. </p>
+<p>从多态的角度看,刹车系统有正锁反锁之分,驾驶员只用脚踩刹车停车,同样的接口可以用来控制若干种不同的实现(正锁或反锁). </p>
+<p>这样各个独立的构件才被转换为汽车这个对象的.同样,通过使用面向对象的设计原则,程序员可以把一个复杂程序的各个构件组合在一起,形成一个一致,健壮,可维护的程序</p>
+<h1 id="面对过程和面对对象的比较"><a href="#面对过程和面对对象的比较" class="headerlink" title="面对过程和面对对象的比较"></a>面对过程和面对对象的比较</h1><h2 id="面向过程编程"><a href="#面向过程编程" class="headerlink" title="面向过程编程"></a>面向过程编程</h2><p>面向过程编程是一种以过程为中心的编程思想,分析出解决问题的步骤，然后用函数把这些步骤一步一步实现。面向过程编程，数据和对数据的操作是分离的。</p>
+<h2 id="面向对象编程"><a href="#面向对象编程" class="headerlink" title="面向对象编程"></a>面向对象编程</h2><p>面向对象编程是将事物对象化，通过对象通信来解决问题。面向对象编程，数据和对数据的操作是绑定在一起的。</p>
+<p>封装可以隐藏实现细节，使得代码模块化；继承可以扩展已存在的类。它们的目的都是为了—代码重用。</p>
+<p>而多态则是为了实现另一个目的—接口重用。</p>
+<p>面向对象的代码更加支持重用，能降低软件开发和维护的成本，提高软件的质量。</p>
+<p>掌握面向对象的困难之处在于思路的转换。我们通常习惯于考虑解决问题的方法，而不是考虑将问题抽象成对象再去解决它。</p>
+<p>从两个简单的例子来理解两者的区别</p>
+<p>第一个简单的例子：编写一个驾驶汽车的方法</p>
+<p>面向过程的程序设计：<br>编写一个方法，<code>void drivecar();</code><br>面向对象的程序设计：<br>将一辆汽车看成一个对象，将所有汽车对象的共性抽取出来，设计一个类<code>Car</code>，类中有一个方法<code>void drive()</code>，用Car这个类实例化一个具体的<code>对象car</code>，调用：<code>car.drive()</code></p>
+<p>第二个简单的例子：求一个长方形的周长和面积。<br>面向过程的程序设计方式：<br>1、确定长方形周长和面积的算法。<br>2、编写两个方法（函数）分别计算长方形的周长和面积。<br>3、求周长的方法（函数）和求面积的方法（函数）需要两个参数，分别是长方形的长和宽。</p>
+<p>面向对象的程序设计方式：<br>1、一个长方形可以看成一个长方形对象。<br>2、一个长方形对象有两个状态（长和宽）和两个行为（求周长和求面积）。<br>3、将所有长方形的共性抽取出来，设计一个长方形类。<br>4、通过长方形对象的行为，就可以求出某个具体的长方形对象的周长和面积。</p>
+<p>面向过程就是分析出解决问题所需要的<strong>步骤</strong>，然后用函数把这些步骤<strong>一步一步实现</strong>，使用的时候一个一个依次调用就可以了。 </p>
+<p>面向对象是把构成问题事务<strong>分解成各个对象</strong>，建立对象的<strong>目的不是为了完成一个步骤</strong>，而是为了<strong>描叙</strong>某个事物在整个解决问题的步骤中的<strong>行为</strong>。 </p>
+<p>例如五子棋，面向过程的设计思路就是首先分析问题的步骤：1、开始游戏，2、黑子先走，3、绘制画面，4、判断输赢，5、轮到白子，6、绘制画面，7、判断输赢，8、返回步骤2，9、输出最后结果。把上面每个步骤用分别的函数来实现，问题就解决了。</p>
+<p>而面向对象的设计则是从另外的思路来解决问题。整个五子棋可以分为 1、黑白双方，这两方的行为是一模一样的，2、棋盘系统，负责绘制画面，3、规则系统，负责判定诸如犯规、输赢等。第一类对象（玩家对象）负责接受用户输入，并告知第二类对象（棋盘对象）棋子布局的变化，棋盘对象接收到了棋子的i变化就要负责在屏幕上面显示出这种变化，同时利用第三类对象（规则系统）来对棋局进行判定。 </p>
+<p>可以明显地看出，<strong>面向对象是以功能来划分问题，而不是步骤</strong>。同样是绘制棋局，这样的行为在面向过程的设计中分散在了总多步骤中，很可能出现不同的绘制版本，因为通常设计人员会考虑到实际情况进行各种各样的简化。而面向对象的设计中，绘图只可能在棋盘对象中出现，从而保证了绘图的统一。 </p>
+<p>功能上的统一保证了面向对象设计的可扩展性。比如我<strong>要加入悔棋</strong>的功能，如果要改动面向过程的设计，那么从输入到判断到显示这一连串的步骤都要改动，甚至步骤之间的循序都要进行<strong>大规模调整</strong>。如果是面向对象的话，只用改动棋盘对象就行了，棋盘系统保存了黑白双方的棋谱，简单回溯就可以了，而显示和规则判断则不用顾及，同时整个对对象功能的调用顺序都没有变化，改动只是局部的。 </p>
+<p>再比如我要把这个五子棋游戏改为围棋游戏，如果你是面向过程设计，那么五子棋的规则就分布在了你的程序的每一个角落，要改动还不如重写。但是如果你当初就是面向对象的设计，那么你只用改动规则对象就可以了，五子棋和围棋的区别不就是规则吗？（当然棋盘大小好像也不一样，但是你会觉得这是一个难题吗？直接在棋盘对象中进行一番小改动就可以了。）而下棋的大致步骤从面向对象的角度来看没有任何变化。</p>
+<p>当然，要达到改动只是局部的需要设计的人有足够的经验，<strong>使用对象不能保证你的程序就是面向对象</strong>（C with class），初学者或者很蹩脚的程序员很可能以面向对象之虚而行面向过程之实，这样设计出来的所谓面向对象的程序很难有良好的可移植性和可扩展性。</p>
+<p>但我觉得，初学者不必着急，就算是C with class，也不用担心，只要用心体会面向对象编程的思想，勤加练习，有一天也能写出很好的面向对象思想的程序来。（打算法题就是用C with STL我会乱说吗？）</p>
+<h1 id="抽象、类型、接口"><a href="#抽象、类型、接口" class="headerlink" title="抽象、类型、接口"></a>抽象、类型、接口</h1><h2 id="抽象是什么？"><a href="#抽象是什么？" class="headerlink" title="抽象是什么？"></a>抽象是什么？</h2><p>生活中充满复杂性，处理复杂性的一种方法就是<strong>简化和抽象</strong>。在计算中，为了根据信息与用户之间的接口来表示它，抽象是至关重要的。也就是说，把问题的本质抽象出来，根据特征来描述解决方案。抽象是通往用户定义类型的捷径，用户定义类型指的是实现抽象接口的类设计。</p>
+<h2 id="什么是类？"><a href="#什么是类？" class="headerlink" title="什么是类？"></a>什么是类？</h2><p>类（class）是面向对象程序设计的核心，它实际是一种<strong>新的数据类型</strong>，也是实现抽象类型的工具，因为类是通过抽象数据类型的方法来实现的一种数据类型。类是对某一类对象的抽象；而对象是某一种类的实例，因此，<strong>类和对象是密切相关的</strong>。没有脱离对象的类，也没有不依赖于类的对象。</p>
+<p>类是一种复杂的数据类型，它是将不同类型的数据和与这些数据相关的操作封装在一起的集合体。这有点像C语言中的结构，唯一不同的就是结构没有定义所说的“数据相关的操作”，“数据相关的操作”就是我们平常经常看到的“方法”，因此，类具有更高的抽象性，类中的数据具有隐藏性，类还具有封装性。</p>
+<p>类的结构(也即类的组成)是用来确定一类对象的行为的，而这些行为是通过类的内部数据结构和相关的操作来确定的。这些行为是通过一种操作<strong>接口</strong>来描述的(也即平时我们所看到的类的成员函数)，使用者只关心的是接口的功能(也就是我们只关心类的各个成员函数的功能)，对它是如何实现的并不感兴趣。而操作接口又被称为这类对象向其他对象所提供的服务。</p>
+<h2 id="什么是接口？"><a href="#什么是接口？" class="headerlink" title="什么是接口？"></a>什么是接口？</h2><p>接口（interface）是一个共享框架，供两个系统（例如计算机和打印机之间、用户和计算机程序之间）交互时使用。</p>
+<p>对于类，就是我们说的公共接口。交互系统由类对象构成，而接口由编写类的人提供的方法组成。接口能让程序员编写类与对象交互的代码，从而让程序能够使用类对象。例如要计算string类对象包含多少个字符，就无需打开对象，只需要使用string类提供的<code>size()</code>方法。</p>
+<p>类设计禁止公共用户直接访问类，但可以使用方法，例如<code>size()</code>等等。方法<code>size()</code>就是用户和string类直接的公共接口的一个组成部分。还有例如方法<code>getline()</code>是istream类的一个接口，使用<code>cin</code>的程序，不是直接与cin对象内部进行交互来读取一行输入，而是使用<code>getline()</code>。</p>
+<p>要使用某个类，必须了解其接口；要编写类，就必须为其创建接口。</p>
+<p>例如你编写C++程序时，将类声明和类方法放到.h文件中，而.cpp文件中是接口的具体实现，但你只把编译好的.obj文件和.h文件发给你的用户。用户只需通过.h文件知道接口如何调用即可，不需要知道是怎么实现的。同时也防止了用户在外部对其进行修改。</p>
+<hr>
+<p>参考链接</p>
+<ul>
+<li><a href="http://blog.csdn.net/sxhlovehmm/article/details/45082605" target="_blank" rel="external">面向过程编程和面向对象编程的区别</a></li>
+<li><a href="http://www.cnblogs.com/mr-wid/archive/2013/02/18/2916309.html" target="_blank" rel="external">学习C++ -&gt; 类(Classes)的定义与实现</a></li>
+<li><a href="http://www.yesky.com/22/194022.shtml" target="_blank" rel="external">C++ 类和类的定义</a></li>
+<li><a href="http://blog.csdn.net/chaoguodong/article/details/6935524" target="_blank" rel="external">C++接口定义及实现举例</a></li>
+</ul>
+<p>拓展阅读：</p>
+<ul>
+<li><a href="https://www.zhihu.com/question/20275578/answer/26690018" target="_blank" rel="external">面对对象编程的弊端是什么</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/06/07/Functions-exploration/" rel="next" title="C++学习之函数探幽">
+                <i class="fa fa-chevron-left"></i> C++学习之函数探幽
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="ZC" />
+          <p class="site-author-name" itemprop="name">ZC</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#面对对象编程"><span class="nav-number">1.</span> <span class="nav-text">面对对象编程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#抽象"><span class="nav-number">1.1.</span> <span class="nav-text">抽象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#封装"><span class="nav-number">1.2.</span> <span class="nav-text">封装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#继承"><span class="nav-number">1.3.</span> <span class="nav-text">继承</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#多态"><span class="nav-number">1.4.</span> <span class="nav-text">多态</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#封装-继承-多态的组合使用"><span class="nav-number">1.5.</span> <span class="nav-text">封装,继承,多态的组合使用</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#面对过程和面对对象的比较"><span class="nav-number">2.</span> <span class="nav-text">面对过程和面对对象的比较</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#面向过程编程"><span class="nav-number">2.1.</span> <span class="nav-text">面向过程编程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#面向对象编程"><span class="nav-number">2.2.</span> <span class="nav-text">面向对象编程</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#抽象、类型、接口"><span class="nav-number">3.</span> <span class="nav-text">抽象、类型、接口</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#抽象是什么？"><span class="nav-number">3.1.</span> <span class="nav-text">抽象是什么？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是类？"><span class="nav-number">3.2.</span> <span class="nav-text">什么是类？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是接口？"><span class="nav-number">3.3.</span> <span class="nav-text">什么是接口？</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ZC</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("guhO5d3jdrym6QcCp5oIrsMc-gzGzoHsz", "ldFdhqrIxGxOqWs5mgH8pmLT");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
