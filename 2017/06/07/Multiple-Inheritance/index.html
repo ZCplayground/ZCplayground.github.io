@@ -99,7 +99,7 @@
 <meta property="og:url" content="http://yoursite.com/2017/06/07/Multiple-Inheritance/index.html">
 <meta property="og:site_name" content="ZCplayground">
 <meta property="og:description" content="多重继承定义多重继承，multiple inheritance，简称MI。在现实中，也许某种事物具有两种或以上的种类的事物的基础属性，所以C++中有多重继承这种手段来解决这种问题。即允许一个派生类指定多个基类。例如下面这个类，从侍者类公有继承，从歌手类私有继承，得到一个“会唱歌的侍者”类： 1234class singingwaiter : public waiter, singer //sing">
-<meta property="og:updated_time" content="2017-06-07T13:11:23.064Z">
+<meta property="og:updated_time" content="2017-06-07T13:15:54.683Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="C++学习之多重继承">
 <meta name="twitter:description" content="多重继承定义多重继承，multiple inheritance，简称MI。在现实中，也许某种事物具有两种或以上的种类的事物的基础属性，所以C++中有多重继承这种手段来解决这种问题。即允许一个派生类指定多个基类。例如下面这个类，从侍者类公有继承，从歌手类私有继承，得到一个“会唱歌的侍者”类： 1234class singingwaiter : public waiter, singer //sing">
@@ -388,13 +388,23 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">class A</div><div class="line">&#123;</div><div class="line">	int a;</div><div class="line">public:</div><div class="line">     A(int n = 0): a(n)&#123;&#125;</div><div class="line">&#125;;</div><div class="line"></div><div class="line">class B :public A</div><div class="line">&#123;</div><div class="line">	int b;</div><div class="line">public:</div><div class="line">	B(int m = 0, int n = 0):A(n) , b(m) &#123;&#125;</div><div class="line">	</div><div class="line">&#125;;</div><div class="line"></div><div class="line">class C :public B</div><div class="line">&#123;</div><div class="line">	int c;</div><div class="line">public:</div><div class="line">	c(int q = 0, int m = 0, int n = 0): B(m, n), c(q)&#123;&#125;</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
 <p><code>C</code>类的构造函数只能调用<code>B</code>类的构造函数，<code>B</code>类的构造函数只能调用<code>A</code>类的构造函数。<code>c</code>的构造函数使用值<code>q</code>，并将<code>m</code>和<code>n</code>传递给<code>B</code>的构造函数，<code>B</code>使用<code>m</code>，将<code>n</code>传递给<code>A</code>的构造函数。</p>
 <p><strong>如果vehicle是虚基类，这种自动传递信息则不再起作用</strong>，例如在上面的多重继承条件下有这样的构造函数：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">amphibiancar(const vehicle &amp; v, int air = 0, int ton = 0)::car(v,air),boat(v,ton) &#123;&#125;//failed</div><div class="line"></div><div class="line">~~~		</div><div class="line"></div><div class="line">会出错。原因是：自动传递信息时，将通过两条不同的途径（car or boat）将`v`传递给`vehicle`。为避免这种冲突，C++在基类是虚基类时，**禁止信息通过中间类自动传递给基类**。然而，编译器仍然需要保证派生类对象生成之前先调用基类构造函数组件，因此需要显式调用（基类构造函数），因此正确的构造函数应该是这样：</div></pre></td></tr></table></figure>
-<p>amphibiancar(const vehicle &amp; v, int air = 0, int ton = 0)::vehicle(v),car(v,air),boat(v,ton) {}</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"></div><div class="line">上面代码显示调用构造函数`vehicle(const vehicle &amp;)`。请注意！这种用法是合法的，而且对于虚基类来说，必须这样做。但对于非虚基类，这是非法的。</div><div class="line"></div><div class="line"># MI小结</div><div class="line"></div><div class="line">- 不使用虚基类的MI：这种方式不会引入新的规则。例如：</div></pre></td></tr></table></figure>
-<p>class Student :private std::string, private std::valarray<double></double></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">- 如果一个类从两个不同的类哪里继承了两个同名的成员（通常原因是有共同祖先啦）则需要额外做一些编程工作。如果是同名方法，需要使用作用域解析运算符来说明到底是使用哪一个方法，或者重新编写方法。否则 会有二义性错误。</div><div class="line"></div><div class="line">- 如果一个类通过多种途径继承了一个非虚基类，则该类从每种途径分别继承非虚基类的一个实例。</div><div class="line"></div><div class="line">- 当派生类使用关键字virtual来指示派生时，基类成为虚基类：</div></pre></td></tr></table></figure>
-<p>class Car : virtual public Vehicle{…};//vehicle成为虚基类。</p>
-<p>~~~</p>
+<p><code>amphibiancar(const vehicle &amp; v, int air = 0, int ton = 0)::car(v,air),boat(v,ton) {}//failed</code></p>
+<p>会出错。原因是：自动传递信息时，将通过两条不同的途径（car or boat）将<code>v</code>传递给<code>vehicle</code>。为避免这种冲突，C++在基类是虚基类时，<strong>禁止信息通过中间类自动传递给基类</strong>。然而，编译器仍然需要保证派生类对象生成之前先调用基类构造函数组件，因此需要显式调用（基类构造函数），因此正确的构造函数应该是这样：</p>
+<p><code>amphibiancar(const vehicle &amp; v, int air = 0, int ton = 0)::vehicle(v),car(v,air),boat(v,ton) {}</code></p>
+<p>上面代码显示调用构造函数<code>vehicle(const vehicle &amp;)</code>。请注意！这种用法是合法的，而且对于虚基类来说，必须这样做。但对于非虚基类，这是非法的。</p>
+<h1 id="MI小结"><a href="#MI小结" class="headerlink" title="MI小结"></a>MI小结</h1><ul>
+<li>不使用虚基类的MI：这种方式不会引入新的规则。例如：</li>
+</ul>
+<p><code>class Student :private std::string, private std::valarray&lt;double&gt;</code></p>
+<ul>
+<li><p>如果一个类从两个不同的类哪里继承了两个同名的成员（通常原因是有共同祖先啦）则需要额外做一些编程工作。如果是同名方法，需要使用作用域解析运算符来说明到底是使用哪一个方法，或者重新编写方法。否则 会有二义性错误。</p>
+</li>
+<li><p>如果一个类通过多种途径继承了一个非虚基类，则该类从每种途径分别继承非虚基类的一个实例。</p>
+</li>
+<li><p>当派生类使用关键字virtual来指示派生时，基类成为虚基类：</p>
+</li>
+</ul>
+<p><code>class Car : virtual public Vehicle{...};//vehicle成为虚基类</code></p>
 <ul>
 <li><p>主要变化（同时也是使用虚基类的原因）是：从虚基类的一个或多个实例派生而来的类将只继承一个基类对象。为了实现这种特性，需要做的其他工作有：</p>
 <p>  • 有间接虚基类的派生类包含直接调用间接基类构造函数的构造函数。这对间接非虚基类来说是非法的。<br>  • 优先规则解决名称二义性</p>
@@ -569,7 +579,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#多重继承定义"><span class="nav-number">1.</span> <span class="nav-text">多重继承定义</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#多重继承可能存在的问题"><span class="nav-number">2.</span> <span class="nav-text">多重继承可能存在的问题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#继承同名类方法的二义性错误解决"><span class="nav-number">2.1.</span> <span class="nav-text">继承同名类方法的二义性错误解决</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#继承多个同名基类对象，需要用到虚基类"><span class="nav-number">2.2.</span> <span class="nav-text">继承多个同名基类对象，需要用到虚基类</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#虚基类语法"><span class="nav-number">2.2.1.</span> <span class="nav-text">虚基类语法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#新的构造函数规则"><span class="nav-number">2.3.</span> <span class="nav-text">新的构造函数规则</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#多重继承定义"><span class="nav-number">1.</span> <span class="nav-text">多重继承定义</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#多重继承可能存在的问题"><span class="nav-number">2.</span> <span class="nav-text">多重继承可能存在的问题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#继承同名类方法的二义性错误解决"><span class="nav-number">2.1.</span> <span class="nav-text">继承同名类方法的二义性错误解决</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#继承多个同名基类对象，需要用到虚基类"><span class="nav-number">2.2.</span> <span class="nav-text">继承多个同名基类对象，需要用到虚基类</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#虚基类语法"><span class="nav-number">2.2.1.</span> <span class="nav-text">虚基类语法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#新的构造函数规则"><span class="nav-number">2.3.</span> <span class="nav-text">新的构造函数规则</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#MI小结"><span class="nav-number">3.</span> <span class="nav-text">MI小结</span></a></li></ol></div>
             
 
           </div>
