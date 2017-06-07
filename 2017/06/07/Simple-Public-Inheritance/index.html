@@ -1,0 +1,843 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="C++ 继承面向对象编程的主要目的之一是提供可重用的代码。开发新项目时，尤其当项目特别庞大时，重用已经测试的代码比重新编写新的代码要好的多。C语言中，有传统的C函数库、预定义、预编译的函数、专用的C库。C++类提供了更高层次的重用性，提供了比修改代码更好的方法来扩展和修改类——类继承。它能够从已有的类派生成新的类，而派生类继承了原有类的特征，包括方法。 下面是可以通过继承完成的工作： • 可以在已">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C++学习之简单的公有继承">
+<meta property="og:url" content="http://yoursite.com/2017/06/07/Simple-Public-Inheritance/index.html">
+<meta property="og:site_name" content="ZCplayground">
+<meta property="og:description" content="C++ 继承面向对象编程的主要目的之一是提供可重用的代码。开发新项目时，尤其当项目特别庞大时，重用已经测试的代码比重新编写新的代码要好的多。C语言中，有传统的C函数库、预定义、预编译的函数、专用的C库。C++类提供了更高层次的重用性，提供了比修改代码更好的方法来扩展和修改类——类继承。它能够从已有的类派生成新的类，而派生类继承了原有类的特征，包括方法。 下面是可以通过继承完成的工作： • 可以在已">
+<meta property="og:updated_time" content="2017-06-07T11:39:25.806Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="C++学习之简单的公有继承">
+<meta name="twitter:description" content="C++ 继承面向对象编程的主要目的之一是提供可重用的代码。开发新项目时，尤其当项目特别庞大时，重用已经测试的代码比重新编写新的代码要好的多。C语言中，有传统的C函数库、预定义、预编译的函数、专用的C库。C++类提供了更高层次的重用性，提供了比修改代码更好的方法来扩展和修改类——类继承。它能够从已有的类派生成新的类，而派生类继承了原有类的特征，包括方法。 下面是可以通过继承完成的工作： • 可以在已">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/06/07/Simple-Public-Inheritance/"/>
+
+
+
+
+
+  <title>C++学习之简单的公有继承 | ZCplayground</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">ZCplayground</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/07/Simple-Public-Inheritance/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ZC">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ZCplayground">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">C++学习之简单的公有继承</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-07T19:28:08+08:00">
+                2017-06-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/06/07/Simple-Public-Inheritance/" class="leancloud_visitors" data-flag-title="C++学习之简单的公有继承">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="C-继承"><a href="#C-继承" class="headerlink" title="C++ 继承"></a>C++ 继承</h1><p>面向对象编程的主要目的之一是提供可重用的代码。开发新项目时，尤其当项目特别庞大时，重用已经测试的代码比重新编写新的代码要好的多。C语言中，有传统的C函数库、预定义、预编译的函数、专用的C库。C++类提供了更高层次的重用性，提供了比修改代码更好的方法来扩展和修改类——类继承。它能够从已有的类派生成新的类，而派生类继承了原有类的特征，包括方法。</p>
+<p>下面是可以通过继承完成的工作：</p>
+<p>• 可以在已有类的基础上添加功能。例如对于数组类，添加数据数学运算。<br>• 可以给类添加数据。例如对字符串类，派生出指定字符串显示颜色的数据成员。<br>• 可以修改类方法的行为。例如对于飞机上的乘客passenger类，派生出更高级别服务的FirstClassPassenger类。</p>
+<p>从一个类派生出另一个类时，原始类被称为<strong>基类</strong>，继承类被称为<strong>派生类</strong>。</p>
+<h1 id="继承的三种方式"><a href="#继承的三种方式" class="headerlink" title="继承的三种方式"></a>继承的三种方式</h1><p>派生类和基类的特殊关系是基于C++继承的底层模型的。C++有三种继承方式：<strong>公有继承、保护继承和私有继承</strong></p>
+<p><strong>公有继承</strong>是最常用的方式，它建立的是一种<code>is-a</code>关系，这种关系就是is a kind of（是一种）。所有使用公有继承派生的派生类需要符合is-a关系，即派生类对象也是一个基类对象，可以对基类对象执行的操作，也可以对派生类对象执行。例如有一个Fruit类，由于香蕉是一种水果，所以可以从Fruit类派生出Banana类。新的Banana类可以添加专门用于香蕉的成员。</p>
+<p>下面是不符合is-a关系的例子：</p>
+<p>公有继承不确定<code>has-a</code>关系。例如午餐包括水果，但午餐不是一种水果，这里Lunch和Fruit不是is-a关系，所以不能从Fruit类使用公有继承派生出Lunch类。在午餐中添加水果的正确方法是has-a关系：午餐有水果。比较好的方法就是在Lunch类中包含一个Fruit类成员。</p>
+<p>公有继承不确定<code>is-like-a</code>关系，即：它不采用比喻。人们说，女人像老虎，但女人实际上不是老虎。所以不应该从Tiger类通过公有继承派生Women类。即：公有继承是在基类的基础上添加属性，但不能删除基类的属性。对于这种情况的解决方法是使用抽象基类，后面会介绍。</p>
+<p>公有继承不建立<code>is-implemented-as-a</code>（作为……来实现）的关系。例如可以用数组来实现栈，但从Array类派生出Stack类是不合适的。正确的方式是：让栈包含一个私有Array对象来隐藏数组实现。</p>
+<p>公有继承不建立<code>use-a</code>关系，例如计算机可以使用打印机，但无论是从Computer派生Printer还是反之都是没有意义的。正确的方式是：通过友元函数或类来处理Printer对象和Computer对象之间的通信。</p>
+<p>如果用公有继承来实现上述4种例子通常会出现编程方面的问题，所以还是坚持公有继承只用于实现<code>is-a</code>关系吧！</p>
+<h1 id="简单的基类和派生类"><a href="#简单的基类和派生类" class="headerlink" title="简单的基类和派生类"></a>简单的基类和派生类</h1><p>如果某健身俱乐部需要一个程序跟踪乒乓球会员，先需要设计基类TableTennisPlayer。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line">// tabtenn0.h -- a tabletennis base class</div><div class="line">#include&lt;string&gt;</div><div class="line">using std::string;</div><div class="line"></div><div class="line">class TableTennisPlayer</div><div class="line">&#123;</div><div class="line">private:</div><div class="line">	string firstname;</div><div class="line">	string lastname;</div><div class="line">	bool hasTable;</div><div class="line">public:</div><div class="line">	TableTennisPlayer(const string &amp;fn = &quot;none&quot;, const string &amp;ln = &quot;none&quot;, bool ht = false);</div><div class="line">	void Name()const;</div><div class="line">	bool HasTable()const &#123; return hasTable; &#125;;</div><div class="line">	void ResetTable(bool v) &#123; hasTable = v; &#125;</div><div class="line">&#125;;</div><div class="line"></div><div class="line">//tabtenn0.cpp</div><div class="line">#include&lt;iostream&gt;</div><div class="line"></div><div class="line">TableTennisPlayer::TableTennisPlayer(const string &amp;fn,</div><div class="line">	const string&amp;ln, bool ht) :firstname(fn),</div><div class="line">	lastname(ln), hasTable(ht) &#123;&#125;</div><div class="line"></div><div class="line">void TableTennisPlayer::Name() const</div><div class="line">&#123;</div><div class="line">	std::cout &lt;&lt; lastname &lt;&lt; &quot;, &quot; &lt;&lt; firstname;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>派生一个类。俱乐部里的一些成员参加过当地锦标赛，所有在比赛中有过比分。与其从零开始设计新的类，不如从TableTennisPlayer中派生一个类。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">class RatedPlayer : public TableTennisPlayer</div><div class="line">&#123;</div><div class="line">private:</div><div class="line">	unsigned int rating;</div><div class="line">public:</div><div class="line">	RatedPlayer(unsigned int r = 0, const string &amp; fn = &quot;none&quot;,</div><div class="line">		const string &amp; ln = &quot;none&quot;, bool ht = false);</div><div class="line">	RatedPlayer(unsigned int r, const TableTennisPlayer &amp; tp);</div><div class="line">	unsigned int Rating()const &#123; return rating; &#125;</div><div class="line">	void ResetRating(unsigned int r) &#123; rating = r; &#125;</div><div class="line">&#125;;</div><div class="line"></div><div class="line">RatedPlayer::RatedPlayer(unsigned int r, const string &amp; fn,</div><div class="line">	const string &amp; ln, bool ht) : TableTennisPlayer(fn, ln, ht)</div><div class="line">&#123;</div><div class="line">	rating = r;</div><div class="line">&#125;</div><div class="line"></div><div class="line">RatedPlayer::RatedPlayer(unsigned int r, const TableTennisPlayer &amp; tp)</div><div class="line">	: TableTennisPlayer(tp), rating(r)</div><div class="line">&#123;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>冒号指出<code>RatedPlayer</code>的基类是<code>TableTennisPlayer</code>。这种特殊的声明头表示TableTennisPlayer是一个<strong>公有基类</strong>，这被称为<strong>公有派生</strong>。</p>
+<h2 id="继承了什么？"><a href="#继承了什么？" class="headerlink" title="继承了什么？"></a>继承了什么？</h2><p>使用公有派生，<strong>基类的公有成员将成为派生类的公有成员</strong>，基类的<strong>私有部分成为派生类的一部分</strong>，但<strong>只能通过基类的公有和保护方法访问</strong>。</p>
+<p>派生类类声明代码做的工作：<br>    • 派生类对象存储了基类的数据成员（派生类继承基类的实现）<br>    • 派生类对象可以使用基类的方法（派生类继承基类的接口）</p>
+<p>派生类需要在继承特性中添加：<br>    • 派生类需要自己的构造函数。<br>    • 派生类可以根据需要添加额外的数据成员和成员函数。</p>
+<h2 id="初始化列表——关于派生类构造函数的考量"><a href="#初始化列表——关于派生类构造函数的考量" class="headerlink" title="初始化列表——关于派生类构造函数的考量"></a>初始化列表——关于派生类构造函数的考量</h2><p>派生类不能直接访问基类的私有成员，<strong>必须通过基类方法进行访问</strong>。创建派生类对象时，程序首先创建基类对象。这意味着基类对象应当在程序进入派生类构造函数之前被创建，C++使用成员<strong>初始化列表语法</strong>完成这种工作。</p>
+<p>如果不使用成员初始化列表，由于必须首先创建基类对象，程序就使用默认的基类构造函数。</p>
+<p>第二个构造函数是用基类对象引用作为参数的派生类构造函数。tp类型是TableTennisPlayer &amp; ，因此这里调用的是默认复制构造函数。</p>
+<p>有关派生类构造函数的要点如下：<br>    • 首先创建基类对象。<br>    • 派生类构造函数应该通过成员初始化列表将基类信息传递给基类构造函数。<br>    • 派生类构造函数还应初始化新增的数据成员。</p>
+<h2 id="派生类和基类的关系"><a href="#派生类和基类的关系" class="headerlink" title="派生类和基类的关系"></a>派生类和基类的关系</h2><ol>
+<li>派生类兑现可以使用基类的方法，条件是方法不是私有的。</li>
+<li>基类指针可以在不进行显示转换的情况下指向派生类对象。</li>
+<li>基类引用可以在不进行显示转换的情况下引用派生类对象。</li>
+<li>不可以将基类的对象和地址赋给派生类引用和指针。</li>
+</ol>
+<p>基类引用和指针指向/引用派生类对象。如果有方法的形参是基类引用，就可以指定基类对象或者派生类对象。如果形参是指向基类的指针的，就可以使用基类对象的地址或派生类对象的地址作为实参。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div></pre></td><td class="code"><pre><div class="line">// tabtenn1.h -- a tabletennis base class</div><div class="line">#ifndef TABTENN0_H_</div><div class="line">#define TABTENN0_H_</div><div class="line">#include&lt;string&gt;</div><div class="line">using std::string;</div><div class="line"></div><div class="line">class TableTennisPlayer</div><div class="line">&#123;</div><div class="line">private:</div><div class="line">	string firstname;</div><div class="line">	string lastname;</div><div class="line">	bool hasTable;</div><div class="line">public:</div><div class="line">	TableTennisPlayer(const string &amp;fn = &quot;none&quot;, const string &amp;ln = &quot;none&quot;, bool ht = false);</div><div class="line">	void Name()const;</div><div class="line">	bool HasTable()const &#123; return hasTable; &#125;</div><div class="line">	void ResetTable(bool v) &#123; hasTable = v; &#125;</div><div class="line">&#125;;</div><div class="line">#endif</div><div class="line"></div><div class="line">class RatedPlayer : public TableTennisPlayer</div><div class="line">&#123;</div><div class="line">private:</div><div class="line">	unsigned int rating;</div><div class="line">public:</div><div class="line">	RatedPlayer(unsigned int r = 0, const string &amp; fn = &quot;none&quot;,</div><div class="line">		const string &amp; ln = &quot;none&quot;, bool ht = false);</div><div class="line">	RatedPlayer(unsigned int r, const TableTennisPlayer &amp; tp);</div><div class="line">	unsigned int Rating()const &#123; return rating; &#125;</div><div class="line">	void ResetRating(unsigned int r) &#123; rating = r; &#125;</div><div class="line">&#125;;</div><div class="line"></div><div class="line"></div><div class="line">//tabtenn1.cpp</div><div class="line">#include&lt;iostream&gt;</div><div class="line"></div><div class="line">TableTennisPlayer::TableTennisPlayer(const string &amp;fn,</div><div class="line">	const string&amp;ln, bool ht) :firstname(fn),</div><div class="line">	lastname(ln), hasTable(ht) &#123;&#125;</div><div class="line"></div><div class="line">void TableTennisPlayer::Name() const</div><div class="line">&#123;</div><div class="line">	std::cout &lt;&lt; lastname &lt;&lt; &quot;, &quot; &lt;&lt; firstname;</div><div class="line">&#125;</div><div class="line"></div><div class="line">RatedPlayer::RatedPlayer(unsigned int r, const string &amp; fn,</div><div class="line">	const string &amp; ln, bool ht) : TableTennisPlayer(fn, ln, ht)</div><div class="line">&#123;</div><div class="line">	rating = r;</div><div class="line">&#125;</div><div class="line"></div><div class="line">RatedPlayer::RatedPlayer(unsigned int r, const TableTennisPlayer &amp; tp)</div><div class="line">	: TableTennisPlayer(tp), rating(r)</div><div class="line">&#123;</div><div class="line">&#125;</div><div class="line"></div><div class="line">//usett1.cpp -- using base clase and derived class</div><div class="line">//#include&lt;iostream&gt;</div><div class="line">//#include &quot;tabtenn1.h&quot;</div><div class="line"></div><div class="line">int main()</div><div class="line">&#123;</div><div class="line">	using std::cout;</div><div class="line">	using std::endl;</div><div class="line">	TableTennisPlayer player1(&quot;Benjamin&quot;, &quot;Wandering&quot;, false);</div><div class="line">	RatedPlayer rplayer1(1140, &quot;Chang&quot;, &quot;Zhao&quot;, true);</div><div class="line">	rplayer1.Name();//派生类可以使用基类的公有方法</div><div class="line">	if (rplayer1.HasTable())</div><div class="line">		cout &lt;&lt; &quot;: has a table.\n&quot;;</div><div class="line">	else</div><div class="line">		cout &lt;&lt; &quot;: hasn&apos;t a table.\n&quot;;</div><div class="line">	player1.Name();//派生类可以使用基类的公有方法</div><div class="line">	if (player1.HasTable())</div><div class="line">		cout &lt;&lt; &quot;: has a table.\n&quot;;</div><div class="line">	else</div><div class="line">		cout &lt;&lt; &quot;: hasn&apos;t a table.\n&quot;;</div><div class="line"></div><div class="line">	cout &lt;&lt; &quot;Name: &quot;;</div><div class="line">	rplayer1.Name();</div><div class="line">	cout &lt;&lt; &quot;; Rating: &quot; &lt;&lt; rplayer1.Rating() &lt;&lt; endl;</div><div class="line"></div><div class="line">	//用基类对象初始化派生类对象</div><div class="line">	RatedPlayer rplayer2(1212, player1);</div><div class="line">	cout &lt;&lt; &quot;Name: &quot;;</div><div class="line">	rplayer2.Name();</div><div class="line">	cout &lt;&lt; &quot;; Rating: &quot; &lt;&lt; rplayer2.Rating() &lt;&lt; endl;</div><div class="line"></div><div class="line">	return 0;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/06/07/Passing-and-Returing-Objects/" rel="next" title="C++学习之传递和返回对象">
+                <i class="fa fa-chevron-left"></i> C++学习之传递和返回对象
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/06/07/Virtual-Function-and-Binding/" rel="prev" title="C++学习之虚函数和联编">
+                C++学习之虚函数和联编 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="ZC" />
+          <p class="site-author-name" itemprop="name">ZC</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">22</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#C-继承"><span class="nav-number">1.</span> <span class="nav-text">C++ 继承</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#继承的三种方式"><span class="nav-number">2.</span> <span class="nav-text">继承的三种方式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#简单的基类和派生类"><span class="nav-number">3.</span> <span class="nav-text">简单的基类和派生类</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#继承了什么？"><span class="nav-number">3.1.</span> <span class="nav-text">继承了什么？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#初始化列表——关于派生类构造函数的考量"><span class="nav-number">3.2.</span> <span class="nav-text">初始化列表——关于派生类构造函数的考量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#派生类和基类的关系"><span class="nav-number">3.3.</span> <span class="nav-text">派生类和基类的关系</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ZC</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("guhO5d3jdrym6QcCp5oIrsMc-gzGzoHsz", "ldFdhqrIxGxOqWs5mgH8pmLT");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

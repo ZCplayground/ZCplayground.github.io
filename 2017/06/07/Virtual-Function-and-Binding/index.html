@@ -1,0 +1,862 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="RatedPlayer继承示例很简单。派生类对象使用基类的方法，并未做任何修改。然而，可能遇到希望同一个方法在基类和派生类中的行为是不同的。即希望方法的行为应取决于调用对象，也是一种多态（Polymorphism）——具有多种形态。有两种重要机制可以使用多态公有继承： • 在派生类中重新定义基类方法。• 使用虚方法。 多态公有继承看一个普通银行账户类： 1234567891011121314151">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C++学习之虚函数和联编">
+<meta property="og:url" content="http://yoursite.com/2017/06/07/Virtual-Function-and-Binding/index.html">
+<meta property="og:site_name" content="ZCplayground">
+<meta property="og:description" content="RatedPlayer继承示例很简单。派生类对象使用基类的方法，并未做任何修改。然而，可能遇到希望同一个方法在基类和派生类中的行为是不同的。即希望方法的行为应取决于调用对象，也是一种多态（Polymorphism）——具有多种形态。有两种重要机制可以使用多态公有继承： • 在派生类中重新定义基类方法。• 使用虚方法。 多态公有继承看一个普通银行账户类： 1234567891011121314151">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/1092156/201706/1092156-20170607200811340-1351826666.png">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/1092156/201706/1092156-20170607200812903-1802856210.png">
+<meta property="og:updated_time" content="2017-06-07T12:11:46.712Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="C++学习之虚函数和联编">
+<meta name="twitter:description" content="RatedPlayer继承示例很简单。派生类对象使用基类的方法，并未做任何修改。然而，可能遇到希望同一个方法在基类和派生类中的行为是不同的。即希望方法的行为应取决于调用对象，也是一种多态（Polymorphism）——具有多种形态。有两种重要机制可以使用多态公有继承： • 在派生类中重新定义基类方法。• 使用虚方法。 多态公有继承看一个普通银行账户类： 1234567891011121314151">
+<meta name="twitter:image" content="http://images2015.cnblogs.com/blog/1092156/201706/1092156-20170607200811340-1351826666.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/06/07/Virtual-Function-and-Binding/"/>
+
+
+
+
+
+  <title>C++学习之虚函数和联编 | ZCplayground</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">ZCplayground</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/07/Virtual-Function-and-Binding/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ZC">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ZCplayground">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">C++学习之虚函数和联编</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-07T19:28:51+08:00">
+                2017-06-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/06/07/Virtual-Function-and-Binding/" class="leancloud_visitors" data-flag-title="C++学习之虚函数和联编">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>RatedPlayer继承示例很简单。派生类对象使用基类的方法，并未做任何修改。然而，可能遇到希望同一个方法在基类和派生类中的行为是不同的。即希望方法的行为应取决于调用对象，也是一种<strong>多态</strong>（Polymorphism）——具有多种形态。有两种重要机制可以使用多态公有继承：</p>
+<p>• 在派生类中重新定义基类方法。<br>• 使用虚方法。</p>
+<h1 id="多态公有继承"><a href="#多态公有继承" class="headerlink" title="多态公有继承"></a>多态公有继承</h1><p>看一个普通银行账户类：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">#include&lt;string&gt;</div><div class="line">using std::string;</div><div class="line"></div><div class="line">class Brass</div><div class="line">&#123;</div><div class="line">private:</div><div class="line">	string fullName;</div><div class="line">	long acctNum;</div><div class="line">	double balance;</div><div class="line">public:</div><div class="line">	Brass(const string &amp; s = &quot;Nullbody&quot;, long an = -1,</div><div class="line">		double bal = 0.0);</div><div class="line">	void Deposit(double amt);</div><div class="line">	virtual void Withdraw(double amt);</div><div class="line">	double Balance() const;</div><div class="line">	virtual void ViewAcct() const;</div><div class="line">	virtual ~Brass() &#123;&#125;</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<p>然后我们对其进行继承，写出新的BrassPlus类，这个类的用户新增了向银行透支取款的功能。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">class BrassPlus : public Brass</div><div class="line">&#123;</div><div class="line">private:</div><div class="line">	double maxLoan;</div><div class="line">	double rate;</div><div class="line">	double owesBank;</div><div class="line">public:</div><div class="line">	BrassPlus(const string &amp; s = &quot;Nullbody&quot;, long an = -1,</div><div class="line">		double bal = 0.0, double ml = 500,</div><div class="line">		double r = 0.11125);</div><div class="line">	BrassPlus(const Brass &amp; ba, double ml = 500,</div><div class="line">		double r = 0.11125);</div><div class="line">	virtual void ViewAcct()const;</div><div class="line">	virtual void Withdraw(double amt);</div><div class="line">	void ResetMax(double m) &#123; maxLoan = m; &#125;</div><div class="line">	void ResetRate(double r) &#123; rate = r; &#125;</div><div class="line">	void ResetOwes() &#123; owesBank = 0; &#125;</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<h2 id="虚函数"><a href="#虚函数" class="headerlink" title="虚函数"></a>虚函数</h2><p>两个类虽然都声明了<code>ViewAcct</code>和<code>Withdraw</code>方法，但很明显两个类对象的方法行为是不同的。所以在声明时使用了关键字<code>virtual</code>，这些方法被称为虚方法。（定义的时候不需要写virtual）使用<code>virtual</code>，程序将根据引用或指针所指向的<strong>对象类型</strong>选择方法。如果ViewAcct不是虚的，程序是根据引用或指针<strong>本身</strong>的类型来选择方法。例如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">Brass zc(&quot;zc&quot;, 381299, 4000.00);</div><div class="line">BrassPlus wb(&quot;wb&quot;, 382288, 3000.00);</div><div class="line">Brass &amp; r1 = zc;</div><div class="line">Brass &amp; r2 = wb;</div><div class="line">r1.ViewAcct();</div><div class="line">r2.ViewAcct();</div></pre></td></tr></table></figure></p>
+<p>上述代码中，如果<code>ViewAcct()</code>不是虚方法的话，引用变量的类型是Brass，所以会调用<code>Brass::ViewAcct()</code>。如果<code>ViewAcct()</code>是虚的，上述代码段的执行情况是：r2引用的是一个BrassPlus对象，所以使用<code>BrassPlus::ViewAcct();</code></p>
+<p>当将基类中的某一成员函数声明为虚函数后，派生类中的同名函数（函数名相同、参数列表完全一致、返回值类型相关）自动成为虚函数。然而在派生类中继续使用virtual来指明那些函数是虚函数是一个好方法。</p>
+<p>第17行基类声明虚析构函数，虽然该析构函数不执行任何操作。但这样是为了确保释放派生对象时，按正确的顺序调用析构函数。</p>
+<p>为什么需要虚析构函数？使用<code>delete</code>释放由<code>new</code>分配的对象的代码说明了为何基类需要包含一个虚析构函数。如果析构函数不是虚的，如果指针指向了一个<code>BrassPlus</code>对象，但还是意味着只会调用<code>Brass</code>的析构函数。如果析构函数是虚的，指针指向的是<code>BrassPlus</code>对象，那么将调用<code>BrassPlus</code>的析构函数，然后自动调用基类的析构函数。因此，使用虚析构函数可以确保正确的析构函数调用序列。</p>
+<h2 id="使用基类指针去调用"><a href="#使用基类指针去调用" class="headerlink" title="使用基类指针去调用"></a>使用基类指针去调用</h2><p>让我们完成两个类的类设计：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div></pre></td><td class="code"><pre><div class="line">#include&lt;string&gt;</div><div class="line">#include&lt;iostream&gt;</div><div class="line"></div><div class="line">using namespace std;</div><div class="line"></div><div class="line">typedef std::ios_base::fmtflags format;</div><div class="line">typedef std::streamsize precis;</div><div class="line">format setFormat();</div><div class="line">void restore(format f, precis p);</div><div class="line"></div><div class="line">format setFormat()</div><div class="line">&#123;</div><div class="line">	return cout.setf(std::ios_base::fixed,</div><div class="line">		std::ios_base::floatfield);</div><div class="line">&#125;</div><div class="line"></div><div class="line">void restore(format f, precis p)</div><div class="line">&#123;</div><div class="line">	cout.setf(f, std::ios_base::floatfield);</div><div class="line">	cout.precision(p);</div><div class="line">&#125;</div><div class="line"></div><div class="line">//brass methods</div><div class="line">Brass::Brass(const string &amp; s, long an, double bal)</div><div class="line">&#123;</div><div class="line">	fullName = s;</div><div class="line">	acctNum = an;</div><div class="line">	balance = bal;</div><div class="line">&#125;</div><div class="line"></div><div class="line">void Brass::Deposit(double amt)</div><div class="line">&#123;</div><div class="line">	if (amt &lt; 0)</div><div class="line">		cout &lt;&lt; &quot;不能存入数量为负的钱&quot; &lt;&lt; endl;</div><div class="line">	else</div><div class="line">		balance += amt;</div><div class="line">&#125;</div><div class="line"></div><div class="line">void Brass::Withdraw(double amt)</div><div class="line">&#123;</div><div class="line">	//set up ###.## format</div><div class="line">	format initialState = setFormat();</div><div class="line">	precis prec = cout.precision(2);</div><div class="line"></div><div class="line">	if (amt &lt; 0)</div><div class="line">		cout &lt;&lt; &quot;不能取出数量为负的钱&quot; &lt;&lt; endl;</div><div class="line">	else if (amt &lt;= balance)</div><div class="line">		balance -= amt;</div><div class="line">	else</div><div class="line">		cout &lt;&lt; &quot;你的取款额: &quot; &lt;&lt; amt &lt;&lt; &quot; 大于存款余额&quot; &lt;&lt; endl;</div><div class="line">	restore(initialState, prec);</div><div class="line">&#125;</div><div class="line"></div><div class="line">double Brass::Balance() const</div><div class="line">&#123;</div><div class="line">	return balance;</div><div class="line">&#125;</div><div class="line">void Brass::ViewAcct() const</div><div class="line">&#123;</div><div class="line">	format initialState = setFormat();</div><div class="line">	precis prec = cout.precision(2);</div><div class="line"></div><div class="line">	cout &lt;&lt; &quot;客户： &quot; &lt;&lt; fullName &lt;&lt; endl;</div><div class="line">	cout &lt;&lt; &quot;卡号： &quot; &lt;&lt; acctNum &lt;&lt; endl;</div><div class="line">	cout &lt;&lt; &quot;存款： $&quot; &lt;&lt; balance &lt;&lt; endl;</div><div class="line">	restore(initialState, prec);</div><div class="line">&#125;</div><div class="line"></div><div class="line">//BrassPlus methods</div><div class="line">BrassPlus::BrassPlus(const string &amp; s, long an, double bal, </div><div class="line">		double ml, double r) : Brass(s, an, bal)</div><div class="line">&#123;</div><div class="line">	maxLoan = ml;</div><div class="line">	owesBank = 0.0;</div><div class="line">	rate = r;</div><div class="line">&#125;</div><div class="line"></div><div class="line">BrassPlus::BrassPlus(const Brass &amp; ba, double ml, double r)</div><div class="line">			: Brass(ba)</div><div class="line">&#123;</div><div class="line">	maxLoan = ml;</div><div class="line">	owesBank = 0.0;</div><div class="line">	rate = r;</div><div class="line">&#125;</div><div class="line"></div><div class="line">void BrassPlus::ViewAcct()const</div><div class="line">&#123;</div><div class="line">	format initialState = setFormat();</div><div class="line">	precis prec = cout.precision(2);</div><div class="line"></div><div class="line">	Brass::ViewAcct();</div><div class="line">	cout &lt;&lt; &quot;最大贷款额： &quot; &lt;&lt; maxLoan &lt;&lt; endl;</div><div class="line">	cout &lt;&lt; &quot;需向银行还款额： &quot; &lt;&lt; owesBank &lt;&lt; endl;</div><div class="line">	cout.precision(3);</div><div class="line">	cout &lt;&lt; &quot;贷款利率： &quot; &lt;&lt; 100 * rate &lt;&lt; &quot;%\n&quot;;</div><div class="line">	restore(initialState, prec);</div><div class="line">&#125;</div><div class="line"></div><div class="line">void BrassPlus::Withdraw(double amt)</div><div class="line">&#123;</div><div class="line">	format initialState = setFormat();</div><div class="line">	precis prec = cout.precision(2);</div><div class="line"></div><div class="line">	double bal = Balance();</div><div class="line">	if (amt &lt;= bal)</div><div class="line">		Brass::Withdraw(amt);</div><div class="line">	else if (amt &lt;= bal + maxLoan - owesBank)</div><div class="line">	&#123;</div><div class="line">		double advance = amt - bal;</div><div class="line">		owesBank += advance*(1.0 + rate);</div><div class="line">		cout &lt;&lt; &quot;透支款： &quot; &lt;&lt; advance &lt;&lt; endl;</div><div class="line">		cout &lt;&lt; &quot;透支款需要交纳利息： &quot; &lt;&lt; advance*rate &lt;&lt; endl;</div><div class="line">		Deposit(advance);</div><div class="line">		Brass::Withdraw(amt);</div><div class="line">	&#125;</div><div class="line">	else</div><div class="line">		cout &lt;&lt; &quot;需要取出的钱超过了透支额度，交易取消&quot; &lt;&lt; endl;</div><div class="line">	restore(initialState, prec);</div><div class="line">&#125;</div><div class="line"></div><div class="line">int main()</div><div class="line">&#123;</div><div class="line">	using std::cout;</div><div class="line">	using std::endl;</div><div class="line"></div><div class="line">	Brass zc(&quot;zc&quot;, 381299, 4000.00);</div><div class="line">	BrassPlus wb(&quot;wb&quot;, 382288, 3000.00);</div><div class="line">	zc.ViewAcct();</div><div class="line">	cout &lt;&lt; endl;</div><div class="line">	wb.ViewAcct();</div><div class="line">	cout &lt;&lt; endl;</div><div class="line"></div><div class="line">	cout &lt;&lt; &quot;向wb的账户存入1000元&quot; &lt;&lt; endl;</div><div class="line">	wb.Deposit(1000.00);</div><div class="line">	cout &lt;&lt; &quot;wb的余额： &quot; &lt;&lt; wb.Balance() &lt;&lt; endl;</div><div class="line">	cout &lt;&lt; endl;</div><div class="line"></div><div class="line">	cout &lt;&lt; &quot;从zc的账户中取出4200元&quot; &lt;&lt; endl;</div><div class="line">	zc.Withdraw(4200.00);</div><div class="line">	cout &lt;&lt; &quot;zc的余额： &quot; &lt;&lt; zc.Balance() &lt;&lt; endl;</div><div class="line">	cout &lt;&lt; endl;</div><div class="line"></div><div class="line">	cout &lt;&lt; &quot;从wb的账户中取出4200元&quot; &lt;&lt; endl;</div><div class="line">	wb.Withdraw(4200.00);</div><div class="line">	wb.ViewAcct();</div><div class="line">	</div><div class="line">	return 0;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>上述代码的执行结果如下：</p>
+<p><img src="http://images2015.cnblogs.com/blog/1092156/201706/1092156-20170607200811340-1351826666.png" alt=""></p>
+<p>假设要同时管理<code>Brass</code>和<code>BrassPlus</code>账户，如果能用同一个数组来保存，那再好不过了。然而这是不可行的，因为数组要求所有元素类型相同。Brass和BrassPlus是不同的类型。然而可以创建指向<code>Brass</code>的指针数组。这样，每个元素类型都相同。而且用到了C++的继承特性，因此Brass指针既可以指向Brass对象，也可以指向BrassPlus对象。这就是<strong>多态性</strong>。</p>
+<p><strong>根据基类引用或指针去调用，这才是使用的精髓，如果不定义基类的指针去使用，没有太大的意义。</strong></p>
+<p>我们改成如下的main函数：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div></pre></td><td class="code"><pre><div class="line">const int CLIENTS = 4;</div><div class="line">int main()</div><div class="line">&#123;</div><div class="line">	Brass *p_clients[CLIENTS];</div><div class="line">	std::string temp;</div><div class="line">	long tempnum;</div><div class="line">	double tempbal;</div><div class="line">	char kind;</div><div class="line"></div><div class="line">	for (int i = 0; i &lt; CLIENTS; i++)</div><div class="line">	&#123;</div><div class="line">		cout &lt;&lt; &quot;输入用户的姓名： &quot;;</div><div class="line">		getline(cin, temp);</div><div class="line">		cout &lt;&lt; &quot;输入用户的卡号： &quot;;</div><div class="line">		cin &gt;&gt; tempnum;</div><div class="line">		cout &lt;&lt; &quot;输入存款额： &quot;;</div><div class="line">		cin &gt;&gt; tempbal;</div><div class="line">		cout &lt;&lt; &quot;输入： 1 ：创建普通账户 或者 &quot;</div><div class="line">			&lt;&lt; &quot;输入： 2 ：创建可以透支取款的账户： &quot;;</div><div class="line"></div><div class="line">		while (cin &gt;&gt; kind &amp;&amp; (kind != &apos;1&apos;&amp;&amp;kind != &apos;2&apos;))</div><div class="line">			cout &lt;&lt; &quot;输入有误，请输入1或2： &quot;;</div><div class="line">		if (kind == &apos;1&apos;)</div><div class="line">			p_clients[i] = new Brass(temp, tempnum, tempbal);</div><div class="line">		else</div><div class="line">		&#123;</div><div class="line">			double tmax, trate;</div><div class="line">			cout &lt;&lt; &quot;请输入可透支金额上限： $&quot;;</div><div class="line">			cin &gt;&gt; tmax;</div><div class="line">			cout &lt;&lt; &quot;请输入利率（十进制小数）： &quot;;</div><div class="line">			cin &gt;&gt; trate;</div><div class="line">			p_clients[i] = new BrassPlus(temp, tempnum, tempbal,</div><div class="line">				tmax, trate);</div><div class="line">		&#125;</div><div class="line">		while (cin.get() != &apos;\n&apos;)</div><div class="line">			continue;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	cout &lt;&lt; endl;</div><div class="line">	for (int i = 0; i &lt; CLIENTS; i++)</div><div class="line">	&#123;</div><div class="line">		p_clients[i]-&gt;ViewAcct();</div><div class="line">		cout &lt;&lt; endl;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	for (int i = 0; i &lt; CLIENTS; i++)</div><div class="line">	&#123;</div><div class="line">		delete p_clients[i];</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	cout &lt;&lt; &quot;\nDone\n&quot;;</div><div class="line">	return 0;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>第8行声明的基类指针数组<code>Brass *p_clients[CLIENTS];</code>是精髓。程序的执行结果如下图：</p>
+<p><img src="http://images2015.cnblogs.com/blog/1092156/201706/1092156-20170607200812903-1802856210.png" alt=""></p>
+<h1 id="联编"><a href="#联编" class="headerlink" title="联编"></a>联编</h1><h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p>程序调用函数时，将执行哪个代码块呢？编译器负责这个问题。</p>
+<p>在C语言中，这非常简单，因为每个函数名都对应一个不同的函数。在C++中，由于有重载，这项任务更复杂。编译器必须查看参数才能确定到底使用那个函数。</p>
+<p>将源代码中的函数调用解释为执行特定的代码块称为函数名<strong>联编</strong>（binding）。在编译过程中进行联编被称为<strong>静态联编</strong>（static binding），又称为早期联编。</p>
+<p>然而，虚函数让这项工作更困难。在上面的第main函数里，使用哪一个函数不是在编译时就能确定的，所以编译器必须能够让程序运行时选择正确的虚方法的代码块，这就叫<strong>动态联编</strong>（dynamic binding），又称晚期联编。</p>
+<h2 id="指针和引用类型的兼容性"><a href="#指针和引用类型的兼容性" class="headerlink" title="指针和引用类型的兼容性"></a>指针和引用类型的兼容性</h2><p>动态联编与通过指针和引用的调用方法有关。</p>
+<p>我们知道通常是不允许将一种类型的地址赋给另一种类型的指针，不允许一种类型的引用指向另一种类型。例如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">double x = 2.5;</div><div class="line">int *pi = &amp;x;//not allowed</div><div class="line">long &amp; r = x;//not allowed</div></pre></td></tr></table></figure></p>
+<p>在类中，指向基类的引用或指针可以引用派生类对象，不必进行显示类型转换。将派生类引用或指针转换为基类引用或指针被称为<strong>向上强制转换</strong>（upcasting）。</p>
+<p>该规则是<code>is-a</code>关系的一部分。一切<code>BrassPlus</code>对象都是<code>Brass</code>对象，因为它继承了所有可以对<code>Brass</code>对象执行的操作，这些操作都可以对<code>BrassPlus</code>对象执行，而不必担心出现任何的问题。向上强制转换是可以传递的。也就是说如果又从<code>BrassPlus</code>类派生出<code>BrassPlusPlus</code>类，那么<code>Brass</code>指针可以引用<code>Brass</code>对象、<code>BrassPlus</code>对象、<code>BrassPlusPlus</code>对象。</p>
+<p>相反的过程，基类引用或指针转换为派生类引用或指针，成为<strong>向下强制转换</strong>（downcasting），如果不显示转换，则<strong>是不允许的</strong>。原因是<code>is-a</code>的关系通常是不可逆的。例如从学生类<code>Student</code>派生出大学本科学生类<code>Undergraduate</code>，你在需要用到学生类的一个对象时，你当然可以使用一个大学生。而你需要一个大学生时，随随便便找一个学生是不符合要求的。</p>
+<p>隐式向上强制转换，需要动态联编。C++使用虚函数来满足这种要求。</p>
+<h2 id="虚函数和动态联编"><a href="#虚函数和动态联编" class="headerlink" title="虚函数和动态联编"></a>虚函数和动态联编</h2><p>编译器对非虚方法使用静态联编（根据指针or引用的类型调用方法）。如果将方法声明为虚的，则将根据对象的类型调用方法。编译器对虚方法使用动态联编。</p>
+<p>大多情况下，动态联编很好，你可能就问了：</p>
+<p>• 为什么要有两种类型的联编？<br>• 既然动态联编好，为什么不把它设置成默认的？<br>• 动态联编是如何工作的？</p>
+<p><strong>效率</strong>：不要为不使用的特性付出代价。如果派生类（RatedPlayer）不重新定义基类方法，就不需要动态联编。在这种情况下，使用静态联编更合理，效率也更高。</p>
+<p><strong>概念模型</strong>：例如<code>Brass::Balance()</code>就不该重新定义。有两方面好处：第一提高效率，第二，指出不要重新定义该函数。<strong>仅将那些预期被重新定义的函数声明为虚的</strong>。与现实世界的很多方面一样，类设计并不是一个线行过程。</p>
+<h1 id="虚函数注意事项"><a href="#虚函数注意事项" class="headerlink" title="虚函数注意事项"></a>虚函数注意事项</h1><p>• 构造函数不能是虚函数。<br>创建派生类对象时，将调用派生类构造函数，而不是基类构造函数，然后派生类构造函数再使用基类的一个构造函数。这种顺序不同于继承的顺序。因此把构造函数声明为虚函数是没什么意义的。</p>
+<p>• 析构函数应当是虚函数，即使析构函数不作任何操作。除非不做基类。<br>如果<code>Employee</code>类是基类，<code>Singer</code>是派生类，如果是默认的静态联编，如果<code>delete</code>一个<code>Singer</code>对象，调用的也是<code>~Employee()</code>，这会释放掉<code>Singer</code>对象中<code>Employee</code>部分指向的内存，但不会释放新的成员指向的内存。如果析构函数是虚的，则会先调用<code>~Singer()</code>，然后调用<code>~Employee()</code>。</p>
+<p>• 友元不能是虚函数。<br>友元不是类成员函数，只有类成员函数才能是虚函数。</p>
+<p>• 如果重新定义继承的方法，应确保与原来的原型完全相同。但如果返回的类型是基类引用或指针，可以修改为指向派生类的引用或指针。</p>
+<p>• 如果基类函数声明被重载了，则应在派生类中重新定义所有基类版本。</p>
+<hr>
+<p>参考链接：</p>
+<ul>
+<li><a href="http://blog.chinaunix.net/uid-26851094-id-3327323.html" target="_blank" rel="external">C++的精髓：虚函数</a></li>
+<li><a href="https://www.zhihu.com/question/23971699" target="_blank" rel="external">C++的虚函数有什么用？</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/06/07/Simple-Public-Inheritance/" rel="next" title="C++学习之简单的公有继承">
+                <i class="fa fa-chevron-left"></i> C++学习之简单的公有继承
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/06/07/Abstract-Base-Class/" rel="prev" title="C++学习之抽象基类">
+                C++学习之抽象基类 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="ZC" />
+          <p class="site-author-name" itemprop="name">ZC</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">22</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#多态公有继承"><span class="nav-number">1.</span> <span class="nav-text">多态公有继承</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#虚函数"><span class="nav-number">1.1.</span> <span class="nav-text">虚函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用基类指针去调用"><span class="nav-number">1.2.</span> <span class="nav-text">使用基类指针去调用</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#联编"><span class="nav-number">2.</span> <span class="nav-text">联编</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#定义"><span class="nav-number">2.1.</span> <span class="nav-text">定义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#指针和引用类型的兼容性"><span class="nav-number">2.2.</span> <span class="nav-text">指针和引用类型的兼容性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#虚函数和动态联编"><span class="nav-number">2.3.</span> <span class="nav-text">虚函数和动态联编</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#虚函数注意事项"><span class="nav-number">3.</span> <span class="nav-text">虚函数注意事项</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ZC</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("guhO5d3jdrym6QcCp5oIrsMc-gzGzoHsz", "ldFdhqrIxGxOqWs5mgH8pmLT");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

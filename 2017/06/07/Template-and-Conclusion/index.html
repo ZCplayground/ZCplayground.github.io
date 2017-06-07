@@ -1,0 +1,876 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="泛型编程继承（公有、私有、保护）和包含，并不总能够满足重用代码的需要。 有一种概念，叫做容器（container class）。例如Stack、Queue。容器是用来设计存储各种对象和数据类型的。但之前提到的ADT中，我们把Stack设计成只能存储unsigned long 值。如果我们想建立保存double、或string对象的stack，那么要专门定义新的stack。除了保存对象的类型不同，这">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C++学习之模板">
+<meta property="og:url" content="http://yoursite.com/2017/06/07/Template-and-Conclusion/index.html">
+<meta property="og:site_name" content="ZCplayground">
+<meta property="og:description" content="泛型编程继承（公有、私有、保护）和包含，并不总能够满足重用代码的需要。 有一种概念，叫做容器（container class）。例如Stack、Queue。容器是用来设计存储各种对象和数据类型的。但之前提到的ADT中，我们把Stack设计成只能存储unsigned long 值。如果我们想建立保存double、或string对象的stack，那么要专门定义新的stack。除了保存对象的类型不同，这">
+<meta property="og:updated_time" content="2017-06-07T13:03:28.598Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="C++学习之模板">
+<meta name="twitter:description" content="泛型编程继承（公有、私有、保护）和包含，并不总能够满足重用代码的需要。 有一种概念，叫做容器（container class）。例如Stack、Queue。容器是用来设计存储各种对象和数据类型的。但之前提到的ADT中，我们把Stack设计成只能存储unsigned long 值。如果我们想建立保存double、或string对象的stack，那么要专门定义新的stack。除了保存对象的类型不同，这">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/06/07/Template-and-Conclusion/"/>
+
+
+
+
+
+  <title>C++学习之模板 | ZCplayground</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">ZCplayground</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/07/Template-and-Conclusion/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ZC">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ZCplayground">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">C++学习之模板</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-07T20:28:41+08:00">
+                2017-06-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/06/07/Template-and-Conclusion/" class="leancloud_visitors" data-flag-title="C++学习之模板">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="泛型编程"><a href="#泛型编程" class="headerlink" title="泛型编程"></a>泛型编程</h1><p>继承（公有、私有、保护）和包含，并不总能够满足重用代码的需要。</p>
+<p>有一种概念，叫做<strong>容器</strong>（container class）。例如<code>Stack</code>、<code>Queue</code>。容器是用来设计存储各种对象和数据类型的。但之前提到的ADT中，我们把<code>Stack</code>设计成只能存储<code>unsigned long</code> 值。如果我们想建立保存<code>double</code>、或<code>string</code>对象的<code>stack</code>，那么要专门定义新的<code>stack</code>。除了保存对象的类型不同，这两种<code>stack</code>的其他代码应该是相同的。与其再编写一遍重复性很高的代码，不如编写一个<strong>泛型（generic）</strong>（意思是：独立于类型的）栈。对于泛型的栈，我们将具体的类型作为参数传递给这个类，这样就可以通过使用通用的代码，实现一个栈，能存储不同类型的值。</p>
+<p><code>typedef</code> 可以实现这种需求，然而，typedef有两个缺点：</p>
+<ul>
+<li>每次修改类型都要编辑源代码。</li>
+<li>在每个程序中只能用这种技术同时生成一种栈。即你不能让typedef同时代表两种不同的类型。</li>
+</ul>
+<p>C++的类模板为生成通用的类声明提供了可靠的方法。模板提供<strong>参数化类型</strong>（parameterized），即能够将类型传递给接收方来建立类or函数。</p>
+<p>泛型编程（Generic Programming）最初提出时的动机很简单直接：发明一种语言机制，能够帮助实现一个通用的标准容器库。所谓通用的标准容器库，就是要能够做到，比如用一个List类存放所有可能类型的对象这样的事；泛型编程让你编写完全一般化并可重复使用的算法，其效率与针对某特定数据类型而设计的算法相同。泛型即是指具有在多种数据类型上皆可操作的含义，与模板有些相似。STL巨大，而且可以扩充，它包含很多计算机基本算法和数据结构，而且将算法与数据结构完全分离，其中算法是泛型的，不与任何特定数据结构或对象类型系在一起。</p>
+<h1 id="类模板"><a href="#类模板" class="headerlink" title="类模板"></a>类模板</h1><h2 id="定义类模板"><a href="#定义类模板" class="headerlink" title="定义类模板"></a>定义类模板</h2><p>这次的目标，就是写一个Stack模板类。定义模板时，以这样的代码开头：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">template&lt;class Type&gt;</div></pre></td></tr></table></figure></p>
+<p>关键字<code>template</code>告诉编译器，将要定义一个模板。尖括号内的内容看做是一个参数列表。<code>type</code>是类型名称。<br><code>Type</code>并不一定是一个类，这里表明<code>Type</code>是一个通用的类型说明符。较新的C++允许用不太容易混淆的关键字<code>typename</code>来代替。</p>
+<p>泛型标识符——这里的Type——叫做类型参数（type parameter），意味着他们也和变量一样，但赋给他们的是类型。当模板被调用时，Type将被具体的类型值（int、string、等等）所取代。用模板成员函数替代原有类的类方法，每个函数头都要以相同的模板声明打头。此外，需要将类限定符从<code>Stack::</code> 改成<code>Stack&lt;Type&gt;::</code> 。模板的具体使用被称为实例化（instantiation）或者具体化（specialization）。不能将模板函数放在独立实现的文件中。由于模板不是函数，它们不能单独编译。模板必须与特定的模板实例化请求一起使用。</p>
+<h2 id="使用类模板"><a href="#使用类模板" class="headerlink" title="使用类模板"></a>使用类模板</h2><p>仅在程序包含模板时，不能生成模板类。必须请求实例化。需要声明一个类型为模板类的对象。方法是用所需的类型名替代泛型名。例如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Stack&lt;int&gt; kernels;</div><div class="line">Stack&lt;string&gt; colonels;</div></pre></td></tr></table></figure></p>
+<p><code>Stack&lt;int&gt;</code>会用int替代模板中的所有Type，string也会如此做。</p>
+<p>下面是Stack模板类的完整代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div></pre></td><td class="code"><pre><div class="line">//stack.h -- class defination for the Stack ADT</div><div class="line">#ifndef STACK_H_</div><div class="line">#define STACK_H_</div><div class="line"></div><div class="line">//typedef unsigned long Item; 学泛型了，typedef guna</div><div class="line"></div><div class="line">template &lt;class T&gt;</div><div class="line">class Stack</div><div class="line">&#123;</div><div class="line">private:</div><div class="line">	enum &#123; MAX = 100 &#125;;</div><div class="line">	T items[MAX];</div><div class="line">	int top;</div><div class="line">public:</div><div class="line">	Stack();</div><div class="line">	bool isempty() const;</div><div class="line">	bool isfull() const;</div><div class="line">	bool push(const T &amp; item);</div><div class="line">	bool pop(T &amp; item);</div><div class="line">&#125;;</div><div class="line">#endif</div><div class="line"></div><div class="line">//stack.cpp -- Stack member functions</div><div class="line">//#include &quot;stack.h&quot;</div><div class="line">template &lt;class T&gt;</div><div class="line">Stack&lt;T&gt;::Stack()</div><div class="line">&#123;</div><div class="line">	top = 0;</div><div class="line">&#125;</div><div class="line"></div><div class="line">template &lt;class T&gt;</div><div class="line">bool Stack&lt;T&gt;::isempty()const</div><div class="line">&#123;</div><div class="line">	return top == 0;</div><div class="line">&#125;</div><div class="line"></div><div class="line">template &lt;class T&gt;</div><div class="line">bool Stack&lt;T&gt;::isfull()const</div><div class="line">&#123;</div><div class="line">	return top == MAX;</div><div class="line">&#125;</div><div class="line"></div><div class="line">template &lt;class T&gt;</div><div class="line">bool Stack&lt;T&gt;::push(const T &amp; item)</div><div class="line">&#123;</div><div class="line">	if (top &lt; MAX)</div><div class="line">	&#123;</div><div class="line">		items[top++] = item;</div><div class="line">		return true;</div><div class="line">	&#125;</div><div class="line">	else</div><div class="line">		return false;</div><div class="line">&#125;</div><div class="line"></div><div class="line">template &lt;class T&gt;</div><div class="line">bool Stack&lt;T&gt;::pop(T &amp; item)</div><div class="line">&#123;</div><div class="line">	if (top &gt; 0)</div><div class="line">	&#123;</div><div class="line">		item = items[--top];</div><div class="line">		return true;</div><div class="line">	&#125;</div><div class="line">	else</div><div class="line">		return false;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h1 id="深入讨论模板类"><a href="#深入讨论模板类" class="headerlink" title="深入讨论模板类"></a>深入讨论模板类</h1><p>可以将内置类型或类作为模板<code>Stack&lt;T&gt;</code>的类型。指针可以吗？比方说，不用<code>string</code>对象，用C风格字符串处理方式——<code>char *</code> 作为参数。答案是：可以这么创建，但如果不对程序做重大修改，将无法很好的工作。接下来介绍原因，然后介绍一个指针栈的例子。</p>
+<p>设计模板时应牢记的教训——<strong>切记盲目地使用模板</strong>。（你的代码，真的有对泛型的需求吗？）</p>
+<p>这里用完全正确的Stack<t>做示例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Stack&lt;char *&gt;st; //create a stack for pointers-to-char</div></pre></td></tr></table></figure></t></p>
+<h2 id="版本一"><a href="#版本一" class="headerlink" title="版本一"></a>版本一</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">char * str;</div><div class="line">cin&gt;&gt;str;</div></pre></td></tr></table></figure>
+<p>用<code>char *</code> 而不是<code>string</code>对象来接受键盘输入。这种方法很快就失败了，因为仅仅创建了指针，没有为保存输入字符串而开辟空间。</p>
+<h2 id="版本二"><a href="#版本二" class="headerlink" title="版本二"></a>版本二</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">char str[40];</div><div class="line">cin&gt;&gt;str;</div></pre></td></tr></table></figure>
+<p>这里开辟了空间，<code>str</code>的类型是<code>char *</code>，也可以放在栈中。但在栈内的操作，会与我们假设的相冲突。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">template &lt;class T&gt;</div><div class="line">bool Stack&lt;T&gt;::pop(T &amp; item)</div><div class="line">&#123;</div><div class="line">	if (top &gt; 0)</div><div class="line">	&#123;</div><div class="line">		item = items[--top];</div><div class="line">		return true;</div><div class="line">	&#125;</div><div class="line">	else</div><div class="line">		return false;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><code>item</code> 要必须引用某种类型的左值，而不是数组名。</p>
+<h2 id="版本三"><a href="#版本三" class="headerlink" title="版本三"></a>版本三</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">char *str = new char[40];</div></pre></td></tr></table></figure>
+<p>好似解决了上述问题，但又有新的问题：只有一个<code>str</code> 变量，而这个变量只会指向相同的内存单元。每当读取新的字符串时，内存的内容都发生改变，但执行压入操作的时候，加入到栈的地址都相同。因此，<code>pop</code>时弹出的都是相同的地址，结果总是最后一个输入的字符串。总之，这样的栈没有任何用途。</p>
+<h2 id="正确的指针栈"><a href="#正确的指针栈" class="headerlink" title="正确的指针栈"></a>正确的指针栈</h2><p>提供一个指针数组，每个指针指向不同的字符串，把（指向不同内存空间的）指针放到栈中是有意义的。创建不同的指针，不是栈的职责，这点要搞清楚，栈是管理指针，而不是创建指针。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div></pre></td><td class="code"><pre><div class="line">template &lt;class T&gt;</div><div class="line">class Stack</div><div class="line">&#123;</div><div class="line">private:</div><div class="line">	enum &#123; SIZE = 10 &#125;;</div><div class="line">	int size;</div><div class="line">	T *items;</div><div class="line">	int top;</div><div class="line">public:</div><div class="line">	//新的构造函数，用栈大小size做参数，而且必须显示调用，有默认参数。</div><div class="line">	explicit Stack(int ss = SIZE) &#123; top = 0; size = ss; items = new T[size]; &#125;</div><div class="line"></div><div class="line">	//动态数组所需要的显示复制构造函数、析构函数、赋值运算符。</div><div class="line">	Stack(const Stack &amp;st);</div><div class="line">	~Stack() &#123; delete[]items; &#125;</div><div class="line">	Stack &amp; operator=(const Stack &amp;st);</div><div class="line"></div><div class="line">	bool isempty() const;</div><div class="line">	bool isfull() const;</div><div class="line">	bool push(const T &amp; item);</div><div class="line">	bool pop(T &amp; item);</div><div class="line">&#125;;</div><div class="line"></div><div class="line">template&lt;class T&gt;</div><div class="line">Stack&lt;T&gt;::Stack(const Stack &amp;st)</div><div class="line">&#123;</div><div class="line">	size = st.size;</div><div class="line">	top = st.top;</div><div class="line">	items = new T[size];</div><div class="line">	for (int i = 0; i &lt; top; i++)</div><div class="line">		items[i] = st.items[i];</div><div class="line">&#125;</div><div class="line"></div><div class="line">template&lt;class T&gt;</div><div class="line">Stack&lt;T&gt; &amp; Stack&lt;T&gt;::operator=(const Stack &amp;st)</div><div class="line">&#123;</div><div class="line">	if (this == &amp;st)</div><div class="line">		return *this;//avoid assign to itself</div><div class="line">	delete[] items;</div><div class="line">	size = st.size;</div><div class="line">	top = st.top;</div><div class="line">	items = new T[size];</div><div class="line">	for (int i = 0; i &lt; top; i++)</div><div class="line">		items[i] = st.items[i];</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">//下面的没有改变。</div><div class="line">template &lt;class T&gt;</div><div class="line">bool Stack&lt;T&gt;::isempty()const</div><div class="line">&#123;</div><div class="line">	return top == 0;</div><div class="line">&#125;</div><div class="line"></div><div class="line">template &lt;class T&gt;</div><div class="line">bool Stack&lt;T&gt;::isfull()const</div><div class="line">&#123;</div><div class="line">	return top == MAX;</div><div class="line">&#125;</div><div class="line"></div><div class="line">template &lt;class T&gt;</div><div class="line">bool Stack&lt;T&gt;::push(const T &amp; item)</div><div class="line">&#123;</div><div class="line">	if (top &lt; MAX)</div><div class="line">	&#123;</div><div class="line">		items[top++] = item;</div><div class="line">		return true;</div><div class="line">	&#125;</div><div class="line">	else</div><div class="line">		return false;</div><div class="line">&#125;</div><div class="line"></div><div class="line">template &lt;class T&gt;</div><div class="line">bool Stack&lt;T&gt;::pop(T &amp; item)</div><div class="line">&#123;</div><div class="line">	if (top &gt; 0)</div><div class="line">	&#123;</div><div class="line">		item = items[--top];</div><div class="line">		return true;</div><div class="line">	&#125;</div><div class="line">	else</div><div class="line">		return false;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h1 id="简单的数组模板"><a href="#简单的数组模板" class="headerlink" title="简单的数组模板"></a>简单的数组模板</h1><p>模板常用作容器类，因为类型参数的概念非常适合将相同的存储方案用于不同的类型。为容器提供可重用代码是引入模板的重要动机。下面是一个允许指定数组大小的简单数组模板。C++11新增模板array就是这么做的。</p>
+<p>这里特别关注一下模板头：<br><code>template&lt;class T, int n&gt;</code></p>
+<p>关键字<code>class</code>指明<code>T</code>是类型参数，<code>int</code>指出<code>n</code>为一个<code>int</code>型的参数。这种在模板头中出现的参数（特定类型而不是泛型名）称为非类型（non-type）或者表达式参数（expression）。</p>
+<p>表达式参数有一些限制：</p>
+<ul>
+<li>表达式参数可以是整型、枚举、指针、引用。因此<code>double n</code>是不合法的，但<code>double *n</code> 合法</li>
+<li>模板代码不能修改表达式参数的参数值，不能使用表达式参数的地址。也就是说在ArrayTP中不能出现如<code>n++</code>或者<code>&amp;n</code>的表达式。</li>
+<li>实例化模板时，用作表达式参数的值必须为常量表达式。</li>
+</ul>
+<p>与<code>Stack</code>中的构造函数相比：</p>
+<p><code>stack</code>使用的动态分配管理的<strong>堆内存</strong>，<strong>表达式</strong>参数使用的是栈内存，执行速度快一点。表达式参数的主要缺点是，每种数组大小都将生成一个类。也就是说，下面的类会生成两个类声明；<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">ArrayTB&lt;double, 12&gt; a1;</div><div class="line">ArrayTB&lt;double, 13&gt; a2;</div></pre></td></tr></table></figure></p>
+<p>而下面的两条声明只会有一个类声明<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Stack&lt;int&gt; s1(12);</div><div class="line">Stack&lt;int&gt; s2(13);</div></pre></td></tr></table></figure></p>
+<p>下面是简单的数组模板代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div></pre></td><td class="code"><pre><div class="line">#include&lt;iostream&gt;</div><div class="line">#include&lt;cstdlib&gt;</div><div class="line"></div><div class="line">template&lt;class T, int n&gt;</div><div class="line">class ArrayTP &#123;</div><div class="line">private:</div><div class="line">	T ar[n];</div><div class="line">public:</div><div class="line">	ArrayTP() &#123;&#125;;</div><div class="line">	explicit ArrayTP(const T &amp;v);</div><div class="line">	virtual T &amp; operator[](int i);</div><div class="line">	virtual T operator[](int i);</div><div class="line">&#125;;</div><div class="line"></div><div class="line">template&lt;class T, int n&gt;</div><div class="line">ArrayTP&lt;T, n&gt;::ArrayTP(const T &amp;v)</div><div class="line">&#123;</div><div class="line">	for (int i = 0; i &lt; n; i++)</div><div class="line">		ar[i] = v;</div><div class="line">&#125;</div><div class="line"></div><div class="line">template&lt;class T, int n&gt;</div><div class="line">T &amp; ArrayTP&lt;T, n&gt;::operator[](int i)</div><div class="line">&#123;</div><div class="line">	if (i &lt;= 0 || i &gt;= n)</div><div class="line">	&#123;</div><div class="line">		std::cerr &lt;&lt; &quot;Error in array limits: &quot; &lt;&lt; i </div><div class="line">			&lt;&lt; &quot; is out of range\n&quot;;</div><div class="line">		std::exit(EXIT_FAILURE);</div><div class="line">	&#125;</div><div class="line">	return ar[i];</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">template&lt;class T, int n&gt;</div><div class="line">T ArrayTP&lt;T, n&gt;::operator[](int i)const</div><div class="line">&#123;</div><div class="line">	if (i &lt;= 0 || i &gt;= n)</div><div class="line">	&#123;</div><div class="line">		std::cerr &lt;&lt; &quot;Error in array limits: &quot; &lt;&lt; i </div><div class="line">			&lt;&lt; &quot; is out of range\n&quot;;</div><div class="line">		std::exit(EXIT_FAILURE);</div><div class="line">	&#125;</div><div class="line">	return ar[i];</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h1 id="多功能的模板"><a href="#多功能的模板" class="headerlink" title="多功能的模板"></a>多功能的模板</h1><p>模板能作为基类、组件类、作为其他模板的类型参数</p>
+<h2 id="模板类用作基类"><a href="#模板类用作基类" class="headerlink" title="模板类用作基类"></a>模板类用作基类</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">template &lt;class T&gt;</div><div class="line">class Array</div><div class="line">&#123;</div><div class="line">private:</div><div class="line">	T entry;</div><div class="line">	...</div><div class="line">&#125;;</div><div class="line"></div><div class="line">template &lt;class T&gt;</div><div class="line">class GrowArray : public Array&lt;T&gt;&#123;...&#125;;//作为基类</div><div class="line"></div><div class="line">template &lt;class Tp&gt;</div><div class="line">class Stack</div><div class="line">&#123;</div><div class="line">	Array&lt;Tp&gt; ar; //作为组件</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="递归使用模板"><a href="#递归使用模板" class="headerlink" title="递归使用模板"></a>递归使用模板</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ArrayTP&lt; ArrayTP&lt;int, 5&gt; , 10&gt; a;</div></pre></td></tr></table></figure>
+<p>a是一个包含10个元素的数组，每个元素是一个包含5个int元素的数组</p>
+<p>等价于 <code>int a[10][5];</code>。模板语法中，维的顺序与等价的二位数组相反。</p>
+<h2 id="使用多个类型参数。希望模板可以保持两种（或多种）类型"><a href="#使用多个类型参数。希望模板可以保持两种（或多种）类型" class="headerlink" title="使用多个类型参数。希望模板可以保持两种（或多种）类型"></a>使用多个类型参数。希望模板可以保持两种（或多种）类型</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">template&lt;class T1, class T2&gt;</div><div class="line">class Pair</div><div class="line">&#123;</div><div class="line">private:</div><div class="line">	T1 a;</div><div class="line">	T2 b;</div><div class="line">public:</div><div class="line">	T1 &amp; first();</div><div class="line">	T2 &amp; second();</div><div class="line">	....</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><code>Pair</code>类可以保存两个不同的值。STL有类似的模板，名叫<code>pair</code></p>
+<h2 id="默认类型模板参数"><a href="#默认类型模板参数" class="headerlink" title="默认类型模板参数"></a>默认类型模板参数</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">template &lt;class T1, class T2 = int&gt;</div><div class="line">class XXX&#123;...&#125;;</div></pre></td></tr></table></figure>
+<p>这样，如果在传参数时省略<code>T2</code>，将默认使用<code>int</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">XXX&lt;double,double&gt;m1; //double double</div><div class="line">XXX&lt;double&gt;m2;        //double int</div></pre></td></tr></table></figure></p>
+<p>STL经常使用该特性。</p>
+<p>不可以为函数模板提供参数默认值。可以为非类型参数提供默认值。</p>
+<h2 id="成员"><a href="#成员" class="headerlink" title="成员"></a>成员</h2><p>模板可用作结构、类、模板类的成员。STL的实现必须使用这项特性</p>
+<h2 id="将模板作为参数"><a href="#将模板作为参数" class="headerlink" title="将模板作为参数"></a>将模板作为参数</h2><p>模板可包含类型参数（class T）、非类型参数（int n），模板还可以包含本身就是模板的参数。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">template&lt;template &lt;class T&gt; class Thing&gt;</div><div class="line">class Crab</div><div class="line">&#123;</div><div class="line">private:</div><div class="line">	Thing&lt;int&gt; s1;</div><div class="line">	Thing&lt;double&gt; s2;</div><div class="line">...</div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
+<p><code>template</code>里面有一个类型参数。这里的类型参数为<code>template &lt;class T&gt; class Thing</code> 。参数中<code>template &lt;class T&gt; class</code>是类型，表示传进来的是一个模板类。<code>Thing</code>是模板类名字。</p>
+<p>例如如下的声明：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Crab&lt;King&gt; legs;</div></pre></td></tr></table></figure></p>
+<p>这种声明要生效，模板参数<code>King</code>必须是一个模板类。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">template&lt;class T&gt;</div><div class="line">class King&#123;...&#125;;</div></pre></td></tr></table></figure></p>
+<p><code>Crab</code>中的两个私有对象，由<code>King&lt;double&gt;</code>和<code>King&lt;int&gt;</code>替代。</p>
+<h1 id="C-代码重用总结"><a href="#C-代码重用总结" class="headerlink" title="C++代码重用总结"></a>C++代码重用总结</h1><p>C++提供几种代码重用的手段。</p>
+<p>代码重用机制是为了让程序员能够重用经过测试的代码，而不用手工复制它们。这样可以简化编程工作，提供程序的可靠性。</p>
+<p>公有继承建立<code>is-a</code>关系，派生类可以重用基类的代码。</p>
+<p>私有继承和保护继承建立的是<code>has-a</code>关系，基类的公有接口都将成为派生类的内部接口。这被称为继承，但不继承接口，因此派生类对象不能显示使用基类接口。因此不能像公有继承那样将派生类对象看成是一种基类对象。在不进行显示类型转换的情况下，基类指针或引用将不能指向派生类对象。</p>
+<p>包含是一种比较常用的实现<code>has-a</code>关系的手段，与私有继承和保护继承相比，更加容易使用。</p>
+<p>私有继承和保护继承有一些不同的功能。例如继承允许派生类访问基类的保护成员。还允许派生类重新定义从基类那儿继承的虚函数。包含是不能使用这些功能的。</p>
+<p>多重继承。私有MI和保护MI建立<code>has-a</code>关系，公有MI建立<code>is-a</code>关系。MI会带来一些问题：多次定义同一个名称、继承多个基类对象。可以用类限定符来解决名称二义性的问题，可以用虚基类来避免继承多个基类对象的问题。但使用虚基类后，要编写新的构造函数初始化列表以解决二义性问题。</p>
+<p>类模板是一种典型的泛型编程例子。模板要以一句template打头，告诉编译器要定义一个模板。涉及到的知识点：类型参数、表达式参数、实例化、默认参数、模板做参数、成员……等等</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/06/07/Multiple-Inheritance/" rel="next" title="C++学习之多重继承">
+                <i class="fa fa-chevron-left"></i> C++学习之多重继承
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="ZC" />
+          <p class="site-author-name" itemprop="name">ZC</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">22</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#泛型编程"><span class="nav-number">1.</span> <span class="nav-text">泛型编程</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#类模板"><span class="nav-number">2.</span> <span class="nav-text">类模板</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#定义类模板"><span class="nav-number">2.1.</span> <span class="nav-text">定义类模板</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用类模板"><span class="nav-number">2.2.</span> <span class="nav-text">使用类模板</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#深入讨论模板类"><span class="nav-number">3.</span> <span class="nav-text">深入讨论模板类</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#版本一"><span class="nav-number">3.1.</span> <span class="nav-text">版本一</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#版本二"><span class="nav-number">3.2.</span> <span class="nav-text">版本二</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#版本三"><span class="nav-number">3.3.</span> <span class="nav-text">版本三</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#正确的指针栈"><span class="nav-number">3.4.</span> <span class="nav-text">正确的指针栈</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#简单的数组模板"><span class="nav-number">4.</span> <span class="nav-text">简单的数组模板</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#多功能的模板"><span class="nav-number">5.</span> <span class="nav-text">多功能的模板</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#模板类用作基类"><span class="nav-number">5.1.</span> <span class="nav-text">模板类用作基类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#递归使用模板"><span class="nav-number">5.2.</span> <span class="nav-text">递归使用模板</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用多个类型参数。希望模板可以保持两种（或多种）类型"><span class="nav-number">5.3.</span> <span class="nav-text">使用多个类型参数。希望模板可以保持两种（或多种）类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#默认类型模板参数"><span class="nav-number">5.4.</span> <span class="nav-text">默认类型模板参数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#成员"><span class="nav-number">5.5.</span> <span class="nav-text">成员</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#将模板作为参数"><span class="nav-number">5.6.</span> <span class="nav-text">将模板作为参数</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#C-代码重用总结"><span class="nav-number">6.</span> <span class="nav-text">C++代码重用总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ZC</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("guhO5d3jdrym6QcCp5oIrsMc-gzGzoHsz", "ldFdhqrIxGxOqWs5mgH8pmLT");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

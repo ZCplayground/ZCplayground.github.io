@@ -1,0 +1,859 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="多重继承定义多重继承，multiple inheritance，简称MI。在现实中，也许某种事物具有两种或以上的种类的事物的基础属性，所以C++中有多重继承这种手段来解决这种问题。即允许一个派生类指定多个基类。例如下面这个类，从侍者类公有继承，从歌手类私有继承，得到一个“会唱歌的侍者”类： 1234class singingwaiter : public waiter, singer //sing">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C++学习之多重继承">
+<meta property="og:url" content="http://yoursite.com/2017/06/07/Multiple-Inheritance/index.html">
+<meta property="og:site_name" content="ZCplayground">
+<meta property="og:description" content="多重继承定义多重继承，multiple inheritance，简称MI。在现实中，也许某种事物具有两种或以上的种类的事物的基础属性，所以C++中有多重继承这种手段来解决这种问题。即允许一个派生类指定多个基类。例如下面这个类，从侍者类公有继承，从歌手类私有继承，得到一个“会唱歌的侍者”类： 1234class singingwaiter : public waiter, singer //sing">
+<meta property="og:updated_time" content="2017-06-07T13:06:09.537Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="C++学习之多重继承">
+<meta name="twitter:description" content="多重继承定义多重继承，multiple inheritance，简称MI。在现实中，也许某种事物具有两种或以上的种类的事物的基础属性，所以C++中有多重继承这种手段来解决这种问题。即允许一个派生类指定多个基类。例如下面这个类，从侍者类公有继承，从歌手类私有继承，得到一个“会唱歌的侍者”类： 1234class singingwaiter : public waiter, singer //sing">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/06/07/Multiple-Inheritance/"/>
+
+
+
+
+
+  <title>C++学习之多重继承 | ZCplayground</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">ZCplayground</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/07/Multiple-Inheritance/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ZC">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ZCplayground">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">C++学习之多重继承</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-07T20:28:09+08:00">
+                2017-06-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Cpp/" itemprop="url" rel="index">
+                    <span itemprop="name">Cpp</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/06/07/Multiple-Inheritance/" class="leancloud_visitors" data-flag-title="C++学习之多重继承">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="多重继承定义"><a href="#多重继承定义" class="headerlink" title="多重继承定义"></a>多重继承定义</h1><p>多重继承，multiple inheritance，简称MI。在现实中，也许某种事物具有两种或以上的种类的事物的基础属性，所以C++中有多重继承这种手段来解决这种问题。即允许一个派生类指定多个基类。例如下面这个类，从侍者类公有继承，从歌手类私有继承，得到一个“会唱歌的侍者”类：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">class singingwaiter : public waiter, singer //singer is private</div><div class="line">&#123;</div><div class="line">……</div><div class="line">&#125; ;</div></pre></td></tr></table></figure>
+<p>必须为每个类添加限定符，如果没有，默认是私有继承。</p>
+<p>MI会给程序员<strong>带来很多编程问题</strong>。因此许多人反对MI，甚至希望删除MI；但对于喜欢MI的人来说，MI很有用，用得好能大大缩减代码量，甚至对于特殊工程来说MI是必不可少的；也有一些人建议谨慎使用MI。主要的两个问题是：从两个不同的基类继承同名方法；从两个或更多的相关基类那里继承同一个类的多个实例。</p>
+<h1 id="多重继承可能存在的问题"><a href="#多重继承可能存在的问题" class="headerlink" title="多重继承可能存在的问题"></a>多重继承可能存在的问题</h1><h2 id="继承同名类方法的二义性错误解决"><a href="#继承同名类方法的二义性错误解决" class="headerlink" title="继承同名类方法的二义性错误解决"></a>继承同名类方法的二义性错误解决</h2><p>水陆两用汽车（amphibiancar）具有小汽车和小船两种属性，所以由小汽车类和小船类共同派生出一个水陆两用汽车类。那么假设这么一个问题，交通工具就认为它是抽象基类吧，有一个虚函数<code>show()</code>，大概就是显示一些信息之类的，小汽车当然就继承了<code>car::show()</code>，小船则是<code>boat::show()</code>。<br>那么面对两个同名类方法，并且在这里假如在水陆两用汽车类中没有重新定义该方法，那到底继承的是什么呢？或者说，在水陆两用汽车类中调用<code>AmphibianCar::show()</code>，那么这明显是有问题的有<strong>二义性错误</strong>（ambiguous） 。当然，也有两个<code>setweight()</code>的错误</p>
+<p>有以下解决方法：比如使用作用域解析运算符直接调用，如果有一个<code>amphibiancar</code>对象<code>a</code>，那么调用<code>a.car::show();</code>。更好的方法就是编写成员函数，直接指出使用哪个<code>show</code>，或者重新定义<code>show</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">void amphibiancar:: show()</div><div class="line">&#123;</div><div class="line">	car::show();</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="继承多个同名基类对象，需要用到虚基类"><a href="#继承多个同名基类对象，需要用到虚基类" class="headerlink" title="继承多个同名基类对象，需要用到虚基类"></a>继承多个同名基类对象，需要用到虚基类</h2><p>因为抽象基类：交通工具有一个<code>weight</code>，小汽车和小船都从交通工具那儿<strong>各自</strong>继承了一个<code>weight</code>组件，<strong>因此水陆两用汽车将会包含两个weight组件</strong>，这会引发一系列问题。</p>
+<p>例如常见的派生类对象（的地址）可以赋给基类（指针）引用，但现在将出现二义性。原理是这种赋值是把基类指针设置为派生类对象中基类对象的地址。但现在派生类含有两个<code>weight</code>对象，所以：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">amphibiancar(...) a;</div><div class="line">vehicle * p1 = &amp; a; //这里出现二义性错误</div><div class="line"></div><div class="line">vehicle * p2 = (car *) &amp; a;</div><div class="line">vehicle * p3 = (boat *) &amp; a;</div></pre></td></tr></table></figure></p>
+<p>是不是很蛋疼？说明这种同名对象的继承会影响多态性的复杂。实际上这里的水陆两用汽车不需要两个weight成员，（虽说有的时候还真的可以继承多个同名成员）所以真正的问题是我们<strong>只需要一个变量来描述重量</strong>就可以了。C++引入了<strong>虚基类</strong>（virtual base class）来解决问题。</p>
+<h3 id="虚基类语法"><a href="#虚基类语法" class="headerlink" title="虚基类语法"></a>虚基类语法</h3><p>虚基类使得从多个类（它们基类相同）派生出来的类，只继承一个基类对象。在类声明的派生中添加关键字<code>virtual</code>。<code>virtua</code>l和<code>public</code>的顺序不关紧要。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">class Car : virtual public Vehicle&#123;...&#125;;</div><div class="line">class Boat : virtual public Vehicle&#123;...&#125;;</div></pre></td></tr></table></figure></p>
+<p>如果这样做，那么<code>amphibiancar</code>类将只包含<code>vehicle</code>对象的一个副本，从本质上来说，继承<code>car</code>和<code>boat</code>类共享一个<code>vehicle</code>对象，而不是各自引入一个。</p>
+<h2 id="新的构造函数规则"><a href="#新的构造函数规则" class="headerlink" title="新的构造函数规则"></a>新的构造函数规则</h2><p>用到虚基类时，需要对类构造函数使用一种新的方法。对于非虚基类，出现在初始化列表的构造函数 是 <strong>即时基类</strong>的构造函数。例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">class A</div><div class="line">&#123;</div><div class="line">	int a;</div><div class="line">public:</div><div class="line">     A(int n = 0): a(n)&#123;&#125;</div><div class="line">&#125;;</div><div class="line"></div><div class="line">class B :public A</div><div class="line">&#123;</div><div class="line">	int b;</div><div class="line">public:</div><div class="line">	B(int m = 0, int n = 0):A(n) , b(m) &#123;&#125;</div><div class="line">	</div><div class="line">&#125;;</div><div class="line"></div><div class="line">class C :public B</div><div class="line">&#123;</div><div class="line">	int c;</div><div class="line">public:</div><div class="line">	c(int q = 0, int m = 0, int n = 0): B(m, n), c(q)&#123;&#125;</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<p><code>C</code>类的构造函数只能调用<code>B</code>类的构造函数，<code>B</code>类的构造函数只能调用<code>A</code>类的构造函数。<code>c</code>的构造函数使用值<code>q</code>，并将<code>m</code>和<code>n</code>传递给<code>B</code>的构造函数，<code>B</code>使用<code>m</code>，将<code>n</code>传递给<code>A</code>的构造函数。</p>
+<p><strong>如果vehicle是虚基类，这种自动传递信息则不再起作用</strong>，例如在上面的多重继承条件下有这样的构造函数：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">amphibiancar(const vehicle &amp; v, int air = 0, int ton = 0)</div><div class="line">			::car(v,air),boat(v,ton) &#123;&#125;//failed</div><div class="line">~~~		</div><div class="line"></div><div class="line">会出错。原因是：自动传递信息时，将通过两条不同的途径（car or boat）将`v`传递给`vehicle`。为避免这种冲突，C++在基类是虚基类时，**禁止信息通过中间类自动传递给基类**。然而，编译器仍然需要保证派生类对象生成之前先调用基类构造函数组件，因此需要显式调用（基类构造函数），因此正确的构造函数应该是这样：</div></pre></td></tr></table></figure>
+<p>amphibiancar(const vehicle &amp; v, int air = 0, int ton = 0)<br>            ::vehicle(v),car(v,air),boat(v,ton) {}<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">上面代码显示调用构造函数`vehicle(const vehicle &amp;)`。请注意！这种用法是合法的，而且对于虚基类来说，必须这样做。但对于非虚基类，这是非法的。</div><div class="line"></div><div class="line"># MI小结</div><div class="line"></div><div class="line">- 不使用虚基类的MI：这种方式不会引入新的规则。例如：</div></pre></td></tr></table></figure></p>
+<p>class Student :private std::string, private std::valarray<double><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">- 如果一个类从两个不同的类哪里继承了两个同名的成员（通常原因是有共同祖先啦）则需要额外做一些编程工作。如果是同名方法，需要使用作用域解析运算符来说明到底是使用哪一个方法，或者重新编写方法。否则 会有二义性错误。</div><div class="line"></div><div class="line">- 如果一个类通过多种途径继承了一个非虚基类，则该类从每种途径分别继承非虚基类的一个实例。</div><div class="line"></div><div class="line">- 当派生类使用关键字virtual来指示派生时，基类成为虚基类：</div></pre></td></tr></table></figure></double></p>
+<p>class Car : virtual public Vehicle{…};//vehicle成为虚基类。<br>~~~</p>
+<ul>
+<li><p>主要变化（同时也是使用虚基类的原因）是：从虚基类的一个或多个实例派生而来的类将只继承一个基类对象。为了实现这种特性，需要做的其他工作有：</p>
+<p>  • 有间接虚基类的派生类包含直接调用间接基类构造函数的构造函数。这对间接非虚基类来说是非法的。<br>  • 优先规则解决名称二义性</p>
+</li>
+</ul>
+<p>最后总结，综上所述，MI会增加编程复杂程度。主要是由于派生类通过多种途径继承了同一个基类所引起的。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/06/07/Contains-and-Private-Protected-Inheritance/" rel="next" title="C++学习之包含对象的类、私有和保护继承">
+                <i class="fa fa-chevron-left"></i> C++学习之包含对象的类、私有和保护继承
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/06/07/Template-and-Conclusion/" rel="prev" title="C++学习之模板">
+                C++学习之模板 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="ZC" />
+          <p class="site-author-name" itemprop="name">ZC</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">22</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#多重继承定义"><span class="nav-number">1.</span> <span class="nav-text">多重继承定义</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#多重继承可能存在的问题"><span class="nav-number">2.</span> <span class="nav-text">多重继承可能存在的问题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#继承同名类方法的二义性错误解决"><span class="nav-number">2.1.</span> <span class="nav-text">继承同名类方法的二义性错误解决</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#继承多个同名基类对象，需要用到虚基类"><span class="nav-number">2.2.</span> <span class="nav-text">继承多个同名基类对象，需要用到虚基类</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#虚基类语法"><span class="nav-number">2.2.1.</span> <span class="nav-text">虚基类语法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#新的构造函数规则"><span class="nav-number">2.3.</span> <span class="nav-text">新的构造函数规则</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ZC</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("guhO5d3jdrym6QcCp5oIrsMc-gzGzoHsz", "ldFdhqrIxGxOqWs5mgH8pmLT");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
