@@ -1,0 +1,875 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="第一个C++程序12345678910111213#include&amp;lt;iostream&amp;gt;int main()&amp;#123;	using namespace std;		cout &amp;lt;&amp;lt; &amp;quot;Please enter a Celsius value:&amp;quot;;	double c, f;	cin &amp;gt;&amp;gt; c;	f = c*1.8 + 32.0;	cout &amp;lt">
+<meta property="og:type" content="article">
+<meta property="og:title" content="start-learning-C++">
+<meta property="og:url" content="http://yoursite.com/2017/06/07/start-learning-C/index.html">
+<meta property="og:site_name" content="ZCplayground">
+<meta property="og:description" content="第一个C++程序12345678910111213#include&amp;lt;iostream&amp;gt;int main()&amp;#123;	using namespace std;		cout &amp;lt;&amp;lt; &amp;quot;Please enter a Celsius value:&amp;quot;;	double c, f;	cin &amp;gt;&amp;gt; c;	f = c*1.8 + 32.0;	cout &amp;lt">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/1092156/201706/1092156-20170607120015231-427863058.png">
+<meta property="og:updated_time" content="2017-06-07T04:10:35.446Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="start-learning-C++">
+<meta name="twitter:description" content="第一个C++程序12345678910111213#include&amp;lt;iostream&amp;gt;int main()&amp;#123;	using namespace std;		cout &amp;lt;&amp;lt; &amp;quot;Please enter a Celsius value:&amp;quot;;	double c, f;	cin &amp;gt;&amp;gt; c;	f = c*1.8 + 32.0;	cout &amp;lt">
+<meta name="twitter:image" content="http://images2015.cnblogs.com/blog/1092156/201706/1092156-20170607120015231-427863058.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/06/07/start-learning-C/"/>
+
+
+
+
+
+  <title>start-learning-C++ | ZCplayground</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">ZCplayground</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/07/start-learning-C/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ZC">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ZCplayground">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">start-learning-C++</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-07T11:58:34+08:00">
+                2017-06-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/C/" itemprop="url" rel="index">
+                    <span itemprop="name">C++</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/06/07/start-learning-C/" class="leancloud_visitors" data-flag-title="start-learning-C++">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="第一个C-程序"><a href="#第一个C-程序" class="headerlink" title="第一个C++程序"></a>第一个C++程序</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">#include&lt;iostream&gt;</div><div class="line">int main()</div><div class="line">&#123;</div><div class="line">	using namespace std;</div><div class="line">	</div><div class="line">	cout &lt;&lt; &quot;Please enter a Celsius value:&quot;;</div><div class="line">	double c, f;</div><div class="line">	cin &gt;&gt; c;</div><div class="line">	f = c*1.8 + 32.0;</div><div class="line">	cout &lt;&lt; c &lt;&lt; &quot; degrees Celsius is &quot; &lt;&lt; f &lt;&lt; &quot; degrees Fahrenheit&quot; &lt;&lt; endl;</div><div class="line"></div><div class="line">	return 0;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><img src="http://images2015.cnblogs.com/blog/1092156/201706/1092156-20170607120015231-427863058.png" alt=""></p>
+<h1 id="用new来分配空间"><a href="#用new来分配空间" class="headerlink" title="用new来分配空间"></a>用new来分配空间</h1><h2 id="new"><a href="#new" class="headerlink" title="new"></a>new</h2><p>我们知道在C语言里用malloc()来分配内存；在C++仍然可以这样做，但C++有更好的办法——new运算符。</p>
+<p>为一个数据对象（结构、基本类型等等）获得并指定分配内存的格式：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">ElementType * pointer_name = new ElementType;</div><div class="line">int *p1 = new int;</div></pre></td></tr></table></figure></p>
+<p>那么，这两种方法，将变量的地址赋给指针，有什么区别呢？</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">#include&lt;iostream&gt;</div><div class="line">int main()</div><div class="line">&#123;</div><div class="line">	using namespace std;</div><div class="line"></div><div class="line">	int *p1 = new int;</div><div class="line">	</div><div class="line">	int a ;</div><div class="line">	int *p2 = &amp;a;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>第一种情况是new将找到一个长度正确的内存块，返回该内存块的地址。<br>第二种情况下，可以用变量名a来访问该int，而第一种情况则只能通过指针来访问。<br>乍一看，使用new方法处理数据可能不太好用（p1指向的“东西”没有名称），但是它使得程序在管控内存方面有更大的控制权。</p>
+<p>如果像这样，程序只需要一个值，或者一个简单的变量，这样的管理一个小型数据对象来说，直接声明比new或者指针更简单（此时的指针不让人印象深刻）。通常，对于大型数据（如字符数组、结构），应该使用new和指针，这正是指针的用武之地。</p>
+<h2 id="使用delete释放内存"><a href="#使用delete释放内存" class="headerlink" title="使用delete释放内存"></a>使用delete释放内存</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">#include&lt;iostream&gt;</div><div class="line">int main()</div><div class="line">&#123;</div><div class="line">	using namespace std;</div><div class="line"></div><div class="line">	int *p1 = new int;</div><div class="line">	delete p1;			//valid and necessary</div><div class="line"></div><div class="line">	int a = 5;</div><div class="line">	int *p2 = &amp;a;</div><div class="line">	delete p2;			//not alowed, memory not allocated by new</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="内存被耗尽？"><a href="#内存被耗尽？" class="headerlink" title="内存被耗尽？"></a>内存被耗尽？</h3><p>可能由于没有足够的内存满足new的要求，这种情况下，new函数将会有错误处理。在较老的实现中，new将返回0，值为0的指针就是空指针（NULL）。C++确保空指针不会指向有效的数据，它常用来表示函数失败（如果成功，返回的是一个有用的指针）</p>
+<h3 id="内存泄漏？（memory-leak）"><a href="#内存泄漏？（memory-leak）" class="headerlink" title="内存泄漏？（memory leak）"></a>内存泄漏？（memory leak）</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">int *p1 = new int;</div><div class="line">delete p1;</div></pre></td></tr></table></figure>
+<p>这会释放p1的内存，但是不会删除p1本身。例如，delete p1后，可以对p1再使用new分配新内存。一定要配对使用new和delete，否则可能发生内存泄漏，也就是说，被分配的内存无法再被使用。如果这种情况严重，则程序将由于寻找不到内存而终止。</p>
+<h2 id="new创建动态数组"><a href="#new创建动态数组" class="headerlink" title="new创建动态数组"></a>new创建动态数组</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">#include&lt;iostream&gt;</div><div class="line">int main()</div><div class="line">&#123;</div><div class="line">	using namespace std;</div><div class="line"></div><div class="line">	/*new and delete*/</div><div class="line">	int *p1 = new  int[10];</div><div class="line">	delete[]p1;</div><div class="line"></div><div class="line">	return 0;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>delete中的方括号告诉程序：释放整个数组。<br>new里有括号，delete就要带括号，new里没有，则delete也没有。</p>
+<p>总之，使用new和delete的时候，遵守以下规则：（和malloc和free的原则有些许类似）</p>
+<ol>
+<li>不要使用delete去释放不是new分配的内存。</li>
+<li>不要对同一个内存块delete两次。</li>
+<li>如果用new[]，则应该使用delete[]。</li>
+<li>如果用new（没有方括号），则应该使用delete（没有方括号）</li>
+<li>对空指针使用delete是安全的。</li>
+</ol>
+<h1 id="函数与数组"><a href="#函数与数组" class="headerlink" title="函数与数组"></a>函数与数组</h1><p>##在函数里声明数组：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">int sum_arr(int arr[], int n)</div></pre></td></tr></table></figure>
+<p>这看似合理，方括号指明arr是一个数组，但实际情况是：arr实际上不是一个数组，而是一个指针。</p>
+<p>这样是有好处的，将数组地址作为参数传递可以节省复制整个数组所花费的时间。而且如果数组很大，则使用拷贝时系统内存开销非常大。不仅需要占用很多内存，还需要很多时间去复制，还使得原始数据增加了被破坏的风险。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">int a[5] = &#123;1,2,3,4,5&#125;;</div><div class="line">int *p = a;</div><div class="line"></div><div class="line">cout&lt;&lt;sizeof(a)&lt;&lt;endl;</div><div class="line">cout&lt;&lt;sizeof(*a)&lt;&lt;endl;</div><div class="line">cout&lt;&lt;sizeof(p)&lt;&lt;endl;</div></pre></td></tr></table></figure>
+<p>上述代码输出结果是20、4、4。</p>
+<h1 id="const用法"><a href="#const用法" class="headerlink" title="const用法"></a>const用法</h1><h2 id="用const保护数组数据"><a href="#用const保护数组数据" class="headerlink" title="用const保护数组数据"></a>用const保护数组数据</h2><p>为了确保显示函数不修改数组原始数据，除非函数目的在此，否则应避免这种情况的发生。为防止函数无意中修改了数组的内容，可以在声明形参的时候使用关键字const</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">void show_array(const double ar[], int n);</div></pre></td></tr></table></figure>
+<p>假设函数更改了数组内容，编译器会报错。所以说，const主要是为了防止程序员的错误。</p>
+<h2 id="const与指针"><a href="#const与指针" class="headerlink" title="const与指针"></a>const与指针</h2><p>const用于指针：</p>
+<ol>
+<li><strong>指向常量的指针</strong> 让该指针指向一个常量对象，这样可以防止用该修改指针来修改所指向的常量值。</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">int a = 2, b = 4;</div><div class="line">const int *p = &amp;a;</div><div class="line"></div><div class="line">*p = 0;//invlaid</div><div class="line">p = &amp;b;//valid</div></pre></td></tr></table></figure>
+<ol>
+<li><strong>常指针</strong> 将指针本身设置为常量，指针指向一个对象后，就一直效忠于这个对象。可以防止改变指针所指向的位置。</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">int a = 2, b = 4;</div><div class="line">int const *p = &amp;a;</div><div class="line"></div><div class="line">*p1 = 2;//valid</div><div class="line">p1 = &amp;b;//invalid</div></pre></td></tr></table></figure>
+<p>通用的方法：对于指针的定义语句，从右往左读。例如语句<code>const int *p</code>就是：定义一个指向int型常量的指针。对于<code>int const *p</code>，就是：定义一个常指针，指向一个int。</p>
+<h2 id="尽可能的使用const"><a href="#尽可能的使用const" class="headerlink" title="尽可能的使用const"></a>尽可能的使用const</h2><p>将指针参数声明为指向常量数据的指针有两个好处：</p>
+<p>1.这样可以避免无意间的修改而导致的错误。<br>2.使用const可以让函数处理const和非const形参，否则只能接受非const形参。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/06/06/OldDriver/" rel="next" title="老司机修炼">
+                <i class="fa fa-chevron-left"></i> 老司机修炼
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="ZC" />
+          <p class="site-author-name" itemprop="name">ZC</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#第一个C-程序"><span class="nav-number">1.</span> <span class="nav-text">第一个C++程序</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#用new来分配空间"><span class="nav-number">2.</span> <span class="nav-text">用new来分配空间</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#new"><span class="nav-number">2.1.</span> <span class="nav-text">new</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用delete释放内存"><span class="nav-number">2.2.</span> <span class="nav-text">使用delete释放内存</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#内存被耗尽？"><span class="nav-number">2.2.1.</span> <span class="nav-text">内存被耗尽？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#内存泄漏？（memory-leak）"><span class="nav-number">2.2.2.</span> <span class="nav-text">内存泄漏？（memory leak）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#new创建动态数组"><span class="nav-number">2.3.</span> <span class="nav-text">new创建动态数组</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#函数与数组"><span class="nav-number">3.</span> <span class="nav-text">函数与数组</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#const用法"><span class="nav-number">4.</span> <span class="nav-text">const用法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#用const保护数组数据"><span class="nav-number">4.1.</span> <span class="nav-text">用const保护数组数据</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#const与指针"><span class="nav-number">4.2.</span> <span class="nav-text">const与指针</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#尽可能的使用const"><span class="nav-number">4.3.</span> <span class="nav-text">尽可能的使用const</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ZC</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("guhO5d3jdrym6QcCp5oIrsMc-gzGzoHsz", "ldFdhqrIxGxOqWs5mgH8pmLT");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
