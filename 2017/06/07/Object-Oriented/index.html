@@ -93,16 +93,16 @@
 
 
 
-<meta name="description" content="面对对象编程面对对象编程（Object Oriented Programming）是一种特殊的设计程序的概念性方法，C++就是通过一些特性的修改，改进了C语言，使得应用这种方法更加简便。下面是最重要的OOP特性：  抽象 封装和数据隐藏 多态 继承 代码的可重用性  抽象面向对象程序设计的基本要素是抽象,程序员通过抽象来管理复杂性.  管理抽象的有效方法是使用层次式的分类特性,这种方法允许用户根据">
+<meta name="description" content="面对对象编程面对对象编程（Object Oriented Programming）是一种特殊的设计程序的概念性方法，C++就是通过一些特性的修改，改进了C语言，使得应用这种方法更加简便。下面是最重要的OOP特性： 1。 抽象2。 封装和数据隐藏3。 多态4。 继承5。 代码的可重用性 抽象面向对象程序设计的基本要素是抽象，程序员通过抽象来管理复杂性。  管理抽象的有效方法是使用层次式的分类特性，这">
 <meta property="og:type" content="article">
 <meta property="og:title" content="C++学习之 Object Oriented">
 <meta property="og:url" content="http://yoursite.com/2017/06/07/Object-Oriented/index.html">
 <meta property="og:site_name" content="ZCplayground">
-<meta property="og:description" content="面对对象编程面对对象编程（Object Oriented Programming）是一种特殊的设计程序的概念性方法，C++就是通过一些特性的修改，改进了C语言，使得应用这种方法更加简便。下面是最重要的OOP特性：  抽象 封装和数据隐藏 多态 继承 代码的可重用性  抽象面向对象程序设计的基本要素是抽象,程序员通过抽象来管理复杂性.  管理抽象的有效方法是使用层次式的分类特性,这种方法允许用户根据">
-<meta property="og:updated_time" content="2017-06-07T05:13:08.209Z">
+<meta property="og:description" content="面对对象编程面对对象编程（Object Oriented Programming）是一种特殊的设计程序的概念性方法，C++就是通过一些特性的修改，改进了C语言，使得应用这种方法更加简便。下面是最重要的OOP特性： 1。 抽象2。 封装和数据隐藏3。 多态4。 继承5。 代码的可重用性 抽象面向对象程序设计的基本要素是抽象，程序员通过抽象来管理复杂性。  管理抽象的有效方法是使用层次式的分类特性，这">
+<meta property="og:updated_time" content="2017-06-08T00:59:57.751Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="C++学习之 Object Oriented">
-<meta name="twitter:description" content="面对对象编程面对对象编程（Object Oriented Programming）是一种特殊的设计程序的概念性方法，C++就是通过一些特性的修改，改进了C语言，使得应用这种方法更加简便。下面是最重要的OOP特性：  抽象 封装和数据隐藏 多态 继承 代码的可重用性  抽象面向对象程序设计的基本要素是抽象,程序员通过抽象来管理复杂性.  管理抽象的有效方法是使用层次式的分类特性,这种方法允许用户根据">
+<meta name="twitter:description" content="面对对象编程面对对象编程（Object Oriented Programming）是一种特殊的设计程序的概念性方法，C++就是通过一些特性的修改，改进了C语言，使得应用这种方法更加简便。下面是最重要的OOP特性： 1。 抽象2。 封装和数据隐藏3。 多态4。 继承5。 代码的可重用性 抽象面向对象程序设计的基本要素是抽象，程序员通过抽象来管理复杂性。  管理抽象的有效方法是使用层次式的分类特性，这">
 
 
 
@@ -374,38 +374,23 @@
 
       
         <h1 id="面对对象编程"><a href="#面对对象编程" class="headerlink" title="面对对象编程"></a>面对对象编程</h1><p>面对对象编程（Object Oriented Programming）是一种特殊的设计程序的概念性方法，C++就是通过一些特性的修改，改进了C语言，使得应用这种方法更加简便。下面是最重要的OOP特性：</p>
-<ol>
-<li>抽象</li>
-<li>封装和数据隐藏</li>
-<li>多态</li>
-<li>继承</li>
-<li>代码的可重用性</li>
-</ol>
-<h2 id="抽象"><a href="#抽象" class="headerlink" title="抽象"></a>抽象</h2><p>面向对象程序设计的基本要素是抽象,程序员通过抽象来管理复杂性. </p>
-<p>管理抽象的有效方法是使用层次式的分类特性,这种方法允许用户根据物理含义<strong>分解一个复杂的系统</strong>,把它划分成更容易管理的块.例如,一个计算机系统是一个独立的对象.而在计算机系统内部由几个子系统组成:显示器,键盘,硬盘驱动器,DVD-ROM,软盘,音响等,这些子系统每个又由专门的部件组成.关键是需要使用层次抽象来管理计算机系统(或其他任何复杂系统)的复杂性. </p>
-<p>面向对象程序设计的本质:这些抽象的对象可以被看作具体的实体,这些实体对用来告诉我们作什么的消息进行响应. </p>
-<h2 id="封装"><a href="#封装" class="headerlink" title="封装"></a>封装</h2><p>封装是一种<strong>把代码和代码所操作的数据捆绑在一起,使这两者不受外界干扰和误用的机制</strong>.封装可被理解为一种用做保护的包装器,以防止代码和数据被包装器外部所定义的其他代码任意访问.对包装器内部代码与数据的访问通过一个明确定义的接口来控制.封装代码的好处是<strong>每个人都知道怎样访问代码,进而无需考虑实现细节就能直接使用它,同时不用担心不可预料的副作用</strong>. </p>
-<p>在定义一个类时,需要指定构成该类的代码与数据.特别是,类所定义的对象叫做<strong>成员变量</strong>或实例变量.操作数据的代码叫做成员<strong>方法</strong>.方法定义怎样使用成员变量,这意味着类的行为和接口要由操作实例数据的方法来定义. </p>
-<p>由于类的用途是封装复杂性,所以类的内部有隐藏实现复杂性的机制.所以C++提供了私有和公有的访问模式,类的公有接口代表外部的用户应该知道或可以知道的每件东西.私有的方法数据只能通过该类的成员代码来访问.这就可以确保不会发生不希望的事情. </p>
+<p>1。 抽象<br>2。 封装和数据隐藏<br>3。 多态<br>4。 继承<br>5。 代码的可重用性</p>
+<h2 id="抽象"><a href="#抽象" class="headerlink" title="抽象"></a>抽象</h2><p>面向对象程序设计的基本要素是抽象，程序员通过抽象来管理复杂性。 </p>
+<p>管理抽象的有效方法是使用层次式的分类特性，这种方法允许用户根据物理含义<strong>分解一个复杂的系统</strong>，把它划分成更容易管理的块。例如，一个计算机系统是一个独立的对象。而在计算机系统内部由几个子系统组成:显示器，键盘，硬盘驱动器，DVD-ROM，软盘，音响等，这些子系统每个又由专门的部件组成。关键是需要使用层次抽象来管理计算机系统(或其他任何复杂系统)的复杂性。 </p>
+<p>面向对象程序设计的本质:这些抽象的对象可以被看作具体的实体，这些实体对用来告诉我们作什么的消息进行响应。 </p>
+<h2 id="封装"><a href="#封装" class="headerlink" title="封装"></a>封装</h2><p>封装是一种<strong>把代码和代码所操作的数据捆绑在一起，使这两者不受外界干扰和误用的机制</strong>。封装可被理解为一种用做保护的包装器，以防止代码和数据被包装器外部所定义的其他代码任意访问。对包装器内部代码与数据的访问通过一个明确定义的接口来控制。封装代码的好处是<strong>每个人都知道怎样访问代码，进而无需考虑实现细节就能直接使用它，同时不用担心不可预料的副作用</strong>。 </p>
+<p>在定义一个类时，需要指定构成该类的代码与数据。特别是，类所定义的对象叫做<strong>成员变量</strong>或实例变量。操作数据的代码叫做成员<strong>方法</strong>。方法定义怎样使用成员变量，这意味着类的行为和接口要由操作实例数据的方法来定义。 </p>
+<p>由于类的用途是封装复杂性，所以类的内部有隐藏实现复杂性的机制。所以C++提供了私有和公有的访问模式，类的公有接口代表外部的用户应该知道或可以知道的每件东西。私有的方法数据只能通过该类的成员代码来访问。这就可以确保不会发生不希望的事情。 </p>
 <p>C语言函数不是也是封装吗？</p>
 <p>按照软件工程的要求，程序是要强调<strong>“强内聚”和“弱耦合”</strong>的，简单地说，就是强调封装，封装好了易于重用; C语言其实也强调封装，就比如函数就是C语言的一种封装机制，但<strong>函数的封装能力非常有限</strong>，只能封装某个功能，保持合理的封装无法靠机制来实现，只能靠程序员的自觉。C++正是因为C语言的封装能力不足，才产生的，C++从机制上就保证了封装的必然性，一个对象可以有多种行为，可以把相关的一组行为封装在一起，而<strong>把不相关的行为彻底与它分开</strong>。这样做从机制上保证了封装的必然性，减少了随意性。当然只有用封装的思维去使用它，C++的优势才能充分发挥。封装和重用是面向对象的核心目的，其他特点都是为这两者服务的。</p>
-<h2 id="继承"><a href="#继承" class="headerlink" title="继承"></a>继承</h2><p><strong>继承是指一个对象从另一个对象中获得属性的过程.</strong>是面向对象程序设计的三大原则之二,它支持按层次分类的概念.例如,波斯猫是猫的一种,猫又是哺乳动物的一种,哺乳动物又是动物的一种.如果不使用层次的概念,每个对象需要明确定义各自的全部特征.通过层次分类方式,一个对象只需要在它的类中定义是它成为唯一的 各个属性,然后从父类中继承它的通用属性.因此,正是由于继承机制,才使得一个对象可以成为一个通用类的一个特定实例.一个深度继承的子类将继承它在类层次中的每个祖先的所有属性. </p>
-<p>继承与封装可以互相作用.<strong>如果一个给定的类封装了某些属性,它的任何子类将会含有同样得属性,另加各个子类所有得属性.</strong>这是面向对象程序在复杂性上呈线性而非几何增长的一个重要概念.新的子类继承其所有祖先的所有属性.子类和系统中的其他代码不会产生无法预料的交互作用. </p>
-<h2 id="多态"><a href="#多态" class="headerlink" title="多态"></a>多态</h2><p><strong>多态是指一个方法只能有一个名称,但可以有许多形态</strong>,也就是程序中可以定义多个同名的方法,用”一个接口,多个方法”来描述.可以通过方法的参数和类型引用. </p>
-<h2 id="封装-继承-多态的组合使用"><a href="#封装-继承-多态的组合使用" class="headerlink" title="封装,继承,多态的组合使用"></a>封装,继承,多态的组合使用</h2><p>在由封装，继承,多态所组成的环境中,程序员可以编写出比面向过程模型更健壮,更具扩展性的程序.经过仔细设计的类层次结构是重用代码的基础.封装能让程序员不必修改公有接口的代码即可实现程序的移植.多态能使程序员开发出简洁,易懂,易修改的代码.例如:汽车 </p>
-<p>从继承的角度看,驾驶员都依靠继承性来驾驶不同类型(子类)的汽车,无论这辆车是轿车还是卡车,是奔驰牌还是菲亚特牌,驾驶员都能找到方向盘,手刹,换档器.经过一段时间驾驶后,都能知道手动档与自动档之间的差别,因为他们实际上都知道这两者的共同超类:传动装置. </p>
-<p>从封装的角度看,驾驶员总是看到封装好的特性.刹车隐藏了许多复杂性,其外观如此简单,用脚就能操作它.发动机,手刹,轮胎大小的实现对与刹车类的定义没有影响. </p>
-<p>从多态的角度看,刹车系统有正锁反锁之分,驾驶员只用脚踩刹车停车,同样的接口可以用来控制若干种不同的实现(正锁或反锁). </p>
-<p>这样各个独立的构件才被转换为汽车这个对象的.同样,通过使用面向对象的设计原则,程序员可以把一个复杂程序的各个构件组合在一起,形成一个一致,健壮,可维护的程序</p>
-<h1 id="面对过程和面对对象的比较"><a href="#面对过程和面对对象的比较" class="headerlink" title="面对过程和面对对象的比较"></a>面对过程和面对对象的比较</h1><h2 id="面向过程编程"><a href="#面向过程编程" class="headerlink" title="面向过程编程"></a>面向过程编程</h2><p>面向过程编程是一种以过程为中心的编程思想,分析出解决问题的步骤，然后用函数把这些步骤一步一步实现。面向过程编程，数据和对数据的操作是分离的。</p>
-<h2 id="面向对象编程"><a href="#面向对象编程" class="headerlink" title="面向对象编程"></a>面向对象编程</h2><p>面向对象编程是将事物对象化，通过对象通信来解决问题。面向对象编程，数据和对数据的操作是绑定在一起的。</p>
-<p>封装可以隐藏实现细节，使得代码模块化；继承可以扩展已存在的类。它们的目的都是为了—代码重用。</p>
-<p>而多态则是为了实现另一个目的—接口重用。</p>
-<p>面向对象的代码更加支持重用，能降低软件开发和维护的成本，提高软件的质量。</p>
-<p>掌握面向对象的困难之处在于思路的转换。我们通常习惯于考虑解决问题的方法，而不是考虑将问题抽象成对象再去解决它。</p>
-<p>从两个简单的例子来理解两者的区别</p>
+<h2 id="继承"><a href="#继承" class="headerlink" title="继承"></a>继承</h2><p><strong>继承是指一个对象从另一个对象中获得属性的过程。</strong>是面向对象程序设计的三大原则之二，它支持按层次分类的概念。例如，波斯猫是猫的一种，猫又是哺乳动物的一种，哺乳动物又是动物的一种。如果不使用层次的概念，每个对象需要明确定义各自的全部特征。通过层次分类方式，一个对象只需要在它的类中定义是它成为唯一的 各个属性，然后从父类中继承它的通用属性。因此，正是由于继承机制，才使得一个对象可以成为一个通用类的一个特定实例。一个深度继承的子类将继承它在类层次中的每个祖先的所有属性。 </p>
+<p>继承与封装可以互相作用。<strong>如果一个给定的类封装了某些属性，它的任何子类将会含有同样得属性，另加各个子类所有得属性。</strong>这是面向对象程序在复杂性上呈线性而非几何增长的一个重要概念。新的子类继承其所有祖先的所有属性。子类和系统中的其他代码不会产生无法预料的交互作用。 </p>
+<h2 id="多态"><a href="#多态" class="headerlink" title="多态"></a>多态</h2><p><strong>多态是指一个方法只能有一个名称，但可以有许多形态</strong>，也就是程序中可以定义多个同名的方法，用”一个接口，多个方法”来描述。可以通过方法的参数和类型引用。 </p>
+<h1 id="面对过程和面对对象的比较"><a href="#面对过程和面对对象的比较" class="headerlink" title="面对过程和面对对象的比较"></a>面对过程和面对对象的比较</h1><h2 id="面向过程编程"><a href="#面向过程编程" class="headerlink" title="面向过程编程"></a>面向过程编程</h2><p>面向过程编程是一种以过程为中心的编程思想，分析出解决问题的步骤，然后用函数把这些步骤一步一步实现。面向过程编程，数据和对数据的操作是分离的。</p>
+<h2 id="面向对象编程"><a href="#面向对象编程" class="headerlink" title="面向对象编程"></a>面向对象编程</h2><p>面向对象编程是将事物对象化，通过对象通信来解决问题。面向对象编程，数据和对数据的操作是绑定在一起的。封装可以隐藏实现细节，使得代码模块化；继承可以扩展已存在的类。它们的目的都是为了代码重用。而多态则是为了实现接口重用。面向对象的代码更加支持重用，能降低软件开发和维护的成本，提高软件的质量。掌握面向对象的困难之处在于思路的转换。我们通常习惯于考虑解决问题的方法，而不是考虑将问题抽象成对象再去解决它。</p>
+<p>从两个简单的例子来理解两者的区别。</p>
 <p>第一个简单的例子：编写一个驾驶汽车的方法</p>
-<p>面向过程的程序设计：<br>编写一个方法，<code>void drivecar();</code><br>面向对象的程序设计：<br>将一辆汽车看成一个对象，将所有汽车对象的共性抽取出来，设计一个类<code>Car</code>，类中有一个方法<code>void drive()</code>，用Car这个类实例化一个具体的<code>对象car</code>，调用：<code>car.drive()</code></p>
+<p>面向过程的程序设计：<br>编写一个方法，<code>void drivecar();</code><br>面向对象的程序设计：<br>将一辆汽车看成一个对象，将所有汽车对象的共性抽取出来，设计一个类<code>Car</code>，类中有一个方法<code>void drive()</code>，用Car这个类实例化一个具体的<code>对象car</code>，调用：<code>car。drive()</code></p>
 <p>第二个简单的例子：求一个长方形的周长和面积。<br>面向过程的程序设计方式：<br>1、确定长方形周长和面积的算法。<br>2、编写两个方法（函数）分别计算长方形的周长和面积。<br>3、求周长的方法（函数）和求面积的方法（函数）需要两个参数，分别是长方形的长和宽。</p>
 <p>面向对象的程序设计方式：<br>1、一个长方形可以看成一个长方形对象。<br>2、一个长方形对象有两个状态（长和宽）和两个行为（求周长和求面积）。<br>3、将所有长方形的共性抽取出来，设计一个长方形类。<br>4、通过长方形对象的行为，就可以求出某个具体的长方形对象的周长和面积。</p>
 <p>面向过程就是分析出解决问题所需要的<strong>步骤</strong>，然后用函数把这些步骤<strong>一步一步实现</strong>，使用的时候一个一个依次调用就可以了。 </p>
@@ -429,14 +414,14 @@
 <hr>
 <p>参考链接</p>
 <ul>
-<li><a href="http://blog.csdn.net/sxhlovehmm/article/details/45082605" target="_blank" rel="external">面向过程编程和面向对象编程的区别</a></li>
-<li><a href="http://www.cnblogs.com/mr-wid/archive/2013/02/18/2916309.html" target="_blank" rel="external">学习C++ -&gt; 类(Classes)的定义与实现</a></li>
-<li><a href="http://www.yesky.com/22/194022.shtml" target="_blank" rel="external">C++ 类和类的定义</a></li>
-<li><a href="http://blog.csdn.net/chaoguodong/article/details/6935524" target="_blank" rel="external">C++接口定义及实现举例</a></li>
+<li><a href="http://blog。csdn。net/sxhlovehmm/article/details/45082605" target="_blank" rel="external">面向过程编程和面向对象编程的区别</a></li>
+<li><a href="http://www。cnblogs。com/mr-wid/archive/2013/02/18/2916309。html" target="_blank" rel="external">学习C++ -&gt; 类(Classes)的定义与实现</a></li>
+<li><a href="http://www。yesky。com/22/194022。shtml" target="_blank" rel="external">C++ 类和类的定义</a></li>
+<li><a href="http://blog。csdn。net/chaoguodong/article/details/6935524" target="_blank" rel="external">C++接口定义及实现举例</a></li>
 </ul>
 <p>拓展阅读：</p>
 <ul>
-<li><a href="https://www.zhihu.com/question/20275578/answer/26690018" target="_blank" rel="external">面对对象编程的弊端是什么</a></li>
+<li><a href="https://www。zhihu。com/question/20275578/answer/26690018" target="_blank" rel="external">面对对象编程的弊端是什么</a></li>
 </ul>
 
       
@@ -606,7 +591,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#面对对象编程"><span class="nav-number">1.</span> <span class="nav-text">面对对象编程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#抽象"><span class="nav-number">1.1.</span> <span class="nav-text">抽象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#封装"><span class="nav-number">1.2.</span> <span class="nav-text">封装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#继承"><span class="nav-number">1.3.</span> <span class="nav-text">继承</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#多态"><span class="nav-number">1.4.</span> <span class="nav-text">多态</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#封装-继承-多态的组合使用"><span class="nav-number">1.5.</span> <span class="nav-text">封装,继承,多态的组合使用</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#面对过程和面对对象的比较"><span class="nav-number">2.</span> <span class="nav-text">面对过程和面对对象的比较</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#面向过程编程"><span class="nav-number">2.1.</span> <span class="nav-text">面向过程编程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#面向对象编程"><span class="nav-number">2.2.</span> <span class="nav-text">面向对象编程</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#抽象、类型、接口"><span class="nav-number">3.</span> <span class="nav-text">抽象、类型、接口</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#抽象是什么？"><span class="nav-number">3.1.</span> <span class="nav-text">抽象是什么？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是类？"><span class="nav-number">3.2.</span> <span class="nav-text">什么是类？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是接口？"><span class="nav-number">3.3.</span> <span class="nav-text">什么是接口？</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#面对对象编程"><span class="nav-number">1.</span> <span class="nav-text">面对对象编程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#抽象"><span class="nav-number">1.1.</span> <span class="nav-text">抽象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#封装"><span class="nav-number">1.2.</span> <span class="nav-text">封装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#继承"><span class="nav-number">1.3.</span> <span class="nav-text">继承</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#多态"><span class="nav-number">1.4.</span> <span class="nav-text">多态</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#面对过程和面对对象的比较"><span class="nav-number">2.</span> <span class="nav-text">面对过程和面对对象的比较</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#面向过程编程"><span class="nav-number">2.1.</span> <span class="nav-text">面向过程编程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#面向对象编程"><span class="nav-number">2.2.</span> <span class="nav-text">面向对象编程</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#抽象、类型、接口"><span class="nav-number">3.</span> <span class="nav-text">抽象、类型、接口</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#抽象是什么？"><span class="nav-number">3.1.</span> <span class="nav-text">抽象是什么？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是类？"><span class="nav-number">3.2.</span> <span class="nav-text">什么是类？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是接口？"><span class="nav-number">3.3.</span> <span class="nav-text">什么是接口？</span></a></li></ol></li></ol></div>
             
 
           </div>

@@ -99,7 +99,7 @@
 <meta property="og:url" content="http://yoursite.com/2017/06/07/class/index.html">
 <meta property="og:site_name" content="ZCplayground">
 <meta property="og:description" content="定义一个类12345678910111213141516class Stock //class declaration&amp;#123;private:	std::string company;	long shares;	double shares_val;	double total_val;	void set_tot() &amp;#123; total_val = shares*shares_val; &amp;#">
-<meta property="og:updated_time" content="2017-06-07T05:33:37.767Z">
+<meta property="og:updated_time" content="2017-06-08T00:59:57.751Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="C++学习之类的简单定义">
 <meta name="twitter:description" content="定义一个类12345678910111213141516class Stock //class declaration&amp;#123;private:	std::string company;	long shares;	double shares_val;	double total_val;	void set_tot() &amp;#123; total_val = shares*shares_val; &amp;#">
@@ -381,15 +381,15 @@
 <p>要执行的操作以类成员函数的形式出现（又称为方法），例如set_tot()。</p>
 <h2 id="访问控制"><a href="#访问控制" class="headerlink" title="访问控制"></a>访问控制</h2><p>关键字<code>private</code>和<code>public</code>，描述了对类成员的访问控制。使用类对象， 都可以直接访问公用部分，到只能通过公有成员函数来访问对象的私有成员。因此，公有成员函数是程序与对象的私有成员之间的桥梁，提供了对象和程序之间的接口。防止程序直接访问数据，被称为数据隐藏。</p>
 <ul>
-<li>private：类内可见。</li>
-<li>public：类内外可见。</li>
+<li><code>private</code>：类内可见。</li>
+<li><code>public</code>：类内外可见。</li>
 </ul>
-<p>类设计尽可能将公有接口和实现细节分开。将实践细节放在一起并将它们与抽象数据类型分开，被称为封装。数据隐藏（数据放在private里）也是封装。将实现的细节放在private里，如<code>set_tot()</code>也是封装。</p>
+<p>类设计尽可能将公有接口和实现细节分开。将实践细节放在一起并将它们与抽象数据类型分开，被称为封装。数据隐藏（数据放在<code>private</code>里）也是封装。将实现的细节放在<code>private</code>里，如<code>set_tot()</code>也是封装。</p>
 <p>数据隐藏不仅防止了数据被直接访问，还让用户无需了解数据是如何被表示的。所需要的只是各种类函数的功能，需要接受什么样的参数，返回什么样的结果。原则是将实现的细节从接口设计中分离出来，如果以后对代码进行维护、升级就直接对细节进行修改而无需修改接口。这样对维护程序更有利。</p>
 <p>无论类成员是数据成员还是成员函数，都可以在共有部分或者私有部分去声明它。但由于数据隐藏是OOP的主要目标之一，所以数据项通常放在私有部分，组成接口的成员函数放在共有部分。否则无法从程序中调用这些函数。如果把成员函数放在私有部分，则不能直接在程序中调用这种函数，只有公有部分能使用它们。通常这么做是使用私有成员函数来处理不属于公有接口的实现细节部分。</p>
-<h2 id="class-和-struct-的区别"><a href="#class-和-struct-的区别" class="headerlink" title="class 和 struct 的区别"></a>class 和 struct 的区别</h2><p>类的描述看上去很像是有一个带有private和public这样的标签的结构声明。实际上，C++对结构进行了扩展，使之具有与类相同的特效。它们之间的唯一区别是，结构的默认访问类型是public，而类的默认类型是private。</p>
+<h2 id="class-和-struct-的区别"><a href="#class-和-struct-的区别" class="headerlink" title="class 和 struct 的区别"></a>class 和 struct 的区别</h2><p>类的描述看上去很像是有一个带有<code>private</code>和<code>public</code>这样的标签的结构声明。实际上，C++对结构进行了扩展，使之具有与类相同的特效。它们之间的唯一区别是，结构的默认访问类型是<code>public</code>，而类的默认类型是<code>private</code>。</p>
 <p>C++程序员通常使用类来描述，结构只是用来表示纯粹的数据对象。</p>
-<p>tips：如果没有写private就定义对象，默认是private。private是类对象的默认访问控制。</p>
+<p>tips：如果没有写<code>private</code>就定义成员，那么成员的属性默认是<code>private</code>。<code>private</code>是类成员的默认访问控制。</p>
 <h2 id="实现类成员函数"><a href="#实现类成员函数" class="headerlink" title="实现类成员函数"></a>实现类成员函数</h2><p>定义成员函数时，使用<strong>作用域解析运算符</strong><code>::</code>来标识函数所属的类。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">void Stock::update(double price)</div></pre></td></tr></table></figure>
 <p>这种表示法意味着我们定义的update是Stock类的成员，不仅表明了update是成员函数，还允许我们把另一个类的成员函数也命名为update。</p>
@@ -398,26 +398,22 @@
 <p>要使用对象的成员函数，和结构体成员一样，使用<strong>成员运算符</strong>。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">A.show();</div><div class="line">B.show();</div></pre></td></tr></table></figure></p>
 <p>A调用show()时，<code>share</code>是<code>A.shares</code>，<code>share_val</code>是<code>A.share_val</code>。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div></pre></td><td class="code"><pre><div class="line">void Stock::acquire(const std::string &amp; co, long n, double pr)</div><div class="line">&#123;</div><div class="line">	company = co;</div><div class="line">	if (n &lt; 0)</div><div class="line">	&#123;</div><div class="line">		std::cout &lt;&lt; &quot;Number of shares can&apos;t be negative.&quot;</div><div class="line">			&lt;&lt; company &lt;&lt; &quot; shares set to 0.\n&quot;;</div><div class="line">		shares = 0;</div><div class="line">	&#125;</div><div class="line">	else</div><div class="line">		shares = n;</div><div class="line">	share_val = pr;</div><div class="line">	set_tot();</div><div class="line">&#125;</div><div class="line"></div><div class="line">void Stock::buy(long num, double price)</div><div class="line">&#123;</div><div class="line">	if (num &lt; 0)</div><div class="line">	&#123;</div><div class="line">		std::cout &lt;&lt; &quot;Number of shares purchased can&apos;t be negative.&quot;</div><div class="line">			&lt;&lt; &quot; Transaction is aborted.\n&quot;;</div><div class="line">	&#125;</div><div class="line">	else</div><div class="line">	&#123;</div><div class="line">		shares += num;</div><div class="line">		share_val = price;</div><div class="line">		set_tot();</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">void Stock::sell(long num, double price)</div><div class="line">&#123;</div><div class="line">	if (num &lt; 0)</div><div class="line">	&#123;</div><div class="line">		std::cout &lt;&lt; &quot;Number of shares sold can&apos;t be negative.&quot;</div><div class="line">			&lt;&lt; &quot; Transaction is aborted.\n&quot;;</div><div class="line">	&#125;</div><div class="line">	else if (num&gt;shares)</div><div class="line">	&#123;</div><div class="line">		std::cout &lt;&lt; &quot;You can&apos;t sell more than you have!&quot;</div><div class="line">			&lt;&lt; &quot; Transaction is aborted.\n&quot;;</div><div class="line">	&#125;</div><div class="line">	else </div><div class="line">	&#123;</div><div class="line">		shares -= num;</div><div class="line">		share_val = price;</div><div class="line">		set_tot();</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">void Stock::update(double price)</div><div class="line">&#123;</div><div class="line">	share_val = price;</div><div class="line">	set_tot();</div><div class="line">&#125;</div><div class="line"></div><div class="line">void Stock::show()</div><div class="line">&#123;</div><div class="line">	std::cout &lt;&lt; &quot;Company: &quot; &lt;&lt; company</div><div class="line">			  &lt;&lt; &quot;   Shares: &quot; &lt;&lt; shares &lt;&lt; &apos;\n&apos;</div><div class="line">			  &lt;&lt; &quot;   Share Price: $&quot; &lt;&lt; share_val</div><div class="line">			  &lt;&lt; &quot;   Total Worth: $&quot; &lt;&lt; total_val &lt;&lt; &apos;\n&apos;;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h1 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h1><p>设计一个类</p>
-<pre><code>1. 提供类声明。
-    ○ 包括数据成员和函数成员
-    ○ 声明有私有部分，只能通过成员函数进行访问。公有部分，可以被程序直接访问
-    ○ 基本格式如下：
+<h1 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h1><p>设计一个类的流程</p>
+<ul>
+<li>提供类声明。<br>  ○ 包括数据成员和函数成员<br>  ○ 声明有私有部分，只能通过成员函数进行访问。公有部分，可以被程序直接访问<br>  ○ 基本格式如下：</li>
+</ul>
+<pre><code>class classname
+{
+private:
+    data member declarations
+public:
+    member function prototypes
+};
+</code></pre><pre><code>○ 公有部分的内容形成了公有接口，因此C++通过类来实现了抽象、数据隐藏、封装的OOP特性
+</code></pre><ul>
+<li>实现类成员函数。<br>  ○ 可以在类声明里提供完整的函数定义，而不是函数原型。但通常做法是单独提供函数定义，除非函数很小。<br>  ○ 需要用作用域解析运算符来指明成员函数到底属于哪个类。</li>
+</ul>
 
-    class classname
-    {
-    private:
-        data member declarations
-    public:
-        member function prototypes
-    };
-
-    ○ 公有部分的内容形成了公有接口，因此C++通过类来实现了抽象、数据隐藏、封装的OOP特性
-
-2. 实现类成员函数。
-    ○ 可以在类声明里提供完整的函数定义，而不是函数原型。但通常做法是单独提供函数定义，除非函数很小。
-    ○ 需要用作用域解析运算符来指明成员函数到底属于哪个类。
-</code></pre>
       
     </div>
 

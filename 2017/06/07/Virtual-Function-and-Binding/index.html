@@ -101,7 +101,7 @@
 <meta property="og:description" content="RatedPlayer继承示例很简单。派生类对象使用基类的方法，并未做任何修改。然而，可能遇到希望同一个方法在基类和派生类中的行为是不同的。即希望方法的行为应取决于调用对象，也是一种多态（Polymorphism）——具有多种形态。有两种重要机制可以使用多态公有继承： • 在派生类中重新定义基类方法。• 使用虚方法。 多态公有继承看一个普通银行账户类： 1234567891011121314151">
 <meta property="og:image" content="http://images2015.cnblogs.com/blog/1092156/201706/1092156-20170607200811340-1351826666.png">
 <meta property="og:image" content="http://images2015.cnblogs.com/blog/1092156/201706/1092156-20170607200812903-1802856210.png">
-<meta property="og:updated_time" content="2017-06-07T13:28:16.476Z">
+<meta property="og:updated_time" content="2017-06-08T00:59:58.014Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="C++学习之虚函数和联编">
 <meta name="twitter:description" content="RatedPlayer继承示例很简单。派生类对象使用基类的方法，并未做任何修改。然而，可能遇到希望同一个方法在基类和派生类中的行为是不同的。即希望方法的行为应取决于调用对象，也是一种多态（Polymorphism）——具有多种形态。有两种重要机制可以使用多态公有继承： • 在派生类中重新定义基类方法。• 使用虚方法。 多态公有继承看一个普通银行账户类： 1234567891011121314151">
@@ -410,7 +410,7 @@
 <h2 id="虚函数和动态联编"><a href="#虚函数和动态联编" class="headerlink" title="虚函数和动态联编"></a>虚函数和动态联编</h2><p>编译器对非虚方法使用静态联编（根据指针or引用的类型调用方法）。如果将方法声明为虚的，则将根据对象的类型调用方法。编译器对虚方法使用动态联编。</p>
 <p>大多情况下，动态联编很好，你可能就问了：</p>
 <p>• 为什么要有两种类型的联编？<br>• 既然动态联编好，为什么不把它设置成默认的？<br>• 动态联编是如何工作的？</p>
-<p><strong>效率</strong>：不要为不使用的特性付出代价。如果派生类（RatedPlayer）不重新定义基类方法，就不需要动态联编。在这种情况下，使用静态联编更合理，效率也更高。</p>
+<p><strong>效率</strong>：不要为不使用的特性付出代价。如果派生类（BrassPlus）不重新定义基类方法，就不需要动态联编。在这种情况下，使用静态联编更合理，效率也更高。</p>
 <p><strong>概念模型</strong>：例如<code>Brass::Balance()</code>就不该重新定义。有两方面好处：第一提高效率，第二，指出不要重新定义该函数。<strong>仅将那些预期被重新定义的函数声明为虚的</strong>。与现实世界的很多方面一样，类设计并不是一个线行过程。</p>
 <h1 id="虚函数注意事项"><a href="#虚函数注意事项" class="headerlink" title="虚函数注意事项"></a>虚函数注意事项</h1><p>• 构造函数不能是虚函数。<br>创建派生类对象时，将调用派生类构造函数，而不是基类构造函数，然后派生类构造函数再使用基类的一个构造函数。这种顺序不同于继承的顺序。因此把构造函数声明为虚函数是没什么意义的。</p>
 <p>• 析构函数应当是虚函数，即使析构函数不作任何操作。除非不做基类。<br>如果<code>Employee</code>类是基类，<code>Singer</code>是派生类，如果是默认的静态联编，如果<code>delete</code>一个<code>Singer</code>对象，调用的也是<code>~Employee()</code>，这会释放掉<code>Singer</code>对象中<code>Employee</code>部分指向的内存，但不会释放新的成员指向的内存。如果析构函数是虚的，则会先调用<code>~Singer()</code>，然后调用<code>~Employee()</code>。</p>
