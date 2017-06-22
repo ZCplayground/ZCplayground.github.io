@@ -1,0 +1,942 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="许多的程序涉及字符串处理，C语言就在头文件string.h中提供了一系列字符串函数。C++的string类包含在头文件string里。要使用类，关键就在于了解它的公有接口。string类包含大量的方法，包括若干构造函数、赋值、合并、比较、访问各个元素的运算符重载以及用在字符串中查找子串的工具等等。 构造函数构造函数是要首先看的，因为对于类而言，我们要知道有哪些方法可以用于创建其对象。下面列出了 s">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C++学习之string类">
+<meta property="og:url" content="http://yoursite.com/2017/06/22/string-class/index.html">
+<meta property="og:site_name" content="ZCplayground">
+<meta property="og:description" content="许多的程序涉及字符串处理，C语言就在头文件string.h中提供了一系列字符串函数。C++的string类包含在头文件string里。要使用类，关键就在于了解它的公有接口。string类包含大量的方法，包括若干构造函数、赋值、合并、比较、访问各个元素的运算符重载以及用在字符串中查找子串的工具等等。 构造函数构造函数是要首先看的，因为对于类而言，我们要知道有哪些方法可以用于创建其对象。下面列出了 s">
+<meta property="og:updated_time" content="2017-06-22T02:08:08.843Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="C++学习之string类">
+<meta name="twitter:description" content="许多的程序涉及字符串处理，C语言就在头文件string.h中提供了一系列字符串函数。C++的string类包含在头文件string里。要使用类，关键就在于了解它的公有接口。string类包含大量的方法，包括若干构造函数、赋值、合并、比较、访问各个元素的运算符重载以及用在字符串中查找子串的工具等等。 构造函数构造函数是要首先看的，因为对于类而言，我们要知道有哪些方法可以用于创建其对象。下面列出了 s">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/06/22/string-class/"/>
+
+
+
+
+
+  <title>C++学习之string类 | ZCplayground</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">ZCplayground</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/22/string-class/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ZC">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ZCplayground">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">C++学习之string类</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-22T09:59:51+08:00">
+                2017-06-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Cpp/" itemprop="url" rel="index">
+                    <span itemprop="name">Cpp</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/06/22/string-class/" class="leancloud_visitors" data-flag-title="C++学习之string类">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>许多的程序涉及字符串处理，C语言就在头文件<code>string.h</code>中提供了一系列字符串函数。C++的<code>string类</code>包含在头文件<code>string</code>里。要使用类，关键就在于了解它的公有接口。string类包含大量的方法，包括若干构造函数、赋值、合并、比较、访问各个元素的运算符重载以及用在字符串中查找子串的工具等等。</p>
+<h2 id="构造函数"><a href="#构造函数" class="headerlink" title="构造函数"></a>构造函数</h2><p>构造函数是要首先看的，因为对于类而言，我们要知道有哪些方法可以用于创建其对象。下面列出了 string 的七个构造函数。使用构造函数时都进行了简化，即隐藏了这一个事实——string实际上是模板具体化<code>basic_string&lt;char&gt;</code>的一个typedef，同时省略了与内存管理相关的参数。<code>size_type</code>是一个依赖于实现的整型，是在头文件string中定义的。<code>string::npos</code>是string类定义的字符串最大长度，通常为<code>unsigned int</code> 的最大值。缩写<code>NBTS</code>是指null-terminated string，以空字符结束的字符串，也就是传统的C字符串。</p>
+<table>
+<thead>
+<tr>
+<th>构造函数</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>string(const char *s)</td>
+<td>以一个C风格字符串初始化</td>
+</tr>
+<tr>
+<td>string(size_tpye n, char c)</td>
+<td>构造一个包含n个字符c的string对象</td>
+</tr>
+<tr>
+<td>string(const string &amp;s)</td>
+<td>复制构造函数</td>
+</tr>
+<tr>
+<td>string()</td>
+<td>默认构造函数</td>
+</tr>
+<tr>
+<td>string(const char *s, size_type n)</td>
+<td>初始化为s指向的NBTS的前n个字符，即使超过了NBTS的结尾</td>
+</tr>
+<tr>
+<td>template<class iter=""> string(Iter begin, Iter end)</class></td>
+<td>初始化为区间[begin,end)内的字符</td>
+</tr>
+<tr>
+<td>string(const string &amp;s, string size_type pos = 0, size_type n = npos)</td>
+<td>初始化为对象s从位置pos开始到结尾的字符，或从pos开始的n个字符。</td>
+</tr>
+<tr>
+<td>string(string &amp;&amp; s)noexcept</td>
+<td>C++11，将一个string对象初始化为str，并可能修改str（移动构造函数）</td>
+</tr>
+<tr>
+<td>string(initializer_list<char> il)</char></td>
+<td>C++11，将一个string对象初始化为初始化列表il中的字符</td>
+</tr>
+</tbody>
+</table>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line">#include&lt;iostream&gt;</div><div class="line">#include&lt;string&gt;</div><div class="line"></div><div class="line">using namespace std;</div><div class="line"></div><div class="line">int main()</div><div class="line">&#123;</div><div class="line">	string one(&quot;11111111&quot;);// 构造函数1</div><div class="line">	cout &lt;&lt; one &lt;&lt; endl;</div><div class="line"></div><div class="line">	string two(20, &apos;2&apos;);//构造函数2</div><div class="line">	cout &lt;&lt; two &lt;&lt; endl;</div><div class="line"></div><div class="line">	string three(one);//构造函数3</div><div class="line">	cout &lt;&lt; three &lt;&lt; endl;</div><div class="line"></div><div class="line">	one += &quot;233&quot;;//重载运算符+=，连接</div><div class="line">	cout &lt;&lt; one &lt;&lt; endl;</div><div class="line"></div><div class="line">	three[0] = &apos;p&apos;;//重载运算符[]，可以用数组访问法访问各个字符；重载运算符=，赋值</div><div class="line">	string four;//默认构造函数构造一个可以稍后进行赋值的空串</div><div class="line">	four = two + three;</div><div class="line">	cout &lt;&lt; four &lt;&lt; endl;</div><div class="line"></div><div class="line">	char s[] = &quot;abcdefghijklmnopqrstuvwxyz&quot;;</div><div class="line">	string five(s, 20);//构造函数5</div><div class="line">	cout &lt;&lt; five &lt;&lt; endl;</div><div class="line"></div><div class="line">	string six(s + 6, s + 10);//构造函数6</div><div class="line">	cout &lt;&lt; six &lt;&lt; endl;</div><div class="line"></div><div class="line">	string seven(five, 7, 16);//构造函数7</div><div class="line">	cout &lt;&lt; seven &lt;&lt; endl;</div><div class="line"></div><div class="line">	return 0;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>对于string类的运算符重载，往往经过了多次重载，以便第二个操作数可以是string对象、也可以是C风格字符串、char字符。例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">one += two;//将stirng对象two连接到one后面</div><div class="line">one += &quot;123&quot;;//连接一个C风格字符串</div><div class="line">one += &apos;!&apos;;//连接一个char</div></pre></td></tr></table></figure>
+<p>第五个构造函数有一个模板参数：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">template&lt;class Iter&gt; string(Iter begin, Iter end)</div></pre></td></tr></table></figure>
+<p><code>begin</code>和<code>end</code>像指针一样，指向内存的两个位置。begin和end可以是<strong>迭代器</strong>——一种广泛存在于STL的广义化指针。范围是<code>[begin,end)</code>，包括begin，但不包括end在内的区间。</p>
+<p>现在假设要使用该构造函数用一个string对象初始化另一个string对象，看看下面的语句：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">string str(five + 6, five + 10);</div></pre></td></tr></table></figure></p>
+<p>该语句是不管用的。原因在于对象名，不会被看做对象的地址（不像是数组名），因此<code>five + 6</code>是没意义的。而数组名s可以被看做地址，因此可作为该构造函数的一个参数。</p>
+<p>构造函数<code>string(string &amp;&amp;str)</code>类似于复制构造函数，导致将新创建的string对象初始化为str的副本。但与复制构造函数不同的是，它不保证str视为const。这种构造函数称为<strong>移动构造函数</strong>（move constructor）。有些情况下编译器使用移动构造函数而不使用复制构造函数以优化性能。</p>
+<p>构造函数<code>string(initializer_list&lt;char&gt; il)</code> 可以让下面的声明合法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">string name = &#123;&apos;A&apos;, &apos;l&apos;, &apos;i&apos;, &apos;c&apos;, &apos;e&apos;&#125;;</div></pre></td></tr></table></figure>
+<h2 id="string输入"><a href="#string输入" class="headerlink" title="string输入"></a>string输入</h2><p>对于类，要知道有哪些输入方式可用。对于C字符串，有下面三种：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">char info[100];</div><div class="line">cin&gt;&gt;info;                //read a word</div><div class="line">cin.getline(info, 100);   //read a line, discard &apos;\n&apos;</div><div class="line">cin.get(info, 100);       //read a line, leave &apos;\n&apos; in queue</div></pre></td></tr></table></figure>
+<p> 对于string对象，有两种方式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">stirng str;</div><div class="line">cin&gt;&gt;str;         //read a word</div><div class="line">getline(cin, str);//read a line, discard &apos;\n&apos;</div></pre></td></tr></table></figure>
+<p>getline()有一个可选参数，选定一个字符作为输入边界：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">cin.getline(infor, 100, &apos;:&apos;); </div><div class="line">getline(str, &apos;:&apos;);            //都到冒号或满100个字符结束，如果是遇到冒号结束输入时，丢弃冒号</div></pre></td></tr></table></figure></p>
+<p>string版本的getline和C字符串的最大区别是getline可以自动调整string对象的大小，使之刚好能存储输入的字符。 自动调整大小的功能使得string版本的getline不需要一个指定读取多少字符的参数。</p>
+<p>string输入函数都将自动调整string对象的大小，使之与输入匹配。但也存在一些限制。第一个是string对象有最大允许长度，一般是最大的unsigned int 值，对于平常的使用这不会带来麻烦。但当出现例如你要读取整个文件的内容到一个字符串中时，会产生限制。第二个限制因素是程序可用的内存量不是无限的。</p>
+<p>string版本的getline()函数从输入中读取字符，直到发生下面三种情况之一：</p>
+<ul>
+<li>到达文件尾，此时输入流的<code>eofbit</code>将被设置，这意味着方法<code>fail()</code>和<code>eof()</code>都将返回<code>true</code>。</li>
+<li>遇到分界字符，默认为’\n’，也可以用参数指定。分界字符会从输入流中删除。</li>
+<li>读取字符数达到最大值。此时会设置输入流的<code>failbit</code>，这意味着方法<code>fail()</code>将返回<code>true</code>。</li>
+</ul>
+<h2 id="比较、长度、子串"><a href="#比较、长度、子串" class="headerlink" title="比较、长度、子串"></a>比较、长度、子串</h2><p>string类对全部的六个关系运算符<code>&lt; &gt; != == &gt;= &lt;=</code>进行了重载。在一种序列中，一个字符位于一个字符的前面，视为这个前者小于后者。ASCII码中是：数字小于字符，大写字符小于小写字符。对于每个运算符，和+=类似，都进行了多次重载。以便将string对象和另一个string对象、C风格字符串进行比较，也能将C风格字符串和string对象进行比较。</p>
+<p>可以用方法 <code>size()</code>和<code>length()</code>来确定字符串长度。</p>
+<h2 id="搜索子串"><a href="#搜索子串" class="headerlink" title="搜索子串"></a>搜索子串</h2><p>可以用多种不同的方法搜索给定的字符或子串。</p>
+<table>
+<thead>
+<tr>
+<th>函数原型</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>size_type find(const string &amp;str, size_type pos = 0)const</td>
+<td>从pos开始，查找子串str，如果找到返回第一次出现位置的索引，如果找不到返回string::nops</td>
+</tr>
+<tr>
+<td>size_type find(const char *s, size_type pos = 0)const</td>
+<td>从pos开始，查找子串s，如果找到返回第一次出现位置的索引，如果找不到返回string::nops</td>
+</tr>
+<tr>
+<td>size_type find(const char *s, size_type pos = 0, size_type n)const</td>
+<td>从pos开始，查找s的前n个字符串组成的子串。如果找到返回第一次出现位置的索引，如果找不到返回string::nops</td>
+</tr>
+<tr>
+<td>size_type find(char ch, size_type pos = 0)const</td>
+<td>从pos开始，查找字符ch，如果找到返回第一次出现位置的索引，如果找不到返回string::nops</td>
+</tr>
+</tbody>
+</table>
+<p>其他方法：<code>rfind()</code>、<code>find_first_of()</code>、<code>find_last_of()</code>、<code>find_first_not_of()</code>、<code>find_last_not_of()</code>，这些方法的重载函数特征标都于<code>find()</code>相同。rfind查找的是最后一次出现的位置。find_first_of查找参数中任何一个字符首次出现的位置。find_last_of功能和前者类似，但查找的是最后一次的出现位置。find_first_not_of查找的是第一个不包含在参数内的字符。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">string s = &quot;cobra&quot;;</div><div class="line"></div><div class="line">int where;</div><div class="line">where = s.find_first_of(&quot;hark&quot;); // 返回的是索引3，即stirng对象中的r是hark中任何一个字符首先出现的位置</div><div class="line">where = s.find_last_of(&quot;hark&quot;);  // 4</div><div class="line">where = s.find_first_not_of(&quot;hark&quot;); // 0</div><div class="line">where = s.find_last_not_of(&quot;hark&quot;); // 2</div></pre></td></tr></table></figure>
+<h2 id="其他功能"><a href="#其他功能" class="headerlink" title="其他功能"></a>其他功能</h2><p>还有很多其他的工具，不在此一一详细描述，可以找string的文档看一下。还包括如下功能的函数：删除字符串部分或全部内容、用一个字符串的全部或部分内容替代另一个字符串的全部或部分内容、将数据插入到字符串中、用一个字符串的全部或部分内容与另一个字符串的全部或部分内容向比较、提取子串、交换两个字符串的内容。这些方法大都被重载，以便能同时处理C字符串和stirng对象。</p>
+<p>再来看看自动调整大小的功能。需要调整string对象的大小时会发生什么？不能仅仅将已有的内存空间加大，因为相邻的内存可能被占用。因此可能需要分配一个新的内存块，并将原来的内容复制到新块中。如果要执行大量这样的操作，效率会非常低。因此实现中需要分配空间时，都会分配一个实际较大的内存块。如果字符串不断增大，超过内存块的大小，程序将分配一个大小为原来的<strong>两倍</strong>的内存块。方法capacity()<code>返回分配给当前字符串的内存块大小，</code>reverse()`方法让你可以请求内存块的最小长度。</p>
+<p>如果你有string对象，但需要C风格字符串，该怎么办呢？<code>c_str()</code>方法返回一个指向C风格字符串的指针。其内容与调用这个方法的string对象相同。</p>
+<p>多种字符串种类。前面提到string是基于模板的<code>basic_string</code> 的，这个模板有四个具体化，每个都有一个typedef名称：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">typedef basc_string&lt;char&gt; string;</div><div class="line">typedef basc_string&lt;wchar_t&gt; wstring;</div><div class="line">typedef basc_string&lt;char16_t&gt; u16string;</div><div class="line">typedef basc_string&lt;char32_t&gt; u32string;</div></pre></td></tr></table></figure></p>
+<p>这可以让我们使用基于各种不同char类型的字符串。<br>对string类的介绍就到这里。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/06/07/Template-and-Conclusion/" rel="next" title="C++学习之模板">
+                <i class="fa fa-chevron-left"></i> C++学习之模板
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/06/22/smart-pointer/" rel="prev" title="C++学习之智能指针">
+                C++学习之智能指针 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="ZC" />
+          <p class="site-author-name" itemprop="name">ZC</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">24</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#构造函数"><span class="nav-number">1.</span> <span class="nav-text">构造函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#string输入"><span class="nav-number">2.</span> <span class="nav-text">string输入</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#比较、长度、子串"><span class="nav-number">3.</span> <span class="nav-text">比较、长度、子串</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#搜索子串"><span class="nav-number">4.</span> <span class="nav-text">搜索子串</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其他功能"><span class="nav-number">5.</span> <span class="nav-text">其他功能</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ZC</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("guhO5d3jdrym6QcCp5oIrsMc-gzGzoHsz", "ldFdhqrIxGxOqWs5mgH8pmLT");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
