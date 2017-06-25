@@ -1,0 +1,961 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="现在想补补推荐这本书的理由。  Most books on systems—computer architecture, compilers, operating systems, and networking—are written as if the reader were going to design and implement such a system. We call this th">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【CSAPP笔记】2. 整型运算">
+<meta property="og:url" content="http://yoursite.com/2017/06/25/csapp-2-Integers/index.html">
+<meta property="og:site_name" content="ZCplayground">
+<meta property="og:description" content="现在想补补推荐这本书的理由。  Most books on systems—computer architecture, compilers, operating systems, and networking—are written as if the reader were going to design and implement such a system. We call this th">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/1092156/201703/1092156-20170315002140041-1365804710.png">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/1092156/201703/1092156-20170315002150432-1461694986.png">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/1092156/201703/1092156-20170315002157276-187961535.png">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/1092156/201703/1092156-20170315002216338-173004241.png">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/1092156/201703/1092156-20170315002239448-1425897145.png">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/1092156/201703/1092156-20170315002244651-1859190637.png">
+<meta property="og:updated_time" content="2017-06-25T03:24:37.314Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【CSAPP笔记】2. 整型运算">
+<meta name="twitter:description" content="现在想补补推荐这本书的理由。  Most books on systems—computer architecture, compilers, operating systems, and networking—are written as if the reader were going to design and implement such a system. We call this th">
+<meta name="twitter:image" content="http://images2015.cnblogs.com/blog/1092156/201703/1092156-20170315002140041-1365804710.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/06/25/csapp-2-Integers/"/>
+
+
+
+
+
+  <title>【CSAPP笔记】2. 整型运算 | ZCplayground</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">ZCplayground</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/25/csapp-2-Integers/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ZC">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ZCplayground">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">【CSAPP笔记】2. 整型运算</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-25T10:55:54+08:00">
+                2017-06-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/CSAPP/" itemprop="url" rel="index">
+                    <span itemprop="name">CSAPP</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/06/25/csapp-2-Integers/" class="leancloud_visitors" data-flag-title="【CSAPP笔记】2. 整型运算">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>现在想补补推荐这本书的理由。</p>
+<blockquote>
+<p>Most books on systems—computer architecture, compilers, operating systems, and networking—are written as if the reader were going to design and implement such a system. We call this the “<strong>builder’s persepective</strong>.” We believe that students should first learn about systems in terms of how they affect the behavior and performance of their programs—a “programmer’s perspective.”</p>
+<p>For programmers, what really matters is how the finite word sizes used to represent integer and floating point data determines what values can be represented and the behavior of different operations.</p>
+</blockquote>
+<p>在上一篇笔记中，在浏览CSAPP课程网站时，有一段话让我印象深刻。本书的标题中有A Programmer’s Perspective，那么，何为A Programmer’s Perspective？作者认为，大多数的、涉及方方面面的计算机书籍，组成原理、编译器、操作系统、网络……等等，很多都是以“建设者”的角度（builder’s perspective）来写成一本书的。这些书的作者认为他要面向的读者，买这本书来看的目的是真的要搭建/配置/写出来一个完整的Network/OS/complier等等。</p>
+<p>就以信息在计算机的表示来举例，数字逻辑、数字电路等书籍会切切实实教它的读者怎么样去实现一个有效率的计算电路。这本书的特色就是：从程序员的角度出发的，程序员更想需要知道的是：机器是如何以有限的字长来表示无符号和有符号整型，以及浮点数的编码规则。</p>
+<blockquote>
+<p>The material in this book has direct value for programmers. Students find that it explains many of the mysterious problems they’ve already encountered, that it helps them write and debug code more efficiently, and that their programs are more reliable and efficient.</p>
+</blockquote>
+<p>为什么两个数加起来会变成一个负数？作为学生的我们，肯定会遇到这个问题。但是在课堂上，老师往往只会抛出两个字“溢出”。我们知道“溢出”了，但我们不知道何为“溢出”，为何“溢出”，“溢出”到底是“怎样溢出”的。知其然，还要知其所以然。这些看似神秘的问题，在这本书里都有很好的解答，会让你有豁然开朗之感。理解了底层原理，能帮助你更高效的debug，写出更可靠的程序。</p>
+<blockquote>
+<p><strong>The material in this book is unique.</strong> Much of it is not presented in any other book or taught in previous courses. Instead, a traditional coverage of systems requires programmers to figure out on their own how the characteristics of the systems they study in builder-centric courses can be exploited to improve their programs. <strong>The book provides a solid foundation for builder-centric courses</strong>. We believe that more advanced systems courses should present systems from a builder’s perspective. Students will be much better oriented to the needs and constraints of these systems by first studying them from a programmer’s perspective.</p>
+</blockquote>
+<p>都说中国计算机教材饱受诟病，当然的确也肯定有那么些真材实料，但饱受诟病的原因就是很多书都是抄外国的，再加上一点自己的东西。要么就是直接国内互相抄。有点再为了让“中国人看得懂”，翻译的就烂了，甚至添油加醋，出现错误的都有。我就特别佩服这种敢直接说“我们的材料都是独一无二”的这种精神。这本书是美国CMU（卡内基梅隆大学，Carnegie Mellon University）的一门课程——ICS，Intro to Computer Systems（计算机系统导论）的教材，本书的作者在CMU坐镇亲自授课。这门课也成为了CMU的“<strong>镇校神课</strong>”。这本“以程序员角度”来写的书，CSAPP，能够为我们以后学习以建设者思想为中心的更高级的课程打下坚实的理论基础。</p>
+<p><strong>2017-04-12 update</strong>：到目前为止看了这本书两个月，进度差不多是一半，觉得这本书知识点结构清晰，有逻辑有条理，叙述又准确，又有翔实的补充资料，题目也是精心编排的，PPT做的又好，还有lab可以做，确保能让读者真正的学到东西。反观大学的计算机组成原理课的教材，要条理没条理要逻辑没逻辑，填鸭式地强行灌输知识点，PPT质量惨不忍睹，例题和课后题一看就是应试。拿IEEE浮点规则来说，根本没几个同学学懂了这个编码规则，但实际上它是很beautiful的，但被垃圾教材教成了什么样子…不知道这种全方位被碾压的东西为何还存在于大学课堂上，简直是根本没道理的事情。课这么烂，还不如少上几节课。</p>
+<hr>
+<h1 id="整数运算"><a href="#整数运算" class="headerlink" title="整数运算"></a>整数运算</h1><p>两数相加会得出一个负数？！</p>
+<p>表达式 <code>x &lt; y</code> 和表达式 <code>x - y &lt; 0</code> 有可能产生不同的结果？！</p>
+<p>这些其实是因为计算机运算的<strong>有限性</strong>而导致的。理解这些计算的细微之处能够让我们编写更加可靠的代码。</p>
+<h2 id="无符号加法"><a href="#无符号加法" class="headerlink" title="无符号加法"></a>无符号加法</h2><p>考虑两个无符号整数x和y，如果都是w位无符号数字（以下的w都代表w位无符号数），那么满足 <code>0 ≤ x, y ≤ 2^w - 1</code> 。如果计算x和y的和，那么得到的结果<strong>可能需要w+1位</strong>。如果出现了需要w+1位的情况，那么就是<strong>加法上溢了</strong>。</p>
+<p>说的更明白一点，对于我们最熟悉的十进制，三位数加三位数的结果最多用四位数表示就够了（999+999=1998）此时x，y是十进制下的加数，<code>0 ≤ x, y ≤ 10^3 - 1</code>，结果可能需要4位。</p>
+<p><img src="http://images2015.cnblogs.com/blog/1092156/201703/1092156-20170315002140041-1365804710.png" alt=""></p>
+<p>如果说，为了不出现上溢，那我扩宽机器支持的数字位数行不行？如果为了让两个 <code>w</code> 位数加起来不溢出，那么我们需要 <code>w + 1</code> 位，因此就可以存储 <code>w + 1</code> 位的数。而两个 <code>w + 1</code> 的数相加，有需要 <code>w + 2</code>  个位来保证不会上溢……依次类推，这种“膨胀”意味着，如果我们想这么做的话，那么我们只能对字长<strong>不加任何限制</strong>。例如Lisp，事实上就支持<strong>无限精度</strong>运算（当然要在机器的存储器限制之内）。更常见的是，编程语言支持<strong>固定精度</strong>的运算，所以说，如果超出机器能表示的范围，那么运算结果就是溢出了。</p>
+<p>可以把无符号加法 <code>x + y</code> 视为一种<strong>模运算形式</strong>，等价于加法运算后的结果<strong>模上2的w次方</strong>。可以这么理解，因为如果溢出，是相当于进位，也就是比w位多一位，那么那一位就会被抛弃。<strong>模2的w次方</strong>这个动作，就好似“丢掉”了这个第 w + 1 位的进位数字。例如一个4位数字（中括号是其二进制位表示） <code>x = 9 [1001]</code> 和 <code>y = 12 [1100]</code>，加法运算结果是<code>21 [10101]</code>。丢弃最高位的结果是<code>[0101]</code>也就是十进制5，可以把 5 认为是21 mod 16 = 5。</p>
+<p>简单的说，如果现在有一台支持4位的无符号数加法运算的“计算器”摆在你面前，那么大于2^w也就是16的结果都是溢出的。</p>
+<p><img src="http://images2015.cnblogs.com/blog/1092156/201703/1092156-20170315002150432-1461694986.png" alt=""></p>
+<p>C语言程序中，<strong>不会</strong>把溢出作为错误而发送信号。考虑一个函数，判断两个无符号数相加会不会产生溢出，那么它应该是下面这个样子的：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">int uadd_ok(unsigned x, unsigned y)</div><div class="line">&#123;</div><div class="line">    unsigned result = x + y;</div><div class="line">    return (s&gt;=x);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="补码加法"><a href="#补码加法" class="headerlink" title="补码加法"></a>补码加法</h2><p>如果能够理解无符号加法的溢出，那么也就很好理解补码加法时，如果太大的结果也是会溢出的。只不过如果是正溢出的话，结果会变成一个很小很小的负数。这个现象的关键还是在于补码的编码机制。其实就正溢的情况来看，补码正溢和无符号正溢有些许不同。无符号正溢会导致现有w位放不下运算结果而溢出，而补码正溢时，是因为加法导致运算进位的1成了符号位，而符号位的权是负权。</p>
+<p>简而言之，如果加法运算之后的结果仍然落在无符号、补码所能够表示的范围之内，那么就不会溢出，否则会溢出。溢出后结果的具体情况根据不同的编码规则来。</p>
+<blockquote>
+<p>正溢出(positive overflow)和负溢出(negative overflow)。正溢出就是数值太大把原来为 0 的符号位修改成了 1，反而成了负数；负溢出是数值太小，把原来为 1 的符号位修改成了 0，反而成了正数。</p>
+</blockquote>
+<p><img src="http://images2015.cnblogs.com/blog/1092156/201703/1092156-20170315002157276-187961535.png" alt=""></p>
+<h2 id="减法、非"><a href="#减法、非" class="headerlink" title="减法、非"></a>减法、非</h2><p>减法其实就是做“加一个数的相反数”，所以说还是可以归结到加法上去，然而能够顺带解决“相反数”的问题。</p>
+<p>在初中时，相反数的定义是 <code>x +（-x） = 0</code> ，<code>-x</code> 是 <code>x</code> 的相反数。对于一个无符号整数x，那么一定存在另外一个无符号整数，会让他们的相加结果为零。这个结果就是2的w次方减去x。他俩的相加结果为2的w次方，需要w + 1位表示—— w + 1位是1，剩下的全为0。w + 1位会被抛弃，那么结果就是0。</p>
+<p>补码的非有一条比较神奇的技巧。求补码的非的一种方法是——对每一位求补，在对结果加1。也可以说<strong>取反加一</strong>，也就是说如果用C语言编码，可以对任意整数值x，计算-x和~x+1两个表达式的值，他们是绝对相等的。是不是很神奇？</p>
+<p>例如字长为4的情况，有符号整数5，那么补码表示法为<code>[0101]</code>，每一位取补后是<code>[1010]</code>，加一为<code>[1011]</code>，刚好是-5的补码表示法。</p>
+<h2 id="乘法，与移位运算的联系"><a href="#乘法，与移位运算的联系" class="headerlink" title="乘法，与移位运算的联系"></a>乘法，与移位运算的联系</h2><p>两个w位的数，加起来的数可能需要w + 1位，乘起来是可能需要2w位的（具体例子像上面加法那样举一个就很明白了）。对于无符号和补码的乘法来说，乘法运算的位级表示<strong>都是一样的</strong>。但依然结果是被截断为机器最长的能够表示的位数。</p>
+<p>这里比较有的说的是，在大多数机器上，乘法指令运算速度是比较慢的（需要10个或者更多的时钟周期）。然而其他整数运算（加减法、位运算）只需要一个时间周期。所以编译器会采取的一个重要优化就是<strong>通过位运算和加减法的组合</strong>来尝试<strong>代替乘除法</strong>运算。</p>
+<p>我们知道“把一个数左移n位相当于乘上2的n次方”。那么，如果一个程序包含表达式 <code>x * 14</code>，编译器会重写为<code>(x&lt;&lt;3) + (x&lt;&lt;2) + (x&lt;&lt;1)</code> 。无论x是无符号还是补码，甚至乘法导致了溢出，直接计算x乘以14和通过位运算和加法的组合计算，两个计算都会得到同样的结果（根据运算的属性可以证明这一点）。</p>
+<p>这是编译器会做的事情。如果我们要写 <code>x * 14</code>，那么就直接这么写。</p>
+<h2 id="除以2的幂"><a href="#除以2的幂" class="headerlink" title="除以2的幂"></a>除以2的幂</h2><p>在大多数机器上，整数除法比乘法更慢——通常需要30个或者更多的时间周期。如果能够用右移来实现的话，那是再好不过了。不幸的是，这种方法不能推广到除以任何常数K，这点于乘法不同。乘以任何常数都可以转化成加法和左移的结合，然而不能用右移（除以2的幂）来表示除以任意常数K。</p>
+<p>左移只有一种，就是在右边是补0。而右移有两种，就是<strong>算术右移</strong>和<strong>逻辑右移</strong></p>
+<blockquote>
+<p>逻辑右移，右移后在左端补0。算术右移，右移后在左端补最高有效位的值。</p>
+</blockquote>
+<p>如果采取算术右移的话，负数除以2的幂会让左端补的是1，那么保持了负数的符号。</p>
+<p>除法就会导致<strong>除不尽</strong>，移位会导致<strong>结果永远是向下舍入</strong>，有的时候会导致和我们的期望不一致。下面给出16位表示的<code>-12340</code>进行算术右移的结果。</p>
+<table>
+<thead>
+<tr>
+<th>k</th>
+<th>算术右移k位后的位表示（相当于除以2的k次方）</th>
+<th>结果（十进制，没有加偏移量）</th>
+<th>实际的结果</th>
+<th>我们期望的舍入结果 </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>1100111111001100</td>
+<td>-12340</td>
+<td>-12340.0</td>
+<td>-12340</td>
+</tr>
+<tr>
+<td>1</td>
+<td><em>1</em>110011111100110</td>
+<td>-6170</td>
+<td>-6170.0</td>
+<td>-6170</td>
+</tr>
+<tr>
+<td>4</td>
+<td><em>1111</em>110011111100</td>
+<td>-772</td>
+<td>-771.25</td>
+<td>-771</td>
+</tr>
+<tr>
+<td>8</td>
+<td><em>11111111</em>11001111</td>
+<td>-49</td>
+<td>-48.203125</td>
+<td>-48</td>
+</tr>
+</tbody>
+</table>
+<p>我们知道，整型5除以整型2的结果是2，实质上是结果2.5向下舍入。然而对于负数除以2的幂，我们会希望向上舍入。对于这个问题，我们可以在移位之前添加<strong>偏置值</strong>（biasing），通过这种方式修正不合适的舍入。对于<code>x / y</code>，偏移量为<code>y - 1</code>，也就是说有对<code>x / y</code> 向上舍入的结果对 <code>（x + y - 1）/y</code>。向下舍入相同。</p>
+<p><img src="http://images2015.cnblogs.com/blog/1092156/201703/1092156-20170315002216338-173004241.png" alt=""></p>
+<h1 id="思考和总结"><a href="#思考和总结" class="headerlink" title="思考和总结"></a>思考和总结</h1><h2 id="对于整数运算"><a href="#对于整数运算" class="headerlink" title="对于整数运算"></a>对于整数运算</h2><p>正如上文提到，计算机执行整数运算实际上是一种<strong>模运算</strong>形式。表示数字的有限字长<strong>限制了数值的取值范围</strong>，所以结果可能溢出。无论是无符号、补码，在进行加减乘除移位的时候，都有完全一样或者非常类似的位级行为。</p>
+<p>某些规定可能会产生令人意想不到的结果，而这些可能是难以察觉的bug的源头。特别地，我们看到unsigned数据类型，它们的概念很简单，但不恰当的运用它们可能导致即使是资深人士都意想不到的行为。</p>
+<h2 id="何时使用无符号整型呢？"><a href="#何时使用无符号整型呢？" class="headerlink" title="何时使用无符号整型呢？"></a>何时使用无符号整型呢？</h2><p><img src="http://images2015.cnblogs.com/blog/1092156/201703/1092156-20170315002239448-1425897145.png" alt=""></p>
+<p>如果对无符号整型的内容不是很理解，<strong>请不要使用</strong>无符号整型！</p>
+<p><img src="http://images2015.cnblogs.com/blog/1092156/201703/1092156-20170315002244651-1859190637.png" alt=""></p>
+<h2 id="一些题目"><a href="#一些题目" class="headerlink" title="一些题目"></a>一些题目</h2><p>在32位机器上运行如下代码。假设我们对有符号值使用补码运算，对有符号值使用的是算术右移，对有符号值使用的是逻辑右移。变量的初始化声明如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">int x = ArbitraryValue();</div><div class="line">int y = ArbitraryValue();</div><div class="line"></div><div class="line">unsigned ux = x;</div><div class="line">unsigned uy = y; //ux,uy 是x,y 的无符号型</div></pre></td></tr></table></figure>
+<p>对于下面的C语言表达式，请说明 1）对于所有的 x 和 y 值，表达式恒为真。或者 2）给出使表达式为假的 x 和 y 的值。</p>
+<ol>
+<li>(x &gt; 0) || (x - 1 &lt; 0) </li>
+<li>(x &amp; 7) != 7 || (x &lt;&lt; 29) &lt; 0</li>
+<li>(x * x) &gt;= 0</li>
+<li>x &lt; 0 || -x &gt;= 0</li>
+<li>x &gt; 0 || -x &gt;= 0</li>
+<li>x + y == ux + uy</li>
+<li>x <em> ~y + ux </em> uy == -x</li>
+</ol>
+<p>解答or提示：</p>
+<ol>
+<li>若 x = TMin ，x - 1 = TMax。</li>
+<li>7 的二进制表示是 0111 ，如果 (x &amp; 7) != 7 这个表达式为假，那么 x 的第二位必须是 1。左移29位之后，这个1变成了符号位。</li>
+<li>假。可能溢出</li>
+<li>真。</li>
+<li>TMin的逆元是TMin。当 x = TMin 时， -x 也等于 TMin。</li>
+<li>真。补码和无符号加法有相同的位级行为。</li>
+<li>~y = -y - 1（一个有符号数的相反数是各位取反后加一）。uy <em> ux 等于 x </em> y。因此：左边 = x <em> （-y - 1）+ x </em> y = x = 右边。</li>
+</ol>
+<h1 id="See-Also"><a href="#See-Also" class="headerlink" title="See Also"></a>See Also</h1><p>部分公式、数据截图来源</p>
+<ul>
+<li><a href="http://www.cs.cmu.edu/~./213/schedule.html" target="_blank" rel="external">CMU 2017年春季学期  ICS课程网站</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/06/24/csapp-1-Bits-and-Bytes/" rel="next" title="【CSAPP笔记】1. 位、字节、整型">
+                <i class="fa fa-chevron-left"></i> 【CSAPP笔记】1. 位、字节、整型
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="ZC" />
+          <p class="site-author-name" itemprop="name">ZC</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">26</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#整数运算"><span class="nav-number">1.</span> <span class="nav-text">整数运算</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#无符号加法"><span class="nav-number">1.1.</span> <span class="nav-text">无符号加法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#补码加法"><span class="nav-number">1.2.</span> <span class="nav-text">补码加法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#减法、非"><span class="nav-number">1.3.</span> <span class="nav-text">减法、非</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#乘法，与移位运算的联系"><span class="nav-number">1.4.</span> <span class="nav-text">乘法，与移位运算的联系</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#除以2的幂"><span class="nav-number">1.5.</span> <span class="nav-text">除以2的幂</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#思考和总结"><span class="nav-number">2.</span> <span class="nav-text">思考和总结</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#对于整数运算"><span class="nav-number">2.1.</span> <span class="nav-text">对于整数运算</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#何时使用无符号整型呢？"><span class="nav-number">2.2.</span> <span class="nav-text">何时使用无符号整型呢？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#一些题目"><span class="nav-number">2.3.</span> <span class="nav-text">一些题目</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#See-Also"><span class="nav-number">3.</span> <span class="nav-text">See Also</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ZC</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("guhO5d3jdrym6QcCp5oIrsMc-gzGzoHsz", "ldFdhqrIxGxOqWs5mgH8pmLT");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,1011 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="《Computer Systems a Programmer’s Perspective》，机械工业出版社。中文译名《深入理解计算机系统》。作者：（美）Randal E.Bryant / David O’Hallaron  想写点推荐理由，作罢，原因是自己学识尚浅（留坑以后写？）。这里附上几个链接，也许你看过之后，也会产生和我一样的想法，阅读这本计算机界的经典著作。  豆瓣——深入理解计算机系统（">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【CSAPP笔记】1. 位、字节、整型">
+<meta property="og:url" content="http://yoursite.com/2017/06/24/csapp-1-Bits-and-Bytes/index.html">
+<meta property="og:site_name" content="ZCplayground">
+<meta property="og:description" content="《Computer Systems a Programmer’s Perspective》，机械工业出版社。中文译名《深入理解计算机系统》。作者：（美）Randal E.Bryant / David O’Hallaron  想写点推荐理由，作罢，原因是自己学识尚浅（留坑以后写？）。这里附上几个链接，也许你看过之后，也会产生和我一样的想法，阅读这本计算机界的经典著作。  豆瓣——深入理解计算机系统（">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/1092156/201703/1092156-20170301173244579-1959724367.png">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/1092156/201703/1092156-20170301173253220-1770315263.png">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/1092156/201703/1092156-20170314222714307-1821907900.png">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/1092156/201703/1092156-20170301173341907-1121019011.png">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/1092156/201703/1092156-20170301173345391-342032466.png">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/1092156/201703/1092156-20170301173336563-1468523691.png">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/1092156/201703/1092156-20170301173410032-1954028755.png">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/1092156/201703/1092156-20170301173428610-1098335358.png">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/1092156/201703/1092156-20170301173438704-1046172863.png">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/1092156/201703/1092156-20170301173445157-442650501.png">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/1092156/201703/1092156-20170314224647604-1807752852.png">
+<meta property="og:updated_time" content="2017-06-24T15:04:06.167Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【CSAPP笔记】1. 位、字节、整型">
+<meta name="twitter:description" content="《Computer Systems a Programmer’s Perspective》，机械工业出版社。中文译名《深入理解计算机系统》。作者：（美）Randal E.Bryant / David O’Hallaron  想写点推荐理由，作罢，原因是自己学识尚浅（留坑以后写？）。这里附上几个链接，也许你看过之后，也会产生和我一样的想法，阅读这本计算机界的经典著作。  豆瓣——深入理解计算机系统（">
+<meta name="twitter:image" content="http://images2015.cnblogs.com/blog/1092156/201703/1092156-20170301173244579-1959724367.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/06/24/csapp-1-Bits-and-Bytes/"/>
+
+
+
+
+
+  <title>【CSAPP笔记】1. 位、字节、整型 | ZCplayground</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">ZCplayground</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/24/csapp-1-Bits-and-Bytes/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ZC">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ZCplayground">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">【CSAPP笔记】1. 位、字节、整型</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-24T22:53:50+08:00">
+                2017-06-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/CSAPP/" itemprop="url" rel="index">
+                    <span itemprop="name">CSAPP</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/06/24/csapp-1-Bits-and-Bytes/" class="leancloud_visitors" data-flag-title="【CSAPP笔记】1. 位、字节、整型">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>《Computer Systems a Programmer’s Perspective》，机械工业出版社。中文译名《深入理解计算机系统》。作者：（美）Randal E.Bryant / David O’Hallaron </p>
+<p>想写点推荐理由，作罢，原因是自己学识尚浅（留坑以后写？）。这里附上几个链接，也许你看过之后，也会产生和我一样的想法，阅读这本计算机界的经典著作。</p>
+<ul>
+<li><a href="https://book.douban.com/subject/5333562/" target="_blank" rel="external">豆瓣——深入理解计算机系统（原书第2版）</a></li>
+<li><a href="http://www.cnblogs.com/JeffreyZhao/archive/2009/11/23/recommended-reading-3-csapp.html" target="_blank" rel="external">老赵书托（3）：深入理解计算机系统</a></li>
+<li><a href="http://csapp.cs.cmu.edu/3e/perspective.html" target="_blank" rel="external">CMU CSAPP网站：何为Programmer’s Prospective？</a></li>
+</ul>
+<hr>
+<h1 id="程序的结构和执行"><a href="#程序的结构和执行" class="headerlink" title="程序的结构和执行"></a>程序的结构和执行</h1><p>这是本书的第一部分，Program Structure and  Execution。包括内容是第二到第六章。第二章的标题是：信息的表示和处理（Representing and  Manipulating Information）</p>
+<h1 id="位、字、数据类型"><a href="#位、字、数据类型" class="headerlink" title="位、字、数据类型"></a>位、字、数据类型</h1><h2 id="位"><a href="#位" class="headerlink" title="位"></a>位</h2><blockquote>
+<p>对于有十个手指头的人类来说，使用十进制表示法是很自然的事情，但是当构造处理信息的机器时，二进制的值工作得更好。……这些微不足道的二进制数字，或者成为位（bit），奠定了数字革命的基础</p>
+</blockquote>
+<p>现代计算机的处理、存储的信息以二进制表示。甚至可以说计算机的一切就是0和1。一个bit就是一个0或1。那为什么就偏偏是二进制而不是我们常用的十进制，或者什么三进制五进制之类？简单来说还是离散信号和模拟信号的区别。简言之，0和1这种离散值在用机器来表示时是非常方便的，例如高低电平、纸条带上孔的有无等等。而且模拟信号（如电压）有诸如很容易受其他条件干扰，很容易产生误差这样的缺点，离散数值的优势就体现了。如果说，一个单独的位，只能代表0或1，起不了多大的作用。但如果有很多的位（足够数量），并且对二进制数字串进行一定形式的编码（例如IEEE浮点规则、ASCII码等等），那么我们能赋予一串二进制数一定的意义，让其具有存储、处理信息的能力。虽然0和1是离散的，但大量的0和1，足够让我们认为是“连续”的。此时，二进制数就会向我们展示它的魔力。</p>
+<h2 id="十进制0-15的三种进制表示"><a href="#十进制0-15的三种进制表示" class="headerlink" title="十进制0~15的三种进制表示"></a>十进制0~15的三种进制表示</h2><table>
+<thead>
+<tr>
+<th>十六进制</th>
+<th>十进制</th>
+<th>二进制</th>
+<th>十六进制</th>
+<th>十进制</th>
+<th>二进制</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>0</td>
+<td>0000</td>
+<td>8</td>
+<td>8</td>
+<td>1000</td>
+</tr>
+<tr>
+<td>1</td>
+<td>1</td>
+<td>0001</td>
+<td>9</td>
+<td>9</td>
+<td>1001</td>
+</tr>
+<tr>
+<td>2</td>
+<td>2</td>
+<td>0010</td>
+<td>A</td>
+<td>10</td>
+<td>1010</td>
+</tr>
+<tr>
+<td>3</td>
+<td>3</td>
+<td>0011</td>
+<td>B</td>
+<td>11</td>
+<td>1011</td>
+</tr>
+<tr>
+<td>4</td>
+<td>4</td>
+<td>0100</td>
+<td>C</td>
+<td>12</td>
+<td>1100</td>
+</tr>
+<tr>
+<td>5</td>
+<td>5</td>
+<td>0101</td>
+<td>D</td>
+<td>13</td>
+<td>1101</td>
+</tr>
+<tr>
+<td>6</td>
+<td>6</td>
+<td>0110</td>
+<td>E</td>
+<td>14</td>
+<td>1110</td>
+</tr>
+<tr>
+<td>7</td>
+<td>7</td>
+<td>0111</td>
+<td>F</td>
+<td>15</td>
+<td>1111</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>这张表需要熟悉，也就是要了解进制转换的一些规则。</li>
+</ul>
+<h2 id="字"><a href="#字" class="headerlink" title="字"></a>字</h2><p>8 个 bit 是一个字，或者叫做字节（byte）。字节是作为最小的可寻址存储器单位（并不是一个个位去存储和访问）。每个字节都有一个唯一的数字作为标识，这个数字就是<strong>地址</strong>（Address）</p>
+<p>计算机有一个很重要的概念叫做<strong>字长</strong>（word size），指明整数和指针的<strong>标称大小</strong>。因为一个个地址都是唯一的数字，就是由一个字编码的。所以字长决定的一个最重要的系统参数就是虚拟地址空间的最大大小。一般来说32位的计算机，限定虚拟地址空间为4GB（2的32次方减1个字节）。</p>
+<h2 id="C语言数据类型的字节数"><a href="#C语言数据类型的字节数" class="headerlink" title="C语言数据类型的字节数"></a>C语言数据类型的字节数</h2><p><img src="http://images2015.cnblogs.com/blog/1092156/201703/1092156-20170301173244579-1959724367.png" alt=""></p>
+<h2 id="大端法、小端法"><a href="#大端法、小端法" class="headerlink" title="大端法、小端法"></a>大端法、小端法</h2><p>测试代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">#include&lt;stdio.h&gt;</div><div class="line">typedef unsigned char *byte_pointer;</div><div class="line"></div><div class="line">void show_bytes(byte_pointer start, int len) &#123;</div><div class="line">	int i;</div><div class="line">	for (i = 0; i &lt; len; i++)</div><div class="line">		printf(&quot; %.2x&quot;, start[i]);</div><div class="line">	printf(&quot;\n&quot;);</div><div class="line">&#125;</div><div class="line"></div><div class="line">void show_int(int x) &#123;</div><div class="line">	show_bytes((byte_pointer)&amp;x, sizeof(int));</div><div class="line">&#125;</div><div class="line"></div><div class="line">int main()</div><div class="line">&#123;</div><div class="line">	int x = 12345;</div><div class="line">	show_int(x);</div><div class="line">	return 0;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>在显示一个w位的整数时，如果w是8的整数，那么能以字节为单位来表示。最低有效字节排在前面的方式叫做小端法，大多intel兼容机器采取小端法。大端法采用的是最高有效字节在最前面，也就是我们平常习惯的方式。例如十进制<code>12345</code>的32位编码是<code>0000 3039</code>。小端法是如下的输出。</p>
+<p><img src="http://images2015.cnblogs.com/blog/1092156/201703/1092156-20170301173253220-1770315263.png" alt=""></p>
+<h1 id="bool代数、逻辑运算、移位运算"><a href="#bool代数、逻辑运算、移位运算" class="headerlink" title="bool代数、逻辑运算、移位运算"></a>bool代数、逻辑运算、移位运算</h1><p><a href="https://en.wikipedia.org/wiki/Boolean_algebra" target="_blank" rel="external">bool代数</a></p>
+<p><a href="https://en.wikipedia.org/wiki/Bitwise_operation#Bit_shifts" target="_blank" rel="external">位运算</a></p>
+<p>以下是一些补充记录：</p>
+<ul>
+<li><p>掩码运算。按位与：<code>&amp;</code>，常用于保持某位不变：<code>x&amp;1</code>，或把某些位置为0：<code>x&amp;0</code>。按位或：<code>|</code>，常用于将某些位置置为1：<code>x|1</code>。</p>
+</li>
+<li><p>对于逻辑运算来说，0 代表<code>false</code>，所有的非 0 值代表<code>true</code>。</p>
+</li>
+<li><p>对于任何值a来说，<code>a ^ a = 0</code>，一个数与自己的异或为零，因此有<code>(a ^ b) ^ a = b</code> ，加以利用可以带来有趣的结果。例如：a是密钥，b是明文，a^b是加密，加密后的值就被保护。想要知道明文，只能用a去解密。</p>
+</li>
+<li><p>对于右移<code>&lt;&lt;</code>，机器支持两种模式的右移。   </p>
+<ul>
+<li>逻辑右移，右移后在左端补0。</li>
+<li>算术右移，右移后在左端补<strong>最高有效位的值</strong>。</li>
+<li>例如 对于 <code>x = 0x10010011，x =&lt;&lt; 4</code>; 如果是逻辑右移，结果为 <code>x =  0000 1001</code>；如果为算术右移，结果为<code>1111 1001</code>。</li>
+</ul>
+</li>
+<li><p>移位数量应该保持小于字长。</p>
+</li>
+<li><p>加减法优先级比移位高。</p>
+</li>
+</ul>
+<p>关于位运算符放一张很久之前整理的表格：</p>
+<p><img src="http://images2015.cnblogs.com/blog/1092156/201703/1092156-20170314222714307-1821907900.png" alt=""></p>
+<h1 id="整数（integer）表示"><a href="#整数（integer）表示" class="headerlink" title="整数（integer）表示"></a>整数（integer）表示</h1><h2 id="整数编码"><a href="#整数编码" class="headerlink" title="整数编码"></a>整数编码</h2><p>整数分为有、无符号两种类型，<code>unsigned</code>。根据字节数的不同还分为<code>char</code>、<code>short</code>、<code>int</code>、<code>long</code>、<code>long long</code>。</p>
+<p>对于整数的编码，简言之，就是每个位上面的值乘以该位对应的权值，再求和。</p>
+<p>1.无符号数编码（binary to unsigned）</p>
+<p><img src="http://images2015.cnblogs.com/blog/1092156/201703/1092156-20170301173341907-1121019011.png" alt=""></p>
+<ul>
+<li>UMax，即编码全为1。</li>
+<li>UMin，编码全为0。</li>
+</ul>
+<p>2.补码编码（binary to Two’s compliment），与unsigned的区别在于最高有效位解释为<strong>负权</strong></p>
+<p><img src="http://images2015.cnblogs.com/blog/1092156/201703/1092156-20170301173345391-342032466.png" alt=""></p>
+<ul>
+<li>TMax，符号位为0，剩下位全为1。</li>
+<li>TMin，符号位为1，剩下位全为0。</li>
+<li>求一个有符号数的负数（补码的逻辑运算非），可以理解为把全部位取反后，对结果再加 1。特别地，TMin 的“负数”依然是 TMin。</li>
+</ul>
+<p>C语言默认是有符号整型。如果想要无符号常数，需要加关键词U做限制。</p>
+<h2 id="无符号数和有符号数之间的转换"><a href="#无符号数和有符号数之间的转换" class="headerlink" title="无符号数和有符号数之间的转换"></a>无符号数和有符号数之间的转换</h2><p><img src="http://images2015.cnblogs.com/blog/1092156/201703/1092156-20170301173336563-1468523691.png" alt=""></p>
+<p>关键点：同样字长的有符号数和无符号数，使用的是相同的位模式。</p>
+<p>难点：C语言中，对于一个运算，如果一个运算数是有符号的，另一个是无符号的，那么C语言会隐式地将有符号参数强制类型转换成无符号数，并且假设这两个数是非负的。因此，会导致一些奇怪的结果。例如：</p>
+<p><img src="http://images2015.cnblogs.com/blog/1092156/201703/1092156-20170301173410032-1954028755.png" alt=""></p>
+<p>对于第一个式子来说，由于一个操作数是有符号，另一个操作数是无符号，那么有符号数-1被强制转换成一个无符号数，会变成一个很大的无符号数。</p>
+<p>第二个，<code>-2147483647-1</code> 其实就是头文件<limit.h>中32位补码TMin的写法（这是由于C语言规则所致）。转换成无符号之后的值要比TMax大1。</limit.h></p>
+<p>第三个，这两个操作数都是有符号型，而且2147483648大于TMax，导致溢出，成了一个很小的负数。</p>
+<p><img src="http://images2015.cnblogs.com/blog/1092156/201703/1092156-20170301173428610-1098335358.png" alt=""></p>
+<h2 id="扩展、截断"><a href="#扩展、截断" class="headerlink" title="扩展、截断"></a>扩展、截断</h2><p><img src="http://images2015.cnblogs.com/blog/1092156/201703/1092156-20170301173438704-1046172863.png" alt=""></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line">#include&lt;stdio.h&gt;</div><div class="line">typedef unsigned char *byte_pointer;</div><div class="line"></div><div class="line">void show_bytes(byte_pointer start, int len) &#123;</div><div class="line">	int i;</div><div class="line">	for (i = 0; i &lt; len; i++)</div><div class="line">		printf(&quot; %.2x&quot;, start[i]);</div><div class="line">	printf(&quot;\n&quot;);</div><div class="line">&#125;</div><div class="line"></div><div class="line">void show_int(int x) &#123;</div><div class="line">	show_bytes((byte_pointer)&amp;x, sizeof(int));</div><div class="line">&#125;</div><div class="line"></div><div class="line">void show_short(short x) &#123;</div><div class="line">	show_bytes((byte_pointer)&amp;x, sizeof(short));</div><div class="line">&#125;</div><div class="line"></div><div class="line">int main()</div><div class="line">&#123;</div><div class="line">	//扩展</div><div class="line">	short x = 12345;</div><div class="line">	show_short(x);</div><div class="line">	printf(&quot;short x = %d\n&quot;, x);</div><div class="line">	show_int(x);</div><div class="line">	printf(&quot;int x = %d\n\n&quot;, (int)x);</div><div class="line"></div><div class="line">	//截断</div><div class="line">	int y = 123456;</div><div class="line">	show_int(y);</div><div class="line">	printf(&quot;int y = %d\n&quot;, y);</div><div class="line">	show_short(y);</div><div class="line">	printf(&quot;short y = %d\n\n&quot;, (short)y);</div><div class="line">	return 0;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>扩展，例如<code>short</code>到<code>int</code>，<code>int</code>到<code>long long int</code>这样。不会改变数字的值。如果是无符号数就是扩展全部为0的位，有符号数就是扩展全部为1的位。</p>
+<p>截断，例如<code>int</code>到<code>short</code>，有点类似于右移，类似于模2的n次方，但只是类似。对于大的数据，截断会导致溢出。例如<code>int</code>型整数<code>123456</code>大于<code>short</code>能表示的最大数值范围，如果将其截断会导致上溢出从而得到一个负数。</p>
+<p><img src="http://images2015.cnblogs.com/blog/1092156/201703/1092156-20170301173445157-442650501.png" alt=""></p>
+<p>如果打算通过使用扩展位数的手段来使得一些运算结果由原本的溢出变为不溢出，那么强制类型转换和计算这两个过程的先后顺序很重要。例如下面这个函数验证两个32位的int型整数做乘法有没有产生溢出，验证的手段是先用64位的整型存结果，再将64位乘积截断为32位是否会改变其值：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">int imull(int x, int y)&#123;</div><div class="line">    long long pll = (long long)x * y;</div><div class="line">    return pll == (int)pll;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>代码第二行的强制类型转换至关重要，<strong>先转换再计算</strong>。如果第二行是这么写的话：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">long long pll = x * y;</div></pre></td></tr></table></figure>
+<p>那么会用32位值来计算乘积（可能这会溢出），然后再将其扩展为64位。显然不会达到目的。可以参考下面的运行结果</p>
+<p><img src="http://images2015.cnblogs.com/blog/1092156/201703/1092156-20170314224647604-1807752852.png" alt=""></p>
+<hr>
+<h1 id="See-Also"><a href="#See-Also" class="headerlink" title="See Also"></a>See Also</h1><p>部分公式、数据截图来源</p>
+<ul>
+<li><a href="http://www.cs.cmu.edu/~./213/schedule.html" target="_blank" rel="external">CMU 2017年春季学期  ICS课程网站</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/06/22/smart-pointer/" rel="next" title="C++学习之智能指针">
+                <i class="fa fa-chevron-left"></i> C++学习之智能指针
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/06/25/csapp-2-Integers/" rel="prev" title="【CSAPP笔记】2. 整型运算">
+                【CSAPP笔记】2. 整型运算 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="ZC" />
+          <p class="site-author-name" itemprop="name">ZC</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">26</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#程序的结构和执行"><span class="nav-number">1.</span> <span class="nav-text">程序的结构和执行</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#位、字、数据类型"><span class="nav-number">2.</span> <span class="nav-text">位、字、数据类型</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#位"><span class="nav-number">2.1.</span> <span class="nav-text">位</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#十进制0-15的三种进制表示"><span class="nav-number">2.2.</span> <span class="nav-text">十进制0~15的三种进制表示</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#字"><span class="nav-number">2.3.</span> <span class="nav-text">字</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#C语言数据类型的字节数"><span class="nav-number">2.4.</span> <span class="nav-text">C语言数据类型的字节数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#大端法、小端法"><span class="nav-number">2.5.</span> <span class="nav-text">大端法、小端法</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#bool代数、逻辑运算、移位运算"><span class="nav-number">3.</span> <span class="nav-text">bool代数、逻辑运算、移位运算</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#整数（integer）表示"><span class="nav-number">4.</span> <span class="nav-text">整数（integer）表示</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#整数编码"><span class="nav-number">4.1.</span> <span class="nav-text">整数编码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#无符号数和有符号数之间的转换"><span class="nav-number">4.2.</span> <span class="nav-text">无符号数和有符号数之间的转换</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#扩展、截断"><span class="nav-number">4.3.</span> <span class="nav-text">扩展、截断</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#See-Also"><span class="nav-number">5.</span> <span class="nav-text">See Also</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ZC</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("guhO5d3jdrym6QcCp5oIrsMc-gzGzoHsz", "ldFdhqrIxGxOqWs5mgH8pmLT");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
