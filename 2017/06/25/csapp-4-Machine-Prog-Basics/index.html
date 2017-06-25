@@ -1,0 +1,872 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="程序的机器级表示计算机能读懂是机器代码（machine code）—— 用字节序列编码的低级操作 —— 也就是0和1。编译器基于编程语言的规则、目标机器的指令集和操作系统的规则，经过一系列阶段产生机器代码。由于机器语言全是由0和1组成的，所以对于编程人员来说编写机器代码十分困难，也不容易学习。汇编语言（assembly language）就是机器语言的可读形式，学习汇编语言有很多的好处。  An">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【CSAPP笔记】4. 汇编语言——基础">
+<meta property="og:url" content="http://yoursite.com/2017/06/25/csapp-4-Machine-Prog-Basics/index.html">
+<meta property="og:site_name" content="ZCplayground">
+<meta property="og:description" content="程序的机器级表示计算机能读懂是机器代码（machine code）—— 用字节序列编码的低级操作 —— 也就是0和1。编译器基于编程语言的规则、目标机器的指令集和操作系统的规则，经过一系列阶段产生机器代码。由于机器语言全是由0和1组成的，所以对于编程人员来说编写机器代码十分困难，也不容易学习。汇编语言（assembly language）就是机器语言的可读形式，学习汇编语言有很多的好处。  An">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/1092156/201704/1092156-20170402135547024-827219139.png">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/1092156/201704/1092156-20170402135600524-1526922645.png">
+<meta property="og:updated_time" content="2017-06-25T04:31:06.730Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【CSAPP笔记】4. 汇编语言——基础">
+<meta name="twitter:description" content="程序的机器级表示计算机能读懂是机器代码（machine code）—— 用字节序列编码的低级操作 —— 也就是0和1。编译器基于编程语言的规则、目标机器的指令集和操作系统的规则，经过一系列阶段产生机器代码。由于机器语言全是由0和1组成的，所以对于编程人员来说编写机器代码十分困难，也不容易学习。汇编语言（assembly language）就是机器语言的可读形式，学习汇编语言有很多的好处。  An">
+<meta name="twitter:image" content="http://images2015.cnblogs.com/blog/1092156/201704/1092156-20170402135547024-827219139.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/06/25/csapp-4-Machine-Prog-Basics/"/>
+
+
+
+
+
+  <title>【CSAPP笔记】4. 汇编语言——基础 | ZCplayground</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">ZCplayground</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/25/csapp-4-Machine-Prog-Basics/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ZC">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ZCplayground">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">【CSAPP笔记】4. 汇编语言——基础</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-25T12:08:55+08:00">
+                2017-06-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/06/25/csapp-4-Machine-Prog-Basics/" class="leancloud_visitors" data-flag-title="【CSAPP笔记】4. 汇编语言——基础">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="程序的机器级表示"><a href="#程序的机器级表示" class="headerlink" title="程序的机器级表示"></a>程序的机器级表示</h1><p>计算机能读懂是<a href="https://en.wikipedia.org/wiki/Machine_code" target="_blank" rel="external">机器代码</a>（machine code）—— 用字节序列编码的低级操作 —— 也就是0和1。编译器基于编程语言的规则、目标机器的指令集和操作系统的规则，经过一系列阶段产生机器代码。由于机器语言全是由0和1组成的，所以对于编程人员来说编写机器代码十分困难，也不容易学习。<a href="https://en.wikipedia.org/wiki/Assembly_language" target="_blank" rel="external">汇编语言</a>（assembly language）就是机器语言的可读形式，学习汇编语言有很多的好处。</p>
+<blockquote>
+<p>An assembly (or assembler) language,[1] often abbreviated asm, is a low-level programming language for a computer, or other programmable device, in which there is a very strong (generally one-to-one) correspondence between the language and <strong>the architecture’s machine code instructions.</strong></p>
+<p>Machine code or machine language is a set of instructions <strong>executed directly by a computer’s central processing unit (CPU)</strong>. Each instruction performs a very specific task, such as a load, a jump, or an ALU operation on a unit of data in a CPU register or memory. Every program directly executed by a CPU is made up of a series of such instructions……Numerical machine code (i.e., not assembly code) may be regarded as the lowest-level representation of a compiled or assembled computer program or as a primitive and hardware-dependent programming language.</p>
+</blockquote>
+<p>我们在用高级语言编程时（例如C语言），高级语言本身提供的抽象级别比较高，因此有“程序设计”的概念，方便我们编程。大多数情况下，抽象级别比较高，工作效率就会提高，也更高效可靠。高级语言相较汇编语言的一个最大优点是：用高级语言编写的程序可以在很多不同的机器上运行，而汇编代码与硬件本身有关联，例如指令集不同那么汇编代码就不同。</p>
+<blockquote>
+<p>Each assembly language is specific to a particular computer architecture. In contrast, most high-level programming languages are generally portable across multiple architectures but require interpreting or compiling.</p>
+</blockquote>
+<p>那我们为什么要花时间学习汇编和机器代码呢？</p>
+<p>纵观计算机的发展历程，有一个很重要的观点就是用<strong>分层</strong>的思路来构造整个系统，每个下层都对其上层隐藏本层的细节。这个抽象原理对于理解计算机很多方面的知识都有帮助，例如网络四层模型就是一个很典型的例子。扯回编程语言这块，由于语言是“高级”的，自然屏蔽了很多机器级实现过程的细节。例如，如果只是单纯的学习C语言，那对于寄存器、程序计数器、系统的栈、缓冲区溢出等知识点没有办法很好的理解，因为它们对于C语言程序员来说都是被隐藏的处理器状态。C语言的指针通常是引起错误和不理解的来源，但在汇编中访存、取地址都是很常见的操作。学习汇编，能让你学到一些在C语言学习中由于粒度不够细而学不到的东西。除此之外，读完这一章之后，你还能领略到C语言的伟大之处。</p>
+<p>抽象和分层是很重要的思想，但对于严谨的学习者来说，并不意味只要懂得抽象原理就足够了。能够阅读和理解汇编代码是仍是一项很重要的技能。<strong>精通细节是理解更深和更基本概念的先决条件</strong>。随着时间的推移，对于汇编代码的学习需求也有变化，我们现在不需要直接用汇编语言编写程序，只需要能够阅读并理解编译器产生的代码就可以了。</p>
+<p>处理器执行的指令，被编码成二进制形式。一个处理器支持的指令及其编码集称为<a href="https://en.wikipedia.org/wiki/Instruction_set" target="_blank" rel="external">指令集体系结构</a>(Instruction-Set Architecture, <strong>ISA</strong>)。</p>
+<blockquote>
+<p>An instruction set, with its instruction set architecture (ISA), is the interface between a computer’s software and its hardware, and thereby enables the independent development of these two computing realms; it defines the valid instructions that a machine may execute.</p>
+</blockquote>
+<p>ISA就是机器级程序的格式和行为，这种类型的指令，每一条完成的工作都是非常基本的，例如把两个数相加。因此学习汇编代码就有助于我们了解编译器在把C代码转换成机器代码时所做的转换。相对于C代码，编译器重新排列执行顺序、消除不必要的计算和变量、用基本的、快速的操作代替慢速操作，甚至用迭代替代了递归。学习<strong>逆向工程</strong>（reverse engineering），来研究高级语言，甚至研究系统创建的过程。（好书啊好书）</p>
+<blockquote>
+<p>可以说，汇编语言很有其特殊性，高级语言的一些抽象的概念，都被归一和具象化了，C语言的指针，在汇编的世界里简直不值一提，因为地址，对地址的引用再平常不过了。另一方面，内存，缓存，寄存器，CPU，又构成了一个奇妙的世界，它们屏息恭立，静待主公的每一条喻令。<br>我不相信，一个人用纯手工一条条指令去雕琢他的程序，用手指感受计算机的呼吸时会无动于衷。……</p>
+<p>作者：匿名用户<br>链接：<a href="https://www.zhihu.com/question/23088538/answer/23631875" target="_blank" rel="external">https://www.zhihu.com/question/23088538/answer/23631875</a><br>来源：知乎<br>著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。</p>
+</blockquote>
+<h1 id="Architecture"><a href="#Architecture" class="headerlink" title="Architecture"></a>Architecture</h1><p>汇编内容比较多，部分涉及具体细节的内容有删减，仅做简单介绍，详情请参考书本。</p>
+<h2 id="处理器"><a href="#处理器" class="headerlink" title="处理器"></a>处理器</h2><p>Intel 处理器系列俗称 x86，经历了一个长期的、不断发展过程。1965年，Intel公司的创始人Gordon Moore，根据当时的芯片技术（那时他们能够在一个芯片上制造大概有64个晶体管的电路）做出推断：未来10年内，芯片上晶体管数量每年都能翻一番。这个预测就是著名的<strong>摩尔定律</strong>。正如事实所证明的那样，他的预测有点乐观，还有点短视。在超过45年中，半导体工业一直能够让晶体管数量每18个月翻一番。</p>
+<p><img src="http://images2015.cnblogs.com/blog/1092156/201704/1092156-20170402135547024-827219139.png" alt=""></p>
+<h2 id="指令集"><a href="#指令集" class="headerlink" title="指令集"></a>指令集</h2><p>就像上面讲到的那样，计算机系统用到了许多不同形式的抽象，利用简单的模型隐藏各种细节。其中之一就是指令集，也就是ISA。在学习汇编时，ISA模型给人的感觉好像看上去应该是顺序指令执行，也就是先取出一条指令，等到它执行完毕，再开始下一条。然而处理器的实际工作方式远比这种模式精细复杂，因为处理器可以并发执行多条指令，因此需要做很多的额外工作。<strong>在计算机科学中，用巧妙的方法在提高性能，并完成更多更复杂的功能的同时，又同时保持了一个更简单、更抽象的底层模型功能</strong>，这种想法是无处不在的。</p>
+<p>IA32和x86-64就是两种ISA，也是着重介绍的重点。这两者是当今大多数计算机的主导语言，后者是前者在64位机器上的扩展版本。</p>
+<p><img src="http://images2015.cnblogs.com/blog/1092156/201704/1092156-20170402135600524-1526922645.png" alt=""></p>
+<p>IA32的机器代码和原始C代码差别非常大。下面这些对于C语言程序员隐藏的概念在IA32中是可见的：</p>
+<ul>
+<li><p>程序计数器（Program Counter，简称PC），用来指示将要执行的下一条指令的地址。</p>
+</li>
+<li><p>整数寄存器文件（Register File），非常重要的概念。用来存储地址（对应C语言的指针）或者整数数据，或者用来记录程序的状态，或者保持临时数据，例如局部变量、函数的返回值等等。</p>
+</li>
+<li><p>条件码（Condition Code），保持最近执行过的算术or逻辑指令的状态信息。用来实现控制或数据流条件变化。（对应C语言的if等等）</p>
+</li>
+</ul>
+<p>对于机器级编程来说，有第另一种极为重要的抽象，那就是把存储器地址抽象成<strong>虚拟地址</strong>（Virtual Memory），提供的模型，让机器代码只是简单地把存储器看成是一个非常大的字节数组。所以，C语言中的各种数据类型，和自定义数据类型（struct），在机器代码中都是用一组字节来表示。汇编代码不区分有符号、无符号常数，不区分各种类型的指针，甚至不区分指针和整数。</p>
+<ul>
+<li>程序存储器（Program Memory）包含程序的可执行机器代码，操作系统需要的一些信息，例如支持系统运行的栈，以及为用户分配的存储器块（例如malloc）。程序存储器用虚拟地址来寻址（Addressable），操作系统负责管理虚拟地址空间，将虚拟地址翻译成实际处理器中的物理地址。</li>
+</ul>
+<p>处理器能够执行的操作其实是非常有限的，简单来说只有三种：存取数据、计算和传输控制。存取数据是在内存和寄存器之间传输数据，进行计算则是对寄存器或者内存中的数据执行算术运算，传输控制主要指非条件跳转和条件分支。</p>
+<h1 id="代码示例"><a href="#代码示例" class="headerlink" title="代码示例"></a>代码示例</h1><p>下面给出一个C语言代码以及其汇编代码中的一些关键行。一开始看不懂没关系，我们只需要对其有一个感性认知。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">int accum = 0;</div><div class="line"></div><div class="line">int sum(int x, int y)</div><div class="line">&#123;</div><div class="line">    int t = x + y;</div><div class="line">    accum += t;</div><div class="line">    return t;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>对应的由编译器产生的汇编代码（部分行）如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">sum:</div><div class="line">    pushl   %ebp</div><div class="line">    movl    %esp,  %ebp</div><div class="line">    movl    12(%ebp),  %eax</div><div class="line">    addl    8(%ebp),  %eax</div><div class="line">    addl    %eax,  accum</div><div class="line">    popl    %ebp</div><div class="line">    ret</div></pre></td></tr></table></figure>
+<p>观察汇编语言代码，我们可以看到第一个字符串就是操作符，后面可能跟着几个操作数，由逗号分开。操作符就被唯一解码成对应的机器指令，但汇编语言的操作符是能让我们看得懂的。</p>
+<p>在汇编代码中，每一行都代表一条机器指令。例如pushl就是把寄存器%ebp的内容压入栈。这段代码已经不存在任何关于局部变量名和数据类型的信息（除了全局变量accum，还没有确定会放在哪里）。</p>
+<p>如果使用汇编器（Assembler）将汇编语言翻译为机器语言，机器语言是二进制格式，无法直接查看。但其中有一列17个字节的字节序列：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">55 89 e5 8b 45 0c 03 45 08 01 05 00 00 00 00 5d c3</div></pre></td></tr></table></figure>
+<p>这就是上面列出的汇编指令对应的机器代码。我们可以看出来，机器实际执行的就是对一系列指令进行编码的<strong>字节序列</strong>。机器对于我们写的C语言代码可以说是一无所知的。</p>
+<hr>
+<h1 id="See-Also"><a href="#See-Also" class="headerlink" title="See Also"></a>See Also</h1><ul>
+<li><a href="https://www.zhihu.com/question/23088538" target="_blank" rel="external">zhihu 学习汇编语言有什么好处？</a></li>
+<li><a href="http://www.cs.cmu.edu/~./213/schedule.html" target="_blank" rel="external">CMU 2017年春季学期 ICS课程网站</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/06/25/csapp-3-Floating-Point/" rel="next" title="【CSAPP笔记】3. 浮点数">
+                <i class="fa fa-chevron-left"></i> 【CSAPP笔记】3. 浮点数
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/06/25/csapp-5-Machine-Prog-Data/" rel="prev" title="【CSAPP笔记】5. 汇编语言——数据">
+                【CSAPP笔记】5. 汇编语言——数据 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="ZC" />
+          <p class="site-author-name" itemprop="name">ZC</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">29</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#程序的机器级表示"><span class="nav-number">1.</span> <span class="nav-text">程序的机器级表示</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Architecture"><span class="nav-number">2.</span> <span class="nav-text">Architecture</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#处理器"><span class="nav-number">2.1.</span> <span class="nav-text">处理器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#指令集"><span class="nav-number">2.2.</span> <span class="nav-text">指令集</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#代码示例"><span class="nav-number">3.</span> <span class="nav-text">代码示例</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#See-Also"><span class="nav-number">4.</span> <span class="nav-text">See Also</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ZC</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("guhO5d3jdrym6QcCp5oIrsMc-gzGzoHsz", "ldFdhqrIxGxOqWs5mgH8pmLT");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+
+  
+
+  
+
+</body>
+</html>
