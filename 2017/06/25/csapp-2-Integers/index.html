@@ -105,7 +105,7 @@
 <meta property="og:image" content="http://images2015.cnblogs.com/blog/1092156/201703/1092156-20170315002216338-173004241.png">
 <meta property="og:image" content="http://images2015.cnblogs.com/blog/1092156/201703/1092156-20170315002239448-1425897145.png">
 <meta property="og:image" content="http://images2015.cnblogs.com/blog/1092156/201703/1092156-20170315002244651-1859190637.png">
-<meta property="og:updated_time" content="2017-06-25T03:24:37.314Z">
+<meta property="og:updated_time" content="2017-06-25T03:29:27.684Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【CSAPP笔记】2. 整型运算">
 <meta name="twitter:description" content="现在想补补推荐这本书的理由。  Most books on systems—computer architecture, compilers, operating systems, and networking—are written as if the reader were going to design and implement such a system. We call this th">
@@ -480,16 +480,7 @@
 <p><img src="http://images2015.cnblogs.com/blog/1092156/201703/1092156-20170315002244651-1859190637.png" alt=""></p>
 <h2 id="一些题目"><a href="#一些题目" class="headerlink" title="一些题目"></a>一些题目</h2><p>在32位机器上运行如下代码。假设我们对有符号值使用补码运算，对有符号值使用的是算术右移，对有符号值使用的是逻辑右移。变量的初始化声明如下：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">int x = ArbitraryValue();</div><div class="line">int y = ArbitraryValue();</div><div class="line"></div><div class="line">unsigned ux = x;</div><div class="line">unsigned uy = y; //ux,uy 是x,y 的无符号型</div></pre></td></tr></table></figure>
-<p>对于下面的C语言表达式，请说明 1）对于所有的 x 和 y 值，表达式恒为真。或者 2）给出使表达式为假的 x 和 y 的值。</p>
-<ol>
-<li>(x &gt; 0) || (x - 1 &lt; 0) </li>
-<li>(x &amp; 7) != 7 || (x &lt;&lt; 29) &lt; 0</li>
-<li>(x * x) &gt;= 0</li>
-<li>x &lt; 0 || -x &gt;= 0</li>
-<li>x &gt; 0 || -x &gt;= 0</li>
-<li>x + y == ux + uy</li>
-<li>x <em> ~y + ux </em> uy == -x</li>
-</ol>
+<p>对于下面的C语言表达式，请说明 1）对于所有的 x 和 y 值，表达式恒为真。或者 2）给出使表达式为假的 x 和 y 的值。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">1. (x &gt; 0) || (x - 1 &lt; 0) </div><div class="line">2. (x &amp; 7) != 7 || (x &lt;&lt; 29) &lt; 0</div><div class="line">3. (x * x) &gt;= 0</div><div class="line">4. x &lt; 0 || -x &gt;= 0</div><div class="line">5. x &gt; 0 || -x &gt;= 0</div><div class="line">6. x + y == ux + uy</div><div class="line">7. x * ~y + ux * uy == -x</div></pre></td></tr></table></figure></p>
 <p>解答or提示：</p>
 <ol>
 <li>若 x = TMin ，x - 1 = TMax。</li>
