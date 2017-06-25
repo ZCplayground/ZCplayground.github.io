@@ -1,0 +1,991 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="回想起刚学C语言时，我对浮点数的印象大概是“能够表示小数”的数据类型。还死记硬背过例如什么“小数用double存，用%f输出”这类的话。实际上呢，浮点数可以用这么一个公式来概括： $$ \sum_{k=-j}^i b_k×2^k$$ 除了我们所熟知的，表示小数之外，它对执行涉及非常大的数字、非常接近于0的数字，以及更普遍地作为对实数运算的结果的近似值，是非常有用的。 以下摘取一些书本中的内容： 2">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【CSAPP笔记】3. 浮点数">
+<meta property="og:url" content="http://yoursite.com/2017/06/25/csapp-3-Floating-Point/index.html">
+<meta property="og:site_name" content="ZCplayground">
+<meta property="og:description" content="回想起刚学C语言时，我对浮点数的印象大概是“能够表示小数”的数据类型。还死记硬背过例如什么“小数用double存，用%f输出”这类的话。实际上呢，浮点数可以用这么一个公式来概括： $$ \sum_{k=-j}^i b_k×2^k$$ 除了我们所熟知的，表示小数之外，它对执行涉及非常大的数字、非常接近于0的数字，以及更普遍地作为对实数运算的结果的近似值，是非常有用的。 以下摘取一些书本中的内容： 2">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/1092156/201703/1092156-20170320014511596-1415118609.png">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/1092156/201703/1092156-20170320014528408-1029558636.png">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/1092156/201703/1092156-20170320014636346-1809414366.png">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/1092156/201703/1092156-20170320014536690-345752524.png">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/1092156/201703/1092156-20170320014609330-372123676.png">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/1092156/201703/1092156-20170320014549815-1062119948.png">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/1092156/201703/1092156-20170320014553580-1059386033.png">
+<meta property="og:updated_time" content="2017-06-25T04:04:38.913Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【CSAPP笔记】3. 浮点数">
+<meta name="twitter:description" content="回想起刚学C语言时，我对浮点数的印象大概是“能够表示小数”的数据类型。还死记硬背过例如什么“小数用double存，用%f输出”这类的话。实际上呢，浮点数可以用这么一个公式来概括： $$ \sum_{k=-j}^i b_k×2^k$$ 除了我们所熟知的，表示小数之外，它对执行涉及非常大的数字、非常接近于0的数字，以及更普遍地作为对实数运算的结果的近似值，是非常有用的。 以下摘取一些书本中的内容： 2">
+<meta name="twitter:image" content="http://images2015.cnblogs.com/blog/1092156/201703/1092156-20170320014511596-1415118609.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/06/25/csapp-3-Floating-Point/"/>
+
+
+
+
+
+  <title>【CSAPP笔记】3. 浮点数 | ZCplayground</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">ZCplayground</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/25/csapp-3-Floating-Point/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ZC">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ZCplayground">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">【CSAPP笔记】3. 浮点数</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-25T11:34:03+08:00">
+                2017-06-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/06/25/csapp-3-Floating-Point/" class="leancloud_visitors" data-flag-title="【CSAPP笔记】3. 浮点数">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>回想起刚学C语言时，我对浮点数的印象大概是“能够表示小数”的数据类型。还死记硬背过例如什么“小数用double存，用%f输出”这类的话。实际上呢，浮点数可以用这么一个公式来概括：</p>
+<p>$$ \sum_{k=-j}^i b_k×2^k$$</p>
+<p>除了我们所熟知的，表示小数之外，它对执行涉及非常大的数字、非常接近于0的数字，以及更普遍地作为对实数运算的结果的近似值，是非常有用的。</p>
+<p>以下摘取一些书本中的内容：</p>
+<p>20世界80年代，每个计算机制造商都指定了自己的表示浮点数的规则，以及对浮点数执行运算的细节。因此，这对不同的计算机之间的协同工作带来了很大的不便。这一切都随着<strong>IEEE 754</strong>标准的推出而改变了。这是一项由Intel公司赞助的计划，详细地制定了浮点数的表示方法和运算标准。因为其具有足够的合理性和先进性，被IEEE采纳为浮点数的标准，在1985年发布。目前，实际上所有的计算机都支持这个后来被称为<strong>IEEE浮点</strong>的标准。大大提高了各种程序在不同机器上的可移植性。</p>
+<blockquote>
+<p>旁注：IEEE（读作“Eye-Triple-Eee”），指电器和电子工程师协会，是一个包括所有电子和计算机技术的专业团体。它出版刊物、举办会议、建立委员会来定义各种标准，涉及范围从电力传输到软件工程。</p>
+</blockquote>
+<p>这一节中，我们将看到IEEE 754 浮点格式是如何表示数字的，以及有关的其他细节。许多程序员认为浮点数没甚意思（往坏了说，深奥难懂）。但我们将看到，IEEE标准是相当优雅和容易理解的。</p>
+<h1 id="二进制小数"><a href="#二进制小数" class="headerlink" title="二进制小数"></a>二进制小数</h1><p>理解浮点数的第一步是理解含有小数部分的二进制数字。对于我们熟悉的十进制来说，一个小数可以表示为</p>
+<p>$$ d_md_{m-1}…d_1d_0.d_{-1}d_{-2}…d_{-n}$$</p>
+<p>每个数位上面的数字的范围是0~9。上面的一长串表示法所表示的数值d为：</p>
+<p>$$ d = \sum_{i=-n}^m = 10^i×d_i$$</p>
+<p>十进制，意味着数字权为10。小数点左边的数字的权是10的正幂或0次幂，乘起来之后累加会得到<strong>整数部分的值</strong>。小数点右边的数字的权是10的负幂，乘起来之后累加会得到<strong>小数部分的值</strong>。下面举一个 $12.34_{(10)}$ 的运算过程作为例子。</p>
+<p>$$ 1×10^1+2×10^0+3×10^{-1}+4×10^{-2} = 12\frac{34}{100}$$</p>
+<p>其实二进制小数不会很难理解，跟10进制不同的是，把10的幂次改成2的幂次，仅此而已。还有就是，二进制只有0和1组成。下面举一个$101.11_{(2)}$的运算过程作为例子。</p>
+<p>$$ 1×2^2+0×2^1+1×2^0+1×2^{-1}+1×2^{-2} = 4+0+1+\frac{1}{2}+\frac{1}{4}=5\frac{3}{4}$$</p>
+<p>对于十进制小数的一些性质，完全能够在二进制小数中发现类似的。例如，对于十进制小数来说，把小数点右移一位相当于乘以10。那么，对于二进制小数来说，把小数点往右移一位相当于乘以2。</p>
+<p>由于$0.111111….$ 非常接近于1，因此我们用 $1.0−ϵ$来表示。</p>
+<p>很显然，任何编码长度都是有限的。十进制表示法是无法<strong>准确地表达</strong>像三分之一这样的无限循环小数。其究极原因是在于，如果把十进制小数想象成一种编码的话，那么这种编码方案的精度不够，所以无法准确地把三分之一表示出来（这个例子有点牵强，因为三分之一是无限循环的）。由此，我们可以想象，二进制数表示法只能表示那些能够被写成$x×2^y$的小数。例如，数字$\frac{1}{5}$可以被精确地表示成十进制小数0.2，但没办法用一个二进制小数<strong>准确</strong>地表示它，只能通过提高二进制表示位的长度来提高精度，从而<strong>近似</strong>地去表示。这是一个很重要的理念。</p>
+<h1 id="IEEE-754-浮点标准"><a href="#IEEE-754-浮点标准" class="headerlink" title="IEEE 754 浮点标准"></a>IEEE 754 浮点标准</h1><p>在正式进入对754标准的讲解之前，我想先回到我之前在博客中提到过的一句话：</p>
+<blockquote>
+<p>0和1这种离散值在用机器来表示时是非常方便的……虽然0和1是离散的，但大量的0和1，足够让我们认为是“连续”的。</p>
+</blockquote>
+<p>什么叫做“大量的离散，足够让我们认为是连续的”呢？对于整数编码了解后，我们知道其实计算机能够表示的整数的范围很有限。但如果用比较长的字长，例如32位，那么对于普通人来说，他们日常需要用到的加减法是绝对够用了。但是，整数编码是表示不了特别大的数的，也不能表示特别小的负数、以及小数。例如，如果你用一个32位的int整型去存储计算阶乘!n的结果，那么计算到13的阶乘时就已经溢出了。即使你用long long去存，算到20的阶乘也就溢出了。</p>
+<p>下面你将能够看到，浮点数不仅仅能表示小数，还具有表示特别大/特别小的数的能力。但通过二进制小数我们也了解到，不是每个数都能够被“精确”地表示，有的时候只能用另一个近似数通过“舍入”去表示，因此也增加了对于编码设计、数值分析方面的挑战性。综上所诉，我们可以这样认为：<strong>整型只能表示范围较小的数，但它能表示的每个数都是准确的。浮点数虽然能编码一个很大的范围，但这种表示只是近似的。</strong></p>
+<p>下面介绍IEEE 754标准的内容。IEEE浮点标准使用 $ V=(-1)^s×M×2^E$ 的形式来表示一个数。</p>
+<ul>
+<li><strong>符号位（sign）</strong>，与补码类似，s为1代表这个数为负，s为0代表这个数为正</li>
+<li><strong>阶码（exponent）</strong>E的作用是对浮点数加权，权重是2的E次幂。</li>
+<li><strong>尾数（significand）</strong>M是一个二进制小数，范围是$1到2−ϵ$（规格化）或者$0到1−ϵ$（非规格化）</li>
+</ul>
+<p>标准浮点格式把位划分成三个字段，分别对上面这三种值进行编码</p>
+<ul>
+<li>开头第一位代表符号位</li>
+<li>接下来是k位的字段exp，编码的是阶码，但是结果要减去偏置值。（需要重点理解）</li>
+<li>在接下来n位的小数字段frac，编码尾数M，但是编码出来的值依赖于这个数是规格化数or非规格化数（后面会解释，需要重点理解）</li>
+</ul>
+<p>比较常见的是32位和64位的浮点数编码。在C语言中，32位对于的就是数据类型<strong>float</strong>，称为单精度浮点数（single precision）。64位的是<strong>double</strong>，称为双精度浮点数（double precision）。下面是他们的编码格式，具体的就是k和n位数的不同，看下图。</p>
+<p><img src="http://images2015.cnblogs.com/blog/1092156/201703/1092156-20170320014511596-1415118609.png" alt=""></p>
+<h2 id="规格化和非规格化的值"><a href="#规格化和非规格化的值" class="headerlink" title="规格化和非规格化的值"></a>规格化和非规格化的值</h2><h3 id="规格化的值-Normalized-Values"><a href="#规格化的值-Normalized-Values" class="headerlink" title="规格化的值(Normalized Values)"></a>规格化的值(Normalized Values)</h3><p>在 exp ≠ 000…0 和 exp ≠ 111…1 时（阶码部分不全为0或全为1），表示的值就叫<strong>规格化值</strong>。到底规格化是什么意思呢？对于规格化数来说，用二进制数来表示时，原本连续的值会被规范到有限的定值上。如果把规格化的数放到数轴上表示，那他们之间的距离是不同的。（后面会举例子解释，现在不懂不用太担心）</p>
+<p>对于规格化值，阶码字段（exp这部分）的编码区域的无符号值为<code>e</code>，但阶码<code>E</code>的值是$E = e - Bias$，注意这里不要把大小写e和E搞混。</p>
+<p>Bias是指<strong>偏移量</strong>，值为$ 2^{k-1}-1 $，k是阶码字段的位数。</p>
+<p>也就是说</p>
+<ul>
+<li>单精度规格化数的 Bias 是 127，e 的范围是 1 ~ 254，E 的范围是 -126 ~ 127</li>
+<li>双精度规格化数的 Bias 是 1023，e 的范围是 1 ~ 2046，E 的范围是 -1022 ~ 1023</li>
+</ul>
+<p>之所以需要采用一个偏移量，是为了保证 exp 编码只需要以无符号数来处理。</p>
+<p>还记得吗？阶码值<code>E</code>，是用来做浮点数的权。可以看到，这个权在 <code>float</code> 最大可以达到 127，最小可以达到 -126，<code>double</code> 的范围就更大了，不知道比float高到哪里去了。想想看，用float可以表示的最大的数是表示为某个小数乘以 2 的 127 次方，这就是为什么浮点数可以表示<strong>很大的数与很小的数</strong>的原因，相比之下，<code>int</code> 能存下的最大的数也就 10 的 ⑨ 次方啊。</p>
+<p>对于小数字段<code>frac</code>，它就是描述<strong>小数值f</strong>，0 ≤ f ≤ 1 。而尾数<code>M</code>定义为 <code>M = 1 + f</code>。你也可以这样理解：<code>M</code> 一定是一个以 1 开头的小数，形如 <code>M=1.xxxxx.xx</code>，那些 xxx 就是 <code>frac</code> 的编码部分。当 <code>frac</code> 全为 0 时 <code>M</code>最小（M=1.0），当 <code>frac</code> 全为 1 时 <code>M</code>最大（M = 2-ϵ）。之所以采取这种方式，是因为如果阶码没有溢出，我们总是可以调整阶码（想象一下，也就是移动小数点的位置）来把尾数控制在 1≤M＜2 之间。这种方式就是<strong>轻松获得一个额外精度位</strong>的技巧。也可以理解为：开头的1是白送的，<strong>不需要额外的编码位</strong>。</p>
+<p>举个例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">int x = 12345；</div><div class="line">printf(&quot;%f&quot;,(float)x);</div></pre></td></tr></table></figure>
+<p>在强制类型转换时，到底发生了什么呢？</p>
+<p>首先，用二进制来表示十进制的12345：</p>
+<p>$$12345_{10}=11000000111001$$</p>
+<p>将其小数点左移13位，创造一个规格化的形式：</p>
+<p>$$12345 = 1.1000000111001_2 × 2^{13}$$</p>
+<p>那么，构造float型的32位浮点数编码：</p>
+<ul>
+<li><p>正数，所以符号位为0</p>
+</li>
+<li><p>阶码的值E为13，E = e - Bias， e = E + Bias = E + 127 = 140。所以阶码字段就是140的八位二进制表示，即 10001100，这就是exp字段。</p>
+</li>
+<li><p>将上述规格化形式的小数部分，后续添0添到23位，也就是添10个0，构造frac字段，即 10000001110010000000000</p>
+</li>
+</ul>
+<p>将其组合在一起，就形成了<strong>32位单精度浮点数12345的编码</strong>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">0  10001100  10000001110010000000000</div><div class="line">s    exp            frac</div></pre></td></tr></table></figure>
+<h3 id="非规格化的值-Denormalized-Values"><a href="#非规格化的值-Denormalized-Values" class="headerlink" title="非规格化的值(Denormalized Values)"></a>非规格化的值(Denormalized Values)</h3><p>当阶码域exp全为0时，所表示的数就是非规格化形式。这里的意思是，原本用二进制表示的连续值，它们之间的间距是一样的。</p>
+<p>在这种情况下有两点不同。对于阶码字段，阶码值<code>E</code>改成了<code>E = 1 - Bias</code>。也就是说</p>
+<ul>
+<li><p>单精度非规格化数的 E 是 -126</p>
+</li>
+<li><p>双精度非规格化数的 E 是 -1022</p>
+</li>
+</ul>
+<p>对于尾数字段，尾数的值是 <code>M = f</code>。也就是说，<code>M</code>不再是一个以 1 开头的小数，而是以 0 开头的小数。这所以这样设置是有原因的。首先，非规格化数定义了一种表示零的方法，如果使用规格化数，由于总有 <code>M ≥ 1</code>，那么我们就不能表示 0。实际上，零的表示就是<code>exp</code>和<code>frac</code>字段全为 0，因此，对于浮点数来说，还有正零和负零的区别。非规格化数的另一个用途就是表示<strong>非常接近零的数</strong>。这种机制实现了由<strong>最大非规格化数到最小规格化数的平滑转换</strong>。</p>
+<h2 id="特殊值"><a href="#特殊值" class="headerlink" title="特殊值"></a>特殊值</h2><p>第一类是当exp全为1，frac全为0时，表示的值为<strong>无穷</strong>。当符号位 s = 1 代表负无穷，s = 0 代表正无穷。当小数域不是0，那就代表 NaN（Not a Number），不是一个数，表示出错。例如计算 -1 开根号的值就是 NaN。</p>
+<h2 id="实例分析"><a href="#实例分析" class="headerlink" title="实例分析"></a>实例分析</h2><p><img src="http://images2015.cnblogs.com/blog/1092156/201703/1092156-20170320014528408-1029558636.png" alt=""></p>
+<p>我们采取一位符号位，4 位 exp 位，3 位 frac 位，bias = 2^3-1 = 7的编码方式。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">   符号 阶码 尾数  </div><div class="line">    s exp  frac   E   十进制值</div><div class="line">------------------------------------------------------------------</div><div class="line">                             # 这部分是非规范化数值，E = 1 - bias</div><div class="line">    0 0000 000   -6   0   </div><div class="line">    0 0000 001   -6   1/8 * 1/64 = 1/512 # 能表示的最接近零的值</div><div class="line">    0 0000 010   -6   2/8 * 1/64 = 2/512 </div><div class="line">    ...</div><div class="line">    0 0000 110   -6   6/8 * 1/64 = 6/512</div><div class="line">    0 0000 111   -6   7/8 * 1/64 = 7/512 # 能表示的最大非规范化值</div><div class="line">------------------------------------------------------------------</div><div class="line">                              # 这部分是规范化值，E = e - bias</div><div class="line"></div><div class="line">    0 0001 000   -6   8/8 * 1/64 = 8/512 # 能表示的最小规范化值</div><div class="line">    0 0001 001   -6   9/8 * 1/64 = 9/512</div><div class="line">    ...</div><div class="line">    0 0110 110   -1   14/8 * 1/2 = 14/16</div><div class="line">    0 0110 111   -1   15/8 * 1/2 = 15/16 # 最接近且小于 1 的值</div><div class="line">    0 0111 000    0   8/8 * 1 = 1</div><div class="line">    0 0111 001    0   9/8 * 1 = 9/8      # 最接近且大于 1 的值</div><div class="line">    0 0111 010    0   10/8 * 1 = 10/8</div><div class="line">    ...</div><div class="line">    0 1110 110    7   14/8 * 128 = 224</div><div class="line">    0 1110 111    7   15/8 * 128 = 240   # 能表示的最大规范化值</div><div class="line">------------------------------------------------------------------</div><div class="line">    0 1111 000   n/a  无穷               # 特殊值</div></pre></td></tr></table></figure>
+<p>观察表格，我们更好地可以理解之前的几个细节：</p>
+<ul>
+<li>连续非规格化值之间的间距是一样的，上面这个例子中，都是差了1/512</li>
+<li>连续的规格化值之间的间距不同。这是由于 exp 的不同而导致的。比方说最接近 1 的数字是 15/16 和 9/8，分别相差 1/16 和 1/8。</li>
+<li>“浮点数能编码一个很大的范围，但这种表示只是近似的。”我们能想象，如果frac位的长度越长，那么对于小数表示的精度就能越高。如果exp位的长度越长，那么能够表示的范围就越大。</li>
+</ul>
+<p><img src="http://images2015.cnblogs.com/blog/1092156/201703/1092156-20170320014636346-1809414366.png" alt=""></p>
+<p>上面是一个数轴，表示的是这种编码方式下的能表示的数在数轴上排列的情况。可以看到，浮点数表示的范围是很大的，也能够表示特别大和特别小的数。但是数的分布不是均匀的——在数轴两端，数字比较稀疏；在越靠近原点的地方，数字越稠密。在最靠近原点的地方，是非规格化数。</p>
+<h2 id="舍入（rounding）"><a href="#舍入（rounding）" class="headerlink" title="舍入（rounding）"></a>舍入（rounding）</h2><p><img src="http://images2015.cnblogs.com/blog/1092156/201703/1092156-20170320014536690-345752524.png" alt=""></p>
+<p>因为表示方法限定了浮点数不是精确的，因此浮点运算只能<strong>近似</strong>地表示实数运算。因此，对于某个运算结果 x，我们需要想出一个系统的方法，找到一个能够用浮点编码表示的<strong>最接近</strong>的匹配值 x1，用 x1 来表示运算结果。这就是舍入的任务。</p>
+<p>浮点数采取的规则是<strong>舍入到偶数</strong>，即：将数字向上或向下舍入，使得结果的最低有效数字是偶数。舍入到偶数我认为可以这么理解：<strong>四舍六入，五到偶</strong>。</p>
+<p>例如，我们要把一个一位小数舍入到整数位，那么1.4会舍入成1，1.6会舍入成2。如果是按照四舍五入的话，2.5和1.5会舍入成3和2。如果是按照舍入到偶数，那么2.5和1.5都是舍入成2的。</p>
+<p><img src="http://images2015.cnblogs.com/blog/1092156/201703/1092156-20170320014609330-372123676.png" alt=""></p>
+<p>为什么倾向于采取这种方法？我们很容易想到这样的情景：用某种方法舍入一组数值，必然会在用这些数值做某种计算的时候产生误差，误差的类型依照舍入方法而不同。例如，如果都采取向上舍入，那么一组数据经舍入后，求这组数据的平均值，那么平均值肯定是偏大的。之所以采取舍入到偶数，可以认为舍入到偶数是一种比四舍五入更加“<strong>公平</strong>”的舍入方法，我们把中间值5，一半向上舍入，一半向下舍入，那么就在大多数的现实情况中避免了计算的统计偏差。</p>
+<h2 id="浮点运算"><a href="#浮点运算" class="headerlink" title="浮点运算"></a>浮点运算</h2><h3 id="浮点加法"><a href="#浮点加法" class="headerlink" title="浮点加法"></a>浮点加法</h3><p>$$ (-1)^{s1}M_1·2^{E_1} + (-1)^{s2}M_2·2^{E_2} $$</p>
+<p>结果：（这里假设 E1 ≥ E2）<br>$$(-1)^{s}M·2^{E}$$</p>
+<p>其中<br>$$ s = s1 ∧s2，M = M1 + M2, E = E1$$</p>
+<p>过程如下：</p>
+<ol>
+<li>如果两个浮点数的阶码不一样，那么首先要<strong>对阶</strong>。因为假设了E1 ＞ E2，所以可以把第二个数的小数点往左移动，然后增加E2的值。</li>
+<li>尾数相加得结果M。</li>
+<li>规格化，把M通过左移or右移小数点来表示为1.xxx的形式，并更新E的值。</li>
+<li>如果不能完成规格化的操作，那么就是非规格化数。</li>
+<li>如果超过了可以表示的范围，那么就是溢出。</li>
+<li>最后把M舍入到frac的精度。</li>
+</ol>
+<h3 id="浮点乘法"><a href="#浮点乘法" class="headerlink" title="浮点乘法"></a>浮点乘法</h3><p>$$ (-1)^{s1}M_1·2^{E_1} × (-1)^{s2}M_2·2^{E_2} $$</p>
+<p>结果：<br>$$(-1)^{s}M·2^{E}$$</p>
+<p>其中<br>$$ s = s1 ∧ s2，M = M1 × M2, E = E1+E2$$</p>
+<p>仍然需要进行规格化操作、也需要舍入、也有可能溢出。</p>
+<h2 id="浮点运算性质"><a href="#浮点运算性质" class="headerlink" title="浮点运算性质"></a>浮点运算性质</h2><p>对于浮点值x和y，如果对它们进行某种运算，那么计算的结果实际上是将<strong>精确</strong>的计算结果舍入后的结果。因此，浮点运算有以下几条重要的性质：</p>
+<ul>
+<li>满足交换率，但不满足结合律</li>
+</ul>
+<blockquote>
+<p>例如表达式（3.14 + 1e10） - 1e10的结果会是0.0——因为舍入的缘故，3.14就丢失了。然而，表达式3.14 + （1e10 - 1e10）会得到正确结果3.14</p>
+</blockquote>
+<ul>
+<li>浮点加法满足单调性原则。</li>
+</ul>
+<blockquote>
+<p>如果 a ≥ b ，那么对于任何的x值，除了产生NaN，都有x + a ≥ x + b。</p>
+</blockquote>
+<ul>
+<li>浮点加法不具有可结合性。</li>
+</ul>
+<blockquote>
+<p>（1e20 × 1e20）× 1e-20的值为正无穷，然而 1e20 × （1e20 × 1e-20）的值为1e20。</p>
+</blockquote>
+<ul>
+<li>不具备分配性。</li>
+</ul>
+<blockquote>
+<p>1e20 ×（1e20-1e20） 的值为0.0，然而1e20 × 1e20 - 1e20 × 1e20会得到NaN。</p>
+</blockquote>
+<h2 id="int、float、double间的强制类型转换"><a href="#int、float、double间的强制类型转换" class="headerlink" title="int、float、double间的强制类型转换"></a>int、float、double间的强制类型转换</h2><p>在没有了解编码方面的细节前，我们对这个问题只能说知其然而不知其所以然。</p>
+<ul>
+<li>int转换成float，数字不会溢出，但是可能被舍入。</li>
+<li>int或float转换成double，因为double有比这两者都来得更大的范围，和更高的精度，所以能够保留精确的数值。</li>
+<li>double转成float，范围会变小，有可能得到值正负无穷。由于精度也变小了，所以可能被舍入。</li>
+<li>float或double转成int，值将会像零舍入。例如：1.999会变成1，-1.999会变成-1。值有可能溢出。<strong>C语言标准没有对这种情况制定固定的结果。</strong></li>
+</ul>
+<h2 id="对于浮点数的一些总结，以及特殊的浮点数"><a href="#对于浮点数的一些总结，以及特殊的浮点数" class="headerlink" title="对于浮点数的一些总结，以及特殊的浮点数"></a>对于浮点数的一些总结，以及特殊的浮点数</h2><p><img src="http://images2015.cnblogs.com/blog/1092156/201703/1092156-20170320014549815-1062119948.png" alt=""></p>
+<p><img src="http://images2015.cnblogs.com/blog/1092156/201703/1092156-20170320014553580-1059386033.png" alt=""></p>
+<h1 id="第一章小结"><a href="#第一章小结" class="headerlink" title="第一章小结"></a>第一章小结</h1><p>好了，我们也看完了浮点数的全部内容，也就了解了信息在计算机内的存储方式这一章的全部内容。</p>
+<p>我们从最基本的元素——bit开始，了解了整型和浮点数两个非常重要的数据类型的编码方式。只有了解了位的知识、以及编码方式，我们才可能对这些数据类型涉及的其他方方面面的概念，例如：掩码运算、强制类型转换、扩展、截断、舍入、溢出等等。如果不了解位，那么对于上述这些概念只能是知其然而不知其所以然（好吧，原谅我的词穷，这个词我好像在本篇博客中用了好几遍。。但我觉得知道深层的原理是很有帮助的）。</p>
+<p>这些内容很重要，但我觉得比较好的学习方法是举例子来理解。这本书每个小节后面配有很好的题目，可以帮助大家理解这些知识点。</p>
+<h1 id="See-Also"><a href="#See-Also" class="headerlink" title="See Also"></a>See Also</h1><ul>
+<li><a href="http://www.cs.cmu.edu/~./213/schedule.html" target="_blank" rel="external">CMU 2017年春季学期  ICS课程网站</a></li>
+<li><a href="https://en.wikipedia.org/wiki/IEEE_floating_point" target="_blank" rel="external">IEEE floating point</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/06/25/csapp-2-Integers/" rel="next" title="【CSAPP笔记】2. 整型运算">
+                <i class="fa fa-chevron-left"></i> 【CSAPP笔记】2. 整型运算
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="ZC" />
+          <p class="site-author-name" itemprop="name">ZC</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">27</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#二进制小数"><span class="nav-number">1.</span> <span class="nav-text">二进制小数</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#IEEE-754-浮点标准"><span class="nav-number">2.</span> <span class="nav-text">IEEE 754 浮点标准</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#规格化和非规格化的值"><span class="nav-number">2.1.</span> <span class="nav-text">规格化和非规格化的值</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#规格化的值-Normalized-Values"><span class="nav-number">2.1.1.</span> <span class="nav-text">规格化的值(Normalized Values)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#非规格化的值-Denormalized-Values"><span class="nav-number">2.1.2.</span> <span class="nav-text">非规格化的值(Denormalized Values)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#特殊值"><span class="nav-number">2.2.</span> <span class="nav-text">特殊值</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实例分析"><span class="nav-number">2.3.</span> <span class="nav-text">实例分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#舍入（rounding）"><span class="nav-number">2.4.</span> <span class="nav-text">舍入（rounding）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#浮点运算"><span class="nav-number">2.5.</span> <span class="nav-text">浮点运算</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#浮点加法"><span class="nav-number">2.5.1.</span> <span class="nav-text">浮点加法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#浮点乘法"><span class="nav-number">2.5.2.</span> <span class="nav-text">浮点乘法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#浮点运算性质"><span class="nav-number">2.6.</span> <span class="nav-text">浮点运算性质</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#int、float、double间的强制类型转换"><span class="nav-number">2.7.</span> <span class="nav-text">int、float、double间的强制类型转换</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#对于浮点数的一些总结，以及特殊的浮点数"><span class="nav-number">2.8.</span> <span class="nav-text">对于浮点数的一些总结，以及特殊的浮点数</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#第一章小结"><span class="nav-number">3.</span> <span class="nav-text">第一章小结</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#See-Also"><span class="nav-number">4.</span> <span class="nav-text">See Also</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ZC</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("guhO5d3jdrym6QcCp5oIrsMc-gzGzoHsz", "ldFdhqrIxGxOqWs5mgH8pmLT");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>
