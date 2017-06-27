@@ -99,14 +99,14 @@
 <meta property="og:url" content="http://yoursite.com/2017/06/25/csapp-6-Machine-Prog-Control/index.html">
 <meta property="og:site_name" content="ZCplayground">
 <meta property="og:description" content="到目前为止我们只考虑了直线代码的执行行为，也就是指令一条接着一条执行。C语言中的某些语句，比如条件语句、循环、分支语句，要求有条件地执行，或根据某些表达式的结果决定操作的顺序。机器代码提供基本的低级机制来实现有条件的行为：测试数据值，然后根据测试结果来改变控制流或数据流。 先介绍通过控制流来实现有条件的行为。用jump指令可以改变一组机器代码的执行顺序。jump指令指定控制应该传递到程序的哪个其他">
-<meta property="og:image" content="http://images2015.cnblogs.com/blog/1092156/201706/1092156-20170626154733086-726115993.png">
-<meta property="og:image" content="http://images2015.cnblogs.com/blog/1092156/201706/1092156-20170626153845289-2121970089.png">
-<meta property="og:image" content="http://images2015.cnblogs.com/blog/1092156/201706/1092156-20170626153846899-1688835688.png">
-<meta property="og:updated_time" content="2017-06-26T10:40:16.513Z">
+<meta property="og:image" content="https://cl.ly/3J1a0Q3M3b30/set.png">
+<meta property="og:image" content="https://cl.ly/3T1M2Y2Q0u0E/jump.png">
+<meta property="og:image" content="https://cl.ly/1M3a3y281T1m/C.png">
+<meta property="og:updated_time" content="2017-06-27T13:39:15.549Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【CSAPP笔记】6. 汇编语言——控制">
 <meta name="twitter:description" content="到目前为止我们只考虑了直线代码的执行行为，也就是指令一条接着一条执行。C语言中的某些语句，比如条件语句、循环、分支语句，要求有条件地执行，或根据某些表达式的结果决定操作的顺序。机器代码提供基本的低级机制来实现有条件的行为：测试数据值，然后根据测试结果来改变控制流或数据流。 先介绍通过控制流来实现有条件的行为。用jump指令可以改变一组机器代码的执行顺序。jump指令指定控制应该传递到程序的哪个其他">
-<meta name="twitter:image" content="http://images2015.cnblogs.com/blog/1092156/201706/1092156-20170626154733086-726115993.png">
+<meta name="twitter:image" content="https://cl.ly/3J1a0Q3M3b30/set.png">
 
 
 
@@ -439,7 +439,7 @@
 <tr>
 <td>OF</td>
 <td>(a &lt; 0 == b &lt; 0) &amp;&amp; (t &lt; 0 != a &lt; 0)</td>
-<td>a、b同时为负，而和的结果为正；或a、b同时为正，二和的结果为负，说明出现了有符号溢出</td>
+<td>a、b同时为负，而和为正；或a、b同时为正，而和为负。说明出现了有符号溢出</td>
 </tr>
 </tbody>
 </table>
@@ -500,8 +500,8 @@
 </tr>
 <tr>
 <td>OR S, D</td>
-<td>S</td>
-<td>D → D</td>
+<td>S `</td>
+<td>` D → D</td>
 <td>与</td>
 </tr>
 <tr>
@@ -551,12 +551,12 @@
 </table>
 <h2 id="访问条件码：SET指令"><a href="#访问条件码：SET指令" class="headerlink" title="访问条件码：SET指令"></a>访问条件码：SET指令</h2><p>条件码通常不直接读取。有三种方法可以使用，下面依次介绍他们</p>
 <ol>
-<li>可以根据条件码的组某个组合将一个字节设置为0或1。</li>
+<li>可以根据条件码的组某个组合将一个字节设置为 0 或 1 。</li>
 <li>可以跳转到程序的其他部分。</li>
 <li>可以有条件地传送数据。</li>
 </ol>
-<p>SET指令根据条件码的组合，将某一个字节设置为 0 或者 1。指令名字后面的后缀指明了他们的功效和需要考虑的条件码组合的不同。</p>
-<p><img src="http://images2015.cnblogs.com/blog/1092156/201706/1092156-20170626154733086-726115993.png" alt=""></p>
+<p>SET指令根据条件码的组合，将某一个字节设置为 0 或者 1 。指令名字后面的后缀指明了他们的功效和需要考虑的条件码组合的不同。</p>
+<p><img src="https://cl.ly/3J1a0Q3M3b30/set.png" alt=""></p>
 <table>
 <thead>
 <tr>
@@ -581,13 +581,13 @@
 </tr>
 <tr>
 <td>sets D</td>
-<td>sign</td>
+<td>sign / negetive</td>
 <td>负数</td>
 <td></td>
 </tr>
 <tr>
 <td>setns D</td>
-<td>not sign</td>
+<td>nonnegtive</td>
 <td>非负数</td>
 <td></td>
 </tr>
@@ -651,7 +651,7 @@
 <h2 id="jump-指令的字节编码"><a href="#jump-指令的字节编码" class="headerlink" title="jump 指令的字节编码"></a>jump 指令的字节编码</h2><p>在汇编代码中，跳转的目的地通常是用一个标号（label）来标识。考虑下列的汇编代码序列（完全人为编造）：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"> movl  $0, %eax</div><div class="line"> jmp   .L1</div><div class="line"> movl  (%eax), %edx</div><div class="line">.L1:</div><div class="line"> popl %edx</div></pre></td></tr></table></figure>
 <p>指令<code>jmp</code>会导致跳过<code>movl</code>指令，从<code>pop</code>处开始执行。<code>jmp</code>是<strong>无条件跳转</strong>，而下表列出来的跳转指令都是<strong>有条件跳转</strong>，它们根据条件码组合进行跳转，或选择不跳转，继续执行下一条指令。条件码的组合与其意义和<code>SET</code>指令类似。</p>
-<p><img src="http://images2015.cnblogs.com/blog/1092156/201706/1092156-20170626153845289-2121970089.png" alt=""></p>
+<p><img src="https://cl.ly/3T1M2Y2Q0u0E/jump.png" alt=""></p>
 <p>前面提到，PC（program counter）——程序计数器的作用是指示要执行的下一条指令的地址。跳转指令有几种不同的编码方法，最常用的是<strong>PC相关寻址</strong>。它们会<strong>将目标指令的地址与紧跟在跳转指令后面那条指令的地址之间的差值作为编码</strong>。当执行PC相关寻址时，PC的值是跳转指令后面那条指令的地址，而不是跳转指令本身的地址。下面看一个例子：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"># 一段汇编代码：</div><div class="line"></div><div class="line">  jle   .L2</div><div class="line">.L5:</div><div class="line">  ....</div><div class="line">  ....</div><div class="line">  jg    .L5</div><div class="line">.L2:</div><div class="line">  ....</div></pre></td></tr></table></figure>
 <p>下面是汇编器产生的 .o 文件的反汇编版本：</p>
@@ -720,12 +720,12 @@
 <li>缺失条件：101 和 105</li>
 </ol>
 <p>具体怎么办呢？使用跳转表。（你会发现<strong>表</strong>的解决方式在很多地方都有用：虚函数，继承，内存管理，动态规划等等。）下面的汇编代码就是跳转表：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">.section    .rodata         # 只读数据</div><div class="line">    .align 4                # 对齐要求</div><div class="line">.L7:</div><div class="line">    .long   .L3     # x = 0 时选择，L3里操作是 result *= 13; goto done;</div><div class="line">    .long   .L2     # x = 1 时选择，因为101是缺失条件，直接 goto default;</div><div class="line">    .long   .L4     # x = 2 时选择，result += 10; 然后顺序执行，没有break</div><div class="line">    .long   .L5     # x = 3 时选择，result += 11; goto done;</div><div class="line">    .long   .L6     # x = 4 时选择，result *= result; goto done;</div><div class="line">    .long   .L2     # x = 5 时选择，因为105是缺失条件，直接 goto default;</div><div class="line">    .long   .L6     # x = 6 时选择，result *= result;  goto done;注意到104和106执行相同的部分</div></pre></td></tr></table></figure>
-<p>对Switch语句的处理是：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">.section    .rodata         # 只读数据</div><div class="line">    .align 4                # 对齐要求</div><div class="line">.L7:</div><div class="line">    .long   .L3             # x = 0 时选择，L3里操作是 result *= 13; goto done;</div><div class="line">    .long   .L2             # x = 1 时选择，因为101是缺失条件，直接 goto default;</div><div class="line">    .long   .L4             # x = 2 时选择，result += 10; 然后顺序执行，没有break</div><div class="line">    .long   .L5             # x = 3 时选择，result += 11; goto done;</div><div class="line">    .long   .L6             # x = 4 时选择，result *= result; goto done;</div><div class="line">    .long   .L2             # x = 5 时选择，因为105是缺失条件，直接 goto default;</div><div class="line">    .long   .L6             # x = 6 时选择，result *= result;  goto done;注意到104和106执行相同的部分</div></pre></td></tr></table></figure>
+<p>对 switch 语句的处理是：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">movl    8(%epb), %edx       # 参数 x</div><div class="line">movl    12(%epb), %eax      # 参数 n</div><div class="line"></div><div class="line">subl    $100, %eax          # n -= 100;</div><div class="line">cmpl    $6, %eax            </div><div class="line">ja      .L2                 # if(n&gt;6) goto default;</div><div class="line">jmp     *.L7(,%eax,4)       # else goto *jumptable[index];</div></pre></td></tr></table></figure>
-<p>C语言的原始代码是 100、102~106 这样的值，针对这些值编译器可以选择做出优化——编译器将 n 的值减去 100，把取值范围移动到 0~6 之间。根据 switch 的参数 n，决定是进入跳转表还是default 分支。jmp 指令的操作数有前缀 * ，代表这是一个间接跳转，操作数指定一个存储器位置。跳转位置是跳转表里面保存的一个地址，由寄存器 %eax 给出的索引作为引导。（在数据结构部分可以知道如何将数组引用翻译成机器代码）</p>
-<h1 id="编译C语言代码时注意事项"><a href="#编译C语言代码时注意事项" class="headerlink" title="编译C语言代码时注意事项"></a>编译C语言代码时注意事项</h1><p>采取比较低的优化等级，这样子才能看到一些特性，不至于被编译器优化。</p>
-<p><img src="http://images2015.cnblogs.com/blog/1092156/201706/1092156-20170626153846899-1688835688.png" alt=""></p>
+<p>C语言的原始代码是 100、102~106 这样的值，针对这些值编译器可以选择做出优化——编译器将 n 的值减去 100，把取值范围移动到 0~6 之间。根据 switch 的参数 n，决定是进入跳转表还是 default 分支。jmp 指令的操作数有前缀 * ，代表这是一个间接跳转，操作数指定一个存储器位置。跳转位置是跳转表里面保存的一个地址，由寄存器 <code>%eax</code> 给出的索引作为引导。（在数据结构部分可以知道如何将数组引用翻译成机器代码）</p>
+<h1 id="编译C语言代码时注意事项"><a href="#编译C语言代码时注意事项" class="headerlink" title="编译C语言代码时注意事项"></a>编译C语言代码时注意事项</h1><p>采取比较低的优化等级，这样子才能看到一些特性，不至于因为被编译器优化而看不到我们想要的结果。</p>
+<p><img src="https://cl.ly/1M3a3y281T1m/C.png" alt=""></p>
 <h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><ul>
 <li><a href="http://www.cs.cmu.edu/~./213/schedule.html" target="_blank" rel="external">CMU 2017年春季学期 ICS课程网站</a></li>
 </ul>
@@ -849,7 +849,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">31</span>
+                <span class="site-state-item-count">32</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>

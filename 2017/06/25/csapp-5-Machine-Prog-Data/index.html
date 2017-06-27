@@ -99,19 +99,19 @@
 <meta property="og:url" content="http://yoursite.com/2017/06/25/csapp-5-Machine-Prog-Data/index.html">
 <meta property="og:site_name" content="ZCplayground">
 <meta property="og:description" content="本博客对于汇编的介绍基于32位机器的Intel x86系列处理器和IA32指令集，也涉及少部分x86-64。由于汇编知识相对复杂，这里只做简单介绍和记录，详细请参照书本！ 数据格式下面这张表格中体现了C语言基本数据类型和IA32的对应表示。    C语言中的声明 Intel 数据类型 汇编代码后缀 大小（字节）      char 字节 b(byte) 1   short 字 w(word) 2">
-<meta property="og:image" content="http://images2015.cnblogs.com/blog/1092156/201706/1092156-20170625223816835-94872570.png">
-<meta property="og:image" content="http://images2015.cnblogs.com/blog/1092156/201706/1092156-20170625223830929-355268337.png">
-<meta property="og:image" content="http://images2015.cnblogs.com/blog/1092156/201706/1092156-20170625223820351-1764696139.png">
-<meta property="og:image" content="http://images2015.cnblogs.com/blog/1092156/201706/1092156-20170625223823773-1382098573.png">
-<meta property="og:image" content="http://images2015.cnblogs.com/blog/1092156/201706/1092156-20170625223827351-265890841.png">
-<meta property="og:image" content="http://images2015.cnblogs.com/blog/1092156/201706/1092156-20170625223834538-866259225.png">
-<meta property="og:image" content="http://images2015.cnblogs.com/blog/1092156/201706/1092156-20170625223838038-1579210396.png">
-<meta property="og:image" content="http://images2015.cnblogs.com/blog/1092156/201706/1092156-20170625223841507-1755178069.png">
-<meta property="og:updated_time" content="2017-06-25T14:50:41.853Z">
+<meta property="og:image" content="https://cl.ly/1r0u1G1E212V/1.png">
+<meta property="og:image" content="https://cl.ly/1o33293d0l1V/5.png">
+<meta property="og:image" content="https://cl.ly/230G3n3W442C/2.png">
+<meta property="og:image" content="https://cl.ly/2c1j0W25373l/3.png">
+<meta property="og:image" content="https://cl.ly/271F0S232p1G/4.png">
+<meta property="og:image" content="https://cl.ly/0p1x1c0m0k3j/6.png">
+<meta property="og:image" content="https://cl.ly/2W1Z3e0X2r2a/7.png">
+<meta property="og:image" content="https://cl.ly/3D0v0129292W/8.png">
+<meta property="og:updated_time" content="2017-06-27T13:40:27.890Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【CSAPP笔记】5. 汇编语言——数据">
 <meta name="twitter:description" content="本博客对于汇编的介绍基于32位机器的Intel x86系列处理器和IA32指令集，也涉及少部分x86-64。由于汇编知识相对复杂，这里只做简单介绍和记录，详细请参照书本！ 数据格式下面这张表格中体现了C语言基本数据类型和IA32的对应表示。    C语言中的声明 Intel 数据类型 汇编代码后缀 大小（字节）      char 字节 b(byte) 1   short 字 w(word) 2">
-<meta name="twitter:image" content="http://images2015.cnblogs.com/blog/1092156/201706/1092156-20170625223816835-94872570.png">
+<meta name="twitter:image" content="https://cl.ly/1r0u1G1E212V/1.png">
 
 
 
@@ -456,10 +456,10 @@
 <p>单精度和双精度浮点数是 4 和 8 字节，不多说。扩展精度<code>long double</code>的大小为10或12字节。</p>
 <p>汇编代码后缀的意思是大多数汇编代码指令的后面带有一个字符后缀，表明操作数的大小。例如：<code>movb</code>（传送字节）、<code>movw</code>（传送字）、<code>movl</code>（传送双字）。注意：用 <code>l</code> 表示<code>double</code>和 4 字节整数不会产生歧义，因为浮点数使用的是一套完全不同的指令和寄存器。</p>
 <h1 id="寄存器"><a href="#寄存器" class="headerlink" title="寄存器"></a>寄存器</h1><p>一个 IA32 中央处理器单元（CPU，central processing unit）包含一组8个存储32位值的<strong>寄存器</strong>（register），可以看到寄存器的数量是很少的。下图显示了这八个寄存器的简单表示。它们的名字都以%e开头，实际上它们另有特殊的名字。</p>
-<p><img src="http://images2015.cnblogs.com/blog/1092156/201706/1092156-20170625223816835-94872570.png" alt=""></p>
+<p><img src="https://cl.ly/1r0u1G1E212V/1.png" alt=""></p>
 <p>在大多数情况下，前六个寄存器可以看成<strong>通用寄存器</strong>，对它们的使用没有限制（“大多数情况”下分具体情况，具体情况也是用特殊的寄存器）。最后两个寄存器（<code>%ebp</code>和<code>%esp</code>）保存指向程序的栈中重要位置的指针，所以只有根据栈管理的标准才能修改这两个寄存器的值。</p>
 <p>可以看到，字节操作指令可以独立地写更短的地位字节。这是为了<strong>向后兼容</strong>（backwards compatiblity），也就是能让更早的代码正常地工作。下面是x86-64的寄存器，以%r开头的是64位寄存器，可以看到它也是向后兼容的。</p>
-<p><img src="http://images2015.cnblogs.com/blog/1092156/201706/1092156-20170625223830929-355268337.png" alt=""></p>
+<p><img src="https://cl.ly/1o33293d0l1V/5.png" alt=""></p>
 <h1 id="数据传送：-MOV-指令"><a href="#数据传送：-MOV-指令" class="headerlink" title="数据传送： MOV 指令"></a>数据传送： MOV 指令</h1><p>将数据从一个位置复制到另一个位置是最频繁使用的指令。我们把指令分成<strong>指令类</strong>，一类指令执行的操作是一样的，只不过操作数的大小不同。</p>
 <table>
 <thead>
@@ -545,7 +545,7 @@
 </ol>
 <p>接下来，对下图中的一些寻址方式做简单介绍：</p>
 <p>MOV 的第一个操作数是源S，S要么是一个寄存器，要么是一个立即数，要么是一个存储器位置。第二个操作数是目的地D，只能是寄存器或者存储器位置。（注，图中的<code>movq</code> 的后缀 <code>q</code> 是四字的意思，是 x86-64 中支持64位数据的写法。）</p>
-<p><img src="http://images2015.cnblogs.com/blog/1092156/201706/1092156-20170625223820351-1764696139.png" alt=""></p>
+<p><img src="https://cl.ly/230G3n3W442C/2.png" alt=""></p>
 <p>①：第一条指令的第一个操作数是 $0x4 ，说明这是一个立即数，也就是常数。第二个数是寄存器的名字，这种寻址方式叫做：寄存器寻址。对应的C语言就是为一个局部变量赋常数值。</p>
 <p>②：第二条指令与第一条不同的是第二个操作数的寄存器两边加上了括号。这其是是间接寻址的意思。形如 $(E_a)$ 的格式代表的操作数值是 $M[R[E_a]]$，也就是说，此时寄存器里存的是一个指针，也就是一个地址，括号可以看成一个C语言的间接引用运算符*。</p>
 <p>③：两个寄存器直接的数据传递。</p>
@@ -553,14 +553,15 @@
 <p>⑤：把指针指向的内容赋给局部变量temp</p>
 <p>这里有一点需要注意的是：<strong>不允许</strong> <code>MOV</code>指令的两个操作数同时为存储器地址。也许你会感到奇怪：把存储器中一个地方的值传送到另一个地方不是很正常吗为什么没有这条指令？一开始对这个有疑惑是很正常的，这种操作需要两条指令——第一条指令将原值加载到寄存器中，第二条指令将该寄存器里的值写到目的存储器位置。</p>
 <p>剩下的寻址方法这里就不详细介绍了，贴张图给大家看吧：</p>
-<p><img src="http://images2015.cnblogs.com/blog/1092156/201706/1092156-20170625223823773-1382098573.png" alt=""></p>
+<p><img src="https://cl.ly/2c1j0W25373l/3.png" alt=""></p>
 <h1 id="数据传送示例"><a href="#数据传送示例" class="headerlink" title="数据传送示例"></a>数据传送示例</h1><p>（图表来自于CSAPP课程网站，本人添加了一点小小的说明性信息）分析下面这个交换函数的汇编代码，有助于理解寄存器、存储器、寻址、地址等各种概念。</p>
-<p><img src="http://images2015.cnblogs.com/blog/1092156/201706/1092156-20170625223827351-265890841.png" alt=""></p>
-<p>变量 <code>xp</code> 和 <code>yp</code> 是指针，内容是地址，用寄存器 <code>%rdi</code> 和 <code>%rsi</code> 存放。临时变量 <code>t0</code> 和 <code>t1</code> 用寄存器 <code>%rax</code> 和 <code>%rdx</code> 存放。调用 <code>swap</code> 函数后，可以看到在左边的 memory 一列，<code>0x120</code> 和 <code>0x130</code> 里存放了数据 <code>123</code> 和 <code>456</code>，参数 <code>xp</code> 和  <code>yp</code> 已经存到了对应的寄存器。通过间接寻址，将存储器里的值存放到临时变量 <code>t0</code> 和 <code>t1</code> 对应的寄存器里。</p>
-<p><img src="http://images2015.cnblogs.com/blog/1092156/201706/1092156-20170625223834538-866259225.png" alt=""></p>
-<p><img src="http://images2015.cnblogs.com/blog/1092156/201706/1092156-20170625223838038-1579210396.png" alt=""></p>
+<p><img src="https://cl.ly/271F0S232p1G/4.png" alt=""></p>
+<p>变量 <code>xp</code> 和 <code>yp</code> 是指针，内容是地址，用寄存器 <code>%rdi</code> 和 <code>%rsi</code> 存放。临时变量 <code>t0</code> 和 <code>t1</code> 用寄存器 <code>%rax</code> 和 <code>%rdx</code> 存放。调用 <code>swap</code> 函数后，可以看到在左边的 memory 一列，<code>0x120</code> 和 <code>0x130</code> 里存放了数据 <code>123</code> 和 <code>456</code>，参数 <code>xp</code> 和  <code>yp</code> 已经存到了对应的寄存器。</p>
+<p><img src="https://cl.ly/0p1x1c0m0k3j/6.png" alt=""></p>
+<p>通过间接寻址，将存储器里的值存放到临时变量 <code>t0</code> 和 <code>t1</code> 对应的寄存器里。</p>
+<p><img src="https://cl.ly/2W1Z3e0X2r2a/7.png" alt=""></p>
 <p>交换后，<code>* xp</code> 的值和 <code>* yp</code> 的值成功对调。</p>
-<p><img src="http://images2015.cnblogs.com/blog/1092156/201706/1092156-20170625223841507-1755178069.png" alt=""></p>
+<p><img src="https://cl.ly/3D0v0129292W/8.png" alt=""></p>
 <h1 id="前两节的小结"><a href="#前两节的小结" class="headerlink" title="前两节的小结"></a>前两节的小结</h1><ul>
 <li>了解处理器、指令集的历史和发展。</li>
 <li>了解C语言、机器语言、汇编语言的区别。<br>  学习汇编语言能让我们理解更多细节，例如寄存器等等……理解编译器需要为C语言代码做的工作——将一些高级语言的表示方法编译为一些更为基本的指令。</li>
@@ -691,7 +692,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">31</span>
+                <span class="site-state-item-count">32</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>

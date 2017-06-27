@@ -99,17 +99,17 @@
 <meta property="og:url" content="http://yoursite.com/2017/06/25/csapp-2-Integers/index.html">
 <meta property="og:site_name" content="ZCplayground">
 <meta property="og:description" content="现在想补补推荐这本书的理由。  Most books on systems—computer architecture, compilers, operating systems, and networking—are written as if the reader were going to design and implement such a system. We call this th">
-<meta property="og:image" content="http://images2015.cnblogs.com/blog/1092156/201703/1092156-20170315002140041-1365804710.png">
-<meta property="og:image" content="http://images2015.cnblogs.com/blog/1092156/201703/1092156-20170315002150432-1461694986.png">
-<meta property="og:image" content="http://images2015.cnblogs.com/blog/1092156/201703/1092156-20170315002157276-187961535.png">
-<meta property="og:image" content="http://images2015.cnblogs.com/blog/1092156/201703/1092156-20170315002216338-173004241.png">
-<meta property="og:image" content="http://images2015.cnblogs.com/blog/1092156/201703/1092156-20170315002239448-1425897145.png">
-<meta property="og:image" content="http://images2015.cnblogs.com/blog/1092156/201703/1092156-20170315002244651-1859190637.png">
-<meta property="og:updated_time" content="2017-06-25T03:30:33.845Z">
+<meta property="og:image" content="https://cl.ly/1s0u343g1B3Z/1.png">
+<meta property="og:image" content="https://cl.ly/1J2h1z2y3i0y/2.png">
+<meta property="og:image" content="https://cl.ly/1a2D0d0j3i0L/3.png">
+<meta property="og:image" content="https://cl.ly/3t2d33463z40/7.png">
+<meta property="og:image" content="https://cl.ly/2X1M0k302v2S/5.png">
+<meta property="og:image" content="https://cl.ly/3c443l2t1f1M/6.png">
+<meta property="og:updated_time" content="2017-06-27T13:00:13.697Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【CSAPP笔记】2. 整型运算">
 <meta name="twitter:description" content="现在想补补推荐这本书的理由。  Most books on systems—computer architecture, compilers, operating systems, and networking—are written as if the reader were going to design and implement such a system. We call this th">
-<meta name="twitter:image" content="http://images2015.cnblogs.com/blog/1092156/201703/1092156-20170315002140041-1365804710.png">
+<meta name="twitter:image" content="https://cl.ly/1s0u343g1B3Z/1.png">
 
 
 
@@ -402,11 +402,11 @@
 <p>这些其实是因为计算机运算的<strong>有限性</strong>而导致的。理解这些计算的细微之处能够让我们编写更加可靠的代码。</p>
 <h2 id="无符号加法"><a href="#无符号加法" class="headerlink" title="无符号加法"></a>无符号加法</h2><p>考虑两个无符号整数x和y，如果都是w位无符号数字（以下的w都代表w位无符号数），那么满足 <code>0 ≤ x, y ≤ 2^w - 1</code> 。如果计算x和y的和，那么得到的结果<strong>可能需要w+1位</strong>。如果出现了需要w+1位的情况，那么就是<strong>加法上溢了</strong>。</p>
 <p>说的更明白一点，对于我们最熟悉的十进制，三位数加三位数的结果最多用四位数表示就够了（999+999=1998）此时x，y是十进制下的加数，<code>0 ≤ x, y ≤ 10^3 - 1</code>，结果可能需要4位。</p>
-<p><img src="http://images2015.cnblogs.com/blog/1092156/201703/1092156-20170315002140041-1365804710.png" alt=""></p>
+<p><img src="https://cl.ly/1s0u343g1B3Z/1.png" alt=""></p>
 <p>如果说，为了不出现上溢，那我扩宽机器支持的数字位数行不行？如果为了让两个 <code>w</code> 位数加起来不溢出，那么我们需要 <code>w + 1</code> 位，因此就可以存储 <code>w + 1</code> 位的数。而两个 <code>w + 1</code> 的数相加，有需要 <code>w + 2</code>  个位来保证不会上溢……依次类推，这种“膨胀”意味着，如果我们想这么做的话，那么我们只能对字长<strong>不加任何限制</strong>。例如Lisp，事实上就支持<strong>无限精度</strong>运算（当然要在机器的存储器限制之内）。更常见的是，编程语言支持<strong>固定精度</strong>的运算，所以说，如果超出机器能表示的范围，那么运算结果就是溢出了。</p>
 <p>可以把无符号加法 <code>x + y</code> 视为一种<strong>模运算形式</strong>，等价于加法运算后的结果<strong>模上2的w次方</strong>。可以这么理解，因为如果溢出，是相当于进位，也就是比w位多一位，那么那一位就会被抛弃。<strong>模2的w次方</strong>这个动作，就好似“丢掉”了这个第 w + 1 位的进位数字。例如一个4位数字（中括号是其二进制位表示） <code>x = 9 [1001]</code> 和 <code>y = 12 [1100]</code>，加法运算结果是<code>21 [10101]</code>。丢弃最高位的结果是<code>[0101]</code>也就是十进制5，可以把 5 认为是21 mod 16 = 5。</p>
 <p>简单的说，如果现在有一台支持4位的无符号数加法运算的“计算器”摆在你面前，那么大于2^w也就是16的结果都是溢出的。</p>
-<p><img src="http://images2015.cnblogs.com/blog/1092156/201703/1092156-20170315002150432-1461694986.png" alt=""></p>
+<p><img src="https://cl.ly/1J2h1z2y3i0y/2.png" alt=""></p>
 <p>C语言程序中，<strong>不会</strong>把溢出作为错误而发送信号。考虑一个函数，判断两个无符号数相加会不会产生溢出，那么它应该是下面这个样子的：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">int uadd_ok(unsigned x, unsigned y)</div><div class="line">&#123;</div><div class="line">    unsigned result = x + y;</div><div class="line">    return (s&gt;=x);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <h2 id="补码加法"><a href="#补码加法" class="headerlink" title="补码加法"></a>补码加法</h2><p>如果能够理解无符号加法的溢出，那么也就很好理解补码加法时，如果太大的结果也是会溢出的。只不过如果是正溢出的话，结果会变成一个很小很小的负数。这个现象的关键还是在于补码的编码机制。其实就正溢的情况来看，补码正溢和无符号正溢有些许不同。无符号正溢会导致现有w位放不下运算结果而溢出，而补码正溢时，是因为加法导致运算进位的1成了符号位，而符号位的权是负权。</p>
@@ -414,7 +414,7 @@
 <blockquote>
 <p>正溢出(positive overflow)和负溢出(negative overflow)。正溢出就是数值太大把原来为 0 的符号位修改成了 1，反而成了负数；负溢出是数值太小，把原来为 1 的符号位修改成了 0，反而成了正数。</p>
 </blockquote>
-<p><img src="http://images2015.cnblogs.com/blog/1092156/201703/1092156-20170315002157276-187961535.png" alt=""></p>
+<p><img src="https://cl.ly/1a2D0d0j3i0L/3.png" alt=""></p>
 <h2 id="减法、非"><a href="#减法、非" class="headerlink" title="减法、非"></a>减法、非</h2><p>减法其实就是做“加一个数的相反数”，所以说还是可以归结到加法上去，然而能够顺带解决“相反数”的问题。</p>
 <p>在初中时，相反数的定义是 <code>x +（-x） = 0</code> ，<code>-x</code> 是 <code>x</code> 的相反数。对于一个无符号整数x，那么一定存在另外一个无符号整数，会让他们的相加结果为零。这个结果就是2的w次方减去x。他俩的相加结果为2的w次方，需要w + 1位表示—— w + 1位是1，剩下的全为0。w + 1位会被抛弃，那么结果就是0。</p>
 <p>补码的非有一条比较神奇的技巧。求补码的非的一种方法是——对每一位求补，在对结果加1。也可以说<strong>取反加一</strong>，也就是说如果用C语言编码，可以对任意整数值x，计算-x和~x+1两个表达式的值，他们是绝对相等的。是不是很神奇？</p>
@@ -472,12 +472,12 @@
 </tbody>
 </table>
 <p>我们知道，整型5除以整型2的结果是2，实质上是结果2.5向下舍入。然而对于负数除以2的幂，我们会希望向上舍入。对于这个问题，我们可以在移位之前添加<strong>偏置值</strong>（biasing），通过这种方式修正不合适的舍入。对于<code>x / y</code>，偏移量为<code>y - 1</code>，也就是说有对<code>x / y</code> 向上舍入的结果对 <code>（x + y - 1）/y</code>。向下舍入相同。</p>
-<p><img src="http://images2015.cnblogs.com/blog/1092156/201703/1092156-20170315002216338-173004241.png" alt=""></p>
+<p><img src="https://cl.ly/3t2d33463z40/7.png" alt=""></p>
 <h1 id="思考和总结"><a href="#思考和总结" class="headerlink" title="思考和总结"></a>思考和总结</h1><h2 id="对于整数运算"><a href="#对于整数运算" class="headerlink" title="对于整数运算"></a>对于整数运算</h2><p>正如上文提到，计算机执行整数运算实际上是一种<strong>模运算</strong>形式。表示数字的有限字长<strong>限制了数值的取值范围</strong>，所以结果可能溢出。无论是无符号、补码，在进行加减乘除移位的时候，都有完全一样或者非常类似的位级行为。</p>
 <p>某些规定可能会产生令人意想不到的结果，而这些可能是难以察觉的bug的源头。特别地，我们看到unsigned数据类型，它们的概念很简单，但不恰当的运用它们可能导致即使是资深人士都意想不到的行为。</p>
-<h2 id="何时使用无符号整型呢？"><a href="#何时使用无符号整型呢？" class="headerlink" title="何时使用无符号整型呢？"></a>何时使用无符号整型呢？</h2><p><img src="http://images2015.cnblogs.com/blog/1092156/201703/1092156-20170315002239448-1425897145.png" alt=""></p>
+<h2 id="何时使用无符号整型呢？"><a href="#何时使用无符号整型呢？" class="headerlink" title="何时使用无符号整型呢？"></a>何时使用无符号整型呢？</h2><p><img src="https://cl.ly/2X1M0k302v2S/5.png" alt=""></p>
 <p>如果对无符号整型的内容不是很理解，<strong>请不要使用</strong>无符号整型！</p>
-<p><img src="http://images2015.cnblogs.com/blog/1092156/201703/1092156-20170315002244651-1859190637.png" alt=""></p>
+<p><img src="https://cl.ly/3c443l2t1f1M/6.png" alt=""></p>
 <h2 id="一些题目"><a href="#一些题目" class="headerlink" title="一些题目"></a>一些题目</h2><p>在32位机器上运行如下代码。假设我们对有符号值使用补码运算，对有符号值使用的是算术右移，对有符号值使用的是逻辑右移。变量的初始化声明如下：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">int x = ArbitraryValue();</div><div class="line">int y = ArbitraryValue();</div><div class="line"></div><div class="line">unsigned ux = x;</div><div class="line">unsigned uy = y; //ux,uy 是x,y 的无符号型</div></pre></td></tr></table></figure>
 <p>对于下面的C语言表达式，请说明 1）对于所有的 x 和 y 值，表达式恒为真。或者 2）给出使表达式为假的 x 和 y 的值。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">1. (x &gt; 0) || (x - 1 &lt; 0) </div><div class="line">2. (x &amp; 7) != 7 || (x &lt;&lt; 29) &lt; 0</div><div class="line">3. (x * x) &gt;= 0</div><div class="line">4. x &lt; 0 || -x &gt;= 0</div><div class="line">5. x &gt; 0 || -x &gt;= 0</div><div class="line">6. x + y == ux + uy</div><div class="line">7. x * ~y + ux * uy == -x</div></pre></td></tr></table></figure></p>
@@ -615,7 +615,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">31</span>
+                <span class="site-state-item-count">32</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>

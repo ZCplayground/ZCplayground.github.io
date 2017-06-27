@@ -1,0 +1,1017 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="下面介绍一些C语言中常见的特殊的数据存储方式，以及它们在汇编语言中是如何表示的。 数组数组是一种将标量数据聚集成更大数据类型的方式。实现数组的方式其实十分简单，也非常容易翻译成机器代码。C语言的一个特点是可以产生指向数组元素的指针，然后可以对这些指针进行运算。 数组的基本原则如下： 对于数组的声明：T A[N];，这句语句有两个效果。首先，它在存储器中分配一个 L * N 个字节的连续区域，L 是">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【CSAPP笔记】8. 汇编语言——数据存储">
+<meta property="og:url" content="http://yoursite.com/2017/06/27/csapp-8-Machine-Data-Storage/index.html">
+<meta property="og:site_name" content="ZCplayground">
+<meta property="og:description" content="下面介绍一些C语言中常见的特殊的数据存储方式，以及它们在汇编语言中是如何表示的。 数组数组是一种将标量数据聚集成更大数据类型的方式。实现数组的方式其实十分简单，也非常容易翻译成机器代码。C语言的一个特点是可以产生指向数组元素的指针，然后可以对这些指针进行运算。 数组的基本原则如下： 对于数组的声明：T A[N];，这句语句有两个效果。首先，它在存储器中分配一个 L * N 个字节的连续区域，L 是">
+<meta property="og:image" content="https://cl.ly/103F1B2f2n2B/1.png">
+<meta property="og:image" content="https://cl.ly/1v2y2e0W2b0U/2.png">
+<meta property="og:image" content="https://cl.ly/05440K2C3s29/3.png">
+<meta property="og:image" content="https://cl.ly/2l0S452V0N0R/4.png">
+<meta property="og:image" content="https://cl.ly/0B221d2l1y3C/5.png">
+<meta property="og:image" content="https://cl.ly/2v0r200w2O0e/6.png">
+<meta property="og:image" content="https://cl.ly/0b373h1p370A/7.png">
+<meta property="og:updated_time" content="2017-06-27T13:29:42.009Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【CSAPP笔记】8. 汇编语言——数据存储">
+<meta name="twitter:description" content="下面介绍一些C语言中常见的特殊的数据存储方式，以及它们在汇编语言中是如何表示的。 数组数组是一种将标量数据聚集成更大数据类型的方式。实现数组的方式其实十分简单，也非常容易翻译成机器代码。C语言的一个特点是可以产生指向数组元素的指针，然后可以对这些指针进行运算。 数组的基本原则如下： 对于数组的声明：T A[N];，这句语句有两个效果。首先，它在存储器中分配一个 L * N 个字节的连续区域，L 是">
+<meta name="twitter:image" content="https://cl.ly/103F1B2f2n2B/1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/06/27/csapp-8-Machine-Data-Storage/"/>
+
+
+
+
+
+  <title>【CSAPP笔记】8. 汇编语言——数据存储 | ZCplayground</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">ZCplayground</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/27/csapp-8-Machine-Data-Storage/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ZC">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ZCplayground">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">【CSAPP笔记】8. 汇编语言——数据存储</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-27T17:27:54+08:00">
+                2017-06-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/CSAPP/" itemprop="url" rel="index">
+                    <span itemprop="name">CSAPP</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/06/27/csapp-8-Machine-Data-Storage/" class="leancloud_visitors" data-flag-title="【CSAPP笔记】8. 汇编语言——数据存储">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>下面介绍一些C语言中常见的特殊的数据存储方式，以及它们在汇编语言中是如何表示的。</p>
+<h1 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h1><p>数组是一种将标量数据聚集成更大数据类型的方式。实现数组的方式其实十分简单，也非常容易翻译成机器代码。C语言的一个特点是可以产生指向数组元素的指针，然后可以对这些指针进行运算。</p>
+<p>数组的基本原则如下：</p>
+<p>对于数组的声明：<code>T A[N];</code>，这句语句有两个效果。首先，它在存储器中分配一个 <code>L * N</code> 个字节的<strong>连续区域</strong>，L 是数据类型 T 单位为字节的大小，用 $ X_A $ 来表示起始位置。其次，它引入标识符 A ，可以用 A 作为<strong>指向数组开头的指针</strong>，指针的值就是$ X_A $。</p>
+<p><img src="https://cl.ly/103F1B2f2n2B/1.png" alt=""></p>
+<p>汇编代码：假设 E 是一个 int 型数组，我们想计算 <code>E[i]</code>，数组的地址存储在寄存器 <code>%edx</code> 中， 下标 <code>i</code> 存放在寄存器 <code>%ecx</code> 中。下列指令会计算地址 $ X_E + 4i $，读取这个存储器的值，然后将结果放到寄存器 %eax 中。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">movl    (%edx, %ecx, 4), %eax</div></pre></td></tr></table></figure>
+<h2 id="指针运算"><a href="#指针运算" class="headerlink" title="指针运算"></a>指针运算</h2><p>C语言允许对指针进行运算，计算的过程中，值会根据该指针引用的类型的大小进行伸缩（指针类型的作用）。下面这些例子给出一些关于数组 E 的表达式，以及每个表达式的汇编代码实现。</p>
+<table>
+<thead>
+<tr>
+<th>表达式</th>
+<th>结果类型</th>
+<th>值</th>
+<th>汇编代码</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>E</td>
+<td>int *</td>
+<td>$ X_E $</td>
+<td>movl %edx, %eax</td>
+</tr>
+<tr>
+<td>E[0]</td>
+<td>int</td>
+<td>$ M[X_E] $</td>
+<td>movl (%edx), %eax</td>
+</tr>
+<tr>
+<td>E[i]</td>
+<td>int</td>
+<td>$ M[X_E + 4i] $</td>
+<td>movl (%edx, %ecx, 4), %eax</td>
+</tr>
+<tr>
+<td>&amp;E[2]</td>
+<td>int *</td>
+<td>$ X_E + 8 $</td>
+<td>leal 8(%edx), %eax</td>
+</tr>
+<tr>
+<td>E+i-1</td>
+<td>int *</td>
+<td>$ X_E + 4i - 4 $</td>
+<td>leal -4(%edx, %ecx, 4), %eax</td>
+</tr>
+<tr>
+<td>*(E+i-3)</td>
+<td>int</td>
+<td>$ M[X_E + 4i - 12] $</td>
+<td>movl -12(%edx, %ecx, 4), %eax</td>
+</tr>
+<tr>
+<td>&amp;E[i]-E</td>
+<td>int</td>
+<td>i</td>
+<td>movl %ecx, %eax</td>
+</tr>
+</tbody>
+</table>
+<h2 id="嵌套数组"><a href="#嵌套数组" class="headerlink" title="嵌套数组"></a>嵌套数组</h2><p>当我们创建数组的数组时，数组的分配和引用的一般原则也是成立的。例如有声明：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">int A[5][3];</div></pre></td></tr></table></figure>
+<p>则相当于下面的声明：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">typedef int row3_t[3];</div><div class="line">row3_5 A[5];</div></pre></td></tr></table></figure>
+<p>A 数组是一个包含 5 个元素的数组，每一个元素是一个含有 3 个整数的数组。也可以看成是一个 5 行 3 列的二维数组。用 <code>A[0][0]</code> 到 <code>A[4][2]</code> 来引用。二维数组是以行优先的顺序来排列的。第 0 行的所有元素，可以写作 <code>A[0]</code>。 </p>
+<p>对于数组 <code>T[R][C]</code>; 来说，他的元素 <code>T[i][j]</code> 的存储器地址为：$  X_D + L(C * i + j)  $ </p>
+<p><img src="https://cl.ly/1v2y2e0W2b0U/2.png" alt=""></p>
+<h1 id="异质的数据结构"><a href="#异质的数据结构" class="headerlink" title="异质的数据结构"></a>异质的数据结构</h1><p>C语言提供了两种结合不同的对象来创建数据类型的机制：结构（struct），将多个对象集合到一个单位中；联合（union），允许用几种不同的类型引用一个对象。</p>
+<h2 id="结构体"><a href="#结构体" class="headerlink" title="结构体"></a>结构体</h2><p>C语言的 struct 创建一种数据类型，将可能不同的数据类型的对象聚合到一个对象中。结构体中各个组成部分由名字来引用。类似于数组的实现，结构体的所有组成部分都存放在存储器中的一段<strong>连续</strong>的区域内，指向结构体的指针就是结构体第一个字节的地址。编译器维护每个结构类型的信息，指示每个字段（field）的字节偏移。以这些偏移作为存储器引用中指令的位移，从而产生对结构体元素的引用。</p>
+<p>假设有下面的结构体声明：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">struct rec&#123;</div><div class="line">    int i;</div><div class="line">    int j;</div><div class="line">    int a[3];</div><div class="line">    int *p;</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<p>那么在内存中的排列是：</p>
+<p><img src="https://cl.ly/05440K2C3s29/3.png" alt=""></p>
+<p>为了访问字段，编译器产生的代码要将结构体的地址加上适当的偏移。例如指向结构体 <code>rec</code> 的指针变量 <code>r</code> 存放在寄存器 <code>%edx</code> 中，下面的代码将元素 <code>r-&gt;i</code> 复制到 <code>r-&gt;j</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">movl    (%edx), %eax        # 将 r-&gt;i 放到寄存器中</div><div class="line">movl    %eax, 4(%edx)       # 将寄存器的值复制到 r-&gt;j 中</div></pre></td></tr></table></figure>
+<p>可以看到，为了访问字段 j，代码将 r 的地址加上偏移量 4。</p>
+<h2 id="联合体"><a href="#联合体" class="headerlink" title="联合体"></a>联合体</h2><p>联合体提供了一种方式，能够规避C语言的类型系统，允许以多种类型来引用同一个对象。联合体的语法和结构体一样，但语义差别很大——联合体<strong>用不同的字段来引用相同的内存</strong>。</p>
+<p>考虑下面的声明：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">struct S&#123;</div><div class="line">    char c;</div><div class="line">    int i[2];</div><div class="line">    double v;</div><div class="line">&#125;</div><div class="line"></div><div class="line">union U&#123;</div><div class="line">    char c;</div><div class="line">    int i[2];</div><div class="line">    double v;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>在一台 IA32 Linux 机器上编译时，字段的偏移量、数据类型的完整大小如下：</p>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>偏移量：c</th>
+<th>i</th>
+<th>v</th>
+<th>大小</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>S</td>
+<td>0</td>
+<td>4</td>
+<td>12</td>
+<td>20</td>
+</tr>
+<tr>
+<td>U</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>8</td>
+</tr>
+</tbody>
+</table>
+<p>一个联合体的总的大小总是等于它的最大字段的大小。对于类型结构体 U 的指针 p，<code>p-&gt;c</code>、<code>p-&gt;i[0]</code>、<code>p-&gt;v</code> 都是引用数据结构的<strong>起始位置</strong>。</p>
+<p>在一些上下文中，联合体十分有用，但是它也引起一些讨厌的错误，因为它绕过了C语言类型系统提供的安全措施。</p>
+<p>举一个联合体应用的具体例子：现在我们要设计一个特殊的二叉树的数据结构，它有一个特点：每个<strong>叶子</strong>节点有一个 double 类型的值。每个<strong>内部</strong>节点有左右儿子的指针，但是没有数据。如果声明如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">struct Node&#123;</div><div class="line">    struct Node * left;</div><div class="line">    struct Node * right;</div><div class="line">    double data;</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<p>如果用上述结构体，那么每个节点都需要 16 个字节。然而，叶子结点是没有左右儿子的，内部节点是用不着 double data 的，所以每个类型的节点都要浪费一半的内存。如果我们这样声明：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">union Node&#123;</div><div class="line">    struct</div><div class="line">    &#123;</div><div class="line">        union Node *left;</div><div class="line">        union Node *right;</div><div class="line">    &#125;internal;</div><div class="line">    double data;</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<p>那么每个节点就只需要 8 个字节。如果 n 是一个指向 union Node 的指针，那么可以用 <code>n-&gt;data</code> 来表示叶子结点的数据，<code>n-&gt;internal.left</code> 和 <code>n-&gt;internal.right</code>来表示内部节点的左右儿子。</p>
+<p>然而这样表示，我们是没办法确定一个给定的节点到底是叶子节点，还是内部节点。有一个方法，是引入一个枚举类型，定义这个联合中可能的不同选择，再用一个结构体将两者包含起来：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">typedef enum &#123;LEAF, INTERNAL&#125; nodetype;</div><div class="line"></div><div class="line">struct Node_T&#123;</div><div class="line">    nodetype type;</div><div class="line">    union Node&#123;</div><div class="line">        struct</div><div class="line">        &#123;</div><div class="line">            union Node *left;</div><div class="line">            union Node *right;</div><div class="line">        &#125;internal;</div><div class="line">        double data;</div><div class="line">    &#125;info;</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<p>可以发现，这样的联合体只需要12个字节。</p>
+<p>相对于编码带来的麻烦问题，其实使用联合体带来的节省是很小的。除非说对于有较多字段的数据结构，结构体带来的节省就会更加吸引人。</p>
+<h2 id="数据对齐"><a href="#数据对齐" class="headerlink" title="数据对齐"></a>数据对齐</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">struct S&#123;</div><div class="line">    char c;</div><div class="line">    int i[2];</div><div class="line">    double v;</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>偏移量：c</th>
+<th>i</th>
+<th>v</th>
+<th>大小</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>S</td>
+<td>0</td>
+<td>4</td>
+<td>12</td>
+<td>20</td>
+</tr>
+</tbody>
+</table>
+<p>为什么 i 的偏移量不是 1 呢？char 类型的大小不是只有 1 个字节吗？</p>
+<p>要解答这个问题，我们必须对数据对齐有一定的了解。计算机系统对于基本的数据类型的合法地址做出了一定的限制，要求地址必须是某个值的倍数（例如4、8、16）。这种<strong>对齐限制</strong>简化了处理器系统和存储器系统之间的接口硬件设计。</p>
+<p>对于上面那个结构体，画出来的图是这样的：</p>
+<p><img src="https://cl.ly/2l0S452V0N0R/4.png" alt=""></p>
+<p>它不可能满足对齐要求。假设我们的对齐要求是 4 字节对齐的话，编译器会在字段 c 之后插入一个 3 字节的间隙（用灰色表示），对齐后的结构体如下：</p>
+<p><img src="https://cl.ly/0B221d2l1y3C/5.png" alt=""></p>
+<p>可以看到后面的字段的偏移量发生了改变，整个结构体的大小变成了 20 字节。</p>
+<p>另外，编译器结构的末尾可能为了满足对齐要求而需要一些填充。这样，<strong>结构体数组</strong>的每个元素都能满足对齐要求。例如将上述结构体稍作修改：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">struct S&#123;</div><div class="line">    int i[2];</div><div class="line">    double v;</div><div class="line">    char c;</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<p>那么编译器为了使结构体数组的每个元素都满足对齐要求，不得不在末尾插入多余的 3 个字节。</p>
+<p><img src="https://cl.ly/2v0r200w2O0e/6.png" alt=""></p>
+<p><img src="https://cl.ly/0b373h1p370A/7.png" alt=""></p>
+<p>编译这段代码，可以发现，这个编译器的对齐要求应该是为 8 的倍数。了解到对齐方式之后，我们在写结构体的时候，注意一下元素的排列顺序，可以更有效地利用内存</p>
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><ul>
+<li><a href="http://www.cs.cmu.edu/~./213/schedule.html" target="_blank" rel="external">CMU 2017年春季学期  ICS课程网站</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/06/26/csapp-7-Machine-Prog-Procedure/" rel="next" title="【CSAPP笔记】7. 汇编语言——过程调用">
+                <i class="fa fa-chevron-left"></i> 【CSAPP笔记】7. 汇编语言——过程调用
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="ZC" />
+          <p class="site-author-name" itemprop="name">ZC</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">32</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#数组"><span class="nav-number">1.</span> <span class="nav-text">数组</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#指针运算"><span class="nav-number">1.1.</span> <span class="nav-text">指针运算</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#嵌套数组"><span class="nav-number">1.2.</span> <span class="nav-text">嵌套数组</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#异质的数据结构"><span class="nav-number">2.</span> <span class="nav-text">异质的数据结构</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#结构体"><span class="nav-number">2.1.</span> <span class="nav-text">结构体</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#联合体"><span class="nav-number">2.2.</span> <span class="nav-text">联合体</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据对齐"><span class="nav-number">2.3.</span> <span class="nav-text">数据对齐</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考资料"><span class="nav-number">3.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ZC</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("guhO5d3jdrym6QcCp5oIrsMc-gzGzoHsz", "ldFdhqrIxGxOqWs5mgH8pmLT");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>
