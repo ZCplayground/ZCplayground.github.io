@@ -106,7 +106,7 @@
 <meta property="og:image" content="https://cl.ly/0o0n1t1G1Z3B/5.png">
 <meta property="og:image" content="https://cl.ly/3i3h1v151K38/6.png">
 <meta property="og:image" content="https://cl.ly/2h252L0u052l/7.png">
-<meta property="og:updated_time" content="2017-06-27T13:04:40.985Z">
+<meta property="og:updated_time" content="2017-06-27T14:03:47.241Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【CSAPP笔记】3. 浮点数">
 <meta name="twitter:description" content="回想起刚学C语言时，我对浮点数的印象大概是“能够表示小数”的数据类型。还死记硬背过例如什么“小数用double存，用%f输出”这类的话。实际上呢，浮点数可以用这么一个公式来概括： $$ \sum_{k=-j}^i b_k×2^k$$ 除了我们所熟知的，表示小数之外，它对执行涉及非常大的数字、非常接近于0的数字，以及更普遍地作为对实数运算的结果的近似值，是非常有用的。 以下摘取一些书本中的内容： 2">
@@ -399,8 +399,8 @@
 <p>其实二进制小数不会很难理解，跟10进制不同的是，把10的幂次改成2的幂次，仅此而已。还有就是，二进制只有0和1组成。下面举一个$101.11_{(2)}$的运算过程作为例子。</p>
 <p>$$ 1×2^2+0×2^1+1×2^0+1×2^{-1}+1×2^{-2} = 4+0+1+\frac{1}{2}+\frac{1}{4}=5\frac{3}{4}$$</p>
 <p>对于十进制小数的一些性质，完全能够在二进制小数中发现类似的。例如，对于十进制小数来说，把小数点右移一位相当于乘以10。那么，对于二进制小数来说，把小数点往右移一位相当于乘以2。</p>
-<p>由于$0.111111….$ 非常接近于1，因此我们用 $1.0−ϵ$来表示。</p>
-<p>很显然，任何编码长度都是有限的。十进制表示法是无法<strong>准确地表达</strong>像三分之一这样的无限循环小数。其究极原因是在于，如果把十进制小数想象成一种编码的话，那么这种编码方案的精度不够，所以无法准确地把三分之一表示出来（这个例子有点牵强，因为三分之一是无限循环的）。由此，我们可以想象，二进制数表示法只能表示那些能够被写成$x×2^y$的小数。例如，数字$\frac{1}{5}$可以被精确地表示成十进制小数0.2，但没办法用一个二进制小数<strong>准确</strong>地表示它，只能通过提高二进制表示位的长度来提高精度，从而<strong>近似</strong>地去表示。这是一个很重要的理念。</p>
+<p>由于二进制小数：$0.111111….$ 非常接近于1，因此我们用 $1.0−ϵ$来表示。</p>
+<p>很显然，编码长度是有限的。十进制表示法是无法<strong>准确地表达</strong>像三分之一这样的无限循环小数。其究极原因是在于，如果把十进制小数想象成一种编码的话，那么这种编码方案的精度不够，所以无法准确地把三分之一表示出来（这个例子有点牵强，因为三分之一是无限循环的）。由此，我们可以想象，二进制数表示法只能表示那些能够被写成 $x×2^y$ 的小数。例如，数字 $\frac{1}{5}$ 可以被精确地表示成十进制小数 0.2，但没办法用一个二进制小数<strong>准确</strong>地表示它，只能通过提高二进制表示位的长度来提高精度，从而<strong>近似</strong>地去表示。这是一个很重要的理念。</p>
 <h1 id="IEEE-754-浮点标准"><a href="#IEEE-754-浮点标准" class="headerlink" title="IEEE 754 浮点标准"></a>IEEE 754 浮点标准</h1><p>在正式进入对754标准的讲解之前，我想先回到我之前在博客中提到过的一句话：</p>
 <blockquote>
 <p>0和1这种离散值在用机器来表示时是非常方便的……虽然0和1是离散的，但大量的0和1，足够让我们认为是“连续”的。</p>
@@ -416,12 +416,12 @@
 <p>标准浮点格式把位划分成三个字段，分别对上面这三种值进行编码</p>
 <ul>
 <li>开头第一位代表符号位</li>
-<li>接下来是k位的字段exp，编码的是阶码，但是结果要减去偏置值。（需要重点理解）</li>
-<li>在接下来n位的小数字段frac，编码尾数M，但是编码出来的值依赖于这个数是规格化数or非规格化数（后面会解释，需要重点理解）</li>
+<li>接下来是 k 位的字段 exp，编码的是阶码，但是结果要减去偏置值。（需要重点理解）</li>
+<li>在接下来 n 位的小数字段 frac，编码尾数M，但是编码出来的值依赖于这个数是规格化数or非规格化数（后面会解释，需要重点理解）</li>
 </ul>
-<p>比较常见的是32位和64位的浮点数编码。在C语言中，32位对于的就是数据类型<strong>float</strong>，称为单精度浮点数（single precision）。64位的是<strong>double</strong>，称为双精度浮点数（double precision）。下面是他们的编码格式，具体的就是k和n位数的不同，看下图。</p>
+<p>比较常见的是 32 位和 64 位的浮点数编码。在C语言中，32 位对于的就是数据类型<strong>float</strong>，称为单精度浮点数（single precision）。64 位的是<strong>double</strong>，称为双精度浮点数（double precision）。下面是他们的编码格式。float 和 double 的区别其实就是所占字节不一样，实质上就是 k 和 n 位数的不同。</p>
 <p><img src="https://cl.ly/0k3Z0d3o0G2X/1.png" alt=""></p>
-<h2 id="规格化和非规格化的值"><a href="#规格化和非规格化的值" class="headerlink" title="规格化和非规格化的值"></a>规格化和非规格化的值</h2><h3 id="规格化的值-Normalized-Values"><a href="#规格化的值-Normalized-Values" class="headerlink" title="规格化的值(Normalized Values)"></a>规格化的值(Normalized Values)</h3><p>在 exp ≠ 000…0 和 exp ≠ 111…1 时（阶码部分不全为0或全为1），表示的值就叫<strong>规格化值</strong>。到底规格化是什么意思呢？对于规格化数来说，用二进制数来表示时，原本连续的值会被规范到有限的定值上。如果把规格化的数放到数轴上表示，那他们之间的距离是不同的。（后面会举例子解释，现在不懂不用太担心）</p>
+<h2 id="规格化和非规格化的值"><a href="#规格化和非规格化的值" class="headerlink" title="规格化和非规格化的值"></a>规格化和非规格化的值</h2><h3 id="规格化的值-Normalized-Values"><a href="#规格化的值-Normalized-Values" class="headerlink" title="规格化的值(Normalized Values)"></a>规格化的值(Normalized Values)</h3><p>在 exp ≠ 000…0 和 exp ≠ 111…1 时（阶码部分不全为0或全为1），表示的值就叫<strong>规格化值</strong>。到底规格化是什么意思呢？对于规格化数来说，用二进制数来表示时，原本连续的值会被规范到有限的定值上。如果把规格化的数放到数轴上表示，那他们之间的<strong>距离是不同</strong>的。（后面会举例子解释，现在不懂不用太担心）</p>
 <p>对于规格化值，阶码字段（exp这部分）的编码区域的无符号值为<code>e</code>，但阶码<code>E</code>的值是$E = e - Bias$，注意这里不要把大小写e和E搞混。</p>
 <p>Bias是指<strong>偏移量</strong>，值为$ 2^{k-1}-1 $，k是阶码字段的位数。</p>
 <p>也就是说</p>
@@ -430,8 +430,8 @@
 <li>双精度规格化数的 Bias 是 1023，e 的范围是 1 ~ 2046，E 的范围是 -1022 ~ 1023</li>
 </ul>
 <p>之所以需要采用一个偏移量，是为了保证 exp 编码只需要以无符号数来处理。</p>
-<p>还记得吗？阶码值<code>E</code>，是用来做浮点数的权。可以看到，这个权在 <code>float</code> 最大可以达到 127，最小可以达到 -126，<code>double</code> 的范围就更大了，不知道比float高到哪里去了。想想看，用float可以表示的最大的数是表示为某个小数乘以 2 的 127 次方，这就是为什么浮点数可以表示<strong>很大的数与很小的数</strong>的原因，相比之下，<code>int</code> 能存下的最大的数也就 10 的 ⑨ 次方啊。</p>
-<p>对于小数字段<code>frac</code>，它就是描述<strong>小数值f</strong>，0 ≤ f ≤ 1 。而尾数<code>M</code>定义为 <code>M = 1 + f</code>。你也可以这样理解：<code>M</code> 一定是一个以 1 开头的小数，形如 <code>M=1.xxxxx.xx</code>，那些 xxx 就是 <code>frac</code> 的编码部分。当 <code>frac</code> 全为 0 时 <code>M</code>最小（M=1.0），当 <code>frac</code> 全为 1 时 <code>M</code>最大（M = 2-ϵ）。之所以采取这种方式，是因为如果阶码没有溢出，我们总是可以调整阶码（想象一下，也就是移动小数点的位置）来把尾数控制在 1≤M＜2 之间。这种方式就是<strong>轻松获得一个额外精度位</strong>的技巧。也可以理解为：开头的1是白送的，<strong>不需要额外的编码位</strong>。</p>
+<p>还记得吗？阶码值<code>E</code>，是用来做浮点数的权。可以看到，这个权在 <code>float</code> 最大可以达到 127，最小可以达到 -126，<code>double</code> 的范围就更大了。想想看，用float可以表示的最大的数是表示为某个小数乘以 2 的 127 次方，这就是为什么浮点数可以表示<strong>很大的数与很小的数</strong>的原因，相比之下，<code>int</code> 能存下的最大的数也就 10 的 ⑨ 次方啊。</p>
+<p>对于小数字段<code>frac</code>，它就是描述<strong>小数值f</strong>，0 ≤ f ≤ 1 。对于规格化数，尾数<code>M</code>定义为 <code>M = 1 + f</code>。你也可以这样理解：<code>M</code> 一定是一个以 1 开头的小数，形如 <code>M=1.xxxxx.xx</code>，那些 xxx 就是 <code>frac</code> 的编码部分。当 <code>frac</code> 全为 0 时 <code>M</code>最小（M=1.0），当 <code>frac</code> 全为 1 时 <code>M</code>最大（M = 2 - ϵ，无限接近于 2）。之所以采取这种方式，是因为如果阶码没有溢出，我们总是可以调整阶码（想象一下，也就是移动小数点的位置）来把尾数控制在 1 ≤ M ＜ 2 之间。这种方式就是<strong>轻松获得一个额外精度位</strong>的技巧。也可以理解为：开头的 1 是白送的，<strong>不需要额外的编码位</strong>。</p>
 <p>举个例子：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">int x = 12345；</div><div class="line">printf(&quot;%f&quot;,(float)x);</div></pre></td></tr></table></figure>
 <p>在强制类型转换时，到底发生了什么呢？</p>
@@ -439,30 +439,28 @@
 <p>$$12345_{10}=11000000111001$$</p>
 <p>将其小数点左移13位，创造一个规格化的形式：</p>
 <p>$$12345 = 1.1000000111001_2 × 2^{13}$$</p>
-<p>那么，构造float型的32位浮点数编码：</p>
+<p>依照此式，构造 float 型的 32 位浮点数编码：</p>
 <ul>
-<li><p>正数，所以符号位为0</p>
+<li><p>正数，所以符号位为 0</p>
 </li>
-<li><p>阶码的值E为13，E = e - Bias， e = E + Bias = E + 127 = 140。所以阶码字段就是140的八位二进制表示，即 10001100，这就是exp字段。</p>
+<li><p>阶码的值 E 为 13，∵ E = e - Bias， ∴ e = E + Bias = E + 127 = 140。所以阶码字段就是 140 的八位（float 的 E 一共 8 位，可以回过头再看看那张表）二进制表示，即 10001100，这就是 exp 字段。</p>
 </li>
-<li><p>将上述规格化形式的小数部分，后续添0添到23位，也就是添10个0，构造frac字段，即 10000001110010000000000</p>
+<li><p>将上述规格化形式的小数部分，后续添 0 添到23位，也就是添10个0，构造frac字段，即 10000001110010000000000</p>
 </li>
 </ul>
 <p>将其组合在一起，就形成了<strong>32位单精度浮点数12345的编码</strong>：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">0  10001100  10000001110010000000000</div><div class="line">s    exp            frac</div></pre></td></tr></table></figure>
-<h3 id="非规格化的值-Denormalized-Values"><a href="#非规格化的值-Denormalized-Values" class="headerlink" title="非规格化的值(Denormalized Values)"></a>非规格化的值(Denormalized Values)</h3><p>当阶码域exp全为0时，所表示的数就是非规格化形式。这里的意思是，原本用二进制表示的连续值，它们之间的间距是一样的。</p>
+<h3 id="非规格化的值-Denormalized-Values"><a href="#非规格化的值-Denormalized-Values" class="headerlink" title="非规格化的值(Denormalized Values)"></a>非规格化的值(Denormalized Values)</h3><p>当阶码域exp全为0时，所表示的数就是非规格化形式。这里的意思是，原本用二进制表示的连续值，它们之间的<strong>间距是一样的</strong>。</p>
 <p>在这种情况下有两点不同。对于阶码字段，阶码值<code>E</code>改成了<code>E = 1 - Bias</code>。也就是说</p>
 <ul>
-<li><p>单精度非规格化数的 E 是 -126</p>
-</li>
-<li><p>双精度非规格化数的 E 是 -1022</p>
-</li>
+<li>单精度非规格化数的 E 是 -126</li>
+<li>双精度非规格化数的 E 是 -1022</li>
 </ul>
 <p>对于尾数字段，尾数的值是 <code>M = f</code>。也就是说，<code>M</code>不再是一个以 1 开头的小数，而是以 0 开头的小数。这所以这样设置是有原因的。首先，非规格化数定义了一种表示零的方法，如果使用规格化数，由于总有 <code>M ≥ 1</code>，那么我们就不能表示 0。实际上，零的表示就是<code>exp</code>和<code>frac</code>字段全为 0，因此，对于浮点数来说，还有正零和负零的区别。非规格化数的另一个用途就是表示<strong>非常接近零的数</strong>。这种机制实现了由<strong>最大非规格化数到最小规格化数的平滑转换</strong>。</p>
 <h2 id="特殊值"><a href="#特殊值" class="headerlink" title="特殊值"></a>特殊值</h2><p>第一类是当exp全为1，frac全为0时，表示的值为<strong>无穷</strong>。当符号位 s = 1 代表负无穷，s = 0 代表正无穷。当小数域不是0，那就代表 NaN（Not a Number），不是一个数，表示出错。例如计算 -1 开根号的值就是 NaN。</p>
 <h2 id="实例分析"><a href="#实例分析" class="headerlink" title="实例分析"></a>实例分析</h2><p><img src="https://cl.ly/1d2f3M1F1b1x/2.png" alt=""></p>
-<p>我们采取一位符号位，4 位 exp 位，3 位 frac 位，bias = 2^3-1 = 7的编码方式。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">   符号 阶码 尾数  </div><div class="line">    s exp  frac   E   十进制值</div><div class="line">------------------------------------------------------------------</div><div class="line">                             # 这部分是非规范化数值，E = 1 - bias</div><div class="line">    0 0000 000   -6   0   </div><div class="line">    0 0000 001   -6   1/8 * 1/64 = 1/512 # 能表示的最接近零的值</div><div class="line">    0 0000 010   -6   2/8 * 1/64 = 2/512 </div><div class="line">    ...</div><div class="line">    0 0000 110   -6   6/8 * 1/64 = 6/512</div><div class="line">    0 0000 111   -6   7/8 * 1/64 = 7/512 # 能表示的最大非规范化值</div><div class="line">------------------------------------------------------------------</div><div class="line">                              # 这部分是规范化值，E = e - bias</div><div class="line"></div><div class="line">    0 0001 000   -6   8/8 * 1/64 = 8/512 # 能表示的最小规范化值</div><div class="line">    0 0001 001   -6   9/8 * 1/64 = 9/512</div><div class="line">    ...</div><div class="line">    0 0110 110   -1   14/8 * 1/2 = 14/16</div><div class="line">    0 0110 111   -1   15/8 * 1/2 = 15/16 # 最接近且小于 1 的值</div><div class="line">    0 0111 000    0   8/8 * 1 = 1</div><div class="line">    0 0111 001    0   9/8 * 1 = 9/8      # 最接近且大于 1 的值</div><div class="line">    0 0111 010    0   10/8 * 1 = 10/8</div><div class="line">    ...</div><div class="line">    0 1110 110    7   14/8 * 128 = 224</div><div class="line">    0 1110 111    7   15/8 * 128 = 240   # 能表示的最大规范化值</div><div class="line">------------------------------------------------------------------</div><div class="line">    0 1111 000   n/a  无穷               # 特殊值</div></pre></td></tr></table></figure>
+<p>我们采取一位符号位，4 位 exp 位，3 位 frac 位，bias = 2 ^ 3 - 1 = 7的编码方式。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line">   符号 阶码 尾数  </div><div class="line">    s exp  frac  e   E   十进制值</div><div class="line">                         小数部分 * 2的E次方</div><div class="line">---------------------------------------------------------------------</div><div class="line">                             # 这部分是非规范化数值，E = 1 - bias = -6</div><div class="line">    0 0000 000   0  -6   0   </div><div class="line">    0 0000 001   0  -6   1/8 * 1/64 = 1/512     # 能表示的最接近零的值</div><div class="line">    0 0000 010   0  -6   2/8 * 1/64 = 2/512 </div><div class="line">    ...</div><div class="line">    0 0000 110   0  -6   6/8 * 1/64 = 6/512</div><div class="line">    0 0000 111   0  -6   7/8 * 1/64 = 7/512     # 能表示的最大非规范化值</div><div class="line">---------------------------------------------------------------------</div><div class="line">                              # 这部分是规范化值，E = e - bias </div><div class="line"></div><div class="line">    0 0001 000   1  -6   8/8 * 1/64 = 8/512     # 能表示的最小规范化值</div><div class="line">    0 0001 001   1  -6   9/8 * 1/64 = 9/512</div><div class="line">    ...</div><div class="line">    0 0110 110   6  -1   14/8 * 1/2 = 14/16</div><div class="line">    0 0110 111   6  -1   15/8 * 1/2 = 15/16     # 最接近且小于 1 的值</div><div class="line">    0 0111 000   7   0   8/8 * 1 = 1</div><div class="line">    0 0111 001   7   0   9/8 * 1 = 9/8          # 最接近且大于 1 的值</div><div class="line">    0 0111 010   7   0   10/8 * 1 = 10/8</div><div class="line">    ...</div><div class="line">    0 1110 110   14  7   14/8 * 128 = 224</div><div class="line">    0 1110 111   14  7   15/8 * 128 = 240       # 能表示的最大规范化值</div><div class="line">------------------------------------------------------------------</div><div class="line">                                                # 特殊值</div><div class="line">    0 1111 000   价码部分全为 1，小数部分全为 0，正无穷大</div><div class="line">    1 1111 000   无穷大的符号位是 1，代表负无穷大</div><div class="line">    0 1111 001   阶码部分全为 1，小数部分不全为 0，NaN</div></pre></td></tr></table></figure>
 <p>观察表格，我们更好地可以理解之前的几个细节：</p>
 <ul>
 <li>连续非规格化值之间的间距是一样的，上面这个例子中，都是差了1/512</li>
