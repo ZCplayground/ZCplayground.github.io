@@ -99,18 +99,18 @@
 <meta property="og:url" content="http://yoursite.com/2017/06/25/csapp-3-Floating-Point/index.html">
 <meta property="og:site_name" content="ZCplayground">
 <meta property="og:description" content="回想起刚学C语言时，我对浮点数的印象大概是“能够表示小数”的数据类型。还死记硬背过例如什么“小数用 double 存，用 %f 输出”这类的话。实际上呢，浮点数可以用这么一个公式来概括： $$ \sum_{k=-j}^i b_k×2^k$$ 除了我们所熟知的，表示小数之外，它对执行涉及非常大的数字、非常接近于0的数字，以及更普遍地作为对实数运算的结果的近似值，是非常有用的。 以下摘取一些书本中的内">
-<meta property="og:image" content="https://cl.ly/0k3Z0d3o0G2X/1.png">
-<meta property="og:image" content="https://cl.ly/1d2f3M1F1b1x/2.png">
-<meta property="og:image" content="https://cl.ly/2F2c282K1b0c/3.png">
-<meta property="og:image" content="https://cl.ly/3T1y370I420v/4.png">
-<meta property="og:image" content="https://cl.ly/0o0n1t1G1Z3B/5.png">
-<meta property="og:image" content="https://cl.ly/3i3h1v151K38/6.png">
-<meta property="og:image" content="https://cl.ly/2h252L0u052l/7.png">
-<meta property="og:updated_time" content="2017-06-29T01:30:30.124Z">
+<meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/3-1.png">
+<meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/3-2.png">
+<meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/3-3.png">
+<meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/3-4.png">
+<meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/3-5.png">
+<meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/3-6.png">
+<meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/3-7.png">
+<meta property="og:updated_time" content="2017-06-29T09:31:17.509Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【CSAPP笔记】3. 浮点数">
 <meta name="twitter:description" content="回想起刚学C语言时，我对浮点数的印象大概是“能够表示小数”的数据类型。还死记硬背过例如什么“小数用 double 存，用 %f 输出”这类的话。实际上呢，浮点数可以用这么一个公式来概括： $$ \sum_{k=-j}^i b_k×2^k$$ 除了我们所熟知的，表示小数之外，它对执行涉及非常大的数字、非常接近于0的数字，以及更普遍地作为对实数运算的结果的近似值，是非常有用的。 以下摘取一些书本中的内">
-<meta name="twitter:image" content="https://cl.ly/0k3Z0d3o0G2X/1.png">
+<meta name="twitter:image" content="http://osax8w13y.bkt.clouddn.com/3-1.png">
 
 
 
@@ -420,7 +420,7 @@
 <li>在接下来 n 位的小数字段 frac，编码尾数M，但是编码出来的值依赖于这个数是规格化数or非规格化数（后面会解释，需要重点理解）</li>
 </ul>
 <p>比较常见的是 32 位和 64 位的浮点数编码。在C语言中，32 位对于的就是数据类型<strong>float</strong>，称为单精度浮点数（single precision）。64 位的是<strong>double</strong>，称为双精度浮点数（double precision）。下面是他们的编码格式。float 和 double 的区别其实就是所占字节不一样，实质上就是 k 和 n 位数的不同。</p>
-<p><img src="https://cl.ly/0k3Z0d3o0G2X/1.png" alt=""></p>
+<p><img src="http://osax8w13y.bkt.clouddn.com/3-1.png" alt=""></p>
 <h2 id="规格化和非规格化的值"><a href="#规格化和非规格化的值" class="headerlink" title="规格化和非规格化的值"></a>规格化和非规格化的值</h2><h3 id="规格化的值-Normalized-Values"><a href="#规格化的值-Normalized-Values" class="headerlink" title="规格化的值(Normalized Values)"></a>规格化的值(Normalized Values)</h3><p>在 exp ≠ 000…0 和 exp ≠ 111…1 时（阶码部分不全为0或全为1），表示的值就叫<strong>规格化值</strong>。到底规格化是什么意思呢？对于规格化数来说，用二进制数来表示时，原本连续的值会被规范到有限的定值上。如果把规格化的数放到数轴上表示，那他们之间的<strong>距离是不同</strong>的。（后面会举例子解释，现在不懂不用太担心）</p>
 <p>对于规格化值，阶码字段（exp这部分）的编码区域的无符号值为<code>e</code>，但阶码<code>E</code>的值是$E = e - Bias$，注意这里不要把大小写e和E搞混。</p>
 <p>Bias是指<strong>偏移量</strong>，值为$ 2^{k-1}-1 $，k是阶码字段的位数。</p>
@@ -458,7 +458,7 @@
 </ul>
 <p>对于尾数字段，尾数的值是 <code>M = f</code>。也就是说，<code>M</code>不再是一个以 1 开头的小数，而是以 0 开头的小数。这所以这样设置是有原因的。首先，非规格化数定义了一种表示零的方法，如果使用规格化数，由于总有 <code>M ≥ 1</code>，那么我们就不能表示 0。实际上，零的表示就是<code>exp</code>和<code>frac</code>字段全为 0，因此，对于浮点数来说，还有正零和负零的区别。非规格化数的另一个用途就是表示<strong>非常接近零的数</strong>。这种机制实现了由<strong>最大非规格化数到最小规格化数的平滑转换</strong>。</p>
 <h2 id="特殊值"><a href="#特殊值" class="headerlink" title="特殊值"></a>特殊值</h2><p>第一类是当exp全为1，frac全为0时，表示的值为<strong>无穷</strong>。当符号位 s = 1 代表负无穷，s = 0 代表正无穷。当小数域不是0，那就代表 NaN（Not a Number），不是一个数，表示出错。例如计算 -1 开根号的值就是 NaN。</p>
-<h2 id="实例分析"><a href="#实例分析" class="headerlink" title="实例分析"></a>实例分析</h2><p><img src="https://cl.ly/1d2f3M1F1b1x/2.png" alt=""></p>
+<h2 id="实例分析"><a href="#实例分析" class="headerlink" title="实例分析"></a>实例分析</h2><p><img src="http://osax8w13y.bkt.clouddn.com/3-2.png" alt=""></p>
 <p>我们采取一位符号位，4 位 exp 位，3 位 frac 位，bias = 2 ^ 3 - 1 = 7的编码方式。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line">   符号 阶码 尾数  </div><div class="line">    s exp  frac  e   E   十进制值</div><div class="line">                         小数部分 * 2的E次方</div><div class="line">---------------------------------------------------------------------</div><div class="line">                             # 这部分是非规范化数值，E = 1 - bias = -6</div><div class="line">    0 0000 000   0  -6   0   </div><div class="line">    0 0000 001   0  -6   1/8 * 1/64 = 1/512     # 能表示的最接近零的值</div><div class="line">    0 0000 010   0  -6   2/8 * 1/64 = 2/512 </div><div class="line">    ...</div><div class="line">    0 0000 110   0  -6   6/8 * 1/64 = 6/512</div><div class="line">    0 0000 111   0  -6   7/8 * 1/64 = 7/512     # 能表示的最大非规范化值</div><div class="line">---------------------------------------------------------------------</div><div class="line">                              # 这部分是规范化值，E = e - bias </div><div class="line"></div><div class="line">    0 0001 000   1  -6   8/8 * 1/64 = 8/512     # 能表示的最小规范化值</div><div class="line">    0 0001 001   1  -6   9/8 * 1/64 = 9/512</div><div class="line">    ...</div><div class="line">    0 0110 110   6  -1   14/8 * 1/2 = 14/16</div><div class="line">    0 0110 111   6  -1   15/8 * 1/2 = 15/16     # 最接近且小于 1 的值</div><div class="line">    0 0111 000   7   0   8/8 * 1 = 1</div><div class="line">    0 0111 001   7   0   9/8 * 1 = 9/8          # 最接近且大于 1 的值</div><div class="line">    0 0111 010   7   0   10/8 * 1 = 10/8</div><div class="line">    ...</div><div class="line">    0 1110 110   14  7   14/8 * 128 = 224</div><div class="line">    0 1110 111   14  7   15/8 * 128 = 240       # 能表示的最大规范化值</div><div class="line">------------------------------------------------------------------</div><div class="line">                                                # 特殊值</div><div class="line">    0 1111 000   价码部分全为 1，小数部分全为 0，正无穷大</div><div class="line">    1 1111 000   无穷大的符号位是 1，代表负无穷大</div><div class="line">    0 1111 001   阶码部分全为 1，小数部分不全为 0，NaN</div></pre></td></tr></table></figure>
 <p>观察表格，我们更好地可以理解之前的几个细节：</p>
@@ -467,13 +467,13 @@
 <li>连续的规格化值之间的间距不同。这是由于 exp 的不同而导致的。比方说最接近 1 的数字是 15/16 和 9/8，分别相差 1/16 和 1/8。</li>
 <li>“浮点数能编码一个很大的范围，但这种表示只是近似的。”我们能想象，如果frac位的长度越长，那么对于小数表示的精度就能越高。如果exp位的长度越长，那么能够表示的范围就越大。</li>
 </ul>
-<p><img src="https://cl.ly/2F2c282K1b0c/3.png" alt=""></p>
+<p><img src="http://osax8w13y.bkt.clouddn.com/3-3.png" alt=""></p>
 <p>上面是一个数轴，表示的是这种编码方式下的能表示的数在数轴上排列的情况。可以看到，浮点数表示的范围是很大的，也能够表示特别大和特别小的数。但是数的分布不是均匀的——在数轴两端，数字比较稀疏；在越靠近原点的地方，数字越稠密。在最靠近原点的地方，是非规格化数。</p>
-<h2 id="舍入（rounding）"><a href="#舍入（rounding）" class="headerlink" title="舍入（rounding）"></a>舍入（rounding）</h2><p><img src="https://cl.ly/3T1y370I420v/4.png" alt=""></p>
+<h2 id="舍入（rounding）"><a href="#舍入（rounding）" class="headerlink" title="舍入（rounding）"></a>舍入（rounding）</h2><p><img src="http://osax8w13y.bkt.clouddn.com/3-4.png" alt=""></p>
 <p>因为表示方法限定了浮点数不是精确的，因此浮点运算只能<strong>近似</strong>地表示实数运算。因此，对于某个运算结果 x，我们需要想出一个系统的方法，找到一个能够用浮点编码表示的<strong>最接近</strong>的匹配值 x1，用 x1 来表示运算结果。这就是舍入的任务。</p>
 <p>浮点数采取的规则是<strong>舍入到偶数</strong>，即：将数字向上或向下舍入，使得结果的最低有效数字是偶数。舍入到偶数我认为可以这么理解：<strong>四舍六入，五到偶</strong>。</p>
 <p>例如，我们要把一个一位小数舍入到整数位，那么1.4会舍入成1，1.6会舍入成2。如果是按照四舍五入的话，2.5和1.5会舍入成3和2。如果是按照舍入到偶数，那么2.5和1.5都是舍入成2的。</p>
-<p><img src="https://cl.ly/0o0n1t1G1Z3B/5.png" alt=""></p>
+<p><img src="http://osax8w13y.bkt.clouddn.com/3-5.png" alt=""></p>
 <p>为什么倾向于采取这种方法？我们很容易想到这样的情景：用某种方法舍入一组数值，必然会在用这些数值做某种计算的时候产生误差，误差的类型依照舍入方法而不同。例如，如果都采取向上舍入，那么一组数据经舍入后，求这组数据的平均值，那么平均值肯定是偏大的。之所以采取舍入到偶数，可以认为舍入到偶数是一种比四舍五入更加“<strong>公平</strong>”的舍入方法，我们把中间值5，一半向上舍入，一半向下舍入，那么就在大多数的现实情况中避免了计算的统计偏差。</p>
 <h2 id="浮点运算"><a href="#浮点运算" class="headerlink" title="浮点运算"></a>浮点运算</h2><h3 id="浮点加法"><a href="#浮点加法" class="headerlink" title="浮点加法"></a>浮点加法</h3><p>$$ (-1)^{s1}M_1·2^{E_1} + (-1)^{s2}M_2·2^{E_2} $$</p>
 <p>结果：（这里假设 E1 ≥ E2）<br>$$(-1)^{s}M·2^{E}$$</p>
@@ -523,8 +523,8 @@
 <li>double转成float，范围会变小，有可能得到值正负无穷。由于精度也变小了，所以可能被舍入。</li>
 <li>float或double转成int，值将会像零舍入。例如：1.999会变成1，-1.999会变成-1。值有可能溢出。<strong>C语言标准没有对这种情况制定固定的结果。</strong></li>
 </ul>
-<h2 id="对于浮点数的一些总结，以及特殊的浮点数"><a href="#对于浮点数的一些总结，以及特殊的浮点数" class="headerlink" title="对于浮点数的一些总结，以及特殊的浮点数"></a>对于浮点数的一些总结，以及特殊的浮点数</h2><p><img src="https://cl.ly/3i3h1v151K38/6.png" alt=""></p>
-<p><img src="https://cl.ly/2h252L0u052l/7.png" alt=""></p>
+<h2 id="对于浮点数的一些总结，以及特殊的浮点数"><a href="#对于浮点数的一些总结，以及特殊的浮点数" class="headerlink" title="对于浮点数的一些总结，以及特殊的浮点数"></a>对于浮点数的一些总结，以及特殊的浮点数</h2><p><img src="http://osax8w13y.bkt.clouddn.com/3-6.png" alt=""></p>
+<p><img src="http://osax8w13y.bkt.clouddn.com/3-7.png" alt=""></p>
 <h1 id="第一章小结"><a href="#第一章小结" class="headerlink" title="第一章小结"></a>第一章小结</h1><p>好了，我们也看完了浮点数的全部内容，也就了解了信息在计算机内的存储方式这一章的全部内容。</p>
 <p>我们从最基本的元素——bit开始，了解了整型和浮点数两个非常重要的数据类型的编码方式。只有了解了位的知识、以及编码方式，我们才可能对这些数据类型涉及的其他方方面面的概念，例如：掩码运算、强制类型转换、扩展、截断、舍入、溢出等等。如果不了解位，那么对于上述这些概念只能是知其然而不知其所以然（好吧，原谅我的词穷，这个词我好像在本篇博客中用了好几遍。。但我觉得知道深层的原理是很有帮助的）。</p>
 <p>这些内容很重要，但我觉得比较好的学习方法是举例子来理解。这本书每个小节后面配有很好的题目，可以帮助大家理解这些知识点。</p>

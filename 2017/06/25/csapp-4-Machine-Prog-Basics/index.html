@@ -99,13 +99,13 @@
 <meta property="og:url" content="http://yoursite.com/2017/06/25/csapp-4-Machine-Prog-Basics/index.html">
 <meta property="og:site_name" content="ZCplayground">
 <meta property="og:description" content="程序的机器级表示计算机能读懂是机器代码（machine code）—— 用字节序列编码的低级操作 —— 也就是0和1。编译器基于编程语言的规则、目标机器的指令集和操作系统的规则，经过一系列阶段产生机器代码。由于机器语言全是由0和1组成的，所以对于编程人员来说编写机器代码十分困难，也不容易学习。汇编语言（assembly language）就是机器语言的可读形式，学习汇编语言有很多的好处。  An">
-<meta property="og:image" content="https://cl.ly/010C2I1B0Q13/1.png">
-<meta property="og:image" content="https://cl.ly/1k0e3o2a0X1o/2.png">
-<meta property="og:updated_time" content="2017-06-27T13:06:57.918Z">
+<meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/4-1.png">
+<meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/4-2.png">
+<meta property="og:updated_time" content="2017-06-29T09:31:17.473Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【CSAPP笔记】4. 汇编语言——基础">
 <meta name="twitter:description" content="程序的机器级表示计算机能读懂是机器代码（machine code）—— 用字节序列编码的低级操作 —— 也就是0和1。编译器基于编程语言的规则、目标机器的指令集和操作系统的规则，经过一系列阶段产生机器代码。由于机器语言全是由0和1组成的，所以对于编程人员来说编写机器代码十分困难，也不容易学习。汇编语言（assembly language）就是机器语言的可读形式，学习汇编语言有很多的好处。  An">
-<meta name="twitter:image" content="https://cl.ly/010C2I1B0Q13/1.png">
+<meta name="twitter:image" content="http://osax8w13y.bkt.clouddn.com/4-1.png">
 
 
 
@@ -399,10 +399,10 @@
 </blockquote>
 <h1 id="Architecture"><a href="#Architecture" class="headerlink" title="Architecture"></a>Architecture</h1><p>汇编内容比较多，部分涉及具体细节的内容有删减，仅做简单介绍，详情请参考书本。</p>
 <h2 id="处理器"><a href="#处理器" class="headerlink" title="处理器"></a>处理器</h2><p>Intel 处理器系列俗称 x86，经历了一个长期的、不断发展过程。1965年，Intel公司的创始人Gordon Moore，根据当时的芯片技术（那时他们能够在一个芯片上制造大概有64个晶体管的电路）做出推断：未来10年内，芯片上晶体管数量每年都能翻一番。这个预测就是著名的<strong>摩尔定律</strong>。正如事实所证明的那样，他的预测有点乐观，还有点短视。在超过45年中，半导体工业一直能够让晶体管数量每18个月翻一番。</p>
-<p><img src="https://cl.ly/010C2I1B0Q13/1.png" alt=""></p>
+<p><img src="http://osax8w13y.bkt.clouddn.com/4-1.png" alt=""></p>
 <h2 id="指令集"><a href="#指令集" class="headerlink" title="指令集"></a>指令集</h2><p>就像上面讲到的那样，计算机系统用到了许多不同形式的抽象，利用简单的模型隐藏各种细节。其中之一就是指令集，也就是ISA。在学习汇编时，ISA模型给人的感觉好像看上去应该是顺序指令执行，也就是先取出一条指令，等到它执行完毕，再开始下一条。然而处理器的实际工作方式远比这种模式精细复杂，因为处理器可以并发执行多条指令，因此需要做很多的额外工作。<strong>在计算机科学中，用巧妙的方法在提高性能，并完成更多更复杂的功能的同时，又同时保持了一个更简单、更抽象的底层模型功能</strong>，这种想法是无处不在的。</p>
 <p>IA32和x86-64就是两种ISA，也是着重介绍的重点。这两者是当今大多数计算机的主导语言，后者是前者在64位机器上的扩展版本。</p>
-<p><img src="https://cl.ly/1k0e3o2a0X1o/2.png" alt=""></p>
+<p><img src="http://osax8w13y.bkt.clouddn.com/4-2.png" alt=""></p>
 <p>IA32的机器代码和原始C代码差别非常大。下面这些对于C语言程序员隐藏的概念在IA32中是可见的：</p>
 <ul>
 <li><p>程序计数器（Program Counter，简称PC），用来指示将要执行的下一条指令的地址。</p>

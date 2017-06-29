@@ -99,15 +99,15 @@
 <meta property="og:url" content="http://yoursite.com/2017/06/26/csapp-7-Machine-Prog-Procedure/index.html">
 <meta property="og:site_name" content="ZCplayground">
 <meta property="og:description" content="一个过程调用包括将数据（以参数和返回值的形式）与控制从代码的一部分传递到另一部分。除此之外，在进入时为过程的局部变量分配空间，在退出的时候释放这些空间。数据传递、局部变量的分配和释放通过操纵程序栈来实现。栈作为一种能够实现先进后出、后进先出的数据结构，非常适合用于实现函数调用以及返回的机制。 在过程调用中主要涉及三个重要的方面：  传递控制：包括如何开始执行过程代码，以及如何返回到开始的地方 传递">
-<meta property="og:image" content="https://cl.ly/1r2n0j3p3M1Y/1.png">
-<meta property="og:image" content="https://cl.ly/0c2G1v0S1z1Q/stack.png">
-<meta property="og:image" content="https://cl.ly/1s0822381L11/frame.png">
-<meta property="og:image" content="https://cl.ly/102J3p0d2y0x/2.png">
-<meta property="og:updated_time" content="2017-06-27T13:33:05.329Z">
+<meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/7-1.png">
+<meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/7-stack.png">
+<meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/7-frame.png">
+<meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/7-2.png">
+<meta property="og:updated_time" content="2017-06-29T09:31:17.268Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【CSAPP笔记】7. 汇编语言——过程调用">
 <meta name="twitter:description" content="一个过程调用包括将数据（以参数和返回值的形式）与控制从代码的一部分传递到另一部分。除此之外，在进入时为过程的局部变量分配空间，在退出的时候释放这些空间。数据传递、局部变量的分配和释放通过操纵程序栈来实现。栈作为一种能够实现先进后出、后进先出的数据结构，非常适合用于实现函数调用以及返回的机制。 在过程调用中主要涉及三个重要的方面：  传递控制：包括如何开始执行过程代码，以及如何返回到开始的地方 传递">
-<meta name="twitter:image" content="https://cl.ly/1r2n0j3p3M1Y/1.png">
+<meta name="twitter:image" content="http://osax8w13y.bkt.clouddn.com/7-1.png">
 
 
 
@@ -385,9 +385,9 @@
 <li>传递数据：包括过程需要的参数以及过程的返回值</li>
 <li>内存管理：如何在过程执行的时候分配内存，以及在返回之后释放内存</li>
 </ol>
-<p><img src="https://cl.ly/1r2n0j3p3M1Y/1.png" alt=""></p>
+<p><img src="http://osax8w13y.bkt.clouddn.com/7-1.png" alt=""></p>
 <h1 id="栈结构"><a href="#栈结构" class="headerlink" title="栈结构"></a>栈结构</h1><p>程序栈其实就是一块内存区域，这个区域内的数据满足先进后出的原则。从栈底到栈顶，地址由高变低。所以新加入栈的以及新开辟的空间的地址都是较小的。有两个特殊寄存器是与栈有关的。寄存器 <code>%ebp</code> 叫做<strong>帧指针</strong>，保存当前栈帧开始的位置。寄存器 <code>%esp</code> 叫做<strong>栈指针</strong>，始终指向栈顶。栈帧（stack frame）是指为单个过程分配的那一小部分栈。大多数信息访问都是相对于帧指针访问的。以前经常看到这类代码：<code>movl  8(%ebp), %eax</code> 意思就是将存放在比帧指针地址大8的变量移动到寄存器里。</p>
-<p><img src="https://cl.ly/0c2G1v0S1z1Q/stack.png" alt=""></p>
+<p><img src="http://osax8w13y.bkt.clouddn.com/7-stack.png" alt=""></p>
 <p>假设过程 P（调用者）调用了过程 Q（被调用者），则 Q 的参数存放在 P 的栈帧中。调用 Q 时，P 的<strong>返回地址</strong>被压入栈中，形成 P 的栈帧的末尾。返回地址就是当过程 Q 返回时应该继续执行的地方。Q 的栈帧紧跟着被保存的帧指针副本开始，后面是其他寄存器的值。</p>
 <p>栈中会存放<strong>局部变量</strong>。有下面三个原因：</p>
 <ol>
@@ -437,7 +437,7 @@
 <h2 id="过程实例"><a href="#过程实例" class="headerlink" title="过程实例"></a>过程实例</h2><p>考虑下面给出的C语言代码。函数 caller 中包括一个对函数 swap_add 的调用。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">int swap_add(int *xp, int *yp)</div><div class="line">&#123;</div><div class="line">    int x = *xp;</div><div class="line">    int y = *yp;</div><div class="line"></div><div class="line">    *xp = y;</div><div class="line">    *yp = x;</div><div class="line"></div><div class="line">    return x + y;</div><div class="line">&#125;</div><div class="line"></div><div class="line">int caller()</div><div class="line">&#123;</div><div class="line">    int arg1 = 534;</div><div class="line">    int arg2 = 1057;//局部变量，以及作为参数</div><div class="line"></div><div class="line">    int sum = swap_add(&amp;arg1, &amp;arg2);</div><div class="line">    int diff = arg1 - arg2;</div><div class="line"></div><div class="line">    return sum * diff;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>下面给出 caller 和 swap_add 的栈帧。左图是还未执行到 <code>int sum = swap_add(&amp;arg1, &amp;arg2);</code>语句之前。可以看到因为要对局部变量取地址，所以要把局部变量放到栈中。栈指针一直指在栈顶。帧指针目前指在最上面，代表过程 caller 的栈帧开始的位置。</p>
-<p><img src="https://cl.ly/1s0822381L11/frame.png" alt=""></p>
+<p><img src="http://osax8w13y.bkt.clouddn.com/7-frame.png" alt=""></p>
 <p>调用了 <code>swap_add</code> 之后，栈成了左边的样子。因为调用函数会使用一个 call 指令。这个指令会压入一个返回地址。紧接着开始了 <code>swap_add</code> 的栈帧。此时 <code>%ebp</code>被更新。在被调用者函数内，使用<code>12(%ebp)</code> 和 <code>8(%ebp)</code>就可以取到两个参数。</p>
 <p>下面看一下汇编代码：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line">caller:</div><div class="line">    pushl   %ebp                # 保存旧的 %ebp 的一个副本</div><div class="line">    movl    %esp, %ebp          # 设置新的栈顶指针，到栈顶</div><div class="line">    subl    $24, %esp           # 栈指针减去24，即分配24个字节的空间</div><div class="line">    movl    $534, -4(%ebp)      # int arg1 = 534;</div><div class="line">    movl    $1057, -8(%ebp)     # int arg2 = 1057; 这两个局部变量都保存在栈上</div><div class="line">    leal    -8(%ebp), %eax      # 取地址 &amp;arg2，放到寄存器中</div><div class="line">    movl    %eax, 4(%esp)       # 保存到栈上</div><div class="line">    leal    -4(%ebp), %eax      # </div><div class="line">    movl    %eax, (%esp)        # 同上</div><div class="line">    call    swap_add            # 参数都齐全了，可以调用函数了</div><div class="line"></div><div class="line">swap_add:</div><div class="line">    push    %ebp                # %ebp移动了，栈发生了改变</div><div class="line">    movl    %esp, %ebp          # 这两步同 caller，是过程调用的“建立部分”</div><div class="line">    push    %ebx                # 这是一个被调用者保存寄存器，将旧值压入栈中，作为栈帧的一部分</div><div class="line"></div><div class="line">                                # 从这里开始才是真正的C语言代码体现的 swap_add 内容</div><div class="line">    movl    8(%ebp), %edx       # 获得参数1，放到寄存器中</div><div class="line">    movl    12(%ebp), %ecx      # 获得参数2，放到寄存器中</div><div class="line">    movl    (%edx), %ebx        # int x = *xp;</div><div class="line">    movl    (%ecx), %eax        # int y = *yp;</div><div class="line">    movl    %eax, (%edx)        # *xp = y;</div><div class="line">    movl    %ebx, (%ecx)        # *yp = x;</div><div class="line">    addl    %ebx, %eax          # 计算 x + y，结果放在%eax中，所以会返回%eax中的值</div><div class="line"></div><div class="line">    popl    %ebx                # 这是被调用过程的“结束过程”</div><div class="line">    pop     %ebp                # 恢复保护寄存器，弹出栈帧指针</div><div class="line">    ret                         # 此时栈顶是返回地址，ret指令就弹出这个地址，然后跳转到这个地址</div><div class="line"></div><div class="line">                                # caller 剩余的代码会紧跟在后面</div><div class="line">    movl -4(%ebp), %edx         # 此时 %ebp 指的是 caller 自己的 %ebp</div><div class="line">    subl -8(%ebp), %edx         # int diff = arg1 - arg2;</div><div class="line">    imull %edx, %eax            # 计算 sum * diff，%eax是存放 swap_add 返回值的</div><div class="line">    leave</div><div class="line">    ret</div></pre></td></tr></table></figure>
@@ -479,7 +479,7 @@
 </ul>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">int rfun(unsigned x)</div><div class="line">&#123;</div><div class="line">    if(x == 0)</div><div class="line">        return 0;</div><div class="line">    unsigned nx = x &gt;&gt; 1;</div><div class="line">    int rv = rfun(nx);</div><div class="line">    return rv + (x &amp; 0x01);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>这段代码的作用是：递归地计算一个无符号数除了最后一位的每位数上之和，然后加上最低位，就是结果。</p>
-<p><img src="https://cl.ly/102J3p0d2y0x/2.png" alt=""></p>
+<p><img src="http://osax8w13y.bkt.clouddn.com/7-2.png" alt=""></p>
 <p>对于递归，目前我觉得有一个很恰当的比喻：</p>
 <blockquote>
 <p>我们使用词典查词，本身就是递归，为了解释一个词，需要用到更多词。当你查一个词，发现要解释这个词的一句话里有一个词你不懂，于是你开始查这第二个词。可惜的是，查第二个词的时候仍然有不懂的词，于是查第三个词……这样一直查下去，知道有一个词的解释你完全能看懂，那么递归走到了尽头，开始返回，然后你按照查词顺序的倒序逐个看明白了之前你所查的每个词的意思。你最开始查的那个词，是最后才知道其意思的。</p>

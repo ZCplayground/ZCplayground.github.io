@@ -99,18 +99,18 @@
 <meta property="og:url" content="http://yoursite.com/2017/06/27/csapp-8-Machine-Data-Storage/index.html">
 <meta property="og:site_name" content="ZCplayground">
 <meta property="og:description" content="下面介绍一些C语言中常见的特殊的数据存储方式，以及它们在汇编语言中是如何表示的。 数组数组是一种将标量数据聚集成更大数据类型的方式。实现数组的方式其实十分简单，也非常容易翻译成机器代码。C语言的一个特点是可以产生指向数组元素的指针，然后可以对这些指针进行运算。 数组的基本原则如下： 对于数组的声明：T A[N];，这句语句有两个效果。首先，它在存储器中分配一个 L * N 个字节的连续区域，L 是">
-<meta property="og:image" content="https://cl.ly/103F1B2f2n2B/1.png">
-<meta property="og:image" content="https://cl.ly/1v2y2e0W2b0U/2.png">
-<meta property="og:image" content="https://cl.ly/05440K2C3s29/3.png">
-<meta property="og:image" content="https://cl.ly/2l0S452V0N0R/4.png">
-<meta property="og:image" content="https://cl.ly/0B221d2l1y3C/5.png">
-<meta property="og:image" content="https://cl.ly/2v0r200w2O0e/6.png">
-<meta property="og:image" content="https://cl.ly/0b373h1p370A/7.png">
-<meta property="og:updated_time" content="2017-06-27T13:29:42.009Z">
+<meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/8-1.png">
+<meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/8-2.png">
+<meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/8-3.png">
+<meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/8-4.png">
+<meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/8-5.png">
+<meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/8-6.png">
+<meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/8-7.png">
+<meta property="og:updated_time" content="2017-06-29T09:31:17.268Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【CSAPP笔记】8. 汇编语言——数据存储">
 <meta name="twitter:description" content="下面介绍一些C语言中常见的特殊的数据存储方式，以及它们在汇编语言中是如何表示的。 数组数组是一种将标量数据聚集成更大数据类型的方式。实现数组的方式其实十分简单，也非常容易翻译成机器代码。C语言的一个特点是可以产生指向数组元素的指针，然后可以对这些指针进行运算。 数组的基本原则如下： 对于数组的声明：T A[N];，这句语句有两个效果。首先，它在存储器中分配一个 L * N 个字节的连续区域，L 是">
-<meta name="twitter:image" content="https://cl.ly/103F1B2f2n2B/1.png">
+<meta name="twitter:image" content="http://osax8w13y.bkt.clouddn.com/8-1.png">
 
 
 
@@ -385,7 +385,7 @@
 <h1 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h1><p>数组是一种将标量数据聚集成更大数据类型的方式。实现数组的方式其实十分简单，也非常容易翻译成机器代码。C语言的一个特点是可以产生指向数组元素的指针，然后可以对这些指针进行运算。</p>
 <p>数组的基本原则如下：</p>
 <p>对于数组的声明：<code>T A[N];</code>，这句语句有两个效果。首先，它在存储器中分配一个 <code>L * N</code> 个字节的<strong>连续区域</strong>，L 是数据类型 T 单位为字节的大小，用 $ X_A $ 来表示起始位置。其次，它引入标识符 A ，可以用 A 作为<strong>指向数组开头的指针</strong>，指针的值就是$ X_A $。</p>
-<p><img src="https://cl.ly/103F1B2f2n2B/1.png" alt=""></p>
+<p><img src="http://osax8w13y.bkt.clouddn.com/8-1.png" alt=""></p>
 <p>汇编代码：假设 E 是一个 int 型数组，我们想计算 <code>E[i]</code>，数组的地址存储在寄存器 <code>%edx</code> 中， 下标 <code>i</code> 存放在寄存器 <code>%ecx</code> 中。下列指令会计算地址 $ X_E + 4i $，读取这个存储器的值，然后将结果放到寄存器 %eax 中。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">movl    (%edx, %ecx, 4), %eax</div></pre></td></tr></table></figure>
 <h2 id="指针运算"><a href="#指针运算" class="headerlink" title="指针运算"></a>指针运算</h2><p>C语言允许对指针进行运算，计算的过程中，值会根据该指针引用的类型的大小进行伸缩（指针类型的作用）。下面这些例子给出一些关于数组 E 的表达式，以及每个表达式的汇编代码实现。</p>
@@ -449,13 +449,13 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">typedef int row3_t[3];</div><div class="line">row3_5 A[5];</div></pre></td></tr></table></figure>
 <p>A 数组是一个包含 5 个元素的数组，每一个元素是一个含有 3 个整数的数组。也可以看成是一个 5 行 3 列的二维数组。用 <code>A[0][0]</code> 到 <code>A[4][2]</code> 来引用。二维数组是以行优先的顺序来排列的。第 0 行的所有元素，可以写作 <code>A[0]</code>。 </p>
 <p>对于数组 <code>T[R][C]</code>; 来说，他的元素 <code>T[i][j]</code> 的存储器地址为：$  X_D + L(C * i + j)  $ </p>
-<p><img src="https://cl.ly/1v2y2e0W2b0U/2.png" alt=""></p>
+<p><img src="http://osax8w13y.bkt.clouddn.com/8-2.png" alt=""></p>
 <h1 id="异质的数据结构"><a href="#异质的数据结构" class="headerlink" title="异质的数据结构"></a>异质的数据结构</h1><p>C语言提供了两种结合不同的对象来创建数据类型的机制：结构（struct），将多个对象集合到一个单位中；联合（union），允许用几种不同的类型引用一个对象。</p>
 <h2 id="结构体"><a href="#结构体" class="headerlink" title="结构体"></a>结构体</h2><p>C语言的 struct 创建一种数据类型，将可能不同的数据类型的对象聚合到一个对象中。结构体中各个组成部分由名字来引用。类似于数组的实现，结构体的所有组成部分都存放在存储器中的一段<strong>连续</strong>的区域内，指向结构体的指针就是结构体第一个字节的地址。编译器维护每个结构类型的信息，指示每个字段（field）的字节偏移。以这些偏移作为存储器引用中指令的位移，从而产生对结构体元素的引用。</p>
 <p>假设有下面的结构体声明：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">struct rec&#123;</div><div class="line">    int i;</div><div class="line">    int j;</div><div class="line">    int a[3];</div><div class="line">    int *p;</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
 <p>那么在内存中的排列是：</p>
-<p><img src="https://cl.ly/05440K2C3s29/3.png" alt=""></p>
+<p><img src="http://osax8w13y.bkt.clouddn.com/8-3.png" alt=""></p>
 <p>为了访问字段，编译器产生的代码要将结构体的地址加上适当的偏移。例如指向结构体 <code>rec</code> 的指针变量 <code>r</code> 存放在寄存器 <code>%edx</code> 中，下面的代码将元素 <code>r-&gt;i</code> 复制到 <code>r-&gt;j</code></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">movl    (%edx), %eax        # 将 r-&gt;i 放到寄存器中</div><div class="line">movl    %eax, 4(%edx)       # 将寄存器的值复制到 r-&gt;j 中</div></pre></td></tr></table></figure>
 <p>可以看到，为了访问字段 j，代码将 r 的地址加上偏移量 4。</p>
@@ -525,15 +525,15 @@
 <p>为什么 i 的偏移量不是 1 呢？char 类型的大小不是只有 1 个字节吗？</p>
 <p>要解答这个问题，我们必须对数据对齐有一定的了解。计算机系统对于基本的数据类型的合法地址做出了一定的限制，要求地址必须是某个值的倍数（例如4、8、16）。这种<strong>对齐限制</strong>简化了处理器系统和存储器系统之间的接口硬件设计。</p>
 <p>对于上面那个结构体，画出来的图是这样的：</p>
-<p><img src="https://cl.ly/2l0S452V0N0R/4.png" alt=""></p>
+<p><img src="http://osax8w13y.bkt.clouddn.com/8-4.png" alt=""></p>
 <p>它不可能满足对齐要求。假设我们的对齐要求是 4 字节对齐的话，编译器会在字段 c 之后插入一个 3 字节的间隙（用灰色表示），对齐后的结构体如下：</p>
-<p><img src="https://cl.ly/0B221d2l1y3C/5.png" alt=""></p>
+<p><img src="http://osax8w13y.bkt.clouddn.com/8-5.png" alt=""></p>
 <p>可以看到后面的字段的偏移量发生了改变，整个结构体的大小变成了 20 字节。</p>
 <p>另外，编译器结构的末尾可能为了满足对齐要求而需要一些填充。这样，<strong>结构体数组</strong>的每个元素都能满足对齐要求。例如将上述结构体稍作修改：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">struct S&#123;</div><div class="line">    int i[2];</div><div class="line">    double v;</div><div class="line">    char c;</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
 <p>那么编译器为了使结构体数组的每个元素都满足对齐要求，不得不在末尾插入多余的 3 个字节。</p>
-<p><img src="https://cl.ly/2v0r200w2O0e/6.png" alt=""></p>
-<p><img src="https://cl.ly/0b373h1p370A/7.png" alt=""></p>
+<p><img src="http://osax8w13y.bkt.clouddn.com/8-6.png" alt=""></p>
+<p><img src="http://osax8w13y.bkt.clouddn.com/8-7.png" alt=""></p>
 <p>编译这段代码，可以发现，这个编译器的对齐要求应该是为 8 的倍数。了解到对齐方式之后，我们在写结构体的时候，注意一下元素的排列顺序，可以更有效地利用内存</p>
 <h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><ul>
 <li><a href="http://www.cs.cmu.edu/~./213/schedule.html" target="_blank" rel="external">CMU 2017年春季学期  ICS课程网站</a></li>

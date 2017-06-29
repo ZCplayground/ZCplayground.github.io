@@ -99,22 +99,22 @@
 <meta property="og:url" content="http://yoursite.com/2017/06/24/csapp-1-Bits-and-Bytes/index.html">
 <meta property="og:site_name" content="ZCplayground">
 <meta property="og:description" content="《Computer Systems a Programmer’s Perspective》，机械工业出版社。中文译名《深入理解计算机系统》。作者：（美）Randal E.Bryant / David O’Hallaron  想写点推荐理由，作罢，原因是自己学识尚浅（留坑以后写？）。这里附上几个链接，也许你看过之后，也会产生和我一样的想法，阅读这本计算机界的经典著作。  豆瓣——深入理解计算机系统（">
-<meta property="og:image" content="https://cl.ly/0u092R1C1w0Q/1.png">
-<meta property="og:image" content="https://cl.ly/3Y282w19032M/2.png">
-<meta property="og:image" content="https://cl.ly/1W2L3f2I291t/3.png">
-<meta property="og:image" content="https://cl.ly/1i0l3x2p0G3l/4.png">
-<meta property="og:image" content="https://cl.ly/0u3I0y271d28/5.png">
-<meta property="og:image" content="https://cl.ly/3w2S1e430Q37/6.png">
-<meta property="og:image" content="https://cl.ly/1g3G0A0m2d0p/7.png">
-<meta property="og:image" content="https://cl.ly/21180Z0n1W2R/8.png">
-<meta property="og:image" content="https://cl.ly/1X0n420a1t40/9.png">
-<meta property="og:image" content="https://cl.ly/1x1w1V330Q0c/10.png">
-<meta property="og:image" content="https://cl.ly/0G3N1o2M0L1Q/11.png">
-<meta property="og:updated_time" content="2017-06-27T12:55:14.174Z">
+<meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/1-1.png">
+<meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/1-2.png">
+<meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/1-3.png">
+<meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/1-4.png">
+<meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/1-5.png">
+<meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/1-6.png">
+<meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/1-7.png">
+<meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/1-8.png">
+<meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/1-9.png">
+<meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/1-10.png">
+<meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/1-11.png">
+<meta property="og:updated_time" content="2017-06-29T09:31:17.523Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【CSAPP笔记】1. 位、字节、整型">
 <meta name="twitter:description" content="《Computer Systems a Programmer’s Perspective》，机械工业出版社。中文译名《深入理解计算机系统》。作者：（美）Randal E.Bryant / David O’Hallaron  想写点推荐理由，作罢，原因是自己学识尚浅（留坑以后写？）。这里附上几个链接，也许你看过之后，也会产生和我一样的想法，阅读这本计算机界的经典著作。  豆瓣——深入理解计算机系统（">
-<meta name="twitter:image" content="https://cl.ly/0u092R1C1w0Q/1.png">
+<meta name="twitter:image" content="http://osax8w13y.bkt.clouddn.com/1-1.png">
 
 
 
@@ -481,11 +481,11 @@
 </ul>
 <h2 id="字"><a href="#字" class="headerlink" title="字"></a>字</h2><p>8 个 bit 是一个字，或者叫做字节（byte）。字节是作为最小的可寻址存储器单位（并不是一个个位去存储和访问）。每个字节都有一个唯一的数字作为标识，这个数字就是<strong>地址</strong>（Address）</p>
 <p>计算机有一个很重要的概念叫做<strong>字长</strong>（word size），指明整数和指针的<strong>标称大小</strong>。因为一个个地址都是唯一的数字，就是由一个字编码的。所以字长决定的一个最重要的系统参数就是虚拟地址空间的最大大小。一般来说32位的计算机，限定虚拟地址空间为4GB（2的32次方减1个字节）。</p>
-<h2 id="C语言数据类型的字节数"><a href="#C语言数据类型的字节数" class="headerlink" title="C语言数据类型的字节数"></a>C语言数据类型的字节数</h2><p><img src="https://cl.ly/0u092R1C1w0Q/1.png" alt=""></p>
+<h2 id="C语言数据类型的字节数"><a href="#C语言数据类型的字节数" class="headerlink" title="C语言数据类型的字节数"></a>C语言数据类型的字节数</h2><p><img src="http://osax8w13y.bkt.clouddn.com/1-1.png" alt=""></p>
 <h2 id="大端法、小端法"><a href="#大端法、小端法" class="headerlink" title="大端法、小端法"></a>大端法、小端法</h2><p>测试代码如下：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">#include&lt;stdio.h&gt;</div><div class="line">typedef unsigned char *byte_pointer;</div><div class="line"></div><div class="line">void show_bytes(byte_pointer start, int len) &#123;</div><div class="line">	int i;</div><div class="line">	for (i = 0; i &lt; len; i++)</div><div class="line">		printf(&quot; %.2x&quot;, start[i]);</div><div class="line">	printf(&quot;\n&quot;);</div><div class="line">&#125;</div><div class="line"></div><div class="line">void show_int(int x) &#123;</div><div class="line">	show_bytes((byte_pointer)&amp;x, sizeof(int));</div><div class="line">&#125;</div><div class="line"></div><div class="line">int main()</div><div class="line">&#123;</div><div class="line">	int x = 12345;</div><div class="line">	show_int(x);</div><div class="line">	return 0;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>在显示一个w位的整数时，如果w是8的整数，那么能以字节为单位来表示。最低有效字节排在前面的方式叫做小端法，大多intel兼容机器采取小端法。大端法采用的是最高有效字节在最前面，也就是我们平常习惯的方式。例如十进制<code>12345</code>的32位编码是<code>0000 3039</code>。小端法是如下的输出。</p>
-<p><img src="https://cl.ly/3Y282w19032M/2.png" alt=""></p>
+<p><img src="http://osax8w13y.bkt.clouddn.com/1-2.png" alt=""></p>
 <h1 id="bool代数、逻辑运算、移位运算"><a href="#bool代数、逻辑运算、移位运算" class="headerlink" title="bool代数、逻辑运算、移位运算"></a>bool代数、逻辑运算、移位运算</h1><p><a href="https://en.wikipedia.org/wiki/Boolean_algebra" target="_blank" rel="external">bool代数</a></p>
 <p><a href="https://en.wikipedia.org/wiki/Bitwise_operation#Bit_shifts" target="_blank" rel="external">位运算</a></p>
 <p>以下是一些补充记录：</p>
@@ -509,42 +509,42 @@
 </li>
 </ul>
 <p>关于位运算符放一张很久之前整理的表格：</p>
-<p><img src="https://cl.ly/1W2L3f2I291t/3.png" alt=""></p>
+<p><img src="http://osax8w13y.bkt.clouddn.com/1-3.png" alt=""></p>
 <h1 id="整数（integer）表示"><a href="#整数（integer）表示" class="headerlink" title="整数（integer）表示"></a>整数（integer）表示</h1><h2 id="整数编码"><a href="#整数编码" class="headerlink" title="整数编码"></a>整数编码</h2><p>整数分为有、无符号两种类型，<code>unsigned</code>。根据字节数的不同还分为<code>char</code>、<code>short</code>、<code>int</code>、<code>long</code>、<code>long long</code>。</p>
 <p>对于整数的编码，简言之，就是每个位上面的值乘以该位对应的权值，再求和。</p>
 <p>1.无符号数编码（binary to unsigned）</p>
-<p><img src="https://cl.ly/1i0l3x2p0G3l/4.png" alt=""></p>
+<p><img src="http://osax8w13y.bkt.clouddn.com/1-4.png" alt=""></p>
 <ul>
 <li>UMax，即编码全为1。</li>
 <li>UMin，编码全为0。</li>
 </ul>
 <p>2.补码编码（binary to Two’s compliment），与unsigned的区别在于最高有效位解释为<strong>负权</strong></p>
-<p><img src="https://cl.ly/0u3I0y271d28/5.png" alt=""></p>
+<p><img src="http://osax8w13y.bkt.clouddn.com/1-5.png" alt=""></p>
 <ul>
 <li>TMax，符号位为0，剩下位全为1。</li>
 <li>TMin，符号位为1，剩下位全为0。</li>
 <li>求一个有符号数的负数（补码的逻辑运算非），可以理解为把全部位取反后，对结果再加 1。特别地，TMin 的“负数”依然是 TMin。</li>
 </ul>
 <p>C语言默认是有符号整型。如果想要无符号常数，需要加关键词U做限制。</p>
-<h2 id="无符号数和有符号数之间的转换"><a href="#无符号数和有符号数之间的转换" class="headerlink" title="无符号数和有符号数之间的转换"></a>无符号数和有符号数之间的转换</h2><p><img src="https://cl.ly/3w2S1e430Q37/6.png" alt=""></p>
+<h2 id="无符号数和有符号数之间的转换"><a href="#无符号数和有符号数之间的转换" class="headerlink" title="无符号数和有符号数之间的转换"></a>无符号数和有符号数之间的转换</h2><p><img src="http://osax8w13y.bkt.clouddn.com/1-6.png" alt=""></p>
 <p>关键点：同样字长的有符号数和无符号数，使用的是相同的位模式。</p>
 <p>难点：C语言中，对于一个运算，如果一个运算数是有符号的，另一个是无符号的，那么C语言会隐式地将有符号参数强制类型转换成无符号数，并且假设这两个数是非负的。因此，会导致一些奇怪的结果。例如：</p>
-<p><img src="https://cl.ly/1g3G0A0m2d0p/7.png" alt=""></p>
+<p><img src="http://osax8w13y.bkt.clouddn.com/1-7.png" alt=""></p>
 <p>对于第一个式子来说，由于一个操作数是有符号，另一个操作数是无符号，那么有符号数-1被强制转换成一个无符号数，会变成一个很大的无符号数。</p>
 <p>第二个，<code>-2147483647-1</code> 其实就是头文件<limit.h>中32位补码TMin的写法（这是由于C语言规则所致）。转换成无符号之后的值要比TMax大1。</limit.h></p>
 <p>第三个，这两个操作数都是有符号型，而且2147483648大于TMax，导致溢出，成了一个很小的负数。</p>
-<p><img src="https://cl.ly/21180Z0n1W2R/8.png" alt=""></p>
-<h2 id="扩展、截断"><a href="#扩展、截断" class="headerlink" title="扩展、截断"></a>扩展、截断</h2><p><img src="https://cl.ly/1X0n420a1t40/9.png" alt=""></p>
+<p><img src="http://osax8w13y.bkt.clouddn.com/1-8.png" alt=""></p>
+<h2 id="扩展、截断"><a href="#扩展、截断" class="headerlink" title="扩展、截断"></a>扩展、截断</h2><p><img src="http://osax8w13y.bkt.clouddn.com/1-9.png" alt=""></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line">#include&lt;stdio.h&gt;</div><div class="line">typedef unsigned char *byte_pointer;</div><div class="line"></div><div class="line">void show_bytes(byte_pointer start, int len) &#123;</div><div class="line">	int i;</div><div class="line">	for (i = 0; i &lt; len; i++)</div><div class="line">		printf(&quot; %.2x&quot;, start[i]);</div><div class="line">	printf(&quot;\n&quot;);</div><div class="line">&#125;</div><div class="line"></div><div class="line">void show_int(int x) &#123;</div><div class="line">	show_bytes((byte_pointer)&amp;x, sizeof(int));</div><div class="line">&#125;</div><div class="line"></div><div class="line">void show_short(short x) &#123;</div><div class="line">	show_bytes((byte_pointer)&amp;x, sizeof(short));</div><div class="line">&#125;</div><div class="line"></div><div class="line">int main()</div><div class="line">&#123;</div><div class="line">	//扩展</div><div class="line">	short x = 12345;</div><div class="line">	show_short(x);</div><div class="line">	printf(&quot;short x = %d\n&quot;, x);</div><div class="line">	show_int(x);</div><div class="line">	printf(&quot;int x = %d\n\n&quot;, (int)x);</div><div class="line"></div><div class="line">	//截断</div><div class="line">	int y = 123456;</div><div class="line">	show_int(y);</div><div class="line">	printf(&quot;int y = %d\n&quot;, y);</div><div class="line">	show_short(y);</div><div class="line">	printf(&quot;short y = %d\n\n&quot;, (short)y);</div><div class="line">	return 0;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>扩展，例如<code>short</code>到<code>int</code>，<code>int</code>到<code>long long int</code>这样。不会改变数字的值。如果是无符号数就是扩展全部为0的位，有符号数就是扩展全部为1的位。</p>
 <p>截断，例如<code>int</code>到<code>short</code>，有点类似于右移，类似于模2的n次方，但只是类似。对于大的数据，截断会导致溢出。例如<code>int</code>型整数<code>123456</code>大于<code>short</code>能表示的最大数值范围，如果将其截断会导致上溢出从而得到一个负数。</p>
-<p><img src="https://cl.ly/1x1w1V330Q0c/10.png" alt=""></p>
+<p><img src="http://osax8w13y.bkt.clouddn.com/1-10.png" alt=""></p>
 <p>如果打算通过使用扩展位数的手段来使得一些运算结果由原本的溢出变为不溢出，那么强制类型转换和计算这两个过程的先后顺序很重要。例如下面这个函数验证两个32位的int型整数做乘法有没有产生溢出，验证的手段是先用64位的整型存结果，再将64位乘积截断为32位是否会改变其值：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">int imull(int x, int y)&#123;</div><div class="line">    long long pll = (long long)x * y;</div><div class="line">    return pll == (int)pll;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>代码第二行的强制类型转换至关重要，<strong>先转换再计算</strong>。如果第二行是这么写的话：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">long long pll = x * y;</div></pre></td></tr></table></figure>
 <p>那么会用32位值来计算乘积（可能这会溢出），然后再将其扩展为64位。显然不会达到目的。可以参考下面的运行结果</p>
-<p><img src="https://cl.ly/0G3N1o2M0L1Q/11.png" alt=""></p>
+<p><img src="http://osax8w13y.bkt.clouddn.com/1-11.png" alt=""></p>
 <hr>
 <h1 id="See-Also"><a href="#See-Also" class="headerlink" title="See Also"></a>See Also</h1><p>部分公式、数据截图来源</p>
 <ul>
