@@ -99,7 +99,7 @@
 <meta property="og:url" content="http://yoursite.com/2017/06/29/csapp-10-Code-Optimization/index.html">
 <meta property="og:site_name" content="ZCplayground">
 <meta property="og:description" content="写程序的主要目标是使它在所有可能的情况下都能正确运行（bug free），一个运行得很快但有 bug 的程序是毫无用处的。在 bug free 的基础上，程序员必须写出清晰简洁的代码，这样做是为了今后检查代码或修改代码时，其他人能够读懂和理解代码。另一方面，让程序运行得更快也是一个很重要的考虑因素。不过，程序获得最大加速比的时候，是它第一次运行起来的时候。 在提到优化程序性能时（Code opti">
-<meta property="og:updated_time" content="2017-06-29T01:30:29.935Z">
+<meta property="og:updated_time" content="2017-06-29T02:27:57.139Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【CSAPP笔记】10. 代码优化">
 <meta name="twitter:description" content="写程序的主要目标是使它在所有可能的情况下都能正确运行（bug free），一个运行得很快但有 bug 的程序是毫无用处的。在 bug free 的基础上，程序员必须写出清晰简洁的代码，这样做是为了今后检查代码或修改代码时，其他人能够读懂和理解代码。另一方面，让程序运行得更快也是一个很重要的考虑因素。不过，程序获得最大加速比的时候，是它第一次运行起来的时候。 在提到优化程序性能时（Code opti">
@@ -378,7 +378,7 @@
 <p>即使是最好的编译器也受到<strong>妨碍优化的因素</strong>（optimization blocker）的阻碍，程序员必须编写容易优化的代码，来<strong>帮助</strong>编译器（很让人眼界一新的观点）。研究程序的汇编代码，是理解编译器，理解代码如何被运行的最有效的手段之一。</p>
 <h1 id="理解编译器优化能力的局限性"><a href="#理解编译器优化能力的局限性" class="headerlink" title="理解编译器优化能力的局限性"></a>理解编译器优化能力的局限性</h1><p>编译器必须很小心地对程序使用<strong>安全</strong>的优化。在C语言标准的保证之下，编译器要确保优化后得到的程序和未优化的版本有着一样的行为（知道这个也就知道编译器不是万能的）看看下面两个过程：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">void func1(int *xp, int *yp)</div><div class="line">&#123;</div><div class="line">    *xp += *yp;</div><div class="line">    *xp += *yp;</div><div class="line">&#125;</div><div class="line"></div><div class="line">void func2(int *xp, int *yp)</div><div class="line">&#123;</div><div class="line">    *xp += 2* *yp;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>乍一看这两个过程似乎有相同的行为，且过程 func2 的效率更高一点，它虽然用到了乘法，但只需要三次存储器引用（读 <code>*xp</code>，读 <code>*yp</code>，写 <code>*xp</code>），而 func1 要用到六次存储器引用。那么编译器能不能把代码 func1 优化成 func2 呢？答案是否定的。当 xp 等于 yp 的情况下，func1 会把指针所指向的值增加 4 倍，而 func2 的值增加了 3 倍。这就是一个优化前后程序行为不同的典型例子——两个指针指向同一个存储器位置的情况，叫做<strong>存储器别名使用</strong>（memory aliasing），这就造成了一个<strong>妨碍优化的因素</strong>——编译器不能确定两个指针是否指向同一个位置，那么它就必须假设可能会存在这种情况，限制了优化能力。所以程序员要编写帮助编译器的代码，帮助编译器产生高效的可执行代码。</p>
+<p>乍一看这两个过程似乎有相同的行为，且过程 func2 的效率更高一点，它虽然用到了乘法，但只需要三次存储器引用（读 <code>*xp</code>，读 <code>*yp</code>，写 <code>*xp</code>），而 func1 要用到六次存储器引用。那么编译器能不能把代码 func1 优化成 func2 呢？答案是否定的。当 xp 等于 yp 的情况下，func1 会把指针所指向的值增加 4 倍，而 func2 只会增加 3 倍。这就是一个优化前后程序行为不同的典型例子——两个指针指向同一个存储器位置的情况，叫做<strong>存储器别名使用</strong>（memory aliasing），这就造成了一个<strong>妨碍优化的因素</strong>——编译器不能确定两个指针是否指向同一个位置，那么它就必须假设可能会存在这种情况，限制了优化能力。所以程序员要编写帮助编译器的代码，帮助编译器产生高效的可执行代码。</p>
 <h1 id="代码移动"><a href="#代码移动" class="headerlink" title="代码移动"></a>代码移动</h1><p>如果一个表达式总是得到同样的结果，最好把它移动到循环外面，这样只需要计算一次。编译器有时候会试图尝试代码移动，不过编译器会十分小心，它们不能确定移动一个函数的代码是否会有副作用，因此往往会假设会有副作用。所以程序员要手动帮助编译器来优化。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">void set_row(double *a, double *b, int i, int n)&#123;</div><div class="line">    int j;</div><div class="line">    for (j = 0; j &lt; n; j++)&#123;</div><div class="line">        a[n*i + j] = b[j];</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">// 这里 n*i 是重复被计算的，可以放到循环外面</div><div class="line">void set_row(double *a, double *b, int i, int n)&#123;</div><div class="line">    int j;</div><div class="line">    int ni = n * i;</div><div class="line">    for (j = 0; j &lt; n; j++)&#123;</div><div class="line">        a[ni + j] = b[j];</div><div class="line">&#125;</div></pre></td></tr></table></figure>
@@ -446,6 +446,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/06/29/csapp-11-The-Memory-Hierarchy/" rel="prev" title="【CSAPP笔记】11. 存储器层次结构">
+                【CSAPP笔记】11. 存储器层次结构 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -517,7 +521,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">34</span>
+                <span class="site-state-item-count">35</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
