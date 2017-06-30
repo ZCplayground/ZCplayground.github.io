@@ -93,13 +93,25 @@
 
 
 
+<meta name="description" content="在没有专门研究存储器系统之前，我们依赖的存储器模型是一个很简单的概念，也就是把它看成一个线性数组，CPU 能在一个常数时间内访问任何一个存储器位置。虽然在研究别的问题时，这是一个有效的模型，但是它不能反映存储器系统的实际工作方式。 存储器系统（memory system）是一个具有不同容量、成本、访问时间的存储器层次结构。CPU 寄存器保存着最常用的数据；靠近 CPU 的小的、快速的高速缓存存储器">
 <meta property="og:type" content="article">
 <meta property="og:title" content="【CSAPP笔记】11. 存储器层次结构">
 <meta property="og:url" content="http://yoursite.com/2017/06/29/csapp-11-The-Memory-Hierarchy/index.html">
 <meta property="og:site_name" content="ZCplayground">
-<meta property="og:updated_time" content="2017-06-29T09:03:57.828Z">
+<meta property="og:description" content="在没有专门研究存储器系统之前，我们依赖的存储器模型是一个很简单的概念，也就是把它看成一个线性数组，CPU 能在一个常数时间内访问任何一个存储器位置。虽然在研究别的问题时，这是一个有效的模型，但是它不能反映存储器系统的实际工作方式。 存储器系统（memory system）是一个具有不同容量、成本、访问时间的存储器层次结构。CPU 寄存器保存着最常用的数据；靠近 CPU 的小的、快速的高速缓存存储器">
+<meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/bus.png">
+<meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/bus-transaction.png">
+<meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/disk1.png">
+<meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/disk2.png">
+<meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/ssd.png">
+<meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/good-locality.png">
+<meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/bad-locality.png">
+<meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/memory-hierarchy.png">
+<meta property="og:updated_time" content="2017-06-30T08:44:48.854Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【CSAPP笔记】11. 存储器层次结构">
+<meta name="twitter:description" content="在没有专门研究存储器系统之前，我们依赖的存储器模型是一个很简单的概念，也就是把它看成一个线性数组，CPU 能在一个常数时间内访问任何一个存储器位置。虽然在研究别的问题时，这是一个有效的模型，但是它不能反映存储器系统的实际工作方式。 存储器系统（memory system）是一个具有不同容量、成本、访问时间的存储器层次结构。CPU 寄存器保存着最常用的数据；靠近 CPU 的小的、快速的高速缓存存储器">
+<meta name="twitter:image" content="http://osax8w13y.bkt.clouddn.com/bus.png">
 
 
 
@@ -370,7 +382,108 @@
       
 
       
-        
+        <p>在没有专门研究存储器系统之前，我们依赖的存储器模型是一个很简单的概念，也就是把它看成一个线性数组，CPU 能在一个常数时间内访问任何一个存储器位置。虽然在研究别的问题时，这是一个有效的模型，但是它不能反映存储器系统的实际工作方式。</p>
+<p><strong>存储器系统</strong>（memory system）是一个具有不同容量、成本、访问时间的存储器<strong>层次结构</strong>。CPU <strong>寄存器</strong>保存着最常用的数据；靠近 CPU 的小的、快速的<strong>高速缓存存储器</strong>（cache）作为一部分存储在相对慢速的<strong>主存储器</strong>（简称主存）中的数据；主存用来暂时存放存储在容量大、慢速<strong>磁盘</strong>上的数据；磁盘又作为通过网络连接的其他机器的磁盘上的数据的缓冲区域。</p>
+<p>存储器层次结构是可行的，因为一个编写良好的程序总是倾向于更频繁访问某一层次上的存储设备。所以，下层的存储设备可以更慢速一点，也因此可以更大、更便宜。</p>
+<p>计算机程序有一个重要的基本属性，叫做<strong>局部性原理</strong>（locality）。具有良好局部性原理的程序比局部性差的程序更多地倾向于在存储器层次结构中的较高层次处访问数据，因此运行的更快。</p>
+<p>作为一个程序员，你应该理解存储器系统，因为它对应用程序的性能有着巨大的影响。如果了解系统是如何将数据在存储器层次中上上下下移动的，那么你就可以编写你的应用程序，使数据尽量存储在层次较高的地方，CPU 能更快得访问到它们。</p>
+<p>计算机技术的成功很大程度上源于存储技术的巨大进步。</p>
+<h1 id="随机访问存储器"><a href="#随机访问存储器" class="headerlink" title="随机访问存储器"></a>随机访问存储器</h1><p>随机存取存储器（<strong>RAM</strong>, Random-Access Memory），有两种类型，第一种叫做静态 RAM（static RAM）。<strong>SRAM</strong> 将每个位存储为一个双稳态（bistable）的存储器单元里，每个单元用一个六晶体管电路来实现。这种电路有一种限制，就是可以无限期保持两种不同的电压状态之一。由于其双稳态特性，只要有电，它就会永远保持它的值。</p>
+<p>动态 RAM（Dynamic RAM），将每个位存储为对一个电容的充电。<strong>DRAM</strong> 存储器可以制造得非常密集，每个单元由一个电容和访问晶体管组成。与 SRAM 不同，DRAM 对干扰非常敏感，且被干扰后永远无法恢复。存储器系统必须<strong>周期性</strong>地通过读出，重写来<strong>刷新</strong>存储器的每一位。</p>
+<p>SRAM 是只要有供电，那它就会保持不变，不需要刷新。SRAM 速度比 DRAM 快，对干扰不敏感，但也贵得多。SRAM 用来作为高速缓存存储器，DRAM 用来作为主存以及图形系统的帧缓冲区。</p>
+<h1 id="非易失性存储器"><a href="#非易失性存储器" class="headerlink" title="非易失性存储器"></a>非易失性存储器</h1><p>如果断点，那么 DRAM 和 SRAM 会丢失信息，所以他们是易失（volatile——的。<strong>非易失性存储器</strong>（nonvolatile memory）即使是在关电后，依然保持它们的信息。如果想让数据持续保持，要考虑使用非易失性存储器。<strong>PROM</strong>（Progrommable ROM）可编程只读存储器，只能被编程一次。可擦写可编程 ROM（Rrasable Progrommable ROM，<strong>ERPOM</strong>）有一个透明的石英窗口，允许光透过，照射存储单元。紫外线照射，这个单元就被清除。对 ERPOM 的编程是通过一种特殊设备完成。ERPOM 的擦写和重编程的次数可以达到1000次。电子可擦除 ROM（Electrically Erasable ROM，<strong>EEPROM</strong>）可以在印制电路卡上编程。闪存（flash memory）是一种基于 EERPOM 的非易失性存储器。它是一种重要的存储技术，为大量电子设备提供快速、持久的非易失性存储，例如数码相机、手机、笔记本、台式机、音乐播放器等。</p>
+<h1 id="访问主存——总线"><a href="#访问主存——总线" class="headerlink" title="访问主存——总线"></a>访问主存——总线</h1><p>数据流通过称为<strong>总线</strong>（bus）的<strong>共享电子电路</strong>在处理器和 DRAM 主存中来来回回。每次 CPU 和主存之间的数据传送都是通过一系列步骤来完成的，这些步骤称为“总线事务”（bus transaction）。读事务从主存传送数据到 CPU，写事务从 CPU传送数据到主存。</p>
+<p><img src="http://osax8w13y.bkt.clouddn.com/bus.png" alt=""></p>
+<p>总线是一组并行的导线，能携带信号、数据、地址。多个设备可以共享同一根总线。数据和地址信号可以共享一组线，也可以用不同的，取决于总线的设计。信号的作用是同步事务，标识当前正在被执行事务的类型。</p>
+<p>总线配置：主要部件是 CPU 芯片、I/O 桥芯片组（包括存储控制器），DRAM 存储器模块。这些部件由总线连接起来。<strong>系统总线</strong>连接 CPU 和 I/O 桥。<strong>存储器总线</strong>连接 I/O 桥和主存。I/O 桥的作用是将系统总线的电子信号翻译成存储器总线的电子信号。总线设计是计算机系统中复杂而又变化迅速的方面。使用简单而抽象的模型是很有用的，可以掌握主题思想而不必与私有的设计细节绑得太紧。</p>
+<p>假设 CPU 需要从硬盘中读取一些数据，就发起读事务，会给定指令，逻辑块编号和目标地址，并发送给存储器总线。主存感受到信号，就读地址，从 DRAM 中取出数据，写到存储器总线，然后信号沿着总线返回 CPU。假设 CPU 需要把寄存器的内容写到主存上，就发起写事务，CPU 还是先将地址放到系统总线上，存储器从存储器总线读出地址，然后等待数据到达。 CPU 将寄存器内容拷贝到系统总线上，最后主存从存储器总线读取这些数据，然后存储到 DRAM 中。</p>
+<p><img src="http://osax8w13y.bkt.clouddn.com/bus-transaction.png" alt=""></p>
+<h1 id="磁盘"><a href="#磁盘" class="headerlink" title="磁盘"></a>磁盘</h1><p><strong>磁盘</strong>（disk）是由<strong>盘片</strong>（platter）构成的，每个盘片有两个面，或者成为<strong>表面</strong>（surface），表面覆盖着磁性记录材料。盘片中央有一个可以旋转的<strong>主轴</strong>（spindle），它是的盘片以固定速度旋转，速度通常在5000 ~ 15000 转每分钟。磁盘通常包含一个或多个盘片，封装在一个密封的容器内，整个装置被称为<strong>磁盘驱动器</strong>（disk drive），简称为磁盘。</p>
+<p><img src="http://osax8w13y.bkt.clouddn.com/disk1.png" alt=""></p>
+<p>每个表面是由一组成为<strong>磁道</strong>（track）的同心圆组成的。每个磁道划分成一组<strong>扇区</strong>（sector）。每个扇区包含相等数量的数据位（比如 512 字节），数据就编码在扇区上的磁性材料中。扇区之间有一些间隙（gap）。术语<strong>柱面</strong>（cylinder）来描述多个盘片的驱动器，柱面是所有盘片表面上到主轴中心的距离相等的磁道的集合。</p>
+<h2 id="磁盘容量"><a href="#磁盘容量" class="headerlink" title="磁盘容量"></a>磁盘容量</h2><p>容量是指磁盘可以记录的最大位数，由下面几个因素决定：</p>
+<ul>
+<li>记录密度（recording density，位/英寸）：track 中 1 英寸能保存的字节数</li>
+<li>磁道密度（track density，道/英寸）：1 英寸直径能保存多少条 track</li>
+<li>面密度（areal density，位/平方英寸）：上面两个数值的乘积</li>
+</ul>
+<p>$  磁盘容量 = \frac{字节数}{扇区} × \frac{平均扇区数}{磁道} × \frac{磁道数}{表面} × \frac{表面数}{盘片} × \frac{盘片数}{磁盘}  $</p>
+<p>假设一个磁盘有 5 个盘片，每个扇区 512 个字节，每个面 20000 个磁道，每条磁道平均 300 个扇区。则磁盘容量是：</p>
+<p>$ 磁盘容量 = \frac{512 字节}{扇区} × \frac{300 个扇区}{磁道} × \frac{20000 个磁道}{表面} × \frac{2 个表面}{盘片} × \frac{5 个盘片}{磁盘} = 30 720 000 000 字节 = 30.72 GB $</p>
+<h2 id="读写操作"><a href="#读写操作" class="headerlink" title="读写操作"></a>读写操作</h2><p>磁盘用<strong>读/写头</strong>来读写存储在磁性表面的位，当磁道上的每个位通过它的下面时，读写头能够感知到这个位的值，也能修改这个位的值。读写头连接在一个<strong>传送臂</strong>（actuator arm）的一端。通过旋转，传动臂可以将读写头定位在磁盘上的任何磁道上，这个行为叫做<strong>寻道</strong>（seek）。在任何时刻，所有读写头位于同一柱面。</p>
+<p><img src="http://osax8w13y.bkt.clouddn.com/disk2.png" alt=""></p>
+<p>寻道时间：</p>
+<p>$ T_{avgseek}  $ 通常在 3 ~ 9 ms，一次最大的寻道时间 $ T_{maxseek} $ 可以达到 20 ms。</p>
+<p>一旦读写头定位到了期望的磁道，下一个行动就是等待目标扇区的第一个位旋转到读写头下。最好情况下就是要读取的位刚好在读写头下，最差的情况就是需要旋转一整圈。</p>
+<p>旋转时间：</p>
+<p>$$ T_{avg rotation} = \frac{1}{2} × \frac{1}{RPM} × \frac{60 secs}{1 min} $$</p>
+<p> RPM 是指：rotation per minute 每分钟旋转次数，RPM 的倒数就是 MPR ，即每转一圈需要的分钟数。乘以二分之一后转换单位即可。</p>
+<p>当寻道和旋转都完成了之后，驱动器就可以开始读或写内容了。读写传送时间依赖于旋转速度和每条磁道的扇区数目。粗略估计一个扇区以秒为单位的平均传送时间如下：</p>
+<p>$$ T_{avgtransfer} = \frac{1}{RPM} × \frac{1}{平均扇区数 / 磁道} × \frac{60 secs}{1 min} $$</p>
+<p>传送时间 = 转一圈所需分钟数 × 一个扇区占一个磁道的占比 </p>
+<ul>
+<li>访问磁盘扇区的主要时间是寻道时间和旋转时间。开始访问第一个字节要耗时很久，但访问剩下的字节几乎不需要时间。</li>
+<li>寻道时间和旋转延迟差不多。</li>
+</ul>
+<p>例如有一个如下参数的磁盘</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>旋转速率</td>
+<td>7200 RPM</td>
+</tr>
+<tr>
+<td>平均寻道时间</td>
+<td>9ms</td>
+</tr>
+<tr>
+<td>每条磁道的平均扇区数</td>
+<td>400</td>
+</tr>
+</tbody>
+</table>
+<p>平均旋转时间：</p>
+<p>$$ T_{avgrotation} = \frac{1}{2} × \frac{1}{7200} = 4 ms $$</p>
+<p>传送时间：</p>
+<p>$$ T_{avg transfer} = \frac{1}{7200} × \frac{1}{400}  = 0.02 ms $$</p>
+<p>总时间为：</p>
+<p>$$ T_{access} = T_{avgseek} + T_{avgrotation} + T_{avgtransfer} = 13.02 ms $$ </p>
+<h1 id="固态硬盘"><a href="#固态硬盘" class="headerlink" title="固态硬盘"></a>固态硬盘</h1><p><img src="http://osax8w13y.bkt.clouddn.com/ssd.png" alt=""></p>
+<p>基于闪存的磁盘驱动器，称为<strong>固态硬盘</strong>（Solid State Disk，<strong>SSD</strong>），是替代传统磁盘的极有吸引力的替代产品。<strong>闪存翻译层</strong>（flash translation layer）是一个硬件设备，扮演与磁盘控制器相同的角色。闪存芯片替代传统磁盘中的机械驱动器。固态硬盘中分成很多的块(Block)，每个块又有很多页(Page)，大约 32-128 个，每个页可以存放一定数据（大概 4-512KB），页是进行数据读写的最小单位。对一个页进行写入操作的时候，需要先把整个块清空后才能写这一页，而一个块大概在 100,000 次写入之后就会报废。</p>
+<p>与传统的机械硬盘相比，固态硬盘由半导体存储器构成，没有移动的部件，因此在在读写速度上有很大的优势，能耗低，更结实。SSD 也容易磨损。</p>
+<h1 id="程序的局部性原理"><a href="#程序的局部性原理" class="headerlink" title="程序的局部性原理"></a>程序的局部性原理</h1><p>一个编写良好的计算机程序常常具有比较好的<strong>局部性</strong>（locality）</p>
+<ul>
+<li><strong>时间局部性</strong>(Temporal Locality): 如果一个信息项正在被访问，那么在近期它很可能还会被再次访问。程序循环、堆栈等是产生时间局部性的原因。</li>
+<li><strong>空间局部性</strong>(Spatial Locality): 在最近的将来将用到的信息很可能与现在正在使用的信息在空间地址上是临近的。</li>
+<li><strong>顺序局部性</strong>(Order Locality): 在典型程序中，除转移类指令外，大部分指令是顺序进行的。顺序执行和非顺序执行的比例大致是5:1。此外，对大型数组访问也是顺序的。指令的顺序执行、数组的连续存放等是产生顺序局部性的原因。</li>
+</ul>
+<p>一般而言，<strong>具有良好的局部性的程序比局部性差的程序运行得更快。</strong>计算机系统的各个层次，硬件、操作系统、应用程序，都利用了局部性。</p>
+<p>下面来看局部性原理在程序设计时的体现。我们来看看一个利用循环对数组求和的函数对于每个数据引用的模式</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">int sumv(int *v, int N)</div><div class="line">&#123;</div><div class="line">    int i, sum = 0;</div><div class="line">    for(i = 0; i &lt; N; i++)</div><div class="line">    &#123;</div><div class="line">        sum += v[i];</div><div class="line">    &#125;</div><div class="line">    return sum;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>因为数组中的元素是一个接一个访问的，因此有很好的空间局部性。由于每个元素只访问一次，因此时间局部性很差。对于循环体中的每个变量，函数要么有很好的空间局部性，要么有很好的时间局部性。因此这个函数有良好的局部性。</p>
+<p>我们说像 sumv 函数这样访问数组的函数，具有 <strong>步长为 1</strong>的引用模式（stride-1 reference pattern）每隔 k 个元素进行访问，就叫 <strong>步长为 k</strong> 的引用模式。一般来说，随着步长的增加，空间局部性下降。对于多维数组来说，步长就是一个很重要的问题。</p>
+<p><img src="http://osax8w13y.bkt.clouddn.com/good-locality.png" alt=""></p>
+<p><img src="http://osax8w13y.bkt.clouddn.com/bad-locality.png" alt=""></p>
+<p>一些看上去很小的改动对程序的性能会有很大的影响。步长越小，空间局部性越好。如果在存储器中以大步长跳来跳去，空间局部性很差。了解了高速缓存的工作原理后，就能明白为什么具有良好局部性的程序通常比局部性差的程序运行得更快。</p>
+<h1 id="存储体系"><a href="#存储体系" class="headerlink" title="存储体系"></a>存储体系</h1><p>存储技术和计算机软件的一些基本属性：</p>
+<ol>
+<li>硬件存储技术：不同的存储技术的访问时间差异很大，速度快的技术成本较高，速度慢的技术容量较大。不同的存储技术有不同的价格和性能折中，也以不同的速度在变化。</li>
+<li>软件：一个编写的好的计算机程序倾向于展现出良好的局部性。</li>
+<li>硬件和软件的这些基本属性互相补充得很完美。它们这种补充性质让人们想到一种组织存储器系统的方法，就是<strong>存储器层次结构</strong>（memory hierarchy）。从高层往底层走，存储设备变得更慢，但也变得更便宜，容量更大。</li>
+</ol>
+<p><img src="http://osax8w13y.bkt.clouddn.com/memory-hierarchy.png" alt=""></p>
+<hr>
+<h1 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h1><ul>
+<li><a href="http://www.cs.cmu.edu/~./213/schedule.html" target="_blank" rel="external">CMU 2017年春季学期  ICS课程网站</a></li>
+<li><a href="http://baike.baidu.com/item/%E5%B1%80%E9%83%A8%E6%80%A7%E5%8E%9F%E7%90%86" target="_blank" rel="external">局部性原理</a></li>
+</ul>
+
       
     </div>
 
@@ -461,8 +574,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.png"
@@ -515,6 +637,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#随机访问存储器"><span class="nav-number">1.</span> <span class="nav-text">随机访问存储器</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#非易失性存储器"><span class="nav-number">2.</span> <span class="nav-text">非易失性存储器</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#访问主存——总线"><span class="nav-number">3.</span> <span class="nav-text">访问主存——总线</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#磁盘"><span class="nav-number">4.</span> <span class="nav-text">磁盘</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#磁盘容量"><span class="nav-number">4.1.</span> <span class="nav-text">磁盘容量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#读写操作"><span class="nav-number">4.2.</span> <span class="nav-text">读写操作</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#固态硬盘"><span class="nav-number">5.</span> <span class="nav-text">固态硬盘</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#程序的局部性原理"><span class="nav-number">6.</span> <span class="nav-text">程序的局部性原理</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#存储体系"><span class="nav-number">7.</span> <span class="nav-text">存储体系</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考链接"><span class="nav-number">8.</span> <span class="nav-text">参考链接</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -793,6 +931,26 @@
   
 
   
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
   
 
 
