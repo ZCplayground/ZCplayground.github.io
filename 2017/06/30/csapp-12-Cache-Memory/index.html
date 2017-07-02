@@ -1,0 +1,941 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="高速缓存存储器在存储层次结构中，高速缓存存储器，也叫 cache 是最接近 CPU 寄存器的那一块。  更一般而言，缓存（caching）是一个无所不在的技术。高速缓存（cache）是一个小而快的存储设备，它作为存储在更大、更慢的设备中的数据对象的缓冲区域。缓存的意思是：对于每层的存储设备，位于 k 层的更快更小的存储设备，都能用作位于 k+1 层的更大更慢的存储设备的缓存，这也是存储器层次结构的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【CSAPP笔记】12. 高速缓存存储器">
+<meta property="og:url" content="http://yoursite.com/2017/06/30/csapp-12-Cache-Memory/index.html">
+<meta property="og:site_name" content="ZCplayground">
+<meta property="og:description" content="高速缓存存储器在存储层次结构中，高速缓存存储器，也叫 cache 是最接近 CPU 寄存器的那一块。  更一般而言，缓存（caching）是一个无所不在的技术。高速缓存（cache）是一个小而快的存储设备，它作为存储在更大、更慢的设备中的数据对象的缓冲区域。缓存的意思是：对于每层的存储设备，位于 k 层的更快更小的存储设备，都能用作位于 k+1 层的更大更慢的存储设备的缓存，这也是存储器层次结构的">
+<meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/cache1.png">
+<meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/caching.png">
+<meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/caching-concept.png">
+<meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/cache-oganazation.png">
+<meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/Address.png">
+<meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/parameter.png">
+<meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/thrash1.png">
+<meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/thrash2.png">
+<meta property="og:updated_time" content="2017-07-02T08:06:49.600Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【CSAPP笔记】12. 高速缓存存储器">
+<meta name="twitter:description" content="高速缓存存储器在存储层次结构中，高速缓存存储器，也叫 cache 是最接近 CPU 寄存器的那一块。  更一般而言，缓存（caching）是一个无所不在的技术。高速缓存（cache）是一个小而快的存储设备，它作为存储在更大、更慢的设备中的数据对象的缓冲区域。缓存的意思是：对于每层的存储设备，位于 k 层的更快更小的存储设备，都能用作位于 k+1 层的更大更慢的存储设备的缓存，这也是存储器层次结构的">
+<meta name="twitter:image" content="http://osax8w13y.bkt.clouddn.com/cache1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/06/30/csapp-12-Cache-Memory/"/>
+
+
+
+
+
+  <title>【CSAPP笔记】12. 高速缓存存储器 | ZCplayground</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">ZCplayground</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/30/csapp-12-Cache-Memory/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ZC">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ZCplayground">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">【CSAPP笔记】12. 高速缓存存储器</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-30T20:48:54+08:00">
+                2017-06-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/CSAPP/" itemprop="url" rel="index">
+                    <span itemprop="name">CSAPP</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/06/30/csapp-12-Cache-Memory/" class="leancloud_visitors" data-flag-title="【CSAPP笔记】12. 高速缓存存储器">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="高速缓存存储器"><a href="#高速缓存存储器" class="headerlink" title="高速缓存存储器"></a>高速缓存存储器</h1><p>在存储层次结构中，<strong>高速缓存存储器</strong>，也叫 <strong>cache</strong> 是最接近 CPU 寄存器的那一块。</p>
+<p><img src="http://osax8w13y.bkt.clouddn.com/cache1.png" alt=""></p>
+<p>更一般而言，缓存（caching）是一个无所不在的技术。高速缓存（cache）是一个小而快的存储设备，它作为存储在更大、更慢的设备中的数据对象的缓冲区域。缓存的意思是：对于每层的存储设备，位于 k 层的更快更小的存储设备，都能用作位于 k+1 层的更大更慢的存储设备的缓存，这也是存储器层次结构的中心思想。</p>
+<p><img src="http://osax8w13y.bkt.clouddn.com/caching.png" alt=""></p>
+<p>存储器层次结构的本质是：<strong>每一层存储设备都是较低一层的缓存</strong>。在每一层上，某种形式的逻辑必须管理缓存，可以是硬件、软件、或软硬结合。例如：编译器管理寄存器文件，是缓存的最高层次。L1、L2、L3 高速缓存是由硬件逻辑来管理的。在一个有虚拟存储器的系统中，DRAM 就是磁盘上的数据块的缓存，是由操作系统、CPU 上的地址翻译逻辑管理的。</p>
+<h1 id="缓存的基本原理、命中"><a href="#缓存的基本原理、命中" class="headerlink" title="缓存的基本原理、命中"></a>缓存的基本原理、命中</h1><p>当 CPU 需要一个数据的时候，不只是读取这个数据的一些字节。数据总是以<strong>块</strong>作为一个传送单元在第 k 层和第 k+1 层之间来回拷贝的。第 k 层作为第 k+1 的缓存，在任何时刻，缓存中都保存着一个 k+1 层的块的一个<strong>子集</strong>，如图所示：</p>
+<p><img src="http://osax8w13y.bkt.clouddn.com/caching-concept.png" alt=""></p>
+<h2 id="缓存命中"><a href="#缓存命中" class="headerlink" title="缓存命中"></a>缓存命中</h2><p>当程序需要第 k+1 层中的某个数据对象 d 时，会首先在更高一层的 k 层的块中查找 d，根据存储器层次结构的性质，第 k 层的读取速度比 k+1 层的快 。如果 d 刚好在第 k 层中，那么就叫做<strong>缓存命中</strong>（cache hit）。例如，一个有良好时间局部性的程序可以经常从上图中的块 14 中读取一个数据对象，因此程序运行得很快。</p>
+<h2 id="缓存不命中"><a href="#缓存不命中" class="headerlink" title="缓存不命中"></a>缓存不命中</h2><p>如果 d 不在 k 层中，那就是<strong>缓存不命中</strong>（cache miss）。一旦发生不命中，可能有两种行为：一是取出 k+1 层中包含 d 那个块，放到第 k 层中。二是第 k 层中已经满了，此时就需要采取<strong>替换</strong>（replacint），取出第 k 层原有的一个块作为<strong>牺牲块</strong>（victim），然后与包含 d 的那个块替换。决定由哪一个块作为牺牲块，就叫做<strong>替换策略</strong>（replacement policy）</p>
+<p>不命中有三种种类：</p>
+<ul>
+<li><strong>冷不命中</strong>（clod miss）：一开始高速缓存里一定是空的，那么对任何对象的访问都不会命中。</li>
+<li><strong>冲突不命中</strong>（confilict miss）：缓存足够大，但是因为某些对象会映射到同一个缓存块，会引起替换，导致缓存一直不命中。</li>
+<li><strong>容量不命中</strong>（capacity miss）：工作集大小超过缓存的大小。</li>
+</ul>
+<h1 id="cache-结构"><a href="#cache-结构" class="headerlink" title="cache 结构"></a>cache 结构</h1><p>早期计算机系统存储器的层次只有三层：CPU 寄存器、DRAM 主存和磁盘。不过由于 CPU 和主存之间的差距逐渐增大，设计者被迫在寄存器文件和主存之间插入了一个小的 <strong>SRAM 高速缓存存储器</strong>，也就是 <strong>L1 高速缓存</strong>（一级 cache）。L1 cache 的访问速度几乎和寄存器一样快。随后，系统设计者又插入了 L2 高速缓存和 L3 高速缓存。</p>
+<p>下面介绍高速缓存的通用组织。</p>
+<p><img src="http://osax8w13y.bkt.clouddn.com/cache-oganazation.png" alt=""></p>
+<p>考虑一个存储器地址有 m 位的计算机系统，能形成 $ M = 2^m $ 个不同的地址。</p>
+<p>高速缓存有三个关键的指标：</p>
+<ul>
+<li>$ S = 2^s $ 个<strong>高速缓存组</strong>（set）的数组。</li>
+<li>每个组包含 $ E $ 个高速缓存<strong>行</strong>（line）。</li>
+<li>每行由一个 $ B = 2^b $ 字节的数据<strong>块</strong>（block）组成的</li>
+</ul>
+<p><img src="http://osax8w13y.bkt.clouddn.com/Address.png" alt=""></p>
+<p>从地址上来看，可以把 S、E、B 理解为层级关系：高速缓存是一个数组，一共 S 组，每组包含 E 行，每行一个 B 字节的块和其他信息。</p>
+<p>其他信息包括：<strong>有效位</strong>（valid bit）标明这个行是否包含有意义的信息。还有 $ t = m - b - s $ 个标记位（tag）用来标识存储在此的块。</p>
+<p>高速缓存的大小指的是所有块大小的和。标记位和有效位不包含实际的块内数据信息，不算在内。因此：</p>
+<p>$$ C = S × E × B $$</p>
+<p><img src="http://osax8w13y.bkt.clouddn.com/parameter.png" alt=""></p>
+<h2 id="直接相映"><a href="#直接相映" class="headerlink" title="直接相映"></a>直接相映</h2><p>每个组只有一行（E = 1）的高速缓存称为<strong>直接相映高速缓存</strong>（direct-mapped cache）。高速缓存确定一个请求是否命中，然后取出被请求的字的过程，分为三步：</p>
+<ol>
+<li>组选择</li>
+<li>行匹配</li>
+<li>字抽取</li>
+</ol>
+<h3 id="组选择"><a href="#组选择" class="headerlink" title="组选择"></a>组选择</h3><p>（假设计算机系统有一个 CPU 、寄存器文件、一个 L1 高速缓存和一个主存）</p>
+<p>当 CPU 执行一条读存储器字 w 的指令。它向 L1 高速缓存请求这个字。L1 要确定这个请求是否命中，首先进行组选择。从 w 的地址中间抽出<strong>索引位</strong>。这 s 个位就被看成是一个数组的索引，</p>
+<h3 id="行匹配"><a href="#行匹配" class="headerlink" title="行匹配"></a>行匹配</h3><p>已经选择了一个组之后，接下来一步要确定是否有字 w 的一个拷贝存在这个组的一个高速缓存行中。在直接相映高速缓存中这很容易，因为每一组只有一行。如果有效位被设置了，而且标记位和要读的字 w 中的标记相匹配时，这一行就包含 w 的拷贝。换句话说，到这里就确定得到了一个缓冲命中。另一方面，如果有效位没有被设置（类似于冷不命中的情况），或者标记不匹配（别的数据也会放到这一组里），就得到一个缓冲不命中。</p>
+<h3 id="字选择"><a href="#字选择" class="headerlink" title="字选择"></a>字选择</h3><p>一旦我们知道 w 就在这个这个高速缓存组中，最后一步只要确定我们要读的块是从哪里开始的就行。块偏移就提供了所需要的第一个字节的偏移。</p>
+<h3 id="不命中时"><a href="#不命中时" class="headerlink" title="不命中时"></a>不命中时</h3><p>如果缓存不命中，那就需要从存储器层次结构中的下一层取出被请求块，然后将新块存储在组索引位指示的组中的一个高速缓存行中。如果每行都满了，就要驱逐一个现有行。对于直接相映高速缓存，因为每组只有一行，所以替换策略非常简单：用取出的行替代当前行。</p>
+<h2 id="组相联"><a href="#组相联" class="headerlink" title="组相联"></a>组相联</h2><p>直接相映高速缓存的冲突不命中造成的原因就是因为每一组只有一行。<strong>组相联高速缓存</strong>（set associative cache）放松了这条限制，每个组保存多于一行的高速缓存行。$ 1 &lt; E &lt; \frac{C}{B} $</p>
+<p>组选择和直接相映组选择没什么区别，也是用组索引标记组。</p>
+<p>行匹配的话，就复杂一些，因为一个组有多个行，组中的任何一行都可以包含任何映射到这个组的存储器块，所以高速缓存必须搜索组中的每一行，来寻找一个标记与要读取的字中地址的标记匹配的有效行。</p>
+<p>替换策略就变得复杂了。如果发生了不命中时组里还有空行，只需直接拉入 cache 中即可。但如果没有空行，我们就必须选择一个作为替换行。最简单的替换策略是随机选择一个要替换的行替换出去。更好的替换策略就考虑到了局部性原理，使得在较近的将来使用被替换出去的行的概率最小。<strong>最不常使用</strong>（Least-Frequently-Used，LFU）替换一个在过去一段时间内引用最少的一行。<strong>最近最少使用</strong>（Least-Recently-Used，LRU）替换最后一次访问时间最久远的一行。复杂的替换策略都需要额外的时间和硬件成本。一般来说，在存储器层次结构中，越往下走，一次不命中的开销就更加昂贵，用更好的替换策略也就显得更值得了。</p>
+<h2 id="全相联"><a href="#全相联" class="headerlink" title="全相联"></a>全相联</h2><p><strong>全相连高速缓存</strong>（fully associative cache）是一个包含所有高速缓存行的组。即 $ E = \frac{C}{B} $</p>
+<p>组选择就很简答，因为只有一个组，不需要在地址中有组索引位，只需要有效位、标记位和偏移。</p>
+<p>行匹配和字选择和组相联高速缓存中是一样的。前面提到，对于一个组包含多个行的，就必须搜索所有行。因此构造一个又大又快的相联高速缓存很困难，也很昂贵。因此全相联高速缓存只适合做小的高速缓存，例如虚拟存储器中的翻译备用缓冲器（TLB），它缓存页表项。</p>
+<h1 id="写入"><a href="#写入" class="headerlink" title="写入"></a>写入</h1><p>也就是<strong>写 cache</strong>，CPU 把待处理或已经处理的数据存入高速缓存中。</p>
+<p>写入的情况比读要复杂一些。假设我们要写一个已经缓存了的字 w 的<strong>写命中</strong>（write hit）。在高速缓存更新了字 w 的拷贝之后，怎么更新 w 在更低层次中的拷贝呢？处理写命中有两种方式：</p>
+<ul>
+<li><strong>直写</strong>（write-throug）：立即将 w 的高速缓存块写回紧接的低一层中。</li>
+<li><strong>写回</strong>（write-back）：尽可能推迟存储器更新，只有当替换算法要驱逐更新过的块时，才将其写到紧接的低一层中。</li>
+</ul>
+<p>如何处理<strong>写不命中</strong>（写不命中就是包含 w 的块不在 cache 中）？</p>
+<ul>
+<li><strong>写分配</strong>（write-allocate）：加载相应的低一层的块到高速缓存中，然后更新这个高速缓存块</li>
+<li><strong>非写分配</strong>（not-write-allocate）：避开高速缓存，直接把这个字写到低一层中。</li>
+</ul>
+<p>优化写操作是一个细致而又困难的问题。</p>
+<p>处理写命中时，直写相当简答，但缺点就是每次写都会引起总线流量。写回能显著减少总线流量，但增加了复杂性，对于高速缓存，需要维护一个额外的修改位，来表明这个块是否被修改过。处理写不命中时，写分配试图利用空间局部性，缺点是每次不命中都会导致一个低一层的块被传送到高速缓存。<strong>直写通常是非写分配的，写回通常是写分配的</strong>。</p>
+<h1 id="参数对性能的影响"><a href="#参数对性能的影响" class="headerlink" title="参数对性能的影响"></a>参数对性能的影响</h1><ul>
+<li>高速缓存的大小：较大的高速缓存可能会提高命中率，但实现一个大的存储器总是要更难一些。</li>
+<li>块大小：较大的块可能可以更好的利用空间局部性。不过，对于给定的高速缓存大小，块越大意味着高速缓存行数越小，这会损害时间局部性比空间局部性好的程序的命中率。此外，因为块比较大，当出现不命中惩罚时，传送时间较长。</li>
+<li>相联度：较高的相联度的优点是降低了由于冲突不命中出现抖动的可能性，缺点就是需要更多的成本，还会增加不命中惩罚，因为选择牺牲行的算法复杂度增加了。</li>
+<li>写策略：直写比较容易实现。越往存储器层次结构下面走，传送时间增加，减少传送数量就变得更加重要。一般而言，高速缓存越往下层，越可能使用写回而不是直写。比较建议采用写回和写分配的高速缓存模型</li>
+</ul>
+<p>可以看到，很多事情不是非黑即白的，一项技术既不是完美无缺也不是一无是处，我们往往都需要寻找折衷方案。</p>
+<h1 id="编写高速缓存友好的代码"><a href="#编写高速缓存友好的代码" class="headerlink" title="编写高速缓存友好的代码"></a>编写高速缓存友好的代码</h1><h2 id="利用局部性原理"><a href="#利用局部性原理" class="headerlink" title="利用局部性原理"></a>利用局部性原理</h2><ul>
+<li>利用时间局部性，一旦一个数据对象在第一次不命中的时候被拷贝到缓存中，那么就期望后面对该目标有一系列的访问命中。</li>
+<li>利用空间局部性：块包含多个数据对象，期望后面对该块中的其他对象的访问能弥补不命中后拷贝该块的花费。</li>
+</ul>
+<h2 id="避免冲突不命中"><a href="#避免冲突不命中" class="headerlink" title="避免冲突不命中"></a>避免冲突不命中</h2><p>例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">float dotprod(float x[8], float y[8])</div><div class="line">&#123;</div><div class="line">    float sum = 0.0;</div><div class="line">    int i;</div><div class="line">    for(i = 0; i &lt; 8; i++)</div><div class="line">        sum += x[i] * y[i];</div><div class="line">    </div><div class="line">    return sum;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>对于 x 和 y 数组来说，这个函数具有良好的空间局部性，因此我们期望它对高速缓存的利用率较高。不幸的是，事实并非总是如此。这里，<code>float</code>是 4 个字节，假设 x 的是位于从 0 开始到 32 的连续存储器中，y 紧随其后，从 32 到 64。假设一个块是 16 个字节。高速缓存由两个组构成，整个高速缓存的大小是 32 字节。</p>
+<p>在运行时，第一次迭代引用的是 <code>x[i]</code>，冷不命中，加载进入 cache 的第一个块包含了 <code>x[0]</code> 到 <code>x[3]</code> 的四个浮点数。接下来是对 <code>y[0]</code> 的引用。很不幸的是，y[0]的组索引和 <code>x[0]</code> 是一样的，因此包含 <code>y[0]</code>的块被拷贝进来的时候，又覆盖了包含了 <code>x[0]</code> 到 <code>x[3]</code> 的块。冲突不命中就是读取数据的时候，这些数据都映射到同一个组中。虽然高速缓存有其他空余的空间，但都没有利用到。用一个术语<strong>抖动</strong>（thrash）来描述在同一个组中不断出现冲突不命中。</p>
+<p><img src="http://osax8w13y.bkt.clouddn.com/thrash1.png" alt=""></p>
+<p>即使程序有良好的空间局部性，也可能因为抖动而出现速度下降，这个问题是很真实的。如果程序员能意识到，修正抖动是很容易的。例如，将数组 x 定义得更长一点，定义成 <code>float  x[12]</code>，让<code>x[i]</code>和<code>y[i]</code>映射到不同的组，就可以消除这个问题。</p>
+<p><img src="http://osax8w13y.bkt.clouddn.com/thrash2.png" alt=""></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/06/29/csapp-11-The-Memory-Hierarchy/" rel="next" title="【CSAPP笔记】11. 存储器层次结构">
+                <i class="fa fa-chevron-left"></i> 【CSAPP笔记】11. 存储器层次结构
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="ZC" />
+          <p class="site-author-name" itemprop="name">ZC</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">36</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#高速缓存存储器"><span class="nav-number">1.</span> <span class="nav-text">高速缓存存储器</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#缓存的基本原理、命中"><span class="nav-number">2.</span> <span class="nav-text">缓存的基本原理、命中</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#缓存命中"><span class="nav-number">2.1.</span> <span class="nav-text">缓存命中</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#缓存不命中"><span class="nav-number">2.2.</span> <span class="nav-text">缓存不命中</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#cache-结构"><span class="nav-number">3.</span> <span class="nav-text">cache 结构</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#直接相映"><span class="nav-number">3.1.</span> <span class="nav-text">直接相映</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#组选择"><span class="nav-number">3.1.1.</span> <span class="nav-text">组选择</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#行匹配"><span class="nav-number">3.1.2.</span> <span class="nav-text">行匹配</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#字选择"><span class="nav-number">3.1.3.</span> <span class="nav-text">字选择</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#不命中时"><span class="nav-number">3.1.4.</span> <span class="nav-text">不命中时</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#组相联"><span class="nav-number">3.2.</span> <span class="nav-text">组相联</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#全相联"><span class="nav-number">3.3.</span> <span class="nav-text">全相联</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#写入"><span class="nav-number">4.</span> <span class="nav-text">写入</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参数对性能的影响"><span class="nav-number">5.</span> <span class="nav-text">参数对性能的影响</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#编写高速缓存友好的代码"><span class="nav-number">6.</span> <span class="nav-text">编写高速缓存友好的代码</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#利用局部性原理"><span class="nav-number">6.1.</span> <span class="nav-text">利用局部性原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#避免冲突不命中"><span class="nav-number">6.2.</span> <span class="nav-text">避免冲突不命中</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ZC</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("guhO5d3jdrym6QcCp5oIrsMc-gzGzoHsz", "ldFdhqrIxGxOqWs5mgH8pmLT");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>
