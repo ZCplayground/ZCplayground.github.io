@@ -93,12 +93,12 @@
 
 
 
-<meta name="description" content="高速缓存存储器在存储层次结构中，高速缓存存储器，也叫 cache 是最接近 CPU 寄存器的那一块。  更一般而言，缓存（caching）是一个无所不在的技术。高速缓存（cache）是一个小而快的存储设备，它作为存储在更大、更慢的设备中的数据对象的缓冲区域。缓存的意思是：对于每层的存储设备，位于 k 层的更快更小的存储设备，都能用作位于 k+1 层的更大更慢的存储设备的缓存，这也是存储器层次结构的">
+<meta name="description" content="高速缓存存储器在存储层次结构中，高速缓存存储器，也叫 cache 是最接近 CPU 寄存器的那一块。  更一般而言，缓存（caching）是一个无所不在的技术。缓存的意思是：对于每层的存储设备，位于 k 层的更快更小的存储设备，都能用作位于 k+1 层的更大更慢的存储设备的缓存，这也是存储器层次结构的中心思想。  存储器层次结构的本质是：每一层存储设备都是较低一层的缓存。在每一层上，某种形式的逻辑">
 <meta property="og:type" content="article">
 <meta property="og:title" content="【CSAPP笔记】12. 高速缓存存储器">
 <meta property="og:url" content="http://yoursite.com/2017/06/30/csapp-12-Cache-Memory/index.html">
 <meta property="og:site_name" content="ZCplayground">
-<meta property="og:description" content="高速缓存存储器在存储层次结构中，高速缓存存储器，也叫 cache 是最接近 CPU 寄存器的那一块。  更一般而言，缓存（caching）是一个无所不在的技术。高速缓存（cache）是一个小而快的存储设备，它作为存储在更大、更慢的设备中的数据对象的缓冲区域。缓存的意思是：对于每层的存储设备，位于 k 层的更快更小的存储设备，都能用作位于 k+1 层的更大更慢的存储设备的缓存，这也是存储器层次结构的">
+<meta property="og:description" content="高速缓存存储器在存储层次结构中，高速缓存存储器，也叫 cache 是最接近 CPU 寄存器的那一块。  更一般而言，缓存（caching）是一个无所不在的技术。缓存的意思是：对于每层的存储设备，位于 k 层的更快更小的存储设备，都能用作位于 k+1 层的更大更慢的存储设备的缓存，这也是存储器层次结构的中心思想。  存储器层次结构的本质是：每一层存储设备都是较低一层的缓存。在每一层上，某种形式的逻辑">
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/cache1.png">
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/caching.png">
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/caching-concept.png">
@@ -107,10 +107,10 @@
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/parameter.png">
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/thrash1.png">
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/thrash2.png">
-<meta property="og:updated_time" content="2017-07-02T08:06:49.600Z">
+<meta property="og:updated_time" content="2017-07-02T08:13:21.320Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【CSAPP笔记】12. 高速缓存存储器">
-<meta name="twitter:description" content="高速缓存存储器在存储层次结构中，高速缓存存储器，也叫 cache 是最接近 CPU 寄存器的那一块。  更一般而言，缓存（caching）是一个无所不在的技术。高速缓存（cache）是一个小而快的存储设备，它作为存储在更大、更慢的设备中的数据对象的缓冲区域。缓存的意思是：对于每层的存储设备，位于 k 层的更快更小的存储设备，都能用作位于 k+1 层的更大更慢的存储设备的缓存，这也是存储器层次结构的">
+<meta name="twitter:description" content="高速缓存存储器在存储层次结构中，高速缓存存储器，也叫 cache 是最接近 CPU 寄存器的那一块。  更一般而言，缓存（caching）是一个无所不在的技术。缓存的意思是：对于每层的存储设备，位于 k 层的更快更小的存储设备，都能用作位于 k+1 层的更大更慢的存储设备的缓存，这也是存储器层次结构的中心思想。  存储器层次结构的本质是：每一层存储设备都是较低一层的缓存。在每一层上，某种形式的逻辑">
 <meta name="twitter:image" content="http://osax8w13y.bkt.clouddn.com/cache1.png">
 
 
@@ -384,7 +384,7 @@
       
         <h1 id="高速缓存存储器"><a href="#高速缓存存储器" class="headerlink" title="高速缓存存储器"></a>高速缓存存储器</h1><p>在存储层次结构中，<strong>高速缓存存储器</strong>，也叫 <strong>cache</strong> 是最接近 CPU 寄存器的那一块。</p>
 <p><img src="http://osax8w13y.bkt.clouddn.com/cache1.png" alt=""></p>
-<p>更一般而言，缓存（caching）是一个无所不在的技术。高速缓存（cache）是一个小而快的存储设备，它作为存储在更大、更慢的设备中的数据对象的缓冲区域。缓存的意思是：对于每层的存储设备，位于 k 层的更快更小的存储设备，都能用作位于 k+1 层的更大更慢的存储设备的缓存，这也是存储器层次结构的中心思想。</p>
+<p>更一般而言，<strong>缓存</strong>（caching）是一个无所不在的技术。缓存的意思是：对于每层的存储设备，位于 k 层的更快更小的存储设备，都能用作位于 k+1 层的更大更慢的存储设备的缓存，这也是存储器层次结构的中心思想。</p>
 <p><img src="http://osax8w13y.bkt.clouddn.com/caching.png" alt=""></p>
 <p>存储器层次结构的本质是：<strong>每一层存储设备都是较低一层的缓存</strong>。在每一层上，某种形式的逻辑必须管理缓存，可以是硬件、软件、或软硬结合。例如：编译器管理寄存器文件，是缓存的最高层次。L1、L2、L3 高速缓存是由硬件逻辑来管理的。在一个有虚拟存储器的系统中，DRAM 就是磁盘上的数据块的缓存，是由操作系统、CPU 上的地址翻译逻辑管理的。</p>
 <h1 id="缓存的基本原理、命中"><a href="#缓存的基本原理、命中" class="headerlink" title="缓存的基本原理、命中"></a>缓存的基本原理、命中</h1><p>当 CPU 需要一个数据的时候，不只是读取这个数据的一些字节。数据总是以<strong>块</strong>作为一个传送单元在第 k 层和第 k+1 层之间来回拷贝的。第 k 层作为第 k+1 的缓存，在任何时刻，缓存中都保存着一个 k+1 层的块的一个<strong>子集</strong>，如图所示：</p>
@@ -443,7 +443,7 @@
 <li><strong>非写分配</strong>（not-write-allocate）：避开高速缓存，直接把这个字写到低一层中。</li>
 </ul>
 <p>优化写操作是一个细致而又困难的问题。</p>
-<p>处理写命中时，直写相当简答，但缺点就是每次写都会引起总线流量。写回能显著减少总线流量，但增加了复杂性，对于高速缓存，需要维护一个额外的修改位，来表明这个块是否被修改过。处理写不命中时，写分配试图利用空间局部性，缺点是每次不命中都会导致一个低一层的块被传送到高速缓存。<strong>直写通常是非写分配的，写回通常是写分配的</strong>。</p>
+<p>处理写命中时，直写相当简单，但缺点就是每次写都会引起总线流量。写回能显著减少总线流量，但增加了复杂性，对于高速缓存，需要维护一个额外的修改位，来表明这个块是否被修改过。处理写不命中时，写分配试图利用空间局部性，缺点是每次不命中都会导致一个低一层的块被传送到高速缓存。<strong>直写通常是非写分配的，写回通常是写分配的</strong>。</p>
 <h1 id="参数对性能的影响"><a href="#参数对性能的影响" class="headerlink" title="参数对性能的影响"></a>参数对性能的影响</h1><ul>
 <li>高速缓存的大小：较大的高速缓存可能会提高命中率，但实现一个大的存储器总是要更难一些。</li>
 <li>块大小：较大的块可能可以更好的利用空间局部性。不过，对于给定的高速缓存大小，块越大意味着高速缓存行数越小，这会损害时间局部性比空间局部性好的程序的命中率。此外，因为块比较大，当出现不命中惩罚时，传送时间较长。</li>
@@ -458,7 +458,7 @@
 <h2 id="避免冲突不命中"><a href="#避免冲突不命中" class="headerlink" title="避免冲突不命中"></a>避免冲突不命中</h2><p>例如：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">float dotprod(float x[8], float y[8])</div><div class="line">&#123;</div><div class="line">    float sum = 0.0;</div><div class="line">    int i;</div><div class="line">    for(i = 0; i &lt; 8; i++)</div><div class="line">        sum += x[i] * y[i];</div><div class="line">    </div><div class="line">    return sum;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>对于 x 和 y 数组来说，这个函数具有良好的空间局部性，因此我们期望它对高速缓存的利用率较高。不幸的是，事实并非总是如此。这里，<code>float</code>是 4 个字节，假设 x 的是位于从 0 开始到 32 的连续存储器中，y 紧随其后，从 32 到 64。假设一个块是 16 个字节。高速缓存由两个组构成，整个高速缓存的大小是 32 字节。</p>
-<p>在运行时，第一次迭代引用的是 <code>x[i]</code>，冷不命中，加载进入 cache 的第一个块包含了 <code>x[0]</code> 到 <code>x[3]</code> 的四个浮点数。接下来是对 <code>y[0]</code> 的引用。很不幸的是，y[0]的组索引和 <code>x[0]</code> 是一样的，因此包含 <code>y[0]</code>的块被拷贝进来的时候，又覆盖了包含了 <code>x[0]</code> 到 <code>x[3]</code> 的块。冲突不命中就是读取数据的时候，这些数据都映射到同一个组中。虽然高速缓存有其他空余的空间，但都没有利用到。用一个术语<strong>抖动</strong>（thrash）来描述在同一个组中不断出现冲突不命中。</p>
+<p>在运行时，第一次迭代引用的是 <code>x[0]</code>，冷不命中，加载进入 cache 的第一个块包含了 <code>x[0]</code> 到 <code>x[3]</code> 的四个浮点数。接下来是对 <code>y[0]</code> 的引用。很不幸的是，<code>y[0]</code>的组索引和 <code>x[0]</code> 是一样的，因此包含 <code>y[0]</code>的块被拷贝进来的时候，又覆盖了包含了 <code>x[0]</code> 到 <code>x[3]</code> 的块。冲突不命中就是读取数据的时候，这些数据都映射到同一个组中。虽然高速缓存有其他空余的空间，但都没有利用到。用一个术语<strong>抖动</strong>（thrash）来描述在同一个组中不断出现冲突不命中。</p>
 <p><img src="http://osax8w13y.bkt.clouddn.com/thrash1.png" alt=""></p>
 <p>即使程序有良好的空间局部性，也可能因为抖动而出现速度下降，这个问题是很真实的。如果程序员能意识到，修正抖动是很容易的。例如，将数组 x 定义得更长一点，定义成 <code>float  x[12]</code>，让<code>x[i]</code>和<code>y[i]</code>映射到不同的组，就可以消除这个问题。</p>
 <p><img src="http://osax8w13y.bkt.clouddn.com/thrash2.png" alt=""></p>
@@ -507,6 +507,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/07/02/csapp-13-Linking/" rel="prev" title="【CSAPP笔记】13. 链接">
+                【CSAPP笔记】13. 链接 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -578,7 +582,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">36</span>
+                <span class="site-state-item-count">37</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>

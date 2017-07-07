@@ -1,0 +1,1044 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="下面就要进入本书的第二部分——在系统上运行程序。书的第一部分，主要是研究单个应用程序，关注的是数据类型、机器指令、程序性能、存储器系统等话题。在书的第二部分，我们继续对计算机系统的探索。现代操作系统与硬件合作，（进程的概念、虚拟存储器）为每个程序提供一种假象，好像这个程序是计算机上唯一运行的程序。实际上在任何时间点，计算机上都有多个程序在运行。 链接（Linking）是将各种代码和数据收集起来组合">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【CSAPP笔记】13. 链接">
+<meta property="og:url" content="http://yoursite.com/2017/07/02/csapp-13-Linking/index.html">
+<meta property="og:site_name" content="ZCplayground">
+<meta property="og:description" content="下面就要进入本书的第二部分——在系统上运行程序。书的第一部分，主要是研究单个应用程序，关注的是数据类型、机器指令、程序性能、存储器系统等话题。在书的第二部分，我们继续对计算机系统的探索。现代操作系统与硬件合作，（进程的概念、虚拟存储器）为每个程序提供一种假象，好像这个程序是计算机上唯一运行的程序。实际上在任何时间点，计算机上都有多个程序在运行。 链接（Linking）是将各种代码和数据收集起来组合">
+<meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/13-compilesystem.png">
+<meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/ELF1.png">
+<meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/symbol1.png">
+<meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/symbol2.png">
+<meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/ex.png">
+<meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/relocation.png">
+<meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/relocationex1.png">
+<meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/relocationex2.png">
+<meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/staticlibrary1.png">
+<meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/library2.png">
+<meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/dynamiclinking.png">
+<meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/execute.png">
+<meta property="og:updated_time" content="2017-07-07T06:05:45.832Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【CSAPP笔记】13. 链接">
+<meta name="twitter:description" content="下面就要进入本书的第二部分——在系统上运行程序。书的第一部分，主要是研究单个应用程序，关注的是数据类型、机器指令、程序性能、存储器系统等话题。在书的第二部分，我们继续对计算机系统的探索。现代操作系统与硬件合作，（进程的概念、虚拟存储器）为每个程序提供一种假象，好像这个程序是计算机上唯一运行的程序。实际上在任何时间点，计算机上都有多个程序在运行。 链接（Linking）是将各种代码和数据收集起来组合">
+<meta name="twitter:image" content="http://osax8w13y.bkt.clouddn.com/13-compilesystem.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/07/02/csapp-13-Linking/"/>
+
+
+
+
+
+  <title>【CSAPP笔记】13. 链接 | ZCplayground</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">ZCplayground</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/07/02/csapp-13-Linking/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ZC">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ZCplayground">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">【CSAPP笔记】13. 链接</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-02T21:20:55+08:00">
+                2017-07-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/CSAPP/" itemprop="url" rel="index">
+                    <span itemprop="name">CSAPP</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/07/02/csapp-13-Linking/" class="leancloud_visitors" data-flag-title="【CSAPP笔记】13. 链接">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>下面就要进入本书的第二部分——在系统上运行程序。书的第一部分，主要是研究单个应用程序，关注的是数据类型、机器指令、程序性能、存储器系统等话题。在书的第二部分，我们继续对计算机系统的探索。现代操作系统与硬件合作，（进程的概念、虚拟存储器）为每个程序提供一种假象，好像这个程序是计算机上唯一运行的程序。实际上在任何时间点，计算机上都有多个程序在运行。</p>
+<p><strong>链接</strong>（Linking）是将各种代码和数据收集起来组合成一个<strong>单一文件</strong>的过程。链接是由<strong>链接器</strong>（Linker）完成的。链接器在软件开发中扮演着一个关键的角色，因为它使<strong>分离编译</strong>成为可能——我们不用将一个大型程序组织为一个巨大的源文件，而是把它分解为更小、更好管理的模块，我们可以独立修改和编译这些模块。当我们修改一个模块时，只需重新编译这个模块，重新链接即可，不必编译其他文件。</p>
+<p>特别是在现在的 IDE 都比较发达的情况下，链接通常是默默无闻的。当我们写好代码，按下“编译并运行”的按键时，我们通常不会很注意链接的过程。那学习链接的概念有什么好处呢？</p>
+<ul>
+<li>帮助你构造大型程序</li>
+<li>避免一些危险的编程错误</li>
+<li>了解语言的作用域规则</li>
+<li>理解其他重要系统概念，（加载和运行程序、虚拟存储器、分页、存储器映射、共享库）</li>
+</ul>
+<h1 id="编译系统"><a href="#编译系统" class="headerlink" title="编译系统"></a>编译系统</h1><p><img src="http://osax8w13y.bkt.clouddn.com/13-compilesystem.png" alt=""></p>
+<ul>
+<li><strong>预处理器</strong>（cpp）：根据 # 开头的的命令，修改原始的 C 程序。会将源代码<code>hello.c</code>转变为<code>hello.i</code>，是被修改后的源文件。</li>
+<li><strong>编译器</strong>（cc1）：将文本文件<code>hello.i</code>翻译成<code>hello.s</code>，它就是 C 代码对应的汇编语言程序。汇编程序是很有用的，它以一种标准的文本格式描述低级的机器语言指令，也就为不同高级语言的不同编译器提供了通用的输出语言。</li>
+<li><strong>汇编器</strong>（as）：将<code>hello.s</code>翻译成<strong>机器语言指令</strong>，并打包成<strong>可重定位目标程序</strong>（relocatable object program）的形式，保存在<code>hello.o</code>中。<code>hello.o</code>是一个二进制文件，字节编码是机器语言指令。如果直接用文本编辑器打开二进制文件，将会看到乱码。</li>
+<li><strong>链接器</strong>（ld）：将对象程序<code>hello.o</code>和所需要的静态库<code>lib.a</code>经过链接器的处理，最终成为一个可执行目标文件。例如，这个 hellowolrd 程序用到了函数 <code>printf</code>，这个函数就存在一个名为 <code>printf.o</code> 的单独编译好的目标文件。链接器就负责合并两个目标文件，得到一个<strong>可执行目标文件</strong>（executable object file），简称可执行文件<code>hello.exe</code></li>
+<li><strong>加载器</strong>（loader，shell 调用）：将可执行文件加载到内存中执行。</li>
+</ul>
+<p>假设我们写了两个 C 语言代码，分别是<code>main.c</code>和<code>sum.c</code>，前者中代码用到了后者中定义的函数。两者分别经过编译过程（cpp、cc1、as）之后，生成可重定位目标文件<code>main.o</code>和<code>sum.o</code>，最后，执行链接操作：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ld -o sum main.o sum.o</div></pre></td></tr></table></figure>
+<p>就得到可执行文件<code>sum</code>。</p>
+<h1 id="链接的基本知识"><a href="#链接的基本知识" class="headerlink" title="链接的基本知识"></a>链接的基本知识</h1><p>下面来了解一些关于链接的术语。</p>
+<h2 id="静态链接"><a href="#静态链接" class="headerlink" title="静态链接"></a>静态链接</h2><p>Unix 下 <code>ld</code> 程序，叫做<strong>静态链接器</strong>，以一组可重定位目标文件和命令行参数作为输入，生成一个完全链接，可以加载运行的可执行目标文件做为输出。</p>
+<h2 id="目标文件"><a href="#目标文件" class="headerlink" title="目标文件"></a>目标文件</h2><p>三种形式：</p>
+<ul>
+<li><strong>可重定位目标文件</strong>。包含二进制代码和数据。可以在链接时与其他可重定位文件结合起来，创建一个可执行目标文件</li>
+<li><strong>可执行目标文件</strong>，可以被拷贝到存储器中执行。</li>
+<li><strong>共享目标文件</strong>，一类特殊的可重定位目标文件，可以在加载或运行时动态地加载到存储器中并链接。</li>
+</ul>
+<p>目标文件纯粹是字节块的集合，有的块包含程序代码，有的保存数据，或者指导链接器和加载器的数据结构。链接器对目标机器知之甚少，编译器和汇编器已经完成了大部分工作。</p>
+<p>各个系统之间，目标文件格式不尽相同。下面讨论的是 Unix 可执行和可链接目标文件格式（Executable and Linkable Format，<strong>ELF</strong>）。虽然我们的讨论集中在 ELF 上，但是不管是那种格式，基本概念是互通的。</p>
+<h1 id="链接器做了什么？"><a href="#链接器做了什么？" class="headerlink" title="链接器做了什么？"></a>链接器做了什么？</h1><p>链接器主要是将有关的目标文件彼此相连接生成可加载、可执行的目标文件。链接器的核心工作是：</p>
+<ul>
+<li><strong>符号解析</strong>（symbol resolution）</li>
+<li><strong>重定位</strong>（relocation）</li>
+</ul>
+<h2 id="符号表"><a href="#符号表" class="headerlink" title="符号表"></a>符号表</h2><p>来看一下典型的 ELF 可重定位目标文件的格式。</p>
+<p><img src="http://osax8w13y.bkt.clouddn.com/ELF1.png" alt=""></p>
+<table>
+<thead>
+<tr>
+<th>节</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ELF header</td>
+<td>描述生成该文件的系统的字的大小、字节顺序、目标文件类型、机器类型等，帮助链接器语法分析和解释目标文件的信息</td>
+</tr>
+<tr>
+<td>.text</td>
+<td>编译后的机器代码</td>
+</tr>
+<tr>
+<td>.rodata</td>
+<td>只读数据</td>
+</tr>
+<tr>
+<td>.data</td>
+<td>已初始化的全局变量</td>
+</tr>
+<tr>
+<td>.bss</td>
+<td>未初始化的全局变量，在目标文件不占实际空间，是“better save space”的缩写</td>
+</tr>
+<tr>
+<td>symtab</td>
+<td><strong>符号表</strong>，存放在程序中定义和引用的函数与全局变量的信息</td>
+</tr>
+<tr>
+<td>.rel.text</td>
+<td>.text节的重定位信息，当链接时，指令的位置就被修改</td>
+</tr>
+<tr>
+<td>.rel.data</td>
+<td>.data节的重定位信息，当链接时，变量的位置就被修改</td>
+</tr>
+<tr>
+<td>.debug</td>
+<td>调试符号表</td>
+</tr>
+<tr>
+<td>Section Header Table</td>
+<td>节头部表，存放每个节的偏移和大小</td>
+</tr>
+</tbody>
+</table>
+<p>每个可重定位目标模块 m ，都有一张符号表。符号表实际上是一个结构体数组，每一个元素包含名称、大小和符号的位置。符号表存放如下三种符号：</p>
+<ul>
+<li>在 m 中定义，且能被其他模块引用全局符号，也就是不带 static 的全局变量。</li>
+<li>在其他模块中定义，并被 m 引用的全局符号，是其他模块中的全局变量或者函数。这些符号叫做外部符号（external）</li>
+<li>在 m 中定义的带 static 的全局变量，这些符号对 m 是随处可见的，但不能被其他模块所引用。</li>
+</ul>
+<p>我们知道，局部变量会由栈来管理。局部静态变量，会存放到<code>.bss</code>或者<code>.data</code>节中，也不由符号表来管理。</p>
+<h2 id="符号解析"><a href="#符号解析" class="headerlink" title="符号解析"></a>符号解析</h2><p>链接时，符号解析就是将对每个符号的引用与它输入的可重定位目标文件的符号表中的一个确定的符号定义联系起来。</p>
+<p>看下面两张图，可以理解符号表的作用，以及链接器对哪种类型的符号感兴趣：</p>
+<p><img src="http://osax8w13y.bkt.clouddn.com/symbol1.png" alt=""></p>
+<p><img src="http://osax8w13y.bkt.clouddn.com/symbol2.png" alt=""></p>
+<p>符号解析的过程：对定义和引用在相同模块中的本地符号，符号解析相当简单。编译器只允许每个模块中每个本地符号只有一个定义。不过，对全局符号的引用解析就麻烦得多，当编译器遇到一个不是在本模块中定义的符号（变量名或函数名）时，它会<strong>假设</strong>这是在某个其他模块中定义的，并把后续工作交给链接器处理。如果链接器在所有的模块都找不到这个被引用的符号的定义，它就会输出报错信息并终止。一般来说，报错信息就是：undefined reference to something。</p>
+<h2 id="解析多重定义的符号"><a href="#解析多重定义的符号" class="headerlink" title="解析多重定义的符号"></a>解析多重定义的符号</h2><p>符号解析时，符号有强弱之分：</p>
+<ul>
+<li>强符号：函数和初始化的全局变量。</li>
+<li>弱符号：未初始化的全局变量。</li>
+</ul>
+<p>根据下面的规则来处理多重定义的符号：</p>
+<ul>
+<li>不允许有多个重名强符号。</li>
+<li>如果有一个强符号和多个弱符号，选择强符号</li>
+<li>多个弱符号，那么就从中任意选择一个。</li>
+</ul>
+<p>在上图的<code>main.c</code>中，<code>time</code>是弱符号，其余的符号是强符号。</p>
+<p>如果说在两个不同的文件中定义了同名的函数，由于函数都是强符号，链接时就会报错。</p>
+<p>下面看一个特殊的例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">//文件1</div><div class="line">#include&lt;stdio.h&gt;</div><div class="line">void f(void);</div><div class="line"></div><div class="line">int x = 15213;</div><div class="line">int y = 15212;</div><div class="line"></div><div class="line">int main()</div><div class="line">&#123;</div><div class="line">    f();</div><div class="line">    printf(&quot;x = 0x%x y = 0x%x \n&quot;, x, y);</div><div class="line">    return 0;</div><div class="line">&#125;</div><div class="line"></div><div class="line">//文件2</div><div class="line">double x;</div><div class="line">void f()</div><div class="line">&#123;</div><div class="line">    x = -0.0;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>实验结果如下，可以看到，变量 y 的值也被改变了。</p>
+<p><img src="http://osax8w13y.bkt.clouddn.com/ex.png" alt=""></p>
+<p>上述代码的问题在于，文件2中定义的变量 x 是弱定义，在调用 f 函数对 x 进行写入的时候，实际上操作的应该是文件1中定义的强符号。在文件2中，x 的类型是 double，占 8 个字节，赋值语句 <code>x = -0.0</code> 会导致文件1中定义的强符号 y 的数据也被覆盖。在 linux 下，编译会发出一条警告，提示我们，两个同名符号的大小不同。</p>
+<p>由上面的例子可以知道，对链接知识的不了解，可能导致意想不到的错误，而且编译器不会报 error。因此，我们可以得到一些很重要的编程经验：</p>
+<ul>
+<li><strong>避免使用全局变量</strong></li>
+<li>如果一定要使用全局变量：<ul>
+<li>加上 <code>static</code>，使其成为静态变量。</li>
+<li>定义全局变量时初始化，使其成为强符号。</li>
+<li>使用 <code>extern</code> 来标识是从其他模块引用的全局符号。</li>
+</ul>
+</li>
+</ul>
+<h2 id="重定位"><a href="#重定位" class="headerlink" title="重定位"></a>重定位</h2><p>重定位就是当链接器完成了符号解析这一步之后，链接器就知道了输入模块的代码节和数据节的确切大小，可以开始重定位了。看下图：</p>
+<p><img src="http://osax8w13y.bkt.clouddn.com/relocation.png" alt=""></p>
+<p>重定位说白了就是把不同可重定位对象文件拼成可执行对象文件。在这个合并的步骤中，为每个符号分配<strong>运行时地址</strong>。</p>
+<p>重定位分两步：</p>
+<ul>
+<li><strong>重定位节和符号定义（合并）</strong>。将所有相同的节合并为新的聚合节。然后，链接器确定运行时存储器地址赋给新的节，再根据偏移量赋给每个符号。此时，程序中的每个指令和全局变量都有唯一的<strong>运行时地址</strong>了。</li>
+<li><strong>重定位节中的符号引用</strong>。链接器修改代码节和数据节中对每个符号的引用，使其指向正确的运行时地址。</li>
+</ul>
+<p>下面是一个实验，源文件<code>relocation.c</code>如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">int sum(int *a, int n);</div><div class="line">int array[2] = &#123;1, 2&#125;;</div><div class="line">int main()</div><div class="line">&#123;</div><div class="line">    int val = sum(array, 2);</div><div class="line">    return val;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>源文件<code>sum.c</code>如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">int sum(int *a, int n)</div><div class="line">&#123;</div><div class="line">    int i, result = 0;</div><div class="line">    for(i = 0;i &lt; n; i++)</div><div class="line">        result += a[i];</div><div class="line">    return result;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>使用指令：<code>gcc -c relocation.c -o relocation.o</code>，-c 选项的意思是只编译不链接，我们可以由此得到可重定位目标文件。</p>
+<p>使用指令：<code>objdump -r -d relocation.o</code>反编译对应的可重定位对象文件，可以得到如下的汇编代码：</p>
+<p><img src="http://osax8w13y.bkt.clouddn.com/relocationex1.png" alt=""></p>
+<p>全局数组<code>array</code>需要重定位。call 指令调用函数 <code>sum</code>，这也是一个需要重定位的符号。</p>
+<p>call 指令的下一行，有一句<code>13: R_X86_64_PC32 sum-0x4</code>，这个东西叫做<strong>重定位条目</strong>（relocation entry），无论何时汇编器遇到了对最终位置未知的符号引用，就会生成一个重定位条目，也就是存放在<code>.rel.text</code>和<code>.rel.data</code>节中的数据。<code>objdump</code>为了方便，将汇编代码和重定位条目放到一起显示，虽然他们实际存储不在一起。</p>
+<p>call 指令位于字节偏移 0x12 处。<code>e8</code>是 <code>call</code> 的字节编码，可以看到，后面的操作数都是零，就是留出位置让链接器在链接的时候填上对应的实际内存地址。同理<code>bf</code>是<code>mov</code>的字节编码，<code>array</code>的首地址也是链接完成后才知道的，因此还没有确定地址。</p>
+<h3 id="PC相对引用重定位"><a href="#PC相对引用重定位" class="headerlink" title="PC相对引用重定位"></a>PC相对引用重定位</h3><p>我们现在来看一下链接器如何确定 call 调用的实际位置。重定位条目<code>13: R_X86_64_PC32 sum-0x4</code>告诉链接器要修改位于目标文件偏移量 0x13 （数一下机器编码的字节数，可以发现 call 指令刚好是第 13 个字节）的 <strong>PC相对引用</strong>（PC是指程序计数器），使得它在运行时指向 sum 的偏移量 <code>-0x4</code> 位置。</p>
+<p>使用指令<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">gcc -o relocation relocation.c sum.c</div><div class="line">objdump -dx relocation</div></pre></td></tr></table></figure></p>
+<p>在可执行文件的反汇编代码中找到 main 这一节，main 的地址是<code>0x4004d6</code>，sum 的地址是<code>0x4004f5</code>。这也就是链接器为节选择了<strong>运行时地址</strong>。</p>
+<p><img src="http://osax8w13y.bkt.clouddn.com/relocationex2.png" alt=""></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">ADDR(.text) = 0x4004d6</div><div class="line">ADDR(sum) = 0x4004f5</div><div class="line"></div><div class="line">//计算引用的运行时，程序计数器的地址</div><div class="line">refaddr = ADDR(.text) + offset = 0x4004d6 + 0x13 = 0x4004e9</div><div class="line"></div><div class="line">//因此 call 的目标地址是 （第二个refptr是 0 ，计算前 call 后的操作数）</div><div class="line">*refptr = unsigned(ADDR(sum) - refaddr) -0x4</div><div class="line">        = unsigned(0x4004f5 - 0x4004e9) -0x4</div><div class="line">        = 0x8</div></pre></td></tr></table></figure>
+<p>以上就是 PC 相对重定位的过程。链接器将结果填入可执行目标文件，call 指令有了如下的重定位形式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">4004e8:     e8 08 00 00 00          callq   4004f5 &lt;sum&gt;</div></pre></td></tr></table></figure>
+<h3 id="绝对引用重定位"><a href="#绝对引用重定位" class="headerlink" title="绝对引用重定位"></a>绝对引用重定位</h3><p>对于全局数组 <code>array</code> 的重定位条目：<code>e：R_X86_64_32 array</code>，重定位条目告诉链接器，这是一个<strong>绝对引用</strong>，将要修改位于目标文件偏移量 0xe 的绝对引用，使其指向符号 <code>array</code>。绝对引用就相对简单，只需要把链接器确定的数组开头的运行时地址，即<code>&amp;array[0]</code>填入相应的地方即可。</p>
+<h1 id="共享库"><a href="#共享库" class="headerlink" title="共享库"></a>共享库</h1><p>我们目前为止做的工作都是链接器读取一组可重定位目标文件，并把它们链接起来。那在处理一大堆常用的标准函数，例如<code>printf、scanf、malloc</code>等，我们要怎么做呢？</p>
+<ul>
+<li>思路1：让编译器辨认出对标准函数的调用，生成相应的代码<ul>
+<li>缺点：对于有大量标准函数的编程语言，这种方法会显著增加编译器的复杂性。</li>
+</ul>
+</li>
+<li>思路2：将所有的标准函数放到一个单独的可重定位目标文件中，程序员将其与他们自己的目标文件链接生成可执行文件。<ul>
+<li>缺点：这样做的话，对于每个可执行文件，都存在一份所有标准函数的集合，很浪费空间。</li>
+</ul>
+</li>
+<li>思路3：将每个标准函数创建一个独立的可重定位目标文件，然后链接的时候显示地链接标准函数<ul>
+<li>缺点：耗时，容易出错。</li>
+</ul>
+</li>
+</ul>
+<p>共同的缺点：对于标准函数的任何改变，都需要修改新的编译器版本或要重新编译整个可重定位目标文件，这十分耗时。</p>
+<p>解决的方法就是引入<strong>库</strong>（library）的概念。</p>
+<h2 id="静态库"><a href="#静态库" class="headerlink" title="静态库"></a>静态库</h2><p>比较老式的做法就是所谓的<strong>静态库</strong>（Static Libraries, <code>.a</code> 后缀表示 archive files，归档文件）。</p>
+<p>静态库是一个外部函数与变量的集合体。静态库的文件内容，通常包含一堆程序员自定的变量与函数，在编译期间，<strong>静态库没有把全部内容链接，只是把需要的代码链接进去</strong>这个可执行文件与编译可执行文件的程序，都是一种程序的静态创建（static build）。</p>
+<p>具体过程就是把不同文件的 .o 文件通过 Archiver 打包成为一个 .a 文件。Archiver 支持增量更新，如果有函数变动，只需要重新编译改动的部分。</p>
+<p>在 C 语言中最常用的是 C 标准库与 C 数学库。C 标准库一般可以通过 libc.a 来进行引用，大小 4.6 MB，包含 1496 个对象文件，主要负责输入输出、内存分配、信号处理、字符串处理、操作数据、生成随机数及整型的数学运算。C 数学库可以通过 libm.a 来引用，大小 2 MB，包含 444 个对象文件，主要是提供浮点数运算的支持（比如三角函数、幂次等等）</p>
+<p>下面看一个具体例子，各个文件代码如下：</p>
+<p><img src="http://osax8w13y.bkt.clouddn.com/staticlibrary1.png" alt=""></p>
+<p>使用如下指令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">只编译不链接，获得两个目标文件：</div><div class="line">gcc -c addvec.c multvec.c</div><div class="line"></div><div class="line">将两个目标文件打包成一个后缀为 .a 的静态库：</div><div class="line">ar rcs libvector.a addvec.o multvec.o </div><div class="line"></div><div class="line">使用静态库链接</div><div class="line">gcc -c main.c -o main.o</div><div class="line">gcc -static -o p main.o ./libvector.a</div></pre></td></tr></table></figure>
+<p>-static 参数告诉编译器，链接器应当构建一个完全链接的可执行文件。</p>
+<p>链接器会判断：addvec.o 中的符号 addvec 被 main.o 引用，因此拷贝这个模块到可执行文件。由于没有用到 multvec.o 中的符号，因此不会拷贝这个模块到可执行文件。此外，由于用到了函数 printf ，链接器还会拷贝 libc.a 中的 printf.o 模块，以及许多其他运行时需要用到的模块。下图很清晰的展现了静态库的好处：</p>
+<p><img src="http://osax8w13y.bkt.clouddn.com/library2.png" alt=""></p>
+<h2 id="动态链接共享库"><a href="#动态链接共享库" class="headerlink" title="动态链接共享库"></a>动态链接共享库</h2><p>静态库仍有缺点：需要定期维护和更新。如果程序员想要用一个库的最新版本，那么就必须先更新该库，然后再将更新的库与他们的程序重新链接。以及，几乎每个 C 程序都要用到标准 I/O 函数，例如 <code>printf</code>和<code>scanf</code> 之类。按照静态库的思路，这些代码会被拷贝到每个运行的进程的文本段中，这对存储器资源是极大的浪费。</p>
+<p><strong>共享库</strong>（shared library）就是致力解决静态库缺陷的现代创新产物。共享库是一个模块，可以在<strong>运行时</strong>加载到任何的存储器位置，并和一个存储器中的程序链接起来。这个过程就叫<strong>动态链接</strong>（dynamic linking），由<strong>动态链接器</strong>（dynamic linking）来完成。</p>
+<p>共享库也叫<strong>共享目标</strong>（shared object），在 Unix 系统下常用后缀名 .so 来表示。在 Windows 中大量利用了动态链接库，就是 DLL（dynamic linking library）。</p>
+<p>如果还是以上面的例子，但是以动态链接的方式，工作原理如下图：</p>
+<p><img src="http://osax8w13y.bkt.clouddn.com/dynamiclinking.png" alt=""></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">创建一个共享的目标文件</div><div class="line">gcc -shared -fPIC -o libvector.so addvec.c mutlvec.c</div><div class="line"></div><div class="line">创建可执行目标文件 p2，这个文件的形式是可以在运行时与 libvector.so 动态链接</div><div class="line">gcc -o p2 main.c ./libvector.so</div></pre></td></tr></table></figure>
+<p>-fPIC 指示编译器生成<strong>与位置无关的代码</strong>。目的就是允许多个正在运行的进程共享存储区中相同的库代码，节约了存储器空间。</p>
+<p>基本的思路是：创建可执行文件时，静态地执行一部分链接，当程序被加载运行时，动态地完成剩余的链接过程。</p>
+<h1 id="可执行目标文件、加载运行"><a href="#可执行目标文件、加载运行" class="headerlink" title="可执行目标文件、加载运行"></a>可执行目标文件、加载运行</h1><p>下图可以看到一个可执行目标文件的形式，它是由多个目标文件合并而来的。我们最开始的 C 源代码，是一个 ASCII 码文件，已经被转换成一个二进制文件，包含了加载程序且运行它所需的所有信息。</p>
+<p><img src="http://osax8w13y.bkt.clouddn.com/execute.png" alt=""></p>
+<p>运行可执行目标文件，就是在外壳中输入它的名字，外壳会调用一个叫做<strong>加载器</strong>（loader）的操作系统代码来运行它。加载器将可执行目标文件的代码和数据从磁盘拷贝到存储器中，然后跳转到程序的入口点，运行该程序。</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>链接是一种运行程序由多个目标文件构造得来的技术。链接可以发生在编译时（静态链接）、加载时、运行时（动态链接）。理解链接的相关知识点，我们从代码级进入到系统级，有益于我们了解操作系统是如何完成各种复杂工作的。</p>
+<hr>
+<h1 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h1><ul>
+<li><a href="http://www.cs.cmu.edu/~./213/schedule.html" target="_blank" rel="external">CMU 2017年春季学期  ICS课程网站</a></li>
+<li><a href="https://zh.wikipedia.org/wiki/%E9%9D%99%E6%80%81%E5%BA%93" target="_blank" rel="external">wiki -静态库</a></li>
+<li><a href="http://www.cnblogs.com/oubo/archive/2011/12/06/2394631.html" target="_blank" rel="external">C编译器、链接器、加载器详解</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/06/30/csapp-12-Cache-Memory/" rel="next" title="【CSAPP笔记】12. 高速缓存存储器">
+                <i class="fa fa-chevron-left"></i> 【CSAPP笔记】12. 高速缓存存储器
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="ZC" />
+          <p class="site-author-name" itemprop="name">ZC</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">37</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#编译系统"><span class="nav-number">1.</span> <span class="nav-text">编译系统</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#链接的基本知识"><span class="nav-number">2.</span> <span class="nav-text">链接的基本知识</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#静态链接"><span class="nav-number">2.1.</span> <span class="nav-text">静态链接</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#目标文件"><span class="nav-number">2.2.</span> <span class="nav-text">目标文件</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#链接器做了什么？"><span class="nav-number">3.</span> <span class="nav-text">链接器做了什么？</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#符号表"><span class="nav-number">3.1.</span> <span class="nav-text">符号表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#符号解析"><span class="nav-number">3.2.</span> <span class="nav-text">符号解析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#解析多重定义的符号"><span class="nav-number">3.3.</span> <span class="nav-text">解析多重定义的符号</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#重定位"><span class="nav-number">3.4.</span> <span class="nav-text">重定位</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#PC相对引用重定位"><span class="nav-number">3.4.1.</span> <span class="nav-text">PC相对引用重定位</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#绝对引用重定位"><span class="nav-number">3.4.2.</span> <span class="nav-text">绝对引用重定位</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#共享库"><span class="nav-number">4.</span> <span class="nav-text">共享库</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#静态库"><span class="nav-number">4.1.</span> <span class="nav-text">静态库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#动态链接共享库"><span class="nav-number">4.2.</span> <span class="nav-text">动态链接共享库</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#可执行目标文件、加载运行"><span class="nav-number">5.</span> <span class="nav-text">可执行目标文件、加载运行</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">6.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考链接"><span class="nav-number">7.</span> <span class="nav-text">参考链接</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ZC</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("guhO5d3jdrym6QcCp5oIrsMc-gzGzoHsz", "ldFdhqrIxGxOqWs5mgH8pmLT");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+
+  
+
+  
+
+</body>
+</html>
