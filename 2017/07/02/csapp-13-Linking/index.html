@@ -111,7 +111,7 @@
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/library2.png">
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/dynamiclinking.png">
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/execute.png">
-<meta property="og:updated_time" content="2017-07-07T06:05:45.832Z">
+<meta property="og:updated_time" content="2017-07-09T05:35:34.628Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【CSAPP笔记】13. 链接">
 <meta name="twitter:description" content="下面就要进入本书的第二部分——在系统上运行程序。书的第一部分，主要是研究单个应用程序，关注的是数据类型、机器指令、程序性能、存储器系统等话题。在书的第二部分，我们继续对计算机系统的探索。现代操作系统与硬件合作，（进程的概念、虚拟存储器）为每个程序提供一种假象，好像这个程序是计算机上唯一运行的程序。实际上在任何时间点，计算机上都有多个程序在运行。 链接（Linking）是将各种代码和数据收集起来组合">
@@ -528,10 +528,9 @@
 <p>使用指令：<code>gcc -c relocation.c -o relocation.o</code>，-c 选项的意思是只编译不链接，我们可以由此得到可重定位目标文件。</p>
 <p>使用指令：<code>objdump -r -d relocation.o</code>反编译对应的可重定位对象文件，可以得到如下的汇编代码：</p>
 <p><img src="http://osax8w13y.bkt.clouddn.com/relocationex1.png" alt=""></p>
-<p>全局数组<code>array</code>需要重定位。call 指令调用函数 <code>sum</code>，这也是一个需要重定位的符号。</p>
+<p>全局数组<code>array</code>需要重定位。call 指令调用函数 <code>sum</code>，这也是一个需要重定位的符号。我们将目光移到 call 指令这一行。<code>e8</code>是 <code>call</code> 的字节编码，可以看到，后面的操作数都是零，就是留出位置让链接器在链接的时候填上对应的实际内存地址。同理<code>bf</code>是<code>mov</code>的字节编码，<code>array</code>的首地址也是链接完成后才知道的，因此还没有确定地址。</p>
 <p>call 指令的下一行，有一句<code>13: R_X86_64_PC32 sum-0x4</code>，这个东西叫做<strong>重定位条目</strong>（relocation entry），无论何时汇编器遇到了对最终位置未知的符号引用，就会生成一个重定位条目，也就是存放在<code>.rel.text</code>和<code>.rel.data</code>节中的数据。<code>objdump</code>为了方便，将汇编代码和重定位条目放到一起显示，虽然他们实际存储不在一起。</p>
-<p>call 指令位于字节偏移 0x12 处。<code>e8</code>是 <code>call</code> 的字节编码，可以看到，后面的操作数都是零，就是留出位置让链接器在链接的时候填上对应的实际内存地址。同理<code>bf</code>是<code>mov</code>的字节编码，<code>array</code>的首地址也是链接完成后才知道的，因此还没有确定地址。</p>
-<h3 id="PC相对引用重定位"><a href="#PC相对引用重定位" class="headerlink" title="PC相对引用重定位"></a>PC相对引用重定位</h3><p>我们现在来看一下链接器如何确定 call 调用的实际位置。重定位条目<code>13: R_X86_64_PC32 sum-0x4</code>告诉链接器要修改位于目标文件偏移量 0x13 （数一下机器编码的字节数，可以发现 call 指令刚好是第 13 个字节）的 <strong>PC相对引用</strong>（PC是指程序计数器），使得它在运行时指向 sum 的偏移量 <code>-0x4</code> 位置。</p>
+<h3 id="PC相对引用重定位"><a href="#PC相对引用重定位" class="headerlink" title="PC相对引用重定位"></a>PC相对引用重定位</h3><p>我们现在来看一下链接器如何确定 call 调用的实际位置。重定位条目<code>13: R_X86_64_PC32 sum-0x4</code>告诉链接器要修改位于目标文件偏移量 0x13 （数一下机器编码的字节数，可以发现 call 指令刚好是第 0x13 个字节）的 <strong>PC相对引用</strong>（PC是指程序计数器），使得它在运行时指向 sum 的偏移量 <code>-0x4</code> 位置。</p>
 <p>使用指令<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">gcc -o relocation relocation.c sum.c</div><div class="line">objdump -dx relocation</div></pre></td></tr></table></figure></p>
 <p>在可执行文件的反汇编代码中找到 main 这一节，main 的地址是<code>0x4004d6</code>，sum 的地址是<code>0x4004f5</code>。这也就是链接器为节选择了<strong>运行时地址</strong>。</p>
 <p><img src="http://osax8w13y.bkt.clouddn.com/relocationex2.png" alt=""></p>
@@ -565,9 +564,9 @@
 <p>使用如下指令：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">只编译不链接，获得两个目标文件：</div><div class="line">gcc -c addvec.c multvec.c</div><div class="line"></div><div class="line">将两个目标文件打包成一个后缀为 .a 的静态库：</div><div class="line">ar rcs libvector.a addvec.o multvec.o </div><div class="line"></div><div class="line">使用静态库链接</div><div class="line">gcc -c main.c -o main.o</div><div class="line">gcc -static -o p main.o ./libvector.a</div></pre></td></tr></table></figure>
 <p>-static 参数告诉编译器，链接器应当构建一个完全链接的可执行文件。</p>
-<p>链接器会判断：addvec.o 中的符号 addvec 被 main.o 引用，因此拷贝这个模块到可执行文件。由于没有用到 multvec.o 中的符号，因此不会拷贝这个模块到可执行文件。此外，由于用到了函数 printf ，链接器还会拷贝 libc.a 中的 printf.o 模块，以及许多其他运行时需要用到的模块。下图很清晰的展现了静态库的好处：</p>
+<p>链接器会判断：<code>addvec.o</code> 中的符号 <code>addvec</code> 被 <code>main.o</code> 引用，因此拷贝这个模块到可执行文件。由于没有用到 <code>multvec.o</code> 中的符号，因此不会拷贝这个模块到可执行文件。此外，由于用到了函数 <code>printf</code> ，链接器还会拷贝 <code>libc.a</code> 中的 <code>printf.o</code> 模块，以及许多其他运行时需要用到的模块。下图很清晰的展现了静态库的好处：</p>
 <p><img src="http://osax8w13y.bkt.clouddn.com/library2.png" alt=""></p>
-<h2 id="动态链接共享库"><a href="#动态链接共享库" class="headerlink" title="动态链接共享库"></a>动态链接共享库</h2><p>静态库仍有缺点：需要定期维护和更新。如果程序员想要用一个库的最新版本，那么就必须先更新该库，然后再将更新的库与他们的程序重新链接。以及，几乎每个 C 程序都要用到标准 I/O 函数，例如 <code>printf</code>和<code>scanf</code> 之类。按照静态库的思路，这些代码会被拷贝到每个运行的进程的文本段中，这对存储器资源是极大的浪费。</p>
+<h2 id="动态链接共享库"><a href="#动态链接共享库" class="headerlink" title="动态链接共享库"></a>动态链接共享库</h2><p>静态库仍有缺点：需要定期维护和更新。如果程序员想要用一个库的最新版本，那么就必须先更新该库，然后再将更新的库与他们的程序重新链接。以及，几乎每个 C 程序都要用到标准 I/O 函数，例如 <code>printf</code>和<code>scanf</code> 之类。按照静态库的思路，这些代码会被拷贝到<strong>每个运行的进程的文本段</strong>中，在一个运行了几十个进程的系统上，会造成存储器资源的极大浪费。</p>
 <p><strong>共享库</strong>（shared library）就是致力解决静态库缺陷的现代创新产物。共享库是一个模块，可以在<strong>运行时</strong>加载到任何的存储器位置，并和一个存储器中的程序链接起来。这个过程就叫<strong>动态链接</strong>（dynamic linking），由<strong>动态链接器</strong>（dynamic linking）来完成。</p>
 <p>共享库也叫<strong>共享目标</strong>（shared object），在 Unix 系统下常用后缀名 .so 来表示。在 Windows 中大量利用了动态链接库，就是 DLL（dynamic linking library）。</p>
 <p>如果还是以上面的例子，但是以动态链接的方式，工作原理如下图：</p>
