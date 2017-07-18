@@ -1,0 +1,972 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="从给处理器加电，到断电为止，处理器做的工作其实就是不断地读取并执行一条条指令。这些指令的序列就叫做 CPU 的控制流（control flow）。最简单的控制流是“平滑的”，也就是相邻的指令在存储器中是相邻的。当然，控制流不总是平滑的，不总是一条接一条地执行，总会有出现改变控制流的情况。我们知道的程序内部状态改变的机制有两条：  跳转和分支 调用和返回  这些机制局限于程序本身的控制。当系统状态（">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【CSAPP笔记】14. 异常控制流和进程">
+<meta property="og:url" content="http://yoursite.com/2017/07/09/csapp-14-Exception-Control-Flow-Execptions-and-Processes/index.html">
+<meta property="og:site_name" content="ZCplayground">
+<meta property="og:description" content="从给处理器加电，到断电为止，处理器做的工作其实就是不断地读取并执行一条条指令。这些指令的序列就叫做 CPU 的控制流（control flow）。最简单的控制流是“平滑的”，也就是相邻的指令在存储器中是相邻的。当然，控制流不总是平滑的，不总是一条接一条地执行，总会有出现改变控制流的情况。我们知道的程序内部状态改变的机制有两条：  跳转和分支 调用和返回  这些机制局限于程序本身的控制。当系统状态（">
+<meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/exception.png">
+<meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/exceptiontable.png">
+<meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/interrupt.png">
+<meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/systemcall.png">
+<meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/systemcall1.png">
+<meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/pagefault.png">
+<meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/invalidmemory.png">
+<meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/multiprocessiong.png">
+<meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/controlflow.png">
+<meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/contextswithching.png">
+<meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/processmemory.png">
+<meta property="og:updated_time" content="2017-07-18T11:45:54.126Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【CSAPP笔记】14. 异常控制流和进程">
+<meta name="twitter:description" content="从给处理器加电，到断电为止，处理器做的工作其实就是不断地读取并执行一条条指令。这些指令的序列就叫做 CPU 的控制流（control flow）。最简单的控制流是“平滑的”，也就是相邻的指令在存储器中是相邻的。当然，控制流不总是平滑的，不总是一条接一条地执行，总会有出现改变控制流的情况。我们知道的程序内部状态改变的机制有两条：  跳转和分支 调用和返回  这些机制局限于程序本身的控制。当系统状态（">
+<meta name="twitter:image" content="http://osax8w13y.bkt.clouddn.com/exception.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/07/09/csapp-14-Exception-Control-Flow-Execptions-and-Processes/"/>
+
+
+
+
+
+  <title>【CSAPP笔记】14. 异常控制流和进程 | ZCplayground</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">ZCplayground</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/07/09/csapp-14-Exception-Control-Flow-Execptions-and-Processes/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ZC">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ZCplayground">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">【CSAPP笔记】14. 异常控制流和进程</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-09T13:44:43+08:00">
+                2017-07-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/CSAPP/" itemprop="url" rel="index">
+                    <span itemprop="name">CSAPP</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/07/09/csapp-14-Exception-Control-Flow-Execptions-and-Processes/" class="leancloud_visitors" data-flag-title="【CSAPP笔记】14. 异常控制流和进程">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>从给处理器加电，到断电为止，处理器做的工作其实就是不断地读取并执行一条条指令。这些指令的序列就叫做 CPU 的<strong>控制流</strong>（control flow）。最简单的控制流是“平滑的”，也就是相邻的指令在存储器中是相邻的。当然，控制流不总是平滑的，不总是一条接一条地执行，总会有出现改变控制流的情况。我们知道的程序内部状态改变的机制有两条：</p>
+<ul>
+<li>跳转和分支</li>
+<li>调用和返回</li>
+</ul>
+<p>这些机制局限于程序本身的控制。当<strong>系统状态</strong>（system state）发生改变的时候，以上机制就不能很好地应对复杂的情况，例如：</p>
+<ul>
+<li>数据从磁盘或者网络适配器到达</li>
+<li>有一条指令执行了除以零的操作</li>
+<li>用户按下 ctrl+c</li>
+<li>系统内部的计时器到时间</li>
+</ul>
+<p>现代系统通过使控制流发生突变来应对这些情况。这种机制叫做<strong>异常控制流</strong>（exceptional control flow）。异常控制流发生在计算机系统的各个层次。</p>
+<p><img src="http://osax8w13y.bkt.clouddn.com/exception.png" alt=""></p>
+<ul>
+<li>在硬件层，硬件检测到的事件会触发控制转移到异常处理程序</li>
+<li>在操作系统层，内核通过上下文转换将控制从一个进程转到另一个进程</li>
+<li>在应用层，一个进程可以发送信号到另一个进程，接受者将控制突然转移到一个信号处理程序</li>
+</ul>
+<p>学习异常控制流很重要：</p>
+<ul>
+<li>可以帮助你理解重要的系统概念，例如 I/O、进程、虚拟存储器</li>
+<li>可以帮助你理解应用程序和操作系统是如何交互的，例如陷阱、系统调用</li>
+<li>可以帮助你编写进程相关的新应用程序，理解并发</li>
+<li>理解软件异常如何工作</li>
+</ul>
+<p>对于汇编语言、CPU、存储器的学习，可能已经使你初步了解应用是如何与硬件交互的。而学习异常控制流的重要性在于开始学习应用是如何与操作系统进行交互的。</p>
+<h1 id="异常"><a href="#异常" class="headerlink" title="异常"></a>异常</h1><p>最底层的机制称为异常（Exception），更高层次的异常控制流包括进程切换（Process Context Switch）、信号（Signal）和非本地跳转（Nonlocal Jumps）。</p>
+<p><img src="http://osax8w13y.bkt.clouddn.com/exceptiontable.png" alt=""></p>
+<p>异常是异常控制流的一种形式，它是由硬件和操作系统组合来实现的。异常就是控制流的突变，用来响应处理器状态的某种变化。状态变化被称为<strong>事件</strong>（event）。当处理器检测到时间的发生时，它就会通过一张叫做<strong>异常表</strong>（exception table）的跳转表，跳到一个专门用来处理这类事件的操作系统子程序——<strong>*异常处理程序</strong>（exception handler）</p>
+<p>系统为每种类型的异常都分配了一个唯一的非负整数的异常号。当系统启动时，操作系统分配并初始化异常表，条目 k 包含异常 k 的处理程序的地址，异常表的起始地址存放在异常表基址寄存器中。当处理器检测到事件，并确定了异常号 k 后，处理器触发异常，执行间接过程调用。异常类似于过程调用，但有些许不同：</p>
+<ul>
+<li>过程调用在跳转之前，要把返回地址压入栈中。然而，根据异常的类型，返回地址有可能是当前指令、下一条指令、也可能直接终止被中断的程序。</li>
+<li>如果控制从用户态转到内核态，那么这些项目被压入内核栈而不是用户栈。</li>
+<li>异常处理程序都运行在内核态下。</li>
+</ul>
+<p>一旦硬件触发了异常，剩下的工作就是由异常处理程序在软件中完成。异常处理程序处理完事件之后，它通过执行特殊的“从中断返回”的指令，可选地返回到被中断的程序，将适当的状态弹回到处理器的控制和寄存器中，如果中断的是一个用户程序，就将状态恢复为用户模式。最后将控制返回给被中断的程序。</p>
+<h1 id="异常的分类"><a href="#异常的分类" class="headerlink" title="异常的分类"></a>异常的分类</h1><p>异常分为四类：</p>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>原因</th>
+<th>同步or异步</th>
+<th>返回行为</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>中断（interrupt）</td>
+<td>来自 I/O 设备的信号</td>
+<td>异步</td>
+<td>总是返回到下一条指令</td>
+</tr>
+<tr>
+<td>陷阱（trap）</td>
+<td>有意的异常</td>
+<td>同步</td>
+<td>总是返回到下一条指令</td>
+</tr>
+<tr>
+<td>故障（fault）</td>
+<td>潜在的可恢复错误</td>
+<td>同步</td>
+<td>可能返回到当前指令</td>
+</tr>
+<tr>
+<td>终止（abort）</td>
+<td>不可恢复的错误</td>
+<td>同步</td>
+<td>不返回</td>
+</tr>
+</tbody>
+</table>
+<h2 id="中断（interrupt）"><a href="#中断（interrupt）" class="headerlink" title="中断（interrupt）"></a>中断（interrupt）</h2><p><img src="http://osax8w13y.bkt.clouddn.com/interrupt.png" alt=""></p>
+<p>中断是处理来自处理器外部的 I/O 设备的信号的结果。中断是<strong>异步</strong>（asynchronous）的，异步的意思就是是由处理器外面发生的事情引起的。对于执行程序来说，这种“中断”的发生完全是不知道什么时候会发生，CPU对其的响应也完全是被动的。</p>
+<p>如下的例子就是中断：</p>
+<ul>
+<li>计时器中断：计时器中断是由计时器芯片每隔几毫秒触发的，内核用计时器中断来从用户程序手上拿回控制权。</li>
+<li>I/O 设备的中断，这个种类就包含很多可能了。例如：用户按下 Ctrl+C、网络上一个数据包的到达、磁盘上的数据到达等等。</li>
+</ul>
+<p>通过像处理器芯片上的一个引脚发信号，将异常号放到总线上，触发中断。异常号标识引起中断的设备。处理器意识到中断后，调用适当的中断处理程序。当处理程序返回时，将控制返回给下一条指令。就好像程序正常地执行，没有发生过中断一样。</p>
+<h2 id="陷阱（trap）"><a href="#陷阱（trap）" class="headerlink" title="陷阱（trap）"></a>陷阱（trap）</h2><p>除了中断的其余三者（陷阱、故障和终止）是<strong>同步</strong>（synchronous）的，意思是执行当前指令的时候触发异常。</p>
+<p>陷阱是<strong>有意的异常</strong>。陷阱是一类很重要的异常。有一个用途就是在用户程序和内核（kernel）之间提供一个接口，叫做<strong>系统调用</strong>（system call）。</p>
+<p><img src="http://osax8w13y.bkt.clouddn.com/systemcall.png" alt=""></p>
+<p><img src="http://osax8w13y.bkt.clouddn.com/systemcall1.png" alt=""></p>
+<p>系统调用看起来就像函数调用。通常，处理器设有两种模式：“用户模式”与“内核模式”，<br>然而某些功能是需要系统内核级别的支持才能完成，因此内核提供一系列具备预定功能的函数，通过一组称为系统调用的接口呈现给用户。系统调用把应用程序的请求、参数和控制传给内核，调用相应的的内核函数完成所需的处理，将处理结果返回给应用程序。</p>
+<h3 id="用户模式和内核模式"><a href="#用户模式和内核模式" class="headerlink" title="用户模式和内核模式"></a>用户模式和内核模式</h3><p>为了使操作系统内核得到保护，操作系统提供一个机制，限制应用程序可以使用的指令以及它可以访问的地址空间范围。处理器通常是使用某个控制寄存器中的一个模式位（mode bit）来提供这种功能的。当设置了模式位，进程就运行在<strong>内核状态</strong>，可以执行指令集中的任何指令，访问任何存储器位置。相反，则运行在用户模式，不允许执行一系列特权指令，例如停止处理器、改变模式位、或者发起一个 I/O 操作，同时限制用户模式中的进程访问内核区的代码和数据，任何这样的尝试都会导致故障。进程从用户模式变为内核模式的方法就是通过注入中断、故障或陷入系统调用这样的异常。</p>
+<h2 id="故障（fault）"><a href="#故障（fault）" class="headerlink" title="故障（fault）"></a>故障（fault）</h2><p>故障就是由错误情况引起的，它可能被故障处理程序修正，修正之后就可以将控制返回到引起故障的指令，并重新处理它。当然，也有可能是一个无法修复的故障，那么处理程序会返回到内核中的 abort 例程，会终止引起故障的程序。</p>
+<p>故障的示例：</p>
+<p><img src="http://osax8w13y.bkt.clouddn.com/pagefault.png" alt=""></p>
+<p>一、缺页（page fault），当指令引用一个虚拟地址，而虚拟地址对应的物理页面此时不在主存而在硬盘中，会发生缺页故障。缺页处理程序就从磁盘加载适当的页（一个页面就是一个虚拟存储器的连续的一个块，典型的是 4KB），然后将控制返回给引起故障的指令。因为相应的页面调度已经完成，在此执行指令时，就不会有缺页故障了。</p>
+<p><img src="http://osax8w13y.bkt.clouddn.com/invalidmemory.png" alt=""></p>
+<p>二、非法的存储器地址引用（invalid memory reference）也是一种故障，只不过故障处理程序会将控制返回给 abort 例程，abort 例程会终止这个程序，并报“段错误”。</p>
+<h2 id="终止（abort）"><a href="#终止（abort）" class="headerlink" title="终止（abort）"></a>终止（abort）</h2><p>终止是不可恢复的致命错误造成的结果，通常是一些硬件错误。终止处理程序从来不将控制返回给应用程序，而是返回给 abort 例程，终止这个应用程序。</p>
+<p>从上面的例子中，我们可以看到异常的具体实现是依靠在用户代码和内核代码间切换而实现的，是比汇编中的跳转、返回更加底层的机制。</p>
+<h1 id="进程"><a href="#进程" class="headerlink" title="进程"></a>进程</h1><p>异常是允许操作系统提供<strong>进程</strong>（process）概念的基本构造块。进程是计算机科学中最深刻最成功的概念之一。进程为每个程序提供一种假象，好像这个程序是计算机上唯一运行的程序，并独占处理器和存储器资源。而实际上在任何时间点，计算机上都有多个程序在运行。这种假象就是通过进程的概念提供给我们的。</p>
+<p>进程的定义是：</p>
+<blockquote>
+<p> A process is an instance of a running program.</p>
+</blockquote>
+<p>进程就是<strong>计算机中一个执行中的程序的实例</strong>。程序本身只是指令、数据及其组织形式的描述，进程才是程序（那些指令和数据）的真正运行实例。</p>
+<p>用户下达运行程序的命令后，就会产生进程。操作系统如何实现进程、管理进程的细节超出了本书的讨论范围，我们将关注进程这个概念提供给程序的两种关键抽象：</p>
+<ul>
+<li>逻辑控制流（logic control flow），提供一个假象——好像程序独占处理器。</li>
+<li>私有地址空间，是通过虚拟内存（virtual memory）的机制，提供一个假象——好像程序独占存储器。</li>
+</ul>
+<h2 id="逻辑控制流"><a href="#逻辑控制流" class="headerlink" title="逻辑控制流"></a>逻辑控制流</h2><p>多进程的操作是怎样的呢？</p>
+<p><img src="http://osax8w13y.bkt.clouddn.com/multiprocessiong.png" alt=""></p>
+<p>现代处理器一般有多个核心，所以可以真正同时执行多个进程。而对每一个核心来说，还是有可能会切换执行不同的进程。在上图的多进程模型中，虚线部分可以认为是当前正在执行的进程，内存中需要另一块区域，当处理器去执行别的进程时，来保存当前的寄存器值。</p>
+<p><img src="http://osax8w13y.bkt.clouddn.com/controlflow.png" alt=""></p>
+<p>如果用调试器单步执行程序，我们会看到一系列的程序计数器的值，值的序列就是<strong>逻辑控制流</strong>，每一个进程都有自己的逻辑流。在上图中，每条竖线都代表一部分逻辑流。多个进程轮流进行的概念叫做<strong>多任务</strong>（multitasking），操作系统中常用时间片（time slice）的机制来实现，因此多任务又称为<strong>时间分片</strong>（time slicing）。逻辑流如果在执行时间上与另一个逻辑流重叠，那么就叫<strong>并发流</strong>（concurrent flow），这两个流就是<strong>并发</strong>地执行（concurrency），否则叫做顺序流（sequential flow）。并发与处理器核心数无关，只需要满足两个流在时间上重叠，那就是并发执行。如果两个流并发地运行在不同的处理器核心上，那么就称为并行流（parallel flow），并行流是并发流的真子集。</p>
+<h2 id="上下文切换"><a href="#上下文切换" class="headerlink" title="上下文切换"></a>上下文切换</h2><p><img src="http://osax8w13y.bkt.clouddn.com/contextswithching.png" alt=""></p>
+<p>切换进程时，<strong>内核</strong>会负责具体的调度，用到的机制称为<strong>上下文切换</strong>（context Switch）。<strong>上下文</strong>（context）是内核重启一个被抢占的进程所需要的状态，也可以理解为一个进程拥有的信息。包括代码、数据、堆栈、通用寄存器的内容、程序计数器、环境变量、内核数据结构，比如打开文件描述符的集合、描绘地址空间的页表、包含进程信息的进程控制块等等。</p>
+<p>上下文切换是一种较高形式的异常控制流。在进程某些时刻，<strong>内核</strong>可以决定<strong>抢占</strong>当前执行的进程，重新开始一个被抢占的进程，这种行为叫做<strong>调度</strong>（schedule）。内核的做法是：</p>
+<ol>
+<li>保存当前进程的上下文，</li>
+<li>恢复某个先前被抢占的进程的上下文，</li>
+<li>将控制传递给这个新恢复的进程。</li>
+</ol>
+<p>所有的系统都有某种产生周期性定时器中断的机制，典型的就是每 1 毫秒或每 10 毫秒，内核判定某个进程已经运行了足够长的时间，要切换到另一个进程运行。</p>
+<h2 id="进程地址空间"><a href="#进程地址空间" class="headerlink" title="进程地址空间"></a>进程地址空间</h2><p><img src="http://osax8w13y.bkt.clouddn.com/processmemory.png" alt=""></p>
+<p>在逻辑控制流中我们可以看到，整个过程中，CPU 交替执行不同的进程，而每个进程的内存大致都长一个样子。虚拟内存系统会负责管理地址空间，进程也给程序提供一种假象，好想、像它独占使用系统的地址空间。</p>
+<h1 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h1><ul>
+<li><a href="https://zh.wikipedia.org/wiki/%E8%A1%8C%E7%A8%8B" target="_blank" rel="external">wiki</a></li>
+<li><a href="http://blog.csdn.net/u014563989/article/details/53574118" target="_blank" rel="external">进程相关函数简单总结</a></li>
+<li><a href="http://www.cs.cmu.edu/~./213/schedule.html" target="_blank" rel="external">15213课程网站</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/07/02/csapp-13-Linking/" rel="next" title="【CSAPP笔记】13. 链接">
+                <i class="fa fa-chevron-left"></i> 【CSAPP笔记】13. 链接
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="ZC" />
+          <p class="site-author-name" itemprop="name">ZC</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">38</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#异常"><span class="nav-number">1.</span> <span class="nav-text">异常</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#异常的分类"><span class="nav-number">2.</span> <span class="nav-text">异常的分类</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#中断（interrupt）"><span class="nav-number">2.1.</span> <span class="nav-text">中断（interrupt）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#陷阱（trap）"><span class="nav-number">2.2.</span> <span class="nav-text">陷阱（trap）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#用户模式和内核模式"><span class="nav-number">2.2.1.</span> <span class="nav-text">用户模式和内核模式</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#故障（fault）"><span class="nav-number">2.3.</span> <span class="nav-text">故障（fault）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#终止（abort）"><span class="nav-number">2.4.</span> <span class="nav-text">终止（abort）</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#进程"><span class="nav-number">3.</span> <span class="nav-text">进程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#逻辑控制流"><span class="nav-number">3.1.</span> <span class="nav-text">逻辑控制流</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#上下文切换"><span class="nav-number">3.2.</span> <span class="nav-text">上下文切换</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#进程地址空间"><span class="nav-number">3.3.</span> <span class="nav-text">进程地址空间</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考链接"><span class="nav-number">4.</span> <span class="nav-text">参考链接</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ZC</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("guhO5d3jdrym6QcCp5oIrsMc-gzGzoHsz", "ldFdhqrIxGxOqWs5mgH8pmLT");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+
+  
+
+  
+
+</body>
+</html>
