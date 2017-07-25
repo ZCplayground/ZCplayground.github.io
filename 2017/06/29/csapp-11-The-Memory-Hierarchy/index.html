@@ -105,9 +105,9 @@
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/disk2.png">
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/ssd.png">
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/good-locality.png">
-<meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/bad-locality.png">
+<meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/bad-locality-fixup.png">
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/memory-hierarchy.png">
-<meta property="og:updated_time" content="2017-07-01T14:50:36.907Z">
+<meta property="og:updated_time" content="2017-07-25T12:48:23.836Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【CSAPP笔记】11. 存储器层次结构">
 <meta name="twitter:description" content="在没有专门研究存储器系统之前，我们依赖的存储器模型是一个很简单的概念，也就是把它看成一个线性数组，CPU 能在一个常数时间内访问任何一个存储器位置。虽然在研究别的问题时，这是一个有效的模型，但是它不能反映存储器系统的实际工作方式。 存储器系统（memory system）是一个具有不同容量、成本、访问时间的存储器层次结构。CPU 寄存器保存着最常用的数据；靠近 CPU 的小的、快速的高速缓存存储器">
@@ -469,7 +469,7 @@
 <p>因为数组中的元素是一个接一个访问的，因此有很好的空间局部性。由于每个元素只访问一次，因此时间局部性很差。对于循环体中的每个变量，函数要么有很好的空间局部性，要么有很好的时间局部性。因此这个函数有良好的局部性。</p>
 <p>我们说像 sumv 函数这样访问数组的函数，具有 <strong>步长为 1</strong>的引用模式（stride-1 reference pattern）每隔 k 个元素进行访问，就叫 <strong>步长为 k</strong> 的引用模式。一般来说，随着步长的增加，空间局部性下降。对于多维数组来说，步长就是一个很重要的问题。</p>
 <p><img src="http://osax8w13y.bkt.clouddn.com/good-locality.png" alt=""></p>
-<p><img src="http://osax8w13y.bkt.clouddn.com/bad-locality.png" alt=""></p>
+<p><img src="http://osax8w13y.bkt.clouddn.com/bad-locality-fixup.png" alt=""></p>
 <p>一些看上去很小的改动对程序的性能会有很大的影响。步长越小，空间局部性越好。如果在存储器中以大步长跳来跳去，空间局部性很差。了解了高速缓存的工作原理后，就能明白为什么具有良好局部性的程序通常比局部性差的程序运行得更快。</p>
 <h1 id="存储体系"><a href="#存储体系" class="headerlink" title="存储体系"></a>存储体系</h1><p>存储技术和计算机软件的一些基本属性：</p>
 <ol>
