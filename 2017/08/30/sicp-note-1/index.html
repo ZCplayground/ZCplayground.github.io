@@ -93,19 +93,18 @@
 
 
 
-<meta name="description" content="PC问题PC问题（producer and consumer，生产者和消费者问题）是操作系统中并发程序设计中的经典同步问题。 semget 函数的作用是创建新的或获得已存在的信号量集。这个函数是以信号量集作为操作单位的，一个信号量集可以包括一个或多个信号量。对于PC问题，有full、empty、mutex1、mutex2等多个信号量。在选取信号量以及对它们进行操作（赋值、P、V）的时候，通过两种变">
+<meta name="description" content="最近开始看被形容为计算机界的“圣经”的一本 MIT 计算机科学入门课的教材 SICP ，计算机程序的构造和解释（Structue and Interpretation of Computer Programs）。我这次不打算像读《CSAPP》那样整本书看完再进行整理，而是想在阅读这本书的过程中不断地记录读书时的感想，重要的概念，有意思的习题等等……便于给自己查缺补漏，另一方面等到时过境迁，回头看">
 <meta property="og:type" content="article">
-<meta property="og:title" content="操作系统实验之通过信号量实现复杂PC问题">
-<meta property="og:url" content="http://yoursite.com/2017/05/20/semaphore-PCproblems/index.html">
+<meta property="og:title" content="计算机程序的构造与解释——笔记1">
+<meta property="og:url" content="http://yoursite.com/2017/08/30/sicp-note-1/index.html">
 <meta property="og:site_name" content="ZCplayground">
-<meta property="og:description" content="PC问题PC问题（producer and consumer，生产者和消费者问题）是操作系统中并发程序设计中的经典同步问题。 semget 函数的作用是创建新的或获得已存在的信号量集。这个函数是以信号量集作为操作单位的，一个信号量集可以包括一个或多个信号量。对于PC问题，有full、empty、mutex1、mutex2等多个信号量。在选取信号量以及对它们进行操作（赋值、P、V）的时候，通过两种变">
-<meta property="og:image" content="http://images2015.cnblogs.com/blog/1092156/201705/1092156-20170506183005367-1513094013.png">
-<meta property="og:image" content="http://images2015.cnblogs.com/blog/1092156/201705/1092156-20170506183039539-921756659.png">
-<meta property="og:updated_time" content="2017-06-07T03:33:47.324Z">
+<meta property="og:description" content="最近开始看被形容为计算机界的“圣经”的一本 MIT 计算机科学入门课的教材 SICP ，计算机程序的构造和解释（Structue and Interpretation of Computer Programs）。我这次不打算像读《CSAPP》那样整本书看完再进行整理，而是想在阅读这本书的过程中不断地记录读书时的感想，重要的概念，有意思的习题等等……便于给自己查缺补漏，另一方面等到时过境迁，回头看">
+<meta property="og:image" content="http://yoursite.com/2017/08/30/sicp-note-1/assets/sicp_banner.jpg">
+<meta property="og:updated_time" content="2017-08-29T22:24:36.804Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="操作系统实验之通过信号量实现复杂PC问题">
-<meta name="twitter:description" content="PC问题PC问题（producer and consumer，生产者和消费者问题）是操作系统中并发程序设计中的经典同步问题。 semget 函数的作用是创建新的或获得已存在的信号量集。这个函数是以信号量集作为操作单位的，一个信号量集可以包括一个或多个信号量。对于PC问题，有full、empty、mutex1、mutex2等多个信号量。在选取信号量以及对它们进行操作（赋值、P、V）的时候，通过两种变">
-<meta name="twitter:image" content="http://images2015.cnblogs.com/blog/1092156/201705/1092156-20170506183005367-1513094013.png">
+<meta name="twitter:title" content="计算机程序的构造与解释——笔记1">
+<meta name="twitter:description" content="最近开始看被形容为计算机界的“圣经”的一本 MIT 计算机科学入门课的教材 SICP ，计算机程序的构造和解释（Structue and Interpretation of Computer Programs）。我这次不打算像读《CSAPP》那样整本书看完再进行整理，而是想在阅读这本书的过程中不断地记录读书时的感想，重要的概念，有意思的习题等等……便于给自己查缺补漏，另一方面等到时过境迁，回头看">
+<meta name="twitter:image" content="http://yoursite.com/2017/08/30/sicp-note-1/assets/sicp_banner.jpg">
 
 
 
@@ -133,13 +132,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/05/20/semaphore-PCproblems/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/08/30/sicp-note-1/"/>
 
 
 
 
 
-  <title>操作系统实验之通过信号量实现复杂PC问题 | ZCplayground</title>
+  <title>计算机程序的构造与解释——笔记1 | ZCplayground</title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -279,7 +278,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/20/semaphore-PCproblems/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/08/30/sicp-note-1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="ZC">
@@ -296,7 +295,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">操作系统实验之通过信号量实现复杂PC问题</h1>
+          <h1 class="post-title" itemprop="name headline">计算机程序的构造与解释——笔记1</h1>
         
 
         <div class="post-meta">
@@ -308,8 +307,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-20T15:38:29+08:00">
-                2017-05-20
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-30T05:29:58+08:00">
+                2017-08-30
               </time>
             
 
@@ -331,8 +330,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/linux/" itemprop="url" rel="index">
-                    <span itemprop="name">linux</span>
+                  <a href="/categories/SICP/" itemprop="url" rel="index">
+                    <span itemprop="name">SICP</span>
                   </a>
                 </span>
 
@@ -348,7 +347,7 @@
 
           
           
-             <span id="/2017/05/20/semaphore-PCproblems/" class="leancloud_visitors" data-flag-title="操作系统实验之通过信号量实现复杂PC问题">
+             <span id="/2017/08/30/sicp-note-1/" class="leancloud_visitors" data-flag-title="计算机程序的构造与解释——笔记1">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -376,39 +375,67 @@
       
 
       
-        <h1 id="PC问题"><a href="#PC问题" class="headerlink" title="PC问题"></a>PC问题</h1><p><a href="http://blog.chinaunix.net/uid-21411227-id-1826740.html" target="_blank" rel="external">PC问题</a>（producer and consumer，生产者和消费者问题）是操作系统中并发程序设计中的经典同步问题。</p>
-<p>semget 函数的作用是创建新的或获得已存在的信号量集。这个函数是以信号量集作为操作单位的，一个信号量集可以包括一个或多个信号量。对于PC问题，有full、empty、mutex1、mutex2等多个信号量。在选取信号量以及对它们进行操作（赋值、P、V）的时候，通过两种变量来识别它们，分别是键值<code>sem_id</code>和信号在信号量集中的序号<code>sem_num</code>。所以可以有两种选择：</p>
-<ul>
-<li><p>声明四个键值，用来创建四个信号量集，每个信号量集包括一个信号量。在操作信号量时，每个信号量的<code>sem_num</code>都是0。是通过键值<code>sem_id</code>来区分信号量的。</p>
-</li>
-<li><p>只声明一个键值，创建一个信号量集，但里面有四个信号量。所以每个信号量的键值都一样，而是通过<code>sem_id</code>来区分，分别是0、1、2、3。</p>
-</li>
+        <p><a href="http://sicp.liujiacai.net/" target="_blank" rel="external"><img src="assets/sicp_banner.jpg" alt="SICP"></a></p>
+<p>最近开始看被形容为计算机界的“圣经”的一本 MIT 计算机科学入门课的教材 SICP ，计算机程序的构造和解释（Structue and Interpretation of Computer Programs）。我这次不打算像读《CSAPP》那样整本书看完再进行整理，而是想在阅读这本书的过程中不断地记录读书时的感想，重要的概念，有意思的习题等等……便于给自己查缺补漏，另一方面等到时过境迁，回头看这些记录，必定能有新的思考和总结。（以后再找机会补上算法导论的读书笔记</p>
+<h1 id="安利的链接"><a href="#安利的链接" class="headerlink" title="安利的链接"></a>安利的链接</h1><ul>
+<li><a href="http://blog.zhaojie.me/2009/07/recommended-reading-2-sicp.html" target="_blank" rel="external">老赵书托（2）：计算机程序的构造与解释</a>  </li>
+<li><a href="http://yinwang0.lofter.com/post/183ec2_47bea8" target="_blank" rel="external">王垠：如何掌握程序语言</a> </li>
+<li><a href="https://book.douban.com/subject/1148282/" target="_blank" rel="external">SICP的豆瓣页面，9.5分的评价</a></li>
+<li><a href="http://www.nowamagic.net/librarys/veda/detail/1905" target="_blank" rel="external">向热爱计算机科学的你推荐SICP</a></li>
 </ul>
-<p><img src="http://images2015.cnblogs.com/blog/1092156/201705/1092156-20170506183005367-1513094013.png" alt=""></p>
-<p>从运行结果来看，P、C的过程成功受到了信号量的影响。</p>
-<p><img src="http://images2015.cnblogs.com/blog/1092156/201705/1092156-20170506183039539-921756659.png" alt=""></p>
-<p><strong>update: 2017-05-20:</strong> 竟然忘了把信号量放到共享存储区中，罪过罪过，在这里多谢浴盆指出我的问题。</p>
-<p><a href="https://github.com/ZCplayground/Linux-experiments/blob/master/semaphore%20-%20PCproblem/PCproblem.c" target="_blank" rel="external">代码地址</a></p>
-<h1 id="父子进程、共享存储区"><a href="#父子进程、共享存储区" class="headerlink" title="父子进程、共享存储区"></a>父子进程、共享存储区</h1><p>摘抄一段CSAPP中关于进程的内容：</p>
-<p>第8章异常控制流：</p>
-<blockquote>
-<p>父进程通过调用fork函数来创建一个新的运行子进程……新创建的子进程几乎但不完全与父进程相同。子进程得到与父进程用户级虚拟地址空间<strong>相同（但是独立的）一份拷贝</strong>，包括文本、数据和BSS段、堆、栈。子进程还获得与父进程任何打开文件描述符相同的拷贝。这意味着父进程调用fork时，子进程可以读写父进程打开的任何文件。</p>
-<p>父进程和子进程是<strong>并发运行的独立</strong>进程。</p>
-<p>相同但是<strong>独立的地址空间</strong>。如果能在fork函数在父子进程返回后立即暂停，可以看到每个进程的地址空间是相同的（相同的用户栈、堆、本地变量值、全局变量值、相同的代码）。然而，父进程和子进程是独立的进程，它们都有自己私有的地址空间。父进程对于一个变量所做的任何改变都是独立的，不会反映在另一个进程的存储器中。</p>
-</blockquote>
-<p>第9章虚拟存储器：</p>
-<blockquote>
-<p>进程这一抽象能够为每个进程提供私有的虚拟地址空间，免受其他进程的错误读写。……幸运的是，存储器映射给我们提供一种清晰的机制来控制多个进程共享对象。</p>
-<p>如果一个进程把一个共享对象映射到它的虚拟地址空间的一个区域内，那么这个进程对这个区域的任何写操作，对于那些也把这个共享对象映射到它们的虚拟存储器的其他进程而言也是可见的。</p>
-</blockquote>
+<h1 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h1><ul>
+<li><a href="https://en.wikipedia.org/wiki/Scheme_%28programming_language%29" target="_blank" rel="external">wiki - Scheme (programming language)</a> Scheme 语言的基本了解</li>
+<li><a href="http://www.gnu.org/software/mit-scheme/" target="_blank" rel="external">MIT/GNU Scheme</a> 编写 Scheme 程序的一个环境 —— MIT/GNU Scheme</li>
+<li><a href="http://www.math.pku.edu.cn/teachers/qiuzy/progtech/scheme/mit_scheme.htm" target="_blank" rel="external">MIT Scheme 的基本使用</a> 北大课程中关于 MIT/GNU Scheme 的参考手册，总结的很全，怎么写程序，怎么运行出结果，或者从文件中读取，都有总结。</li>
+<li><a href="http://www.gnu.org/software/mit-scheme/documentation/mit-scheme-ref/index.html" target="_blank" rel="external">MIT/GNU Scheme 9.2</a> documentation</li>
+</ul>
+<p>下面开始第一次的笔记</p>
 <hr>
-<p>关于信号量实验API的一些参考链接</p>
+<h1 id="范围"><a href="#范围" class="headerlink" title="范围"></a>范围</h1><p>第一章 构造过程抽象</p>
+<p>1.1.1 ~ 1.1.5 节，P1-13</p>
+<h1 id="笔记"><a href="#笔记" class="headerlink" title="笔记"></a>笔记</h1><blockquote>
+<p>（本书序）每一个计算机程序都是现实中的或者精神中的某个过程的一个模型，通过人的头脑孵化出来……数量上数不胜数，详情琐碎繁杂……我们很少通过自己的程序将这种过程模拟到永远令人满意的程度。正因为如此……就需要去修改程序，直到这一模型最终达到了一种亚稳定状态。而在这时，就又会出现另一个需要我们去为之奋斗的模型……<strong>如果说艺术解释了我们的梦想，那么计算机就是在以程序的名义执行它们。</strong></p>
+<p>（第一版前言）我们所设计的这门计算机科学导引课程……首先，我们希望建立起一种看法：<strong>一个计算机语言并不仅仅是让计算机去执行操作的一种方式</strong>，更重要的，它是一种表述有关方法学的思想的新颖的形式化媒介。因此，<strong>程序必须写的能够供人们阅读，偶尔地取供计算机执行。</strong>……我们的目标是，使完成了这一科目的学生能对<strong>程序设计的风格要素</strong>和<strong>审美观</strong>有一种很好的感觉。……这些技能不仅仅适用于计算机程序设计，对于所有的工程设计都是通用的。</p>
+</blockquote>
+<p>开篇就给人一种读这本书会是一种精神上的享受的感觉。确实，里面提到的很多东西是以前的学习中从未接触到的。</p>
+<p>第一章的名字叫做，构造过程抽象。准备学习的是有关于<strong>计算过程</strong>的知识。计算过程是存在于计算机里的一类抽象事物，过程会去操作一些被称为<strong>数据</strong>的抽象事物。人们创建出<strong>程序</strong>的规则模式，指导过程的进行。书中将计算过程比喻成“巫术”，将我们写的程序比作“咒语”。学习程序设计的人们就是“巫师学徒”，我们要去理解和掌握“咒语”的效果。“咒语”中会出现小错误（bug），可能产生复杂的错误结果。这个比喻特别形象生动。我也理解了程序并不是使输入产生输出的最主要的因素，比方说我用编程语言写了一段代码，控制了一些“过程”，是这些“过程”将输入的结果转化成了输出。</p>
+<blockquote>
+<p>一个强有力的程序设计语言，不仅是一种指挥计算机执行任务的方式，还应当成为一种框架，使我们能在其中组织自己有关计算过程的思想。</p>
+</blockquote>
+<p>第一个重要的知识点，但每一种强有力的语言都有以下三个机制：</p>
+<ol>
+<li>基本表达形式，用于表示语言中最简单的个体。（C语言运算符）</li>
+<li>组合的方法，从较简单的东西出发，构造复合的元素。（结构体）</li>
+<li>抽象的方法，为复合对象命名，将它们当成简单的单元去操作。（函数）</li>
+</ol>
 <ul>
-<li><a href="https://zhidao.baidu.com/question/1893918728169133900.html" target="_blank" rel="external">ftok函数</a></li>
-<li><strong>重点推荐：</strong><a href="http://www.educity.cn/linux/1241661.html" target="_blank" rel="external">Linux进程间通信(六)—信号量通信之semget()、semctl()、semop()</a> </li>
-<li><a href="http://blog.csdn.net/ta893115871/article/details/7505560" target="_blank" rel="external">信号量 Linux函数 semget();semctl();semop();</a></li>
-<li><a href="http://blog.csdn.net/shaohui973/article/details/8142797" target="_blank" rel="external">关于进程和线程对于全局变量共享的问题学习总结</a></li>
+<li><p>1.1.1 讲了 Scheme 的表达式和求值。</p>
+</li>
+<li><p>1.1.2 讲了 define 的用法。这边提一下 Scheme，它是 Lisp 语言的两种主要方言（方言的意思是拥有 Lisp 主要特性的同时拥有一些自己独有的特性）之一（另一种是 Commom Lisp）。Scheme 是函数式编程语言，这种思想是非常古老的。Lisp 不是一种主流语言，却是今天还在广泛使用的历史第二悠久的语言（比它还老的是 Fortran）。使用学习 Scheme 的原因是这一语言拥有的一些特性，使它成为研究程序设计、构造、数据结构、语言特征的一种极佳媒介。</p>
+</li>
 </ul>
+<p>举例子：下面的表达式就是 Scheme 中最常见的前缀组合式。对 Scheme 解释器输入表达式，解释器就可以返回你结果</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">(+ 137 349)</div></pre></td></tr></table></figure>
+<p>结果 486</p>
+<p>像加减乘除这种一般性的求值规则，就是前面说到的每个强有力的语言都有的三个机制的第一点：基本表达形式。而 define 就是一种例外，是特殊形式。特殊形式就有自己的求值规则。各种不同类型的<strong>表达式</strong>和与之关联的<strong>求值规则</strong>组成了程序设计语言的<strong>语法形式</strong>。<strong>语法糖</strong>说的是：为完全可以采用统一形式描述的东西给出的另一种表面结构。</p>
+<ul>
+<li><p>1.1.3 讲了表达式的求值。语法树，就是说我们写的语句，在计算机看来，都是一棵棵语法树。</p>
+</li>
+<li><p>1.1.4 讲了复合过程，介绍了“复合”的做法。</p>
+</li>
+<li><p>1.1.5 讲了表达式的求值规则，<strong>代换模型</strong>。其实很简单，就像做函数题一样将参数代入求出结果。不过，<strong>代换</strong>不是解释器的实际工作方式的具体描述。如何求值的方式有两种</p>
+<ol>
+<li>正则序求值，思路是“完全展开后规约”，就是先不求出值，而是用运算对象表达式去代替形参，直到得到一个只包含基本运算符的表达式后，再求值。</li>
+<li>应用序求值，思路是“先求值参数而后应用”，先把参数的值求了然后带入函数中应用。</li>
+</ol>
+</li>
+</ul>
+<p>对于可以产生合法的应用，可以证明两种方法的结果是一样的。但下面就给出了一个反例。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">(define (p) (p))</div><div class="line">(define (test x y) </div><div class="line">    (if (= x 0)</div><div class="line">        0</div><div class="line">        y))</div><div class="line"></div><div class="line">(test 0 (p))</div></pre></td></tr></table></figure>
+<p>对于正则序，不断展开，展开成</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">(if(= 0 0) 0 (p))</div></pre></td></tr></table></figure>
+<p>就停住，并得出结果 0。</p>
+<p>但对于应用序，由于参数 <code>(p)</code> 是递归的，会不断地求 <code>(p)</code> 的值，不断调用自身，因此会在这里卡住死循环。每种编程语言的表达式求值，都是这两种中的一个。</p>
 
       
     </div>
@@ -445,8 +472,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/05/18/test/" rel="next" title="test">
-                <i class="fa fa-chevron-left"></i> test
+              <a href="/2017/07/09/csapp-14-Exception-Control-Flow-Execptions-and-Processes/" rel="next" title="【CSAPP笔记】14. 异常控制流和进程">
+                <i class="fa fa-chevron-left"></i> 【CSAPP笔记】14. 异常控制流和进程
               </a>
             
           </div>
@@ -454,10 +481,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/05/21/IWAN-en/" rel="prev" title="基于Cisco IWAN 的 SDWAN 技术分析">
-                基于Cisco IWAN 的 SDWAN 技术分析 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -577,7 +600,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#PC问题"><span class="nav-number">1.</span> <span class="nav-text">PC问题</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#父子进程、共享存储区"><span class="nav-number">2.</span> <span class="nav-text">父子进程、共享存储区</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#安利的链接"><span class="nav-number">1.</span> <span class="nav-text">安利的链接</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考链接"><span class="nav-number">2.</span> <span class="nav-text">参考链接</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#范围"><span class="nav-number">3.</span> <span class="nav-text">范围</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#笔记"><span class="nav-number">4.</span> <span class="nav-text">笔记</span></a></li></ol></div>
             
 
           </div>
