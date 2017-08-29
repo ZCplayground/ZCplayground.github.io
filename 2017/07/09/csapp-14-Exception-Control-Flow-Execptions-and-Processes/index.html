@@ -110,7 +110,7 @@
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/controlflow.png">
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/contextswithching.png">
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/processmemory.png">
-<meta property="og:updated_time" content="2017-07-18T11:45:54.126Z">
+<meta property="og:updated_time" content="2017-08-29T21:28:45.166Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【CSAPP笔记】14. 异常控制流和进程">
 <meta name="twitter:description" content="从给处理器加电，到断电为止，处理器做的工作其实就是不断地读取并执行一条条指令。这些指令的序列就叫做 CPU 的控制流（control flow）。最简单的控制流是“平滑的”，也就是相邻的指令在存储器中是相邻的。当然，控制流不总是平滑的，不总是一条接一条地执行，总会有出现改变控制流的情况。我们知道的程序内部状态改变的机制有两条：  跳转和分支 调用和返回  这些机制局限于程序本身的控制。当系统状态（">
@@ -507,7 +507,7 @@
 </ol>
 <p>所有的系统都有某种产生周期性定时器中断的机制，典型的就是每 1 毫秒或每 10 毫秒，内核判定某个进程已经运行了足够长的时间，要切换到另一个进程运行。</p>
 <h2 id="进程地址空间"><a href="#进程地址空间" class="headerlink" title="进程地址空间"></a>进程地址空间</h2><p><img src="http://osax8w13y.bkt.clouddn.com/processmemory.png" alt=""></p>
-<p>在逻辑控制流中我们可以看到，整个过程中，CPU 交替执行不同的进程，而每个进程的内存大致都长一个样子。虚拟内存系统会负责管理地址空间，进程也给程序提供一种假象，好想、像它独占使用系统的地址空间。</p>
+<p>在逻辑控制流中我们可以看到，整个过程中，CPU 交替执行不同的进程，而每个进程的内存大致都长一个样子。虚拟内存系统会负责管理地址空间，进程也给程序提供一种假象，好像它独占使用系统的地址空间。</p>
 <h1 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h1><ul>
 <li><a href="https://zh.wikipedia.org/wiki/%E8%A1%8C%E7%A8%8B" target="_blank" rel="external">wiki</a></li>
 <li><a href="http://blog.csdn.net/u014563989/article/details/53574118" target="_blank" rel="external">进程相关函数简单总结</a></li>
