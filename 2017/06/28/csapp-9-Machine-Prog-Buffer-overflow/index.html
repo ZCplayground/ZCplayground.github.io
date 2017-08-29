@@ -103,7 +103,7 @@
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/4.png">
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/2.png">
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/3.png">
-<meta property="og:updated_time" content="2017-06-29T09:03:57.829Z">
+<meta property="og:updated_time" content="2017-08-27T11:04:31.233Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【CSAPP笔记】9. 汇编语言——缓冲区溢出">
 <meta name="twitter:description" content="x86-64 Linux 内存结构先来看看一个程序在内存中是如何组织的。Linux 为每个进程维持了一段单独的虚拟地址空间。（进程是计算机科学中很深刻、很成功的一个概念。当我们在运行一个程序时，会得到一个假象，好像我们的程序是系统当中运行的唯一程序，独占存储器和处理器资源。）   最上面是栈（stack），一般用来保存局部变量，有 8 MB 的大小限制，因此不建议在函数内开大数组，递归的效率低是因">
@@ -438,7 +438,7 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">int main()</div><div class="line">&#123;</div><div class="line">    int local;</div><div class="line">    printf(&quot;local at %p\n&quot;, &amp;local);</div><div class="line">    return 0;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>书本上做了一个实验：在 32 位 Linux 系统上运行上述代码一万次，得到的地址空间变化范围是 <code>0xff7fa7e0 ~ 0xffffd7e0</code>，这段范围的大小约为 $ 2^{23} $。</p>
 <p>在 Linux 上，栈随机化已经是标准行为。栈随机化是一大类技术中的一种，称为<strong>地址空间布局随机化</strong>（Address-Space Layout Randomization）。采用此技术，每次运行程序时的不同部分，包括程序代码、共享库、堆、栈、全局变量，都会被加载到存储器的不同区域。这意味着一台机器上运行一个程序，与在其他机器上运行同样的程序，它的地址映射会大相径庭。</p>
-<p>然而，一个执著的攻击者可以通过暴力来克服随机化。一种常见的把戏就是在代码开头插入很长的一段 no operation 代码，这段代码除了让程序计数器加一，指向下一条指令外，没有任何效果。攻击者要做的就是猜中栈地址变化序列中的某个地址，程序经过这个序列时，会“滑过”这段代码，达到攻击代码。就会例如上面这段大小为 $ 2^23 $ 的范围，某黑客有一段 128 字节的缓冲区溢出攻击代码，此黑客想要穷尽所有的起始地址，他需要尝试的次数是 $ \frac{2^{23}}{128}/ = 2^{17} $ ，也就是说他需要大约十三万次攻击就可以穷尽所有的地址。</p>
+<p>然而，一个执著的攻击者可以通过暴力来克服随机化。一种常见的把戏就是在代码开头插入很长的一段 no operation 代码，这段代码除了让程序计数器加一，指向下一条指令外，没有任何效果。攻击者要做的就是猜中栈地址变化序列中的某个地址，程序经过这个序列时，会“滑过”这段代码，达到攻击代码。就会例如上面这段大小为 $ 2^{23} $ 的范围，某黑客有一段 128 字节的缓冲区溢出攻击代码，此黑客想要穷尽所有的起始地址，他需要尝试的次数是 $ \frac{2^{23}}{128} = 2^{17} $ ，也就是说他需要大约十三万次攻击就可以穷尽所有的地址。</p>
 <h2 id="栈破坏检测：金丝雀"><a href="#栈破坏检测：金丝雀" class="headerlink" title="栈破坏检测：金丝雀"></a>栈破坏检测：金丝雀</h2><p>第二道防线是应该要有检测能力，检测到栈被破坏了。C语言中，没有可靠的方法来防止对数组的越界写。但我们能够在发生了越界写之前，还没来得及发生有害后果之前，尝试检测到它。做法就是在任何的缓冲区和其他栈部分之间插入一个特殊的金丝雀（canary）值，也叫哨兵（guard），是程序每次运行时随机产生的，攻击者很难知道它是什么。在程序恢复寄存器、从函数返回之前，检查金丝雀的值是否被改变，如果是，那么程序将异常终止。</p>
 <p>金丝雀源于历史上用这种鸟在煤矿中察觉有毒的气体。（有点意思）</p>
 <h2 id="限制可执行代码区域"><a href="#限制可执行代码区域" class="headerlink" title="限制可执行代码区域"></a>限制可执行代码区域</h2><p>限制可以存放可执行代码的存储器区域。一般来说，只有编译器产生的代码的那部分存储器才需要是可执行的。其他部分可以限制为只允许读和写。然而这些机制往往会带来严重的性能损失。</p>
