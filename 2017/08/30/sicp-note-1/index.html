@@ -100,7 +100,7 @@
 <meta property="og:site_name" content="ZCplayground">
 <meta property="og:description" content="最近开始看被形容为计算机界的“圣经”的一本 MIT 计算机科学入门课的教材 SICP ，计算机程序的构造和解释（Structue and Interpretation of Computer Programs）。我这次不打算像读《CSAPP》那样整本书看完再进行整理，而是想在阅读这本书的过程中不断地记录读书时的感想，重要的概念，有意思的习题等等……便于给自己查缺补漏，另一方面等到时过境迁，回头看">
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/o_sicp-cover.jpg">
-<meta property="og:updated_time" content="2017-08-30T00:32:47.706Z">
+<meta property="og:updated_time" content="2017-09-17T00:27:35.454Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="计算机程序的构造与解释——笔记1">
 <meta name="twitter:description" content="最近开始看被形容为计算机界的“圣经”的一本 MIT 计算机科学入门课的教材 SICP ，计算机程序的构造和解释（Structue and Interpretation of Computer Programs）。我这次不打算像读《CSAPP》那样整本书看完再进行整理，而是想在阅读这本书的过程中不断地记录读书时的感想，重要的概念，有意思的习题等等……便于给自己查缺补漏，另一方面等到时过境迁，回头看">
@@ -393,6 +393,7 @@
 <hr>
 <h1 id="范围"><a href="#范围" class="headerlink" title="范围"></a>范围</h1><p>第一章 构造过程抽象</p>
 <p>1.1.1 ~ 1.1.5 节，P1-13</p>
+<p><strong>keywords</strong>: 计算过程、程序设计的基本元素（基本/组合/抽象）、应用序、正则序</p>
 <h1 id="笔记"><a href="#笔记" class="headerlink" title="笔记"></a>笔记</h1><blockquote>
 <p>（本书序）每一个计算机程序都是现实中的或者精神中的某个过程的一个模型，通过人的头脑孵化出来……数量上数不胜数，详情琐碎繁杂……我们很少通过自己的程序将这种过程模拟到永远令人满意的程度。正因为如此……就需要去修改程序，直到这一模型最终达到了一种亚稳定状态。而在这时，就又会出现另一个需要我们去为之奋斗的模型……<strong>如果说艺术解释了我们的梦想，那么计算机就是在以程序的名义执行它们。</strong></p>
 <p>（第一版前言）我们所设计的这门计算机科学导引课程……首先，我们希望建立起一种看法：<strong>一个计算机语言并不仅仅是让计算机去执行操作的一种方式</strong>，更重要的，它是一种表述有关方法学的思想的新颖的形式化媒介。因此，<strong>程序必须写的能够供人们阅读，偶尔地取供计算机执行。</strong>……我们的目标是，使完成了这一科目的学生能对<strong>程序设计的风格要素</strong>和<strong>审美观</strong>有一种很好的感觉。……这些技能不仅仅适用于计算机程序设计，对于所有的工程设计都是通用的。</p>
@@ -408,6 +409,7 @@
 <li>组合的方法，从较简单的东西出发，构造复合的元素。（结构体）</li>
 <li>抽象的方法，为复合对象命名，将它们当成简单的单元去操作。（函数）</li>
 </ol>
+<hr>
 <ul>
 <li><p>1.1.1 讲了 Scheme 的表达式和求值。</p>
 </li>
@@ -430,7 +432,7 @@
 </ol>
 </li>
 </ul>
-<p>对于可以产生合法的应用，可以证明两种方法的结果是一样的。但下面就给出了一个反例。</p>
+<p>对于可以产生合法的应用，可以证明两种方法的结果是一样的。Lisp 采用的是应用序求值，是因为正则序可能多次求同样的算式导致重复计算的工作。但下面就给出了一个反例：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">(define (p) (p))</div><div class="line">(define (test x y) </div><div class="line">    (if (= x 0)</div><div class="line">        0</div><div class="line">        y))</div><div class="line"></div><div class="line">(test 0 (p))</div></pre></td></tr></table></figure>
 <p>对于正则序，不断展开，展开成</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">(if(= 0 0) 0 (p))</div></pre></td></tr></table></figure>
@@ -556,7 +558,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">42</span>
+                <span class="site-state-item-count">43</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
