@@ -93,16 +93,19 @@
 
 
 
-<meta name="description" content="当编写成员函数或独立函数返回对象时，通常有这几种选择：返回指向对象的引用、返回指向对象的const引用、返回对象、返回const对象。下面进行讨论。 返回指向const对象的引用使用const引用的常见原因是提高效率。是因为能返回对象的引用的函数，也可以返回对象来实现。返回对象会导致调用复制构造函数，而返回引用就不会。因此，返回引用做的工作更少，效率更高。 返回指向对象的引用有一个要求，就是指向的">
+<meta name="description" content="范围第一章 构造过程抽象 1.3 节，用高阶函数做抽象。P37 - 48 keywords：过程作为参数、lambda 演算子 笔记1.3.1 过程作为参数我们可以用 define 对一些过程做抽象。例如下面这个求立方： 123456(* 3 3 3)(* y y y)抽象为：(define (cube x) (* x x x)) 这一章我们将看见一种更高级的过程抽象。通过 define 产生的过">
 <meta property="og:type" content="article">
-<meta property="og:title" content="C++学习之传递和返回对象">
-<meta property="og:url" content="http://yoursite.com/2017/06/07/Passing-and-Returing-Objects/index.html">
+<meta property="og:title" content="计算机程序的构造与解释——高阶函数做抽象">
+<meta property="og:url" content="http://yoursite.com/2017/10/11/sicp-note-4/index.html">
 <meta property="og:site_name" content="ZCplayground">
-<meta property="og:description" content="当编写成员函数或独立函数返回对象时，通常有这几种选择：返回指向对象的引用、返回指向对象的const引用、返回对象、返回const对象。下面进行讨论。 返回指向const对象的引用使用const引用的常见原因是提高效率。是因为能返回对象的引用的函数，也可以返回对象来实现。返回对象会导致调用复制构造函数，而返回引用就不会。因此，返回引用做的工作更少，效率更高。 返回指向对象的引用有一个要求，就是指向的">
-<meta property="og:updated_time" content="2017-06-07T11:17:10.933Z">
+<meta property="og:description" content="范围第一章 构造过程抽象 1.3 节，用高阶函数做抽象。P37 - 48 keywords：过程作为参数、lambda 演算子 笔记1.3.1 过程作为参数我们可以用 define 对一些过程做抽象。例如下面这个求立方： 123456(* 3 3 3)(* y y y)抽象为：(define (cube x) (* x x x)) 这一章我们将看见一种更高级的过程抽象。通过 define 产生的过">
+<meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/%E8%BF%87%E7%A8%8B%E5%8F%82%E6%95%B0.png">
+<meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/lambda.png">
+<meta property="og:updated_time" content="2017-10-11T07:32:33.035Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="C++学习之传递和返回对象">
-<meta name="twitter:description" content="当编写成员函数或独立函数返回对象时，通常有这几种选择：返回指向对象的引用、返回指向对象的const引用、返回对象、返回const对象。下面进行讨论。 返回指向const对象的引用使用const引用的常见原因是提高效率。是因为能返回对象的引用的函数，也可以返回对象来实现。返回对象会导致调用复制构造函数，而返回引用就不会。因此，返回引用做的工作更少，效率更高。 返回指向对象的引用有一个要求，就是指向的">
+<meta name="twitter:title" content="计算机程序的构造与解释——高阶函数做抽象">
+<meta name="twitter:description" content="范围第一章 构造过程抽象 1.3 节，用高阶函数做抽象。P37 - 48 keywords：过程作为参数、lambda 演算子 笔记1.3.1 过程作为参数我们可以用 define 对一些过程做抽象。例如下面这个求立方： 123456(* 3 3 3)(* y y y)抽象为：(define (cube x) (* x x x)) 这一章我们将看见一种更高级的过程抽象。通过 define 产生的过">
+<meta name="twitter:image" content="http://osax8w13y.bkt.clouddn.com/%E8%BF%87%E7%A8%8B%E5%8F%82%E6%95%B0.png">
 
 
 
@@ -130,13 +133,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/06/07/Passing-and-Returing-Objects/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/10/11/sicp-note-4/"/>
 
 
 
 
 
-  <title>C++学习之传递和返回对象 | ZCplayground</title>
+  <title>计算机程序的构造与解释——高阶函数做抽象 | ZCplayground</title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -276,7 +279,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/07/Passing-and-Returing-Objects/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/10/11/sicp-note-4/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="ZC">
@@ -293,7 +296,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">C++学习之传递和返回对象</h1>
+          <h1 class="post-title" itemprop="name headline">计算机程序的构造与解释——高阶函数做抽象</h1>
         
 
         <div class="post-meta">
@@ -305,8 +308,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-07T19:14:11+08:00">
-                2017-06-07
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-11T11:09:43+08:00">
+                2017-10-11
               </time>
             
 
@@ -328,8 +331,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Cpp/" itemprop="url" rel="index">
-                    <span itemprop="name">Cpp</span>
+                  <a href="/categories/SICP/" itemprop="url" rel="index">
+                    <span itemprop="name">SICP</span>
                   </a>
                 </span>
 
@@ -345,7 +348,7 @@
 
           
           
-             <span id="/2017/06/07/Passing-and-Returing-Objects/" class="leancloud_visitors" data-flag-title="C++学习之传递和返回对象">
+             <span id="/2017/10/11/sicp-note-4/" class="leancloud_visitors" data-flag-title="计算机程序的构造与解释——高阶函数做抽象">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -373,21 +376,29 @@
       
 
       
-        <p>当编写成员函数或独立函数返回对象时，通常有这几种选择：返回指向对象的引用、返回指向对象的const引用、返回对象、返回const对象。下面进行讨论。</p>
-<h1 id="返回指向const对象的引用"><a href="#返回指向const对象的引用" class="headerlink" title="返回指向const对象的引用"></a>返回指向const对象的引用</h1><p>使用const引用的常见原因是提高效率。是因为能返回对象的引用的函数，也可以返回对象来实现。返回对象会导致调用复制构造函数，而返回引用就不会。因此，返回引用做的工作更少，效率更高。</p>
-<p>返回指向对象的引用有一个要求，就是指向的对象应该在函数执行期间存在。例如对Vector类编写一个函数Max()，返回两个Vector对象中比较大的一个。则下面两种方法都可行，但第二个版本比较好。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">Vector Max(const Vector &amp; v1, const Vector &amp; v2)</div><div class="line">&#123;</div><div class="line">	if(v1.magval() &gt; v2.magval())</div><div class="line">		return v1;</div><div class="line">	else</div><div class="line">		return v2;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">//better</div><div class="line">const Vector &amp; Max(const Vector &amp; v1, const Vector &amp; v2)</div><div class="line">&#123;</div><div class="line">	if(v1.magval() &gt; v2.magval())</div><div class="line">		return v1;</div><div class="line">	else</div><div class="line">		return v2;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h1 id="按值传递or按引用传递？"><a href="#按值传递or按引用传递？" class="headerlink" title="按值传递or按引用传递？"></a>按值传递or按引用传递？</h1><p>编写使用对象作为参数的函数时，应按引用而不是按值来传递对象。</p>
-<p>原因之一是提高效率，跟返回同样的，如果按值传递对象会涉及到生成临时拷贝、调用复制构造函数、析构函数的步骤，如果按引用传递会使时间的花费少很多。如果函数不修改对象，则应声明参数为const对象引用。</p>
-<p>另外一个原因是如果定义为接受基类引用参数的函数，还能接受派生类引用。</p>
-<h1 id="返回指向非const对象的引用"><a href="#返回指向非const对象的引用" class="headerlink" title="返回指向非const对象的引用"></a>返回指向非const对象的引用</h1><p>两种常见的情形：重载赋值运算符、重载与<code>cout</code>一起使用的<code>&lt;&lt;</code>运算符。前者这样做旨在提高效率，后者则必须这样做。</p>
-<p><code>operator=()</code>的返回值用于连续赋值的话，则返回对象和返回引用都是可行的。但和上面的例子一样，如果返回引用可以免去调用复制构造函数的工作。</p>
-<p><code>operator&lt;&lt;()</code>的返回值用于串接输出，因此返回值必须是一个<code>ostream</code>对象。所以返回值必须是<code>ostream &amp;</code>。如果返回值是<code>ostream</code>，则会要求调用<code>ostream</code>类的复制构造函数，但<code>ostream</code>没有共有的复制构造函数。</p>
-<h1 id="返回对象"><a href="#返回对象" class="headerlink" title="返回对象"></a>返回对象</h1><p>如果返回的对象是被调用函数中的<strong>局部变量</strong>，则<strong>不应按引用方式返回它</strong>，因为被调用函数执行完毕后，局部对象会调用析构函数，控制权回到调用函数时，引用指向的对象将不复存在。通常，被重载的算术运算符属于这种情况。</p>
-<p>Vector类加法：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">Vector Vector::operator+(const Vector &amp; b)const</div><div class="line">&#123;</div><div class="line">	return Vector(x + b.x, y + b.y);</div><div class="line">&#125;</div><div class="line"></div><div class="line">Vector force1(50,60);</div><div class="line">Vector force2(10,70);</div><div class="line">Vector force3;</div><div class="line">force3 = force1 + force2;</div></pre></td></tr></table></figure></p>
-<p>这里返回的不是<code>force1</code>和<code>force2</code>，因为<code>force1</code>和<code>force2</code>在相加的过程中应该本身保持不变，而是返回两个对象的和。函数中应设置一个局部变量来存储计算结果，所以不应该返回指向该临时对象的引用，应该返回对象。</p>
-<h1 id="返回const对象"><a href="#返回const对象" class="headerlink" title="返回const对象"></a>返回const对象</h1><p>可以把<code>Vector::operator+()</code>的返回类型声明为<code>const Vector</code>。这样可以防止错误的使用。比如下面三条错误的写法：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">force1 + force2 = force3;</div><div class="line">cout&lt;&lt;(force1 + force2 = force3).magval() &lt;&lt; endl;</div><div class="line">if(force1 + force2 = force3)</div></pre></td></tr></table></figure></p>
-<h1 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h1><p>• 通常，编写使用对象作为参数的函数，应按照引用传递。<br>• 如果方法或函数需要返回局部对象，则应返回对象<br>• 如果方法或函数需要返回一个没有公有复制构造函数的类（如ostream），则必须返回指向对象的引用<br>• 有些方法和函数既可以返回对象，也可以返回引用，则出于效率方面的考虑应首选返回引用。</p>
+        <h1 id="范围"><a href="#范围" class="headerlink" title="范围"></a>范围</h1><p>第一章 构造过程抽象</p>
+<p>1.3 节，用高阶函数做抽象。P37 - 48</p>
+<p><strong>keywords</strong>：过程作为参数、lambda 演算子</p>
+<h1 id="笔记"><a href="#笔记" class="headerlink" title="笔记"></a>笔记</h1><h2 id="1-3-1-过程作为参数"><a href="#1-3-1-过程作为参数" class="headerlink" title="1.3.1 过程作为参数"></a>1.3.1 过程作为参数</h2><p>我们可以用 define 对一些过程做抽象。例如下面这个求立方：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">(* 3 3 3)</div><div class="line">(* y y y)</div><div class="line"></div><div class="line">抽象为：</div><div class="line"></div><div class="line">(define (cube x) (* x x x))</div></pre></td></tr></table></figure>
+<p>这一章我们将看见一种更高级的过程抽象。通过 define 产生的过程，迫使我们永远只能使用特定的操作，并且要传入参数，而不能基于更高级的操作去工作。</p>
+<p><strong>如果过程只能限制以数为参数，将严重限制我们建立抽象的能力。</strong>因此我们要构造出<strong>以过程为参数、返回过程的高阶过程</strong>，以及 lambda 演算子等技巧。这是强有力的抽象机制，极大的增强了语言的表述能力。下面看看如何将过程作为参数。</p>
+<p>考虑几个计算过程：</p>
+<p><img src="http://osax8w13y.bkt.clouddn.com/%E8%BF%87%E7%A8%8B%E5%8F%82%E6%95%B0.png" alt=""></p>
+<p>在这里可以明显的看出，三个过程中有一种共享的基础模式。（在一段范围内把某种东西累加起来）我们也希望程序语言足够强大，写出一个过程，<strong>表达求和的概念</strong>，而<strong>不是只能写出一种特定的求和过程</strong>。其实就上述三个过程，我们可以从中抽象出一种通式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">(define (sum term a next b))</div><div class="line">    (if (&gt; a b)</div><div class="line">        0</div><div class="line">        (+ (term a)</div><div class="line">            (sum term (next a) next b))))</div></pre></td></tr></table></figure>
+<p><code>sum</code>除了原有的两个参数 a 与 b，增加了<strong>过程参数</strong><code>term</code>和<code>next</code>，可以很简单的看出：<code>term</code>是指对当前数进行一个操作后，再把结果累加。<code>next</code>就是计算下一步的 a 值。</p>
+<p>下面是对原有的代码进行改进的过程，将过程作为了参数。将一个迭代累加的过程抽象成了一个通式，只需要传入过程来控制我们想要的累加形式即可。“抽象”不仅是用 sum-integers、sum-pi 等名字去描述那些过程，还可以从各种 sum 中抽象出更强的抽象：<strong>求和的概念</strong>。厉害厉害！值得一提的是，之前还很轻易地用 C 语言就可以改写的 Scheme 程序，从这里开始就变得难了。因为 C 语言要实现类似的效果，需要传递函数指针。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line">(define (inc n)(+ n 1))</div><div class="line">;Value: inc</div><div class="line">;定义 inc 过程，用作 x++ 的功能</div><div class="line"></div><div class="line">(define (sum term a next b)</div><div class="line">  (if (&gt; a b)</div><div class="line">      0</div><div class="line">      (+ (term a)(sum term (next a)next b))))</div><div class="line">;Value: sum</div><div class="line"></div><div class="line">(define (sum-cubes a b)</div><div class="line">  (sum cube a inc b))</div><div class="line">;Value: sum-cubes</div><div class="line"></div><div class="line">(define (cube x)(* x x x))</div><div class="line">;Value: cube</div><div class="line"></div><div class="line">(sum-cubes 1 10)</div><div class="line">;Value: 3025</div><div class="line"></div><div class="line">(define (pi-sum a b)</div><div class="line">  (define (pi-term x)</div><div class="line">    (/ 1.0 (* x (+ x 2))))</div><div class="line">  (define (pi-next x)</div><div class="line">    (+ x 4))</div><div class="line">  (sum pi-term a pi-next b))</div><div class="line">;Value: pi-sum</div><div class="line">;这个式子会收敛于 π/8</div><div class="line"></div><div class="line">(* 8 (pi-sum 1 1000))</div><div class="line">;Value: 3.139592655589783</div></pre></td></tr></table></figure>
+<p>一旦有了 sum ，我们就能用它作为基本构件，去形式化其他概念。例如，求函数 f 在范围 a 和 b 之间的定积分近似值，可以用下面公式去完成：</p>
+<p>$$\int_a^b = {  f(a+\frac{dx}{2}) + f(a+dx+\frac{dx}{2}) + f(a+2dx+\frac{dx}{2}) + … } dx $$</p>
+<p>这个式子的意思：将 x 轴取极小的小块（dx），大括号内的东西是所有长方体的长的累加，乘以 dx 就是积分。利用前面的 sum，我们可以直接描述 integral 过程：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">(define (integral f a b dx)</div><div class="line">  (define (add-dx x)(+ x dx))</div><div class="line">  (* (sum f (+ a (/ dx 2.0)) add-dx b) dx))</div><div class="line">;Value: integral</div><div class="line"></div><div class="line">(integral cube 0 1 0.001)</div><div class="line">;Value: .249999875000001</div></pre></td></tr></table></figure>
+<h2 id="1-3-2-lambda-构造"><a href="#1-3-2-lambda-构造" class="headerlink" title="1.3.2 lambda 构造"></a>1.3.2 lambda 构造</h2><p>在用过程做为参数时，我们不免要定义一些诸如 <code>pi-next</code>、<code>add-dx</code> 这样的过程名。这种做法有些不舒服，这些过程用作高阶函数的参数，它们在 <code>pi-sum</code> 和 <code>integral</code> 过程之外，是没什么用途的。我们可以通过引入一种 <strong>lambda λ 表达式</strong>来完成这种描述。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">;比如 pi-sum 可以这么写：</div><div class="line">(lambda (x) (+ x 4))</div></pre></td></tr></table></figure>
+<p>lambda 创建过程的语法和 define 是一样的，只不过 lambda 不为过程提供一个名字。</p>
+<p>可以以如下方法来阅读 lambda 语句：</p>
+<p><img src="http://osax8w13y.bkt.clouddn.com/lambda.png" alt=""></p>
 
       
     </div>
@@ -424,8 +435,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/06/07/Dynamic-memory-allocation/" rel="next" title="C++学习之类与动态内存分配">
-                <i class="fa fa-chevron-left"></i> C++学习之类与动态内存分配
+              <a href="/2017/09/17/sicp-note-3/" rel="next" title="计算机程序的构造与解释——过程的“形状”">
+                <i class="fa fa-chevron-left"></i> 计算机程序的构造与解释——过程的“形状”
               </a>
             
           </div>
@@ -433,10 +444,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/06/07/Simple-Public-Inheritance/" rel="prev" title="C++学习之简单的公有继承">
-                C++学习之简单的公有继承 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -556,7 +563,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#返回指向const对象的引用"><span class="nav-number">1.</span> <span class="nav-text">返回指向const对象的引用</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#按值传递or按引用传递？"><span class="nav-number">2.</span> <span class="nav-text">按值传递or按引用传递？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#返回指向非const对象的引用"><span class="nav-number">3.</span> <span class="nav-text">返回指向非const对象的引用</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#返回对象"><span class="nav-number">4.</span> <span class="nav-text">返回对象</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#返回const对象"><span class="nav-number">5.</span> <span class="nav-text">返回const对象</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结："><span class="nav-number">6.</span> <span class="nav-text">总结：</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#范围"><span class="nav-number">1.</span> <span class="nav-text">范围</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#笔记"><span class="nav-number">2.</span> <span class="nav-text">笔记</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3-1-过程作为参数"><span class="nav-number">2.1.</span> <span class="nav-text">1.3.1 过程作为参数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3-2-lambda-构造"><span class="nav-number">2.2.</span> <span class="nav-text">1.3.2 lambda 构造</span></a></li></ol></li></ol></div>
             
 
           </div>
@@ -840,6 +847,26 @@
   
 
   
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
   
 
 
