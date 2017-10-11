@@ -93,19 +93,19 @@
 
 
 
-<meta name="description" content="范围第一章 构造过程抽象 1.2 节，过程和它们所产生的计算。考察计算过程的局部演化方式，研究计算过程消耗资源（时间和空间资源）的速率。P20 - 37 keywords：线性递归、迭代、树形递归、增长的阶、概率算法 算法：斐波那契数列、利用三倍角公式求正弦、分治法求幂、辗转相除法求GCD、费马小定理检查测素数 笔记 我们已经考虑了程序设计的基本要素：基本算术操作、组合这些基本操作定义符合过程、对">
+<meta name="description" content="范围第一章 构造过程抽象 1.2 节，过程和它们所产生的计算。考察计算过程的局部演化方式，研究计算过程消耗资源（时间和空间资源）的速率。P20 - 37 keywords：线性递归、迭代、树形递归、增长的阶、概率算法 算法：斐波那契数列、利用三倍角公式求正弦、分治法求幂、辗转相除法求GCD、费马小定理检查测质数 笔记 我们已经考虑了程序设计的基本要素：基本算术操作、组合这些基本操作定义符合过程、对">
 <meta property="og:type" content="article">
-<meta property="og:title" content="计算机程序的构造与解释——笔记2">
+<meta property="og:title" content="计算机程序的构造与解释——过程的“形状”">
 <meta property="og:url" content="http://yoursite.com/2017/09/17/sicp-note-3/index.html">
 <meta property="og:site_name" content="ZCplayground">
-<meta property="og:description" content="范围第一章 构造过程抽象 1.2 节，过程和它们所产生的计算。考察计算过程的局部演化方式，研究计算过程消耗资源（时间和空间资源）的速率。P20 - 37 keywords：线性递归、迭代、树形递归、增长的阶、概率算法 算法：斐波那契数列、利用三倍角公式求正弦、分治法求幂、辗转相除法求GCD、费马小定理检查测素数 笔记 我们已经考虑了程序设计的基本要素：基本算术操作、组合这些基本操作定义符合过程、对">
+<meta property="og:description" content="范围第一章 构造过程抽象 1.2 节，过程和它们所产生的计算。考察计算过程的局部演化方式，研究计算过程消耗资源（时间和空间资源）的速率。P20 - 37 keywords：线性递归、迭代、树形递归、增长的阶、概率算法 算法：斐波那契数列、利用三倍角公式求正弦、分治法求幂、辗转相除法求GCD、费马小定理检查测质数 笔记 我们已经考虑了程序设计的基本要素：基本算术操作、组合这些基本操作定义符合过程、对">
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/Linear%20recursion.png">
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/Linear%20iteration.png">
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/Tree%20recursion.png">
-<meta property="og:updated_time" content="2017-09-17T09:13:41.771Z">
+<meta property="og:updated_time" content="2017-10-11T03:08:55.030Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="计算机程序的构造与解释——笔记2">
-<meta name="twitter:description" content="范围第一章 构造过程抽象 1.2 节，过程和它们所产生的计算。考察计算过程的局部演化方式，研究计算过程消耗资源（时间和空间资源）的速率。P20 - 37 keywords：线性递归、迭代、树形递归、增长的阶、概率算法 算法：斐波那契数列、利用三倍角公式求正弦、分治法求幂、辗转相除法求GCD、费马小定理检查测素数 笔记 我们已经考虑了程序设计的基本要素：基本算术操作、组合这些基本操作定义符合过程、对">
+<meta name="twitter:title" content="计算机程序的构造与解释——过程的“形状”">
+<meta name="twitter:description" content="范围第一章 构造过程抽象 1.2 节，过程和它们所产生的计算。考察计算过程的局部演化方式，研究计算过程消耗资源（时间和空间资源）的速率。P20 - 37 keywords：线性递归、迭代、树形递归、增长的阶、概率算法 算法：斐波那契数列、利用三倍角公式求正弦、分治法求幂、辗转相除法求GCD、费马小定理检查测质数 笔记 我们已经考虑了程序设计的基本要素：基本算术操作、组合这些基本操作定义符合过程、对">
 <meta name="twitter:image" content="http://osax8w13y.bkt.clouddn.com/Linear%20recursion.png">
 
 
@@ -140,7 +140,7 @@
 
 
 
-  <title>计算机程序的构造与解释——笔记2 | ZCplayground</title>
+  <title>计算机程序的构造与解释——过程的“形状” | ZCplayground</title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -297,7 +297,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">计算机程序的构造与解释——笔记2</h1>
+          <h1 class="post-title" itemprop="name headline">计算机程序的构造与解释——过程的“形状”</h1>
         
 
         <div class="post-meta">
@@ -349,7 +349,7 @@
 
           
           
-             <span id="/2017/09/17/sicp-note-3/" class="leancloud_visitors" data-flag-title="计算机程序的构造与解释——笔记2">
+             <span id="/2017/09/17/sicp-note-3/" class="leancloud_visitors" data-flag-title="计算机程序的构造与解释——过程的“形状”">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -380,16 +380,14 @@
         <h1 id="范围"><a href="#范围" class="headerlink" title="范围"></a>范围</h1><p>第一章 构造过程抽象</p>
 <p>1.2 节，过程和它们所产生的计算。考察计算过程的局部演化方式，研究计算过程消耗资源（时间和空间资源）的速率。P20 - 37</p>
 <p><strong>keywords</strong>：线性递归、迭代、树形递归、增长的阶、概率算法</p>
-<p><strong>算法</strong>：斐波那契数列、利用三倍角公式求正弦、分治法求幂、辗转相除法求GCD、费马小定理检查测素数</p>
+<p><strong>算法</strong>：斐波那契数列、利用三倍角公式求正弦、分治法求幂、辗转相除法求GCD、费马小定理检查测质数</p>
 <h1 id="笔记"><a href="#笔记" class="headerlink" title="笔记"></a>笔记</h1><ul>
 <li><p>我们已经考虑了程序设计的基本要素：基本算术操作、组合这些基本操作定义符合过程、对复合过程进行抽象。即使知道了这些，我们还不能说已经理解了如何去编程序。这个阶段就好像在学下象棋，知道了每个棋子的移动规则，但却还不知道基本的开局、战术和策略。</p>
 </li>
 <li><p>像初学象棋者一样，我们还不知道编程领域中各种有用的常见模式。要想成为专家，我们就需要去学习看清不同的过程会产生什么样子的计算过程，考察一些过程产生的计算过程的<strong>局部演化方式</strong>，也可以说是<strong>形状</strong>。还将研究这些计算过程消耗的时间和空间资源。</p>
 </li>
-<li><p>1.2.1 线性递归和迭代</p>
-</li>
 </ul>
-<blockquote>
+<h2 id="1-2-1-线性递归和迭代"><a href="#1-2-1-线性递归和迭代" class="headerlink" title="1.2.1 线性递归和迭代"></a>1.2.1 线性递归和迭代</h2><blockquote>
 <p>“如果有程序员用递归写阶乘，我直接把他开除。” —— 好像是在某人代码大全读书笔记上看到的片段</p>
 </blockquote>
 <p>递归计算阶乘：</p>
@@ -421,10 +419,7 @@
 <li><strong>尾递归</strong>，通常被视为一种编译技巧。即：递归调用都在每次函数调用的尾部，可以被编译器优化成迭代。</li>
 </ul>
 <hr>
-<ul>
-<li>1.2.2 树形递归</li>
-</ul>
-<p>求斐波那契数列<code>Fib(n)</code>，如果采用最基础的定义翻译过来的递归过程：</p>
+<h2 id="1-2-2-树形递归"><a href="#1-2-2-树形递归" class="headerlink" title="1.2.2 树形递归"></a>1.2.2 树形递归</h2><p>求斐波那契数列<code>Fib(n)</code>，如果采用最基础的定义翻译过来的递归过程：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">(define (fib n)</div><div class="line">  (cond ((= n 0) 0)</div><div class="line">	((= n 1) 1)</div><div class="line">	(else (+ (fib (- n 1))</div><div class="line">		 (fib (- n 2))))))</div><div class="line">;Value: fib</div><div class="line"></div><div class="line">(fib 5)</div><div class="line">;Value: 5</div></pre></td></tr></table></figure>
 <p>会产生<strong>树形递归</strong>，每个调用中两次递归调用了自身。这是一种很糟糕的方式，因为做了过多的冗余计算。</p>
 <p><img src="http://osax8w13y.bkt.clouddn.com/Tree%20recursion.png" alt=""></p>
@@ -433,19 +428,27 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">(define (fib n)</div><div class="line">  (fib-iter 1 0 n))</div><div class="line">;Value: fib</div><div class="line"></div><div class="line">(define (fib-iter a b count)</div><div class="line">  (if (= count 0)</div><div class="line">      b</div><div class="line">      (fib-iter (+ a b) a (- count 1))))</div><div class="line">;Value: fib-iter</div><div class="line"></div><div class="line">(fib 5)</div><div class="line">;Value: 5</div></pre></td></tr></table></figure>
 <hr>
 <ul>
-<li>1.2.3 增长的阶</li>
+<li><p>1.2.3 增长的阶</p>
+</li>
+<li><p>不同的计算过程在计算资源的消耗上存在巨大差异。这里略微复习到算法与数据结构中复杂度的知识。</p>
+</li>
 </ul>
 <hr>
-<ul>
-<li>1.2.4 分治法求幂</li>
-</ul>
+<h2 id="1-2-4-分治法求幂"><a href="#1-2-4-分治法求幂" class="headerlink" title="1.2.4 分治法求幂"></a>1.2.4 分治法求幂</h2><p>求 b 的 n 次方。如果将 n 个 b 连乘，复杂度是 θ(n)，但有更少步数求幂的方法。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">b^n = b^(n/2) * b^(n/2)   # n 是偶数</div><div class="line">b^n = b * b^(n-1)         # n 是奇数</div><div class="line">b^n = 1                   # n == 0</div></pre></td></tr></table></figure>
+<p>可以把复杂度从 θ(n) 降到  θ(log n)</p>
 <hr>
-<ul>
-<li>1.2.5 最大公约数</li>
-</ul>
+<h2 id="1-2-5-最大公约数"><a href="#1-2-5-最大公约数" class="headerlink" title="1.2.5 最大公约数"></a>1.2.5 最大公约数</h2><p>r 如果是 a 除以 b 的余数，那么 a 与 b 的公约数正好也是 b 与 r 的公约数。</p>
+<p>GCD(a, b) = GCD(b, r)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">(define (gcd a b)</div><div class="line">  (if (= b 0)</div><div class="line">      a</div><div class="line">      (gcd b (remainder a b))))</div><div class="line">;Value: gcd</div><div class="line"></div><div class="line">(gcd 16 28)</div><div class="line">;Value: 4</div></pre></td></tr></table></figure>
+<p><code>remainder</code> 是基础过程，求余。</p>
 <hr>
+<h2 id="1-2-6-用费马检查来进行质数检测"><a href="#1-2-6-用费马检查来进行质数检测" class="headerlink" title="1.2.6 用费马检查来进行质数检测"></a>1.2.6 用费马检查来进行质数检测</h2><p>基本方法：检测 n 是不是质数，从 1 到 根号 n 之间检查因子。需要 θ(根号n) 的复杂度。但有比此更快的 θ(log n) 的方法。是基于数论中著名的<strong>费马小定理</strong>的结果。</p>
+<p>假如a是整数，n是质数，且a,n互质（即两者只有一个公约数1），那么a的(n-1)次方除以n的余数恒等于1。<code>a^(n-1) mod n == 1</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">例如，5是质数，费马检查的过程是：</div><div class="line"></div><div class="line">取一个与 n = 5 互质的整数，例如 a = 3</div><div class="line"></div><div class="line">3 的 4 次方为 81 ，除以 n 的余数为 1。</div><div class="line">再取 a = 2, 2 的 4 次方为 16，除以 n 的余数依然为 1。</div><div class="line"></div><div class="line">…………</div></pre></td></tr></table></figure>
+<p>我们要验证一个数 n 是不是质数，取任意整数 a &lt; n 计算 <code>a^(n-1) mod n</code> 如果不等于 1，那么 n 就肯定不是质数。如果等于 1，就对 n 是质数有了信心，再通过检查更多的 a 值，我们就可以不断确信 n 是一个质数。这个方法叫做<strong>费马检查</strong>，是有名的<strong>概率算法</strong>。虽然说有一些能够骗过费马检查的整数，由于这些数很罕见，因此费马检查还是很可靠的。</p>
 <ul>
-<li>1.2.6 实例：素数检测</li>
+<li>最惊人的应用是在密码学中，对于 200 位长度的因数分解在计算上还是不现实的，但费马检查可以在很短的时间内判断这个数的素性。</li>
 </ul>
 
       
@@ -483,8 +486,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/09/16/sicp-note-2/" rel="next" title="计算机程序的构造与解释——笔记2">
-                <i class="fa fa-chevron-left"></i> 计算机程序的构造与解释——笔记2
+              <a href="/2017/09/16/sicp-note-2/" rel="next" title="计算机程序的构造与解释——过程结构">
+                <i class="fa fa-chevron-left"></i> 计算机程序的构造与解释——过程结构
               </a>
             
           </div>
@@ -611,7 +614,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#范围"><span class="nav-number">1.</span> <span class="nav-text">范围</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#笔记"><span class="nav-number">2.</span> <span class="nav-text">笔记</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#范围"><span class="nav-number">1.</span> <span class="nav-text">范围</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#笔记"><span class="nav-number">2.</span> <span class="nav-text">笔记</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-1-线性递归和迭代"><span class="nav-number">2.1.</span> <span class="nav-text">1.2.1 线性递归和迭代</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-2-树形递归"><span class="nav-number">2.2.</span> <span class="nav-text">1.2.2 树形递归</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-4-分治法求幂"><span class="nav-number">2.3.</span> <span class="nav-text">1.2.4 分治法求幂</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-5-最大公约数"><span class="nav-number">2.4.</span> <span class="nav-text">1.2.5 最大公约数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-6-用费马检查来进行质数检测"><span class="nav-number">2.5.</span> <span class="nav-text">1.2.6 用费马检查来进行质数检测</span></a></li></ol></li></ol></div>
             
 
           </div>
