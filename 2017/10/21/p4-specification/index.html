@@ -1,0 +1,927 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="P416语言规范版本1.0.0P4语言联盟2017年5月22日 abstractP4是用于编程网络设备的数据平面的语言。 本文档提供了P416语言的精确定义，这是P4版本的版本http：// p4。org。 本文档的目标受众包括希望为P4程序编写编译器，模拟器，IDE和调试器的开发人员。 对于有兴趣了解更深层次语言语法和语义的P4程序员而言，本文档也可能引起关注。 1.范围本规范文件定义了P416">
+<meta property="og:type" content="article">
+<meta property="og:title" content="p4-specification">
+<meta property="og:url" content="http://yoursite.com/2017/10/21/p4-specification/index.html">
+<meta property="og:site_name" content="ZCplayground">
+<meta property="og:description" content="P416语言规范版本1.0.0P4语言联盟2017年5月22日 abstractP4是用于编程网络设备的数据平面的语言。 本文档提供了P416语言的精确定义，这是P4版本的版本http：// p4。org。 本文档的目标受众包括希望为P4程序编写编译器，模拟器，IDE和调试器的开发人员。 对于有兴趣了解更深层次语言语法和语义的P4程序员而言，本文档也可能引起关注。 1.范围本规范文件定义了P416">
+<meta property="og:updated_time" content="2017-10-21T04:28:17.479Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="p4-specification">
+<meta name="twitter:description" content="P416语言规范版本1.0.0P4语言联盟2017年5月22日 abstractP4是用于编程网络设备的数据平面的语言。 本文档提供了P416语言的精确定义，这是P4版本的版本http：// p4。org。 本文档的目标受众包括希望为P4程序编写编译器，模拟器，IDE和调试器的开发人员。 对于有兴趣了解更深层次语言语法和语义的P4程序员而言，本文档也可能引起关注。 1.范围本规范文件定义了P416">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/10/21/p4-specification/"/>
+
+
+
+
+
+  <title>p4-specification | ZCplayground</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">ZCplayground</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/10/21/p4-specification/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ZC">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ZCplayground">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">p4-specification</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-21T12:27:59+08:00">
+                2017-10-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/SDN/" itemprop="url" rel="index">
+                    <span itemprop="name">SDN</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/10/21/p4-specification/" class="leancloud_visitors" data-flag-title="p4-specification">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>P416语言规范<br>版本1.0.0<br>P4语言联盟<br>2017年5月22日</p>
+<h1 id="abstract"><a href="#abstract" class="headerlink" title="abstract"></a>abstract</h1><p>P4是用于编程网络设备的数据平面的语言。 本文档提供了P416语言的精确定义，这是P4版本的版本http：// p4。org。 本文档的目标受众包括希望为P4程序编写编译器，模拟器，IDE和调试器的开发人员。 对于有兴趣了解更深层次语言语法和语义的P4程序员而言，本文档也可能引起关注。</p>
+<h1 id="1-范围"><a href="#1-范围" class="headerlink" title="1.范围"></a>1.范围</h1><p>本规范文件定义了P416语言程序的结构和解释。 它定义语言，语义规则和语言一致实现的要求。</p>
+<p>它没有定义：</p>
+<p>在程序包处理系统上编译，加载和执行P4程序的机制，<br>通过一个分组处理系统接收数据并传递给另一个系统的机制，<br>控制平面管理由P4程序定义的匹配动作表和其他有状态对象的机制，<br>P4程序的大小或复杂性，<br>能够提供一致性实现的分组处理系统的最低要求。</p>
+<h1 id="2-术语，定义和符号"><a href="#2-术语，定义和符号" class="headerlink" title="2. 术语，定义和符号"></a>2. 术语，定义和符号</h1><p>在本文档中，将使用以下术语：</p>
+<ul>
+<li>架构（Architecture）：一组P4<strong>可编程组件</strong>及其间的<strong>数据平面接口</strong>。</li>
+<li>控制平面：涉及<strong>数据平面的配置</strong>和配置的一类<strong>算法</strong>和相应的输入和输出数据。</li>
+<li>数据平面：一类<strong>描述数据包处理</strong>系统转换的算法。</li>
+<li>元数据（metadata）：在执行P4程序时生成的<strong>中间数据</strong>。</li>
+<li>分组（packet）：网络分组是由<strong>分组交换网络携带的数据的格式化单元</strong>。<br>-数据包头（header）：数据包<strong>开头的格式化数据</strong>。给定的分组可以包含表示不同网络协议的分组报头序列。</li>
+<li>数据包有效载荷（payload）：数据<strong>包头之后的数据包数据</strong>。</li>
+<li>分组处理系统（packet-process system）：用于处理网络数据包的数据处理系统。通常，分组处理系统实现控制平面和数据平面算法。</li>
+<li>目标（Target）：<strong>能够执行P4程序的分组处理系统</strong>。</li>
+</ul>
+<p>本文件中明确定义的所有术语不应被理解为隐含地涉及其他地方定义的类似术语。相反，本文档中未明确定义的任何术语应根据一般可识别的来源（例如IETF RFC）进行解释。</p>
+<h1 id="3-概述"><a href="#3-概述" class="headerlink" title="3. 概述"></a>3. 概述</h1><p>P4是用于表示分组如何由诸如硬件或软件交换机，网络接口卡，路由器或网络设备的可编程转发元件的数据平面处理的语言。 名称P4：“编程协议无关的数据包处理器”，“Programming Protocol-independent Packet Processors,”  虽然P4最初是为可编程交换机设计的，但其范围已经扩大到涵盖了各种各样的设备。 在本文的其余部分中，我们对所有这些设备使用通用术语目标。</p>
+<p>许多<strong>目标</strong>都实现了控制平面和数据平面。 <strong>P4旨在仅指定目标的数据平面功能</strong>。 P4程序还部分定义了控制平面和数据平面通信的接口，但P4不能用于描述目标的控制平面功能。 在本文的其余部分中，当我们将P4称为“编程目标”时，我们的意思是“编程目标的数据平面”。</p>
+<p>作为目标的具体示例，图1示出了传统的固定功能交换机和P4可编程交换机之间的区别。 在传统的交换机中，制造商定义了数据平面功能。 控制平面通过管理表中的条目（例如路由表），配置专用对象（如 meter）以及处理控制包（例如路由协议包）或异步事件（如链路状态更改或学习）来控制数据平面。</p>
+<p>P4编程交换机与传统交换机的不同之处在于两种基本方式：</p>
+<ol>
+<li><p><strong>数据平面功能不是预先固定的</strong>，而是由P4程序定义的。 数据平面在初始化时被配置，以实现由P4程序描述的功能（由长的红色箭头所示），<strong>并且没有内置的现有网络协议知识。</strong></p>
+</li>
+<li><p>控制平面使用与固定功能设备相同的通道与数据平面进行通信，但是数据平面中的一组表和其他对象不再固定，因为它们由P4程序定义。 <strong>P4编译器生成控制平面用于与数据平面通信的API。</strong></p>
+</li>
+</ol>
+<p>因此，P4可以说是<strong>与协议无关</strong>的，但它使程序员能够表达一组丰富的协议和其他数据平面行为。</p>
+<p>结论：话是说的协议无关，但还是离不开吧？</p>
+<h2 id="P4语言提供的核心抽象是："><a href="#P4语言提供的核心抽象是：" class="headerlink" title="P4语言提供的核心抽象是："></a>P4语言提供的核心抽象是：</h2><ul>
+<li>报头类型（header type） 描述数据包中每个标题的格式（字段集及其大小）。</li>
+<li>解析器（Parser）描述接收到的分组中的 header 的允许序列（permitted sequences），定义如何识别那些报头序列，以及从分组中提取的报头和字段。</li>
+<li>表（table） 将用户定义的键（key）与操作（action）相关联。 P4表是推广自传统交换机表; 它们可用于实现路由表，流查询表，访问控制列表和其他用户定义的表类型，包括复杂的多变量决策。表是执行数据包处理的机制，P4程序定义了在表内可以匹配的字段和可以执行的操作。</li>
+<li>动作（Action）描述数据包头域和元数据如何被操纵的代码片段。 操作可以包括在运行时由控制平面提供的数据。</li>
+<li>匹配动作单元（match-action units）执行以下操作序列：<ul>
+<li>从分组字段或计算的元数据构造查找密钥</li>
+<li>使用构造的键执行表查找，选择要执行的操作（包括相关数据）</li>
+<li>最后，执行所选的操作。</li>
+</ul>
+</li>
+<li>控制流（Control Flow） 表达了一个命令性程序，用于描述目标上的分组处理，包括匹配动作单元调用的数据相关顺序。 分离（分组重组）也可以使用控制流来执行。</li>
+<li>外部对象（Extern objects）是可以由P4程序通过定义良好的API来操作的体系结构，但内部行为是<strong>硬连线</strong>(involving or achieved by permanently connected circuits.)的（例如，校验和单元），因此不能使用P4进行编程。</li>
+<li>元数据（metadata）<ul>
+<li>用户定义（user define）的元数据：与每个数据包相关联的用户定义的数据结构。</li>
+<li>内在（Intrinsic）元数据：由与每个分组相关联的架构提供的元数据，例如 接受 packet的输入端口。</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div></pre></td><td class="code"><pre><div class="line">/********** 报头类型 ************/ </div><div class="line">// 以太网</div><div class="line">header_type ethernet_t &#123; </div><div class="line">    ﬁelds &#123;</div><div class="line">        dst_addr : 48;</div><div class="line">        src_addr : 48;</div><div class="line">        ethertype : 16;	</div><div class="line">    &#125;       	</div><div class="line">&#125;</div><div class="line">header ethernet_t ethernet;</div><div class="line"></div><div class="line">/********** 解析过程 ************/</div><div class="line">// 以太网包头的解析逻辑</div><div class="line"></div><div class="line">parser start </div><div class="line">&#123;</div><div class="line">    return  parse_ethernet;</div><div class="line">&#125;</div><div class="line"></div><div class="line">parser parse_ethernet </div><div class="line">&#123; </div><div class="line">    extract(ethernet)</div><div class="line">    return switch(latest.ethertype) &#123; </div><div class="line">        case 0x8100: parse_vlan; case 0x0800: parse_ipv4;</div><div class="line">// Other cases</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">/*********** “匹配 - 动作” **********/</div><div class="line">#deﬁne  IPV4_LPM_TABLE_SIZE 65536</div><div class="line">table ipv4_ﬁb_lpm &#123; </div><div class="line">    reads &#123;</div><div class="line">        metadata.vrf : exact; </div><div class="line">        ipv4.dstAddr :lpm;</div><div class="line">    &#125;	</div><div class="line">    actions &#123;	</div><div class="line">        on_miss;	</div><div class="line">        ﬁb_hit_nexthop;	</div><div class="line">    &#125;</div><div class="line">    size  : IPV4_LPM_TABLE_SIZE;</div><div class="line">&#125;</div><div class="line">action on_miss() &#123;</div><div class="line">// no op</div><div class="line">&#125;</div><div class="line"></div><div class="line">// 一旦定义好包头、解析器、表和动作，剩下的任务则是指定从一个表到下一个表的控制流。</div><div class="line"></div><div class="line">// example: 数据包首先经过L2转发表(12_fwd)，然后可能经过L3路由表（ipv4_ﬁb_lpm和ipv6_ﬁb_lpm）</div><div class="line"></div><div class="line">control ingress &#123;</div><div class="line">// L2 forwarding apply(l2_fwd);</div><div class="line">// L3 routing apply(router_mac) &#123;</div><div class="line">    hit </div><div class="line">    &#123;</div><div class="line">        if (valid(ipv4)) </div><div class="line">        &#123; </div><div class="line">            apply(ipv4_ﬁb_lpm);</div><div class="line">        &#125; </div><div class="line">        else </div><div class="line">        &#123;</div><div class="line">            if (valid(ipv6)) </div><div class="line">            &#123; </div><div class="line">                apply(ipv6_ﬁb_lpm)</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">// ACL apply(acl);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="编译-P4-程序"><a href="#编译-P4-程序" class="headerlink" title="编译 P4 程序"></a>编译 P4 程序</h2><p>P4编译器本质上是将在P4程序中表达的数据平面的逻辑翻译成一个在特定可编程数据包处理硬件上的具体物理配置。因此，编译器后端部分自然与其支持的硬件目标紧密结合，而其前端部分则可以在各个P4可编程目标之间通用。这就意味着一个P4程序的具体实现可根据被编译的目标而改变。PISA编译器可以从P4程序的包头和解析器定义中导出解析器和重组器的配置。P4采用的状态机概念使得此映射变得相对容易。PISA编译器可以从表、动作和控制流的定义中导出“匹配 - 动作”阶 段的配置。编译器首先分析每个包头字段、元数据和状态对象在表和动作之间的所有依赖关系。基于这个结果，识别出可放置在相同阶段同时运行的表和动作，以及那些由于依赖性而必须顺序执行的表和动作。同时编译器还应考虑到其他由特定目标带来的相关限制，如可用的表内存、计算逻辑单元和携带数据包包头的寄存器等。</p>
+<p>目标制造商提供硬件或软件实现框架，架构定义和该目标的P4编译器。 P4编程人员针对特定架构编写程序，其中定义了目标系统上的一组P4可编程组件以及其外部数据平面接口。</p>
+<p>编译一组P4程序会产生两个工件：</p>
+<ol>
+<li>实现在输入程序中描述的转发逻辑的数据平面配置</li>
+<li>用于从控制平面管理数据平面对象的状态的API</li>
+</ol>
+<p>P4语言旨在实现多种目标（target），包括可编程网络接口卡，FPGA，软件交换机和硬件ASIC。 因此，语言仅限于可以在所有这些平台上高效实现的构造。</p>
+<h2 id="3-1-P4的优点"><a href="#3-1-P4的优点" class="headerlink" title="3.1 P4的优点"></a>3.1 P4的优点</h2><p>与最先进的分组处理系统（例如，基于在定制硬件之上编写微代码）相比，P4提供了许多显着的优点：</p>
+<ul>
+<li>灵活性（Flexibility）：与传统交换机相比，P4使许多数据包转发策略可以表达为程序，这些传统交换机将固定功能的转发引擎暴露给用户。</li>
+<li>表现力（Expressiveness）：P4可以使用通用操作和表查找来表达复杂的，与硬件无关的数据包处理算法。 这些程序在实现相同体系结构的硬件目标（假设有足够的资源可用）上是可移植的。</li>
+<li>资源映射和管理（Resource mapping and management）：P4程序抽象地描述存储资源（例如，IPv4源地址）; 编译器将这些用户定义的字段映射到可用的硬件资源，并管理诸如分配和调度的低级细节。</li>
+<li>软件工程（Software engineering）：P4程序提供重要的好处，如类型检查，信息隐藏和软件重用。</li>
+<li>组件库（Component libraries）：制造商提供的组件库可用于将硬件特定功能包装到便携式高级P4结构中。</li>
+<li>解耦硬件和软件演进（Decoupling hardware and software evolution）：目标制造商可能会使用抽象架构来进一步将低级架构细节的演进与高级处理分离。</li>
+<li>调试（Debugging）：制造商可以提供架构的软件模型，以帮助开发和调试P4程序。</li>
+</ul>
+<h2 id="3-2。-P4语言演变：与以前版本的比较（P4-v1-0-v1-1）"><a href="#3-2。-P4语言演变：与以前版本的比较（P4-v1-0-v1-1）" class="headerlink" title="3.2。 P4语言演变：与以前版本的比较（P4 v1.0 / v1.1）"></a>3.2。 P4语言演变：与以前版本的比较（P4 v1.0 / v1.1）</h2><p>与P414相比，早期版本的语言P416对语言的语法和语义进行了许多重大的，向后不兼容的更改。 从前一版本（P414）到当前版本（P416）的演进如图3所示。特别是，语言中已经消除了大量的语言特性，并将其转移到库中，包括计数器，校验和单元，仪表等。</p>
+<p>因此，语言已经从复杂语言（超过70个关键字）转变为相对较小的核心语言（少于40个关键字，如A部分所示），并附有一个基本构造库，用于编写大多数P4。</p>
+<p>P4的v1.1版本引入了一种称为extern的语言结构，可用于描述库元素。 因此，在v1.1语言规范中定义的许多结构将被转换成这样的库元素（包括从语言中消除的结构，例如计数器和计量表）。 这些外部对象中的一些预期将被标准化，并且它们将在将来描述P4元素标准库的文档的范围内。 在本文中，我们提供了几个extern结构的例子。 P416还介绍并重新使用了一些v1.1语言结构来描述架构的可编程部分。 这些语言结构是：解析器，状态，控件和包。</p>
+<p>外部对象描述了一组由<strong>对象</strong>实现的方法，但<strong>不描述这些方法的实现</strong>（即它类似于面向对象语言中的抽象类）。 例如，以下构造可用于描述增量校验和单元提供的操作：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">extern Checksum16 &#123;</div><div class="line">    Checksum16();              // constructor</div><div class="line">    void clear();              // prepare unit for computation</div><div class="line">    void update&lt;T&gt;(in T data); // add data to checksum</div><div class="line">    void remove&lt;T&gt;(in T data); // remove data from existing checksum</div><div class="line">    bit&lt;16&gt; get(); // get the checksum for the data added since last clear</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>P416语言修订的一个重要目标是提供一个稳定的语言定义。 换句话说，我们努力确保在P416中编写的所有程序在语言的未来版本被视为程序时将保持语法正确，行为相同。 此外，如果将来版本的语言需要反向兼容性，我们将努力为将P416程序迁移到新版本提供一条简单的途径。</p>
+<h1 id="4-架构模型（Architecture-Model）"><a href="#4-架构模型（Architecture-Model）" class="headerlink" title="4. 架构模型（Architecture Model）"></a>4. 架构模型（Architecture Model）</h1><p>P4架构识别P4可编程块（例如，解析器，入口控制流，出口控制流，拆包器等）及其数据平面接口 —— parser, ingress control flow, egress control flow, deparser, etc.) and their data plane interfaces.</p>
+<p>P4架构可以被认为是程序与目标之间的契约。 因此，每个制造商必须为其目标提供P4编译器以及相关架构定义。 （我们预计P4编译器可以共享处理所有架构的通用前端）。 架构定义不必暴露数据平面的整个可编程表面 - 制造商甚至可以选择为同一硬件设备提供多个定义，每个具有不同的功能（例如，具有或不具有多播支持）。</p>
+<p>图4： 它显示一个具有两个<strong>可编程块</strong>（＃1和＃2）的<strong>目标</strong>（target）。 每个块通过P4代码的单独片段进行编程。 目标通过一组控制寄存器或信号与P4程序接口。 输入控件向P4程序提供信息（例如，从数据包接收的输入端口），而P4程序可以写入输出控件以影响目标行为（例如，数据包必须被引导的输出端口）。 控制寄存器/信号在P4中表示为内在元数据。 P4程序还可以存储和操作与每个数据包相关的数据作为用户定义的元数据。</p>
+<p>可以根据<strong>将矢量向量映射到位向量的变换</strong>来完整地描述P4程序的行为。 （The behavior of a P4 program can be fully described in terms of transformations that map vectors of bits to vectors of bits.）</p>
+<p>为了实际处理数据包，架构模型解释了P4程序对固有元数据写入的位。 例如，为了使分组在特定输出端口上转发，P4程序可能需要将输出端口的索引写入专用控制寄存器。 类似地，为了使分组被丢弃，P4程序可能需要将“丢弃”位设置到另一专用控制寄存器中。 请注意，内部元数据如何解释的细节是<strong>架构特定</strong>的。</p>
+<p>P4程序可以调用由外部对象和架构提供的功能实现的服务。 图5描绘了在目标上调用内置校验和计算单元的服务的P4程序。 在P4中没有指定校验和单元的实现，但它有提供一个接口。 通常，外部对象的接口描述了它提供的每个操作，以及它们的参数和返回类型。</p>
+<p>一般来说，P4程序预计不会在不同体系结构中移植。 例如，通过写入自定义控制寄存器来执行广播数据包的P4程序将无法在没有控制寄存器的目标上正常工作。 然而，只要有足够的资源，为某个架构编写的P4程序应该可以移植到所有目标上，忠实地实现相应的模型。</p>
+<p>结论：P4 不是一个比较适合移植的设计？</p>
+<h2 id="4-2-数据平面接口-Data-plane-interfaces"><a href="#4-2-数据平面接口-Data-plane-interfaces" class="headerlink" title="4.2 数据平面接口 Data plane interfaces"></a>4.2 数据平面接口 Data plane interfaces</h2><p>为了描述可以在P4中编程的功能块，该体系结构包括一个类型声明，指定块与架构中其他组件之间的接口。 例如，架构可能包含以下声明：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">control MatchActionPipe&lt;H&gt;(in bit&lt;4&gt; inputPort,</div><div class="line">                           inout H parsedHeaders,</div><div class="line">                           out bit&lt;4&gt; outputPort);</div></pre></td></tr></table></figure>
+<p>control 是一个关键字。</p>
+<p>此类型声明描述了一个名为MatchActionPipe的块，可以使用匹配动作单元（match-action unit）调用和其他命令式构造进行编程。</p>
+<p>由上述声明可以看出：</p>
+<ul>
+<li>第一个参数是一个名为inputPort的4位值。 direction参数：input 表示此参数是输入。<strong>无法修改</strong></li>
+<li>第二个参数是H类的对象，名为parsedHeaders，其中H是一个类型变量，表示将由P4程序员稍后定义的标题。 方向inout表示此参数既是输入又是输出。</li>
+<li>第三个参数是一个名为outputPort的4位值。 方向输出表示此参数是一个输出，其值最初未定义，但可以修改。</li>
+</ul>
+<h2 id="4-3。-外部对象和函数"><a href="#4-3。-外部对象和函数" class="headerlink" title="4.3。 外部对象和函数"></a>4.3。 外部对象和函数</h2><p>P4程序还可以与架构提供的对象和功能进行交互。 这样的对象使用extern构造来描述，该外部构造描述了这些对象暴露于数据平面的接口。</p>
+<p>例子就是校验和 checksum</p>
+<hr>
+<p><a href="http://www.sdnlab.com/17456.html" target="_blank" rel="external">http://www.sdnlab.com/17456.html</a></p>
+<p><a href="https://p4lang.github.io/p4-spec/docs/P4-16-v1.0.0-spec.html" target="_blank" rel="external">https://p4lang.github.io/p4-spec/docs/P4-16-v1.0.0-spec.html</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/10/11/sicp-note-4/" rel="next" title="计算机程序的构造与解释——高阶函数做抽象">
+                <i class="fa fa-chevron-left"></i> 计算机程序的构造与解释——高阶函数做抽象
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="ZC" />
+          <p class="site-author-name" itemprop="name">ZC</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">46</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#abstract"><span class="nav-number">1.</span> <span class="nav-text">abstract</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#1-范围"><span class="nav-number">2.</span> <span class="nav-text">1.范围</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-术语，定义和符号"><span class="nav-number">3.</span> <span class="nav-text">2. 术语，定义和符号</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-概述"><span class="nav-number">4.</span> <span class="nav-text">3. 概述</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#P4语言提供的核心抽象是："><span class="nav-number">4.1.</span> <span class="nav-text">P4语言提供的核心抽象是：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#编译-P4-程序"><span class="nav-number">4.2.</span> <span class="nav-text">编译 P4 程序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-P4的优点"><span class="nav-number">4.3.</span> <span class="nav-text">3.1 P4的优点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2。-P4语言演变：与以前版本的比较（P4-v1-0-v1-1）"><span class="nav-number">4.4.</span> <span class="nav-text">3.2。 P4语言演变：与以前版本的比较（P4 v1.0 / v1.1）</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-架构模型（Architecture-Model）"><span class="nav-number">5.</span> <span class="nav-text">4. 架构模型（Architecture Model）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#4-2-数据平面接口-Data-plane-interfaces"><span class="nav-number">5.1.</span> <span class="nav-text">4.2 数据平面接口 Data plane interfaces</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-3。-外部对象和函数"><span class="nav-number">5.2.</span> <span class="nav-text">4.3。 外部对象和函数</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ZC</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("guhO5d3jdrym6QcCp5oIrsMc-gzGzoHsz", "ldFdhqrIxGxOqWs5mgH8pmLT");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+
+  
+
+  
+
+</body>
+</html>
