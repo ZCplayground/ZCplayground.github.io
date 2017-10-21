@@ -99,10 +99,16 @@
 <meta property="og:url" content="http://yoursite.com/2017/10/21/p4-specification/index.html">
 <meta property="og:site_name" content="ZCplayground">
 <meta property="og:description" content="P416语言规范版本1.0.0P4语言联盟2017年5月22日 abstractP4是用于编程网络设备的数据平面的语言。 本文档提供了P416语言的精确定义，这是P4版本的版本http：// p4。org。 本文档的目标受众包括希望为P4程序编写编译器，模拟器，IDE和调试器的开发人员。 对于有兴趣了解更深层次语言语法和语义的P4程序员而言，本文档也可能引起关注。 1.范围本规范文件定义了P416">
-<meta property="og:updated_time" content="2017-10-21T04:28:17.479Z">
+<meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/1.p4%E7%A8%8B%E5%BA%8F%E3%80%81%E4%B8%8E%E4%BC%A0%E7%BB%9F%E4%BA%A4%E6%8D%A2%E6%9C%BA%E7%9A%84%E5%8C%BA%E5%88%AB.png">
+<meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/2.%E4%BD%BF%E7%94%A8p4%E7%BC%96%E7%A8%8B.png">
+<meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/3.p416%E8%AF%AD%E8%A8%80.png">
+<meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/5.extern.png">
+<meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/4.%20Architecture.png">
+<meta property="og:updated_time" content="2017-10-21T04:44:29.772Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="p4-specification">
 <meta name="twitter:description" content="P416语言规范版本1.0.0P4语言联盟2017年5月22日 abstractP4是用于编程网络设备的数据平面的语言。 本文档提供了P416语言的精确定义，这是P4版本的版本http：// p4。org。 本文档的目标受众包括希望为P4程序编写编译器，模拟器，IDE和调试器的开发人员。 对于有兴趣了解更深层次语言语法和语义的P4程序员而言，本文档也可能引起关注。 1.范围本规范文件定义了P416">
+<meta name="twitter:image" content="http://osax8w13y.bkt.clouddn.com/1.p4%E7%A8%8B%E5%BA%8F%E3%80%81%E4%B8%8E%E4%BC%A0%E7%BB%9F%E4%BA%A4%E6%8D%A2%E6%9C%BA%E7%9A%84%E5%8C%BA%E5%88%AB.png">
 
 
 
@@ -377,14 +383,21 @@
 <h1 id="abstract"><a href="#abstract" class="headerlink" title="abstract"></a>abstract</h1><p>P4是用于编程网络设备的数据平面的语言。 本文档提供了P416语言的精确定义，这是P4版本的版本http：// p4。org。 本文档的目标受众包括希望为P4程序编写编译器，模拟器，IDE和调试器的开发人员。 对于有兴趣了解更深层次语言语法和语义的P4程序员而言，本文档也可能引起关注。</p>
 <h1 id="1-范围"><a href="#1-范围" class="headerlink" title="1.范围"></a>1.范围</h1><p>本规范文件定义了P416语言程序的结构和解释。 它定义语言，语义规则和语言一致实现的要求。</p>
 <p>它没有定义：</p>
-<p>在程序包处理系统上编译，加载和执行P4程序的机制，<br>通过一个分组处理系统接收数据并传递给另一个系统的机制，<br>控制平面管理由P4程序定义的匹配动作表和其他有状态对象的机制，<br>P4程序的大小或复杂性，<br>能够提供一致性实现的分组处理系统的最低要求。</p>
+<ul>
+<li>在程序包处理系统上编译，加载和执行P4程序的机制，</li>
+<li>通过一个分组处理系统接收数据并传递给另一个系统的机制，</li>
+<li>控制平面管理由P4程序定义的匹配动作表和其他有状态对象的机制，</li>
+<li>P4程序的大小或复杂性，</li>
+<li>能够提供一致性实现的分组处理系统的最低要求。</li>
+</ul>
 <h1 id="2-术语，定义和符号"><a href="#2-术语，定义和符号" class="headerlink" title="2. 术语，定义和符号"></a>2. 术语，定义和符号</h1><p>在本文档中，将使用以下术语：</p>
 <ul>
 <li>架构（Architecture）：一组P4<strong>可编程组件</strong>及其间的<strong>数据平面接口</strong>。</li>
 <li>控制平面：涉及<strong>数据平面的配置</strong>和配置的一类<strong>算法</strong>和相应的输入和输出数据。</li>
 <li>数据平面：一类<strong>描述数据包处理</strong>系统转换的算法。</li>
 <li>元数据（metadata）：在执行P4程序时生成的<strong>中间数据</strong>。</li>
-<li>分组（packet）：网络分组是由<strong>分组交换网络携带的数据的格式化单元</strong>。<br>-数据包头（header）：数据包<strong>开头的格式化数据</strong>。给定的分组可以包含表示不同网络协议的分组报头序列。</li>
+<li>分组（packet）：网络分组是由<strong>分组交换网络携带的数据的格式化单元</strong>。</li>
+<li>数据包头（header）：数据包<strong>开头的格式化数据</strong>。给定的分组可以包含表示不同网络协议的分组报头序列。</li>
 <li>数据包有效载荷（payload）：数据<strong>包头之后的数据包数据</strong>。</li>
 <li>分组处理系统（packet-process system）：用于处理网络数据包的数据处理系统。通常，分组处理系统实现控制平面和数据平面算法。</li>
 <li>目标（Target）：<strong>能够执行P4程序的分组处理系统</strong>。</li>
@@ -392,6 +405,7 @@
 <p>本文件中明确定义的所有术语不应被理解为隐含地涉及其他地方定义的类似术语。相反，本文档中未明确定义的任何术语应根据一般可识别的来源（例如IETF RFC）进行解释。</p>
 <h1 id="3-概述"><a href="#3-概述" class="headerlink" title="3. 概述"></a>3. 概述</h1><p>P4是用于表示分组如何由诸如硬件或软件交换机，网络接口卡，路由器或网络设备的可编程转发元件的数据平面处理的语言。 名称P4：“编程协议无关的数据包处理器”，“Programming Protocol-independent Packet Processors,”  虽然P4最初是为可编程交换机设计的，但其范围已经扩大到涵盖了各种各样的设备。 在本文的其余部分中，我们对所有这些设备使用通用术语目标。</p>
 <p>许多<strong>目标</strong>都实现了控制平面和数据平面。 <strong>P4旨在仅指定目标的数据平面功能</strong>。 P4程序还部分定义了控制平面和数据平面通信的接口，但P4不能用于描述目标的控制平面功能。 在本文的其余部分中，当我们将P4称为“编程目标”时，我们的意思是“编程目标的数据平面”。</p>
+<p><img src="http://osax8w13y.bkt.clouddn.com/1.p4%E7%A8%8B%E5%BA%8F%E3%80%81%E4%B8%8E%E4%BC%A0%E7%BB%9F%E4%BA%A4%E6%8D%A2%E6%9C%BA%E7%9A%84%E5%8C%BA%E5%88%AB.png" alt=""></p>
 <p>作为目标的具体示例，图1示出了传统的固定功能交换机和P4可编程交换机之间的区别。 在传统的交换机中，制造商定义了数据平面功能。 控制平面通过管理表中的条目（例如路由表），配置专用对象（如 meter）以及处理控制包（例如路由协议包）或异步事件（如链路状态更改或学习）来控制数据平面。</p>
 <p>P4编程交换机与传统交换机的不同之处在于两种基本方式：</p>
 <ol>
@@ -402,6 +416,7 @@
 </ol>
 <p>因此，P4可以说是<strong>与协议无关</strong>的，但它使程序员能够表达一组丰富的协议和其他数据平面行为。</p>
 <p>结论：话是说的协议无关，但还是离不开吧？</p>
+<p><img src="http://osax8w13y.bkt.clouddn.com/2.%E4%BD%BF%E7%94%A8p4%E7%BC%96%E7%A8%8B.png" alt=""></p>
 <h2 id="P4语言提供的核心抽象是："><a href="#P4语言提供的核心抽象是：" class="headerlink" title="P4语言提供的核心抽象是："></a>P4语言提供的核心抽象是：</h2><ul>
 <li>报头类型（header type） 描述数据包中每个标题的格式（字段集及其大小）。</li>
 <li>解析器（Parser）描述接收到的分组中的 header 的允许序列（permitted sequences），定义如何识别那些报头序列，以及从分组中提取的报头和字段。</li>
@@ -441,11 +456,14 @@
 <li>调试（Debugging）：制造商可以提供架构的软件模型，以帮助开发和调试P4程序。</li>
 </ul>
 <h2 id="3-2。-P4语言演变：与以前版本的比较（P4-v1-0-v1-1）"><a href="#3-2。-P4语言演变：与以前版本的比较（P4-v1-0-v1-1）" class="headerlink" title="3.2。 P4语言演变：与以前版本的比较（P4 v1.0 / v1.1）"></a>3.2。 P4语言演变：与以前版本的比较（P4 v1.0 / v1.1）</h2><p>与P414相比，早期版本的语言P416对语言的语法和语义进行了许多重大的，向后不兼容的更改。 从前一版本（P414）到当前版本（P416）的演进如图3所示。特别是，语言中已经消除了大量的语言特性，并将其转移到库中，包括计数器，校验和单元，仪表等。</p>
+<p><img src="http://osax8w13y.bkt.clouddn.com/3.p416%E8%AF%AD%E8%A8%80.png" alt=""></p>
 <p>因此，语言已经从复杂语言（超过70个关键字）转变为相对较小的核心语言（少于40个关键字，如A部分所示），并附有一个基本构造库，用于编写大多数P4。</p>
 <p>P4的v1.1版本引入了一种称为extern的语言结构，可用于描述库元素。 因此，在v1.1语言规范中定义的许多结构将被转换成这样的库元素（包括从语言中消除的结构，例如计数器和计量表）。 这些外部对象中的一些预期将被标准化，并且它们将在将来描述P4元素标准库的文档的范围内。 在本文中，我们提供了几个extern结构的例子。 P416还介绍并重新使用了一些v1.1语言结构来描述架构的可编程部分。 这些语言结构是：解析器，状态，控件和包。</p>
 <p>外部对象描述了一组由<strong>对象</strong>实现的方法，但<strong>不描述这些方法的实现</strong>（即它类似于面向对象语言中的抽象类）。 例如，以下构造可用于描述增量校验和单元提供的操作：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">extern Checksum16 &#123;</div><div class="line">    Checksum16();              // constructor</div><div class="line">    void clear();              // prepare unit for computation</div><div class="line">    void update&lt;T&gt;(in T data); // add data to checksum</div><div class="line">    void remove&lt;T&gt;(in T data); // remove data from existing checksum</div><div class="line">    bit&lt;16&gt; get(); // get the checksum for the data added since last clear</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p><img src="http://osax8w13y.bkt.clouddn.com/5.extern.png" alt=""></p>
 <p>P416语言修订的一个重要目标是提供一个稳定的语言定义。 换句话说，我们努力确保在P416中编写的所有程序在语言的未来版本被视为程序时将保持语法正确，行为相同。 此外，如果将来版本的语言需要反向兼容性，我们将努力为将P416程序迁移到新版本提供一条简单的途径。</p>
-<h1 id="4-架构模型（Architecture-Model）"><a href="#4-架构模型（Architecture-Model）" class="headerlink" title="4. 架构模型（Architecture Model）"></a>4. 架构模型（Architecture Model）</h1><p>P4架构识别P4可编程块（例如，解析器，入口控制流，出口控制流，拆包器等）及其数据平面接口 —— parser, ingress control flow, egress control flow, deparser, etc.) and their data plane interfaces.</p>
+<h1 id="4-架构模型（Architecture-Model）"><a href="#4-架构模型（Architecture-Model）" class="headerlink" title="4. 架构模型（Architecture Model）"></a>4. 架构模型（Architecture Model）</h1><p><img src="http://osax8w13y.bkt.clouddn.com/4.%20Architecture.png" alt=""></p>
+<p>P4架构识别P4可编程块（例如，解析器，入口控制流，出口控制流，拆包器等）及其数据平面接口 —— parser, ingress control flow, egress control flow, deparser, etc.) and their data plane interfaces.</p>
 <p>P4架构可以被认为是程序与目标之间的契约。 因此，每个制造商必须为其目标提供P4编译器以及相关架构定义。 （我们预计P4编译器可以共享处理所有架构的通用前端）。 架构定义不必暴露数据平面的整个可编程表面 - 制造商甚至可以选择为同一硬件设备提供多个定义，每个具有不同的功能（例如，具有或不具有多播支持）。</p>
 <p>图4： 它显示一个具有两个<strong>可编程块</strong>（＃1和＃2）的<strong>目标</strong>（target）。 每个块通过P4代码的单独片段进行编程。 目标通过一组控制寄存器或信号与P4程序接口。 输入控件向P4程序提供信息（例如，从数据包接收的输入端口），而P4程序可以写入输出控件以影响目标行为（例如，数据包必须被引导的输出端口）。 控制寄存器/信号在P4中表示为内在元数据。 P4程序还可以存储和操作与每个数据包相关的数据作为用户定义的元数据。</p>
 <p>可以根据<strong>将矢量向量映射到位向量的变换</strong>来完整地描述P4程序的行为。 （The behavior of a P4 program can be fully described in terms of transformations that map vectors of bits to vectors of bits.）</p>
