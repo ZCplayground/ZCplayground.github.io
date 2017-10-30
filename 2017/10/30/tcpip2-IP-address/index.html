@@ -1,0 +1,1075 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="第二章介绍 Internet 使用的网络层地址，即熟知的 IP 地址。连接到 Internet 的设备，基于 TCP/IP 的专用网络中使用的设备都需要一个 IP 地址。 路由器（见 IP 协议 一章）转发是用 IP 地址来识别流量去向的。IP 在某些方面与电话号码相似。但大多数用户不需要记住一位位的数字，而是被 DNS 屏蔽在视线之外。当用户自建网络或 DNS 失效，就需要直接处理 IP 地址。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《TCP&#x2F;IP 详解 卷1：协议》第 2 章：Internet 地址结构">
+<meta property="og:url" content="http://yoursite.com/2017/10/30/tcpip2-IP-address/index.html">
+<meta property="og:site_name" content="ZCplayground">
+<meta property="og:description" content="第二章介绍 Internet 使用的网络层地址，即熟知的 IP 地址。连接到 Internet 的设备，基于 TCP/IP 的专用网络中使用的设备都需要一个 IP 地址。 路由器（见 IP 协议 一章）转发是用 IP 地址来识别流量去向的。IP 在某些方面与电话号码相似。但大多数用户不需要记住一位位的数字，而是被 DNS 屏蔽在视线之外。当用户自建网络或 DNS 失效，就需要直接处理 IP 地址。">
+<meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/subnetting.png">
+<meta property="og:updated_time" content="2017-10-30T14:33:37.614Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="《TCP&#x2F;IP 详解 卷1：协议》第 2 章：Internet 地址结构">
+<meta name="twitter:description" content="第二章介绍 Internet 使用的网络层地址，即熟知的 IP 地址。连接到 Internet 的设备，基于 TCP/IP 的专用网络中使用的设备都需要一个 IP 地址。 路由器（见 IP 协议 一章）转发是用 IP 地址来识别流量去向的。IP 在某些方面与电话号码相似。但大多数用户不需要记住一位位的数字，而是被 DNS 屏蔽在视线之外。当用户自建网络或 DNS 失效，就需要直接处理 IP 地址。">
+<meta name="twitter:image" content="http://osax8w13y.bkt.clouddn.com/subnetting.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/10/30/tcpip2-IP-address/"/>
+
+
+
+
+
+  <title>《TCP/IP 详解 卷1：协议》第 2 章：Internet 地址结构 | ZCplayground</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">ZCplayground</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/10/30/tcpip2-IP-address/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ZC">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ZCplayground">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">《TCP/IP 详解 卷1：协议》第 2 章：Internet 地址结构</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-30T19:23:59+08:00">
+                2017-10-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/TCP-IP/" itemprop="url" rel="index">
+                    <span itemprop="name">TCP/IP</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/10/30/tcpip2-IP-address/" class="leancloud_visitors" data-flag-title="《TCP/IP 详解 卷1：协议》第 2 章：Internet 地址结构">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>第二章介绍 Internet 使用的<strong>网络层地址</strong>，即熟知的 IP 地址。连接到 Internet 的设备，基于 TCP/IP 的专用网络中使用的设备都需要一个 IP 地址。</p>
+<p>路由器（见 IP 协议 一章）转发是用 IP 地址来识别流量去向的。IP 在某些方面与电话号码相似。但大多数用户不需要记住一位位的数字，而是被 <strong>DNS</strong> 屏蔽在视线之外。当用户自建网络或 DNS 失效，就需要直接处理 IP 地址。</p>
+<p>当一台设备被连接到全球性的 Internet 时，分配 IP 地址需要经过协调。这项工作由一个管理实体来帮助用户和服务提供商来分配地址。个人用户一般向 <strong>Internet 服务提供商（ISP）</strong>支付费用，由 ISP 分配地址，用户获得地址以及路由。</p>
+<h1 id="IP-地址表示"><a href="#IP-地址表示" class="headerlink" title="IP 地址表示"></a>IP 地址表示</h1><h2 id="IPv4"><a href="#IPv4" class="headerlink" title="IPv4"></a>IPv4</h2><ul>
+<li>点分四组（点分十进制）表示法。</li>
+</ul>
+<p>例如 <code>165.195.130.107</code> 。四个用点分隔的十进制。每个数字是范围 [0, 255] 的整数，代表 8 个 bit。即每个数字是 IP 地址的四分之一，使用简便的十进制表示。完整的 IP 地址是 32 位。</p>
+<h2 id="IPv6"><a href="#IPv6" class="headerlink" title="IPv6"></a>IPv6</h2><p>地址长度 128 位，是 IPv4 的 4 倍。写法是 8 个块，一个块是 4 个 16 进制数。例如：<code>5f05:2000:80ad:5800:0058:0800:2023:1d71</code></p>
+<ol>
+<li>一个块的前导零可以不写。<code>5f05:2000:80ad:5800:58:800:2023:1d71</code></li>
+<li>全零块可以省略，用符号 <code>::</code>代替。但为了避免出现歧义，这个符号只能在一个地址中用一次。例如<code>2001:0db8:0:0:0:0:0:2</code> 可以写成：<code>2001:db8::2</code></li>
+<li>IPv6 的低 32 位经常用 IPv4 的点分四组表示法，表示 IPv4 兼容的 IPv6 地址。</li>
+</ol>
+<p>以上规则带来的灵活性，但要规避不必要的混淆，有如下规则：</p>
+<ol>
+<li>前导零必须压缩。</li>
+<li><code>::</code> 用于压缩最多的零，如果多个连续块包含等长度的零，则顺序靠前的用<code>::</code>替换。</li>
+<li>十六进制 a - f 用小写。</li>
+</ol>
+<h1 id="IP-地址结构"><a href="#IP-地址结构" class="headerlink" title="IP 地址结构"></a>IP 地址结构</h1><p>大多数 IPv4 最终被细分到一个地址，用于识别连接 Internet 或某些专用内联网的计算机网络接口。这种地址叫<strong>单播地址</strong>。其他类型包括<strong>广播、组播、任播地址</strong>，还有其他的特殊类型的地址。</p>
+<h2 id="分类寻址"><a href="#分类寻址" class="headerlink" title="分类寻址"></a>分类寻址</h2><p>每个<strong>单播 IP 地址</strong>都有一个<strong>网络号</strong>（Network ID），标识该接口使用的地址在哪个网络中可以被发现。还有一个<strong>主机地址</strong>（host ID），标识由网络号给出的网络中的特定主机。</p>
+<ul>
+<li>最初的地址划分方法有五大类，主要是由地址中的头几位来定义：</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>类</th>
+<th>开头</th>
+<th>网络号</th>
+<th>主机号</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A类</td>
+<td>0</td>
+<td>8位，除去开头一个1（下同），其余7位自由</td>
+<td>24位</td>
+</tr>
+<tr>
+<td>B类</td>
+<td>10</td>
+<td>16位，14位自由</td>
+<td>16位</td>
+</tr>
+<tr>
+<td>C类</td>
+<td>110</td>
+<td>24位，21位自由</td>
+<td>8位</td>
+</tr>
+<tr>
+<td>D类</td>
+<td>1110</td>
+<td>组播地址</td>
+<td>32位，28位自由</td>
+</tr>
+<tr>
+<td>E类</td>
+<td>1111</td>
+<td>保留</td>
+<td>32位，28位自由</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>类</th>
+<th>地址范围</th>
+<th>用途</th>
+<th>网络数</th>
+<th>主机数</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A</td>
+<td>0.0.0.0 ~ 127.255.255.255</td>
+<td>单播/特殊</td>
+<td>128</td>
+<td>16777216</td>
+</tr>
+<tr>
+<td>B</td>
+<td>128.0.0.0 ~ 191.255.255.255</td>
+<td>单播/特殊</td>
+<td>16384</td>
+<td>65536</td>
+</tr>
+<tr>
+<td>C</td>
+<td>192.0.0.0 ~ 223.255.255.255</td>
+<td>单播/特殊</td>
+<td>2097152</td>
+<td>256</td>
+</tr>
+<tr>
+<td>D</td>
+<td>224.0.0.0 ~ 239.255.255.255</td>
+<td>组播</td>
+<td>N/A</td>
+<td>N/A</td>
+</tr>
+<tr>
+<td>E</td>
+<td>240.0.0.0 ~ 255.255.255.255</td>
+<td>保留</td>
+<td>N/A</td>
+<td>N/A</td>
+</tr>
+</tbody>
+</table>
+<p>可以看出来 A 类的网络数比较少，但主机数非常多。C 类相反。从这里就可以看到，这种固定的网络地址分类，固定的网络数和主机数势必会让分配 IP 地址产生困难，协调很不方便。A 类容易浪费很多主机号，而 C 类不能提供足够的主机号。B 类地址比较折中，但很快就会耗尽。</p>
+<p><strong>上述数字并不是准确的。</strong>例如，对于一个子网来说，第一个地址（主机号全为0）一般用来表示这个子网。最后一个地址（主机号全为 1）用来将数据报广播给该子网的所有主机。</p>
+<h1 id="子网寻址"><a href="#子网寻址" class="headerlink" title="子网寻址"></a>子网寻址</h1><p>针对之前的分配新网段的网络号的棘手问题，人们很自然想到一种方式，在一个站点接入 Internet 之后，为其分配一个网络号，站点管理员再<strong>进一步划分本地子网数。</strong>很重要的一点是：Internet 的其余部分依然只看得到 A、B、C 类部分。而对于站点本身，<strong>进一步进行更加精细的分配。</strong>，这种方法叫做<strong>子网寻址</strong>（subneting）【RFC0950】。子网寻址为 IP 地址结构增加了额外的灵活性，没有增加地址的真实长度。借此，站点管理员可以在子网数和每个子网的预期主机数中寻找一个折中。</p>
+<p><img src="http://osax8w13y.bkt.clouddn.com/subnetting.png" alt=""></p>
+<p>图是一个 B 类地址被划分子网的例子。一个基础地址在站点内部进一步划分为一个<strong>子网号</strong>和一个<strong>主机号</strong>。这个 B 类地址使用 8 位作为子网 ID，这样，这个特殊配置的站点允许 256 个子网，每个子网最多包含 254 个主机。</p>
+<p>站点之中的所有路由器和主机需要确定地址中的子网部分和主机部分。而 Internet 其他部分仍将其作为普通的 B 类地址看待。IP 协议中的 IP 转发操作，路由器需要区分网络中的不同子网，这需要额外的配置参数，具体例子看 CIDR 和聚合。</p>
+<h2 id="子网掩码"><a href="#子网掩码" class="headerlink" title="子网掩码"></a>子网掩码</h2><p><strong>子网掩码（mask）用于确定一台主机对应的 IP 地址中的网络和子网信息。</strong></p>
+<ul>
+<li>子网掩码中，设为 1 的部分，表示 IP 地址中对应的部分表示子网部分。设为 0 的部分，表示对应的是主机部分。</li>
+</ul>
+<p>长度与 IP 地址相同。配置方法可以是静态的（路由器中），也可以是动态的（DHCP）。写法可以是点分十进制。也可以用一种容易记忆的<strong>前缀长度</strong>写法：斜杠带上连续的 1 的个数。</p>
+<p>例如 子网掩码：<code>255.255.255.192</code>  可以写成 <code>/27</code></p>
+<h2 id="广播地址"><a href="#广播地址" class="headerlink" title="广播地址"></a>广播地址</h2><p><strong>主机部分所有位置设置为 1。</strong></p>
+<p>例如，对于子网 <code>128.32.1.0/24</code>，广播地址就是 <code>128.32.1.255</code>，这种广播作为一个单播包通过路由器到达子网后，再作为广播数据报发送给子网中的所有主机。从安全的角度来说，<strong>定向广播至今仍在 Internet 中被禁用</strong>。</p>
+<p>特殊用途地址 <code>255.255.255.255</code> 称为<strong>本地网络广播</strong>，将被连接在同一网络中的计算机收到，除非终端主机明确禁用。这种本地广播不会经过路由器。广播地址经常出现在协议中，例如 UDP、ICMP。</p>
+<p>IPv6 没有任何广播地址，仅使用组播地址。</p>
+<h1 id="CIDR-和聚合"><a href="#CIDR-和聚合" class="headerlink" title="CIDR 和聚合"></a>CIDR 和聚合</h1><p>使用子网掩码稍微缓解了连入 Internet 的设备增多的痛苦后（隔靴搔痒），Internet 立马又面临了更严重的两个问题：</p>
+<ol>
+<li><strong>IP 地址的耗尽</strong>。主要是 B 类地址。</li>
+<li><strong>路由表条目的不断增长</strong>。由于每个网络号需要对应一条，随着规模不断增长，路由性能要受到严重影响。</li>
+<li>A、B、C类的划分方法太固定，因此效率低下。</li>
+</ol>
+<p>下面介绍解决方案：CIDR 和聚合</p>
+<h2 id="前缀"><a href="#前缀" class="headerlink" title="前缀"></a>前缀</h2><p>分类寻址方案由子网掩码采取了一个类似于可变长度子网掩码的概念（可将不同长度的子网掩码用于相同的网络号），叫做 <strong>CIDR</strong>（classless interdomain routing，<strong>无类别域间路由</strong>）</p>
+<ul>
+<li>提供一种方便的<strong>连续分配地址范围的方式</strong>。不只是单个 B 类或多个 C 类网络号可以分配给站点，使用 CIDR，任何未经过预定义的地址范围都可以作为一个类的一部分，只需要一个类似于子网掩码的掩码，称为 <strong>CIDR 掩码</strong>。</li>
+<li>CIDR 掩码不像 subnetting mask 只对一个站点局限，而<strong>对全球路由系统都是可见</strong>的。</li>
+<li>网络号和 CIDR 掩码的数字组合称为<strong>网络前缀</strong>（prefixes）</li>
+<li>消除 IP 地址中网络和主机号的分隔定义，将更细粒度的 IP 地址分配范围成为可能。</li>
+<li>前缀 n 的范围是 0~32 （IPv4），追加在 IP 地址后，跟着一个 / 字符。</li>
+<li>例如 C 类网络号 192.125.3.0 写成前缀形式：<code>192.125.3.0/24</code>。A 类和 B 类网络号用前缀 <code>/8</code> 和 <code>/16</code> 表示。</li>
+</ul>
+<p>更精细地分配 IP 地址的例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">192.32.136.0/21</div><div class="line"></div><div class="line">min address：11000000 00100000 10001000 00000001 </div><div class="line">mask：       11111111 11111111 11111--- -------- </div><div class="line">IP prefix：  11000000 00100000 10001--- -------- </div><div class="line">max address：11000000 00100000 10001111 11111110 </div><div class="line"></div><div class="line">8 C networks: 192.32.136.0/24 to 192.32.143.0/24</div><div class="line"></div><div class="line">通过使用前缀，分配 192.32.136.0/21 相当于分配了 8 个 C 类地址</div></pre></td></tr></table></figure>
+<ul>
+<li>可以看到，CIDR 允许根据对地址空间的不同需求，将不同大小的地址块分配给某个组织。</li>
+</ul>
+<h2 id="聚合"><a href="#聚合" class="headerlink" title="聚合"></a>聚合</h2><p>路由器要找出一个跨网段的数据报往哪发送，具体就是找到一条匹配的路由表条目，然后将其中的“下一跳”作为目的地，将包发送出去。</p>
+<p>CIDR 能分配各种尺寸的地址块，<strong>但没解决路由表不断增长的问题</strong>。接下来这个<strong>聚合（Aggregation）</strong>方法解决了这个问题。</p>
+<p>先举一个简单的例子 ：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">一家公司分配到以下后缀为 /24 的四个连续网络号。</div><div class="line">在路由器上，四个网络中通常都使用相同的出口，</div><div class="line">可以进行 CIDR 聚合，以减少路由表的数量。</div><div class="line"></div><div class="line">128.56.24.0/24; 10000000 00111000 00011000 00000000</div><div class="line">128.56.25.0/24; 10000000 00111000 00011001 00000000</div><div class="line">128.56.26.0/24; 10000000 00111000 00011010 00000000</div><div class="line">128.56.27.0/24. 10000000 00111000 00011011 00000000</div><div class="line">                进行按位与 &amp;                  </div><div class="line">128.56.24.0/22  10000000 00111000 00011000 00000000</div><div class="line"></div><div class="line">用聚合的思想，最后一行代替路由表中的 4 个条目</div><div class="line">以这个前缀开头的任何目的地都将显示这个下一跳，只需要一个条目就足够。</div></pre></td></tr></table></figure>
+<ul>
+<li>聚合的方法是对两个 IP 地址进行按位与。</li>
+<li>分层路由思想：<ul>
+<li>路由聚合思想。<strong>相邻的</strong>多个 IP 地址<strong>前缀合并成同一个短前缀</strong>，以覆盖更多地址空间。</li>
+<li>这个行为是<strong>递归</strong>的。<strong>即使越来越多的路由器加入整个网络拓扑，这个良好的属性也会保持不变。</strong></li>
+</ul>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line">例如某台路由器的路由表中有三个条目：</div><div class="line"></div><div class="line">190.154.27.0/26   10111110 10011010 00011011 00000000 …… entry 1</div><div class="line">190.154.27.64/26  10111110 10011010 00011011 01000000 …… entry 2</div><div class="line">190.154.27.192/26 10111110 10011010 00011011 11000000 …… entry 3</div><div class="line"></div><div class="line">entry 1 与 entry 2 合并（按位与 &amp;）结果：   </div><div class="line">190.154.27.0/25   10111110 10011010 00011011 00000000 …… entry 4</div><div class="line"></div><div class="line">entry 3 目前不能合并，因为并不是相联的 IP 地址。</div><div class="line"></div><div class="line">此时路由表中新加入了一个条目：</div><div class="line">190.154.27.128/26 10111110 10011010 00011011 10000000 …… entry 5</div><div class="line"></div><div class="line">entry 5 可与 entry 3 合并，因为是相邻的：</div><div class="line">190.154.27.192/26 10111110 10011010 00011011 11000000 …… entry 3</div><div class="line"></div><div class="line">结果：</div><div class="line">190.154.27.128/25 10111110 10011010 00011011 10000000 …… entry 6</div><div class="line"></div><div class="line">此时，entry 6 就可与 entry 4 合并了：</div><div class="line">190.154.27.0/25   10111110 10011010 00011011 00000000 …… entry 4</div><div class="line">190.154.27.128/25 10111110 10011010 00011011 10000000 …… entry 6</div><div class="line"></div><div class="line">结果：</div><div class="line">190.154.27.0/24   10111110 10011010 00011011 00000000 </div><div class="line"></div><div class="line">当在路由表条目中又遇到了相邻的 C类地址（递归）：</div><div class="line">190.154.26.0/24   10111110 10011010 00011010 00000000</div><div class="line"></div><div class="line">又可以合并成：</div><div class="line"></div><div class="line">190.154.26.0/23   10111110 10011010 00011010 00000000</div><div class="line"></div><div class="line">…………</div></pre></td></tr></table></figure>
+<ul>
+<li>可以说 CIDR 开发和部署是 Internet 核心路由系统的一个根本性变化，CIDR 成功地为分配地址空间提供了更多灵活性，聚合提升路由的可扩展性</li>
+<li>IPv6 在 20世纪 90年代受到重视，这是出于很快就需要更多地址的想法。当时没有预见的是，NAT 的广泛使用显著推迟了 IPv6 的使用。</li>
+<li>但是，由于可用于路由的 IP 地址数量最终将减少到 0 ，因此未来将会出现一些变化。</li>
+</ul>
+<h1 id="IP转发行动："><a href="#IP转发行动：" class="headerlink" title="IP转发行动："></a>IP转发行动：</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">简单的例题：</div><div class="line">路由器在其路由表中具有以下CIDR条目：</div><div class="line"></div><div class="line">地址 / 掩码         下一跳</div><div class="line">128.56.24.0/22     interface 0</div><div class="line">128.56.60.0/22     interface 1</div><div class="line">default             router 2</div><div class="line"></div><div class="line">数据包的IP地址为 128.56.63.10。 路由器的转发行为是什么？</div><div class="line"></div><div class="line">128.56.63.10 and mask 22 bits</div><div class="line">IP address  =   10000000 00111000 01111111 00001010 </div><div class="line">Mask        =   11111111 11111111 11111100 00000000</div><div class="line">                          By Per-bit &amp;</div><div class="line">Prefix      =   10000000 00111000 01111100 00000000 </div><div class="line">result：  128.56.60</div><div class="line"></div><div class="line">路由器表查找和匹配，应该去 interface 1</div></pre></td></tr></table></figure>
+<h2 id="最长前缀匹配-Longest-Prefix-Match"><a href="#最长前缀匹配-Longest-Prefix-Match" class="headerlink" title="最长前缀匹配 Longest Prefix Match"></a>最长前缀匹配 Longest Prefix Match</h2><p>当路由器的 IP 层需要向下一跳发送数据包时，检查目的 IP 地址，执行 <strong>最长前缀匹配 Longest Prefix Match</strong>。 IP 协议中的一个重要内容。</p>
+<ul>
+<li><p>因为使用了 CIDR ，对于一个给定的 IP 地址，可以有多个条目<strong>匹配</strong>。</p>
+<ul>
+<li>匹配是指：目的 IP 地址与掩码按位与之后，和转发条目中的目的地字段值相同。</li>
+</ul>
+</li>
+<li><p>数据包必须使用<strong>最具体</strong>、<strong>最匹配</strong>的那条路由。</p>
+<ul>
+<li>最匹配就是在所有匹配的条目中，掩码中 1 最多的那个条目。</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">考虑下面这个IPv4的路由表：</div><div class="line"></div><div class="line">192.168.0.0/16</div><div class="line">192.168.20.16/28</div><div class="line"></div><div class="line">在要查找地址192.168.20.19的时候，这两个表项都“匹配”。</div><div class="line"></div><div class="line">192.168.20.19 = 11000000 10101000 00010100 00010011</div><div class="line"></div><div class="line">匹配过程1：</div><div class="line"></div><div class="line">dst IP        = 11000000 10101000 00010100 00010011</div><div class="line">mask 16bit    = 11111111 11111111 00000000 00000000</div><div class="line">per-bit and   = 11000000 10101000 00000000 00000000 </div><div class="line">192.168.0.0   = 11000000 10101000 00000000 00000000 match！！</div><div class="line"></div><div class="line">匹配过程2：</div><div class="line"></div><div class="line">dst IP        = 11000000 10101000 00010100 00010011</div><div class="line">mask 28bit    = 11111111 11111111 11111111 11110000</div><div class="line">per-bit and   = 11000000 10101000 00010100 00010000</div><div class="line">192.168.20.16 = 11000000 10101000 00010100 00010000 match！！</div><div class="line"></div><div class="line">也就是说，两个表项都包含着要查找的地址。</div><div class="line"></div><div class="line">这种情况下，前缀最长的路由就是192.168.20.16/28，因为它的子网掩码（/28）比其他表项的掩码（/16）要长，使得它更加明确。</div></pre></td></tr></table></figure>
+<h1 id="特殊用途地址"><a href="#特殊用途地址" class="headerlink" title="特殊用途地址"></a>特殊用途地址</h1><p>不全部列举：</p>
+<table>
+<thead>
+<tr>
+<th>地址</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0.0.0.0/8</td>
+<td>本地网络中的主机</td>
+</tr>
+<tr>
+<td>10.0.0.0/8</td>
+<td>专用网络、内联网的地址，不会出现在公共 Internet 中</td>
+</tr>
+<tr>
+<td>192.168.0.0/16</td>
+<td>同上</td>
+</tr>
+<tr>
+<td>224.0.0.0/4</td>
+<td>组播地址</td>
+</tr>
+<tr>
+<td>255.255.255.255/32</td>
+<td>本地网络受限广播地址</td>
+</tr>
+</tbody>
+</table>
+<p>专用地址空间管理由本地决定，在家庭网络、企业内部网络很常见，与此相关的话题是 <strong>NAT（网络地址转换）</strong>。</p>
+<h1 id="分配"><a href="#分配" class="headerlink" title="分配"></a>分配</h1><p>IP 地址被分为大的块，这由一些权威机构完成。权威机构是为各种“所有者”分配地址空间的组织。所有者就是 ISP 或其他较小的权威机构。</p>
+<p>IANA：the Internet Assigned Number Authority 互联网数字分配机构，将分配权限分配给几个地区性 Internet 注册机构（RIR），它们未一些国家的小型机构、ISP 分配地址空间。ISP再给自己的客户提供地址空间。</p>
+<ul>
+<li><p>单播地址分配</p>
+<ul>
+<li>最简单的 Internet 服务：DSL 连接到 Internet，分配一个暂时的 IP 地址到 PPP 链路的一端。</li>
+<li>家庭局域网、无线局域网，使用一台路由器或一台主机作为路由器连接 Internet，执行 NAT。从 ISP 的角度来看，只有一个 IP 地址被使用。大部分操作是自动的 (DHCP)</li>
+<li>多个网络地址：需要固定的 IP，多个局域网、需要网络管理员确定需要多少地址、怎么划分子网、内外网（防火墙、NAT）</li>
+</ul>
+</li>
+<li><p>组播</p>
+<ul>
+<li>用到在写 :)</li>
+</ul>
+</li>
+</ul>
+<h1 id="IP-地址相关攻击"><a href="#IP-地址相关攻击" class="headerlink" title="IP 地址相关攻击"></a>IP 地址相关攻击</h1><p>IP 地址基本上是数字，少数网络攻击会涉及到它们。</p>
+<ul>
+<li>IP 有助于查明涉嫌不良活动的个体。但很多情况下，IP 地址是暂时的，而且在不同时间分配给不同用户。在这种情况下，不知情人可能会由于 IP 地址成为嫌疑人，即使这个人不是攻击流量的发送者。</li>
+<li>这类计算机、路由器（肉鸡吗？）可通过基于 Internet 的黑市租赁，被用于执行攻击、非法内容服务等违法活动。</li>
+</ul>
+<h1 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h1><ul>
+<li><a href="http://tool.520101.com/wangluo/ipjisuan/" target="_blank" rel="external">IP 地址转换器</a></li>
+<li><a href="http://www.cnblogs.com/dodng/p/4415110.html" target="_blank" rel="external">CIDR详解和ip最长地址前缀匹配</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/10/21/p4-specification/" rel="next" title="p4-specification">
+                <i class="fa fa-chevron-left"></i> p4-specification
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="ZC" />
+          <p class="site-author-name" itemprop="name">ZC</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">47</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#IP-地址表示"><span class="nav-number">1.</span> <span class="nav-text">IP 地址表示</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#IPv4"><span class="nav-number">1.1.</span> <span class="nav-text">IPv4</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IPv6"><span class="nav-number">1.2.</span> <span class="nav-text">IPv6</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#IP-地址结构"><span class="nav-number">2.</span> <span class="nav-text">IP 地址结构</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#分类寻址"><span class="nav-number">2.1.</span> <span class="nav-text">分类寻址</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#子网寻址"><span class="nav-number">3.</span> <span class="nav-text">子网寻址</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#子网掩码"><span class="nav-number">3.1.</span> <span class="nav-text">子网掩码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#广播地址"><span class="nav-number">3.2.</span> <span class="nav-text">广播地址</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#CIDR-和聚合"><span class="nav-number">4.</span> <span class="nav-text">CIDR 和聚合</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#前缀"><span class="nav-number">4.1.</span> <span class="nav-text">前缀</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#聚合"><span class="nav-number">4.2.</span> <span class="nav-text">聚合</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#IP转发行动："><span class="nav-number">5.</span> <span class="nav-text">IP转发行动：</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#最长前缀匹配-Longest-Prefix-Match"><span class="nav-number">5.1.</span> <span class="nav-text">最长前缀匹配 Longest Prefix Match</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#特殊用途地址"><span class="nav-number">6.</span> <span class="nav-text">特殊用途地址</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#分配"><span class="nav-number">7.</span> <span class="nav-text">分配</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#IP-地址相关攻击"><span class="nav-number">8.</span> <span class="nav-text">IP 地址相关攻击</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考链接"><span class="nav-number">9.</span> <span class="nav-text">参考链接</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ZC</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("guhO5d3jdrym6QcCp5oIrsMc-gzGzoHsz", "ldFdhqrIxGxOqWs5mgH8pmLT");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+
+  
+
+  
+
+</body>
+</html>

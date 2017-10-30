@@ -93,18 +93,16 @@
 
 
 
-<meta name="description" content="最近开始看被形容为计算机界的“圣经”的一本 MIT 计算机科学入门课的教材 SICP ，计算机程序的构造和解释（Structue and Interpretation of Computer Programs）。我这次不打算像读《CSAPP》那样整本书看完再进行整理，而是想在阅读这本书的过程中不断地记录读书时的感想，重要的概念，有意思的习题等等……便于给自己查缺补漏，另一方面等到时过境迁，回头看">
+<meta name="description" content="简介定义消息格式OP:若是 client 送给 server 的封包，设为 1 ，反向为 2。 HTYPE硬件类别，Ethernet 为 1。 HLEN:硬件地址长度， Ethernet 为 6。 HOPS:若封包需经过 router 传送，每站加 1 ，若在同一网内，为 0。 TRANSACTION ID:DHCP REQUEST 时产生的数值，以作 DHCPREPLY 时的依据。 SECOND">
 <meta property="og:type" content="article">
-<meta property="og:title" content="计算机程序的构造与解释——启程">
-<meta property="og:url" content="http://yoursite.com/2017/08/30/sicp-note-1/index.html">
+<meta property="og:title" content="DHCP 学习笔记">
+<meta property="og:url" content="http://yoursite.com/2017/09/13/tcpip6-DHCP/index.html">
 <meta property="og:site_name" content="ZCplayground">
-<meta property="og:description" content="最近开始看被形容为计算机界的“圣经”的一本 MIT 计算机科学入门课的教材 SICP ，计算机程序的构造和解释（Structue and Interpretation of Computer Programs）。我这次不打算像读《CSAPP》那样整本书看完再进行整理，而是想在阅读这本书的过程中不断地记录读书时的感想，重要的概念，有意思的习题等等……便于给自己查缺补漏，另一方面等到时过境迁，回头看">
-<meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/o_sicp-cover.jpg">
-<meta property="og:updated_time" content="2017-10-11T03:08:55.029Z">
+<meta property="og:description" content="简介定义消息格式OP:若是 client 送给 server 的封包，设为 1 ，反向为 2。 HTYPE硬件类别，Ethernet 为 1。 HLEN:硬件地址长度， Ethernet 为 6。 HOPS:若封包需经过 router 传送，每站加 1 ，若在同一网内，为 0。 TRANSACTION ID:DHCP REQUEST 时产生的数值，以作 DHCPREPLY 时的依据。 SECOND">
+<meta property="og:updated_time" content="2017-09-12T17:42:33.743Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="计算机程序的构造与解释——启程">
-<meta name="twitter:description" content="最近开始看被形容为计算机界的“圣经”的一本 MIT 计算机科学入门课的教材 SICP ，计算机程序的构造和解释（Structue and Interpretation of Computer Programs）。我这次不打算像读《CSAPP》那样整本书看完再进行整理，而是想在阅读这本书的过程中不断地记录读书时的感想，重要的概念，有意思的习题等等……便于给自己查缺补漏，另一方面等到时过境迁，回头看">
-<meta name="twitter:image" content="http://osax8w13y.bkt.clouddn.com/o_sicp-cover.jpg">
+<meta name="twitter:title" content="DHCP 学习笔记">
+<meta name="twitter:description" content="简介定义消息格式OP:若是 client 送给 server 的封包，设为 1 ，反向为 2。 HTYPE硬件类别，Ethernet 为 1。 HLEN:硬件地址长度， Ethernet 为 6。 HOPS:若封包需经过 router 传送，每站加 1 ，若在同一网内，为 0。 TRANSACTION ID:DHCP REQUEST 时产生的数值，以作 DHCPREPLY 时的依据。 SECOND">
 
 
 
@@ -132,13 +130,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/08/30/sicp-note-1/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/09/13/tcpip6-DHCP/"/>
 
 
 
 
 
-  <title>计算机程序的构造与解释——启程 | ZCplayground</title>
+  <title>DHCP 学习笔记 | ZCplayground</title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -278,7 +276,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/08/30/sicp-note-1/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/13/tcpip6-DHCP/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="ZC">
@@ -295,7 +293,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">计算机程序的构造与解释——启程</h1>
+          <h1 class="post-title" itemprop="name headline">DHCP 学习笔记</h1>
         
 
         <div class="post-meta">
@@ -307,8 +305,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-30T05:29:58+08:00">
-                2017-08-30
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-13T01:41:45+08:00">
+                2017-09-13
               </time>
             
 
@@ -330,8 +328,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/SICP/" itemprop="url" rel="index">
-                    <span itemprop="name">SICP</span>
+                  <a href="/categories/TCP-IP/" itemprop="url" rel="index">
+                    <span itemprop="name">TCP/IP</span>
                   </a>
                 </span>
 
@@ -347,7 +345,7 @@
 
           
           
-             <span id="/2017/08/30/sicp-note-1/" class="leancloud_visitors" data-flag-title="计算机程序的构造与解释——启程">
+             <span id="/2017/09/13/tcpip6-DHCP/" class="leancloud_visitors" data-flag-title="DHCP 学习笔记">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -375,69 +373,36 @@
       
 
       
-        <p><img src="http://osax8w13y.bkt.clouddn.com/o_sicp-cover.jpg" alt=""></p>
-<p>最近开始看被形容为计算机界的“圣经”的一本 MIT 计算机科学入门课的教材 SICP ，计算机程序的构造和解释（Structue and Interpretation of Computer Programs）。我这次不打算像读《CSAPP》那样整本书看完再进行整理，而是想在阅读这本书的过程中不断地记录读书时的感想，重要的概念，有意思的习题等等……便于给自己查缺补漏，另一方面等到时过境迁，回头看这些记录，必定能有新的思考和总结。（以后再找机会补上算法导论的读书笔记</p>
-<h1 id="安利的链接"><a href="#安利的链接" class="headerlink" title="安利的链接"></a>安利的链接</h1><ul>
-<li><a href="http://blog.zhaojie.me/2009/07/recommended-reading-2-sicp.html" target="_blank" rel="external">老赵书托（2）：计算机程序的构造与解释</a>  </li>
-<li><a href="http://yinwang0.lofter.com/post/183ec2_47bea8" target="_blank" rel="external">王垠：如何掌握程序语言</a> </li>
-<li><a href="https://book.douban.com/subject/1148282/" target="_blank" rel="external">SICP的豆瓣页面，9.5分的评价</a></li>
-<li><a href="http://www.nowamagic.net/librarys/veda/detail/1905" target="_blank" rel="external">向热爱计算机科学的你推荐SICP</a></li>
-</ul>
-<h1 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h1><ul>
-<li><a href="https://en.wikipedia.org/wiki/Scheme_%28programming_language%29" target="_blank" rel="external">wiki - Scheme (programming language)</a> Scheme 语言的基本了解</li>
-<li><a href="http://www.gnu.org/software/mit-scheme/" target="_blank" rel="external">MIT/GNU Scheme</a> 编写 Scheme 程序的一个环境 —— MIT/GNU Scheme</li>
-<li><a href="http://www.math.pku.edu.cn/teachers/qiuzy/progtech/scheme/mit_scheme.htm" target="_blank" rel="external">MIT Scheme 的基本使用</a> 北大课程中关于 MIT/GNU Scheme 的参考手册，总结的很全，怎么写程序，怎么运行出结果，或者从文件中读取，都有总结。</li>
-<li><a href="http://www.gnu.org/software/mit-scheme/documentation/mit-scheme-ref/index.html" target="_blank" rel="external">MIT/GNU Scheme 9.2</a> documentation</li>
-</ul>
-<p>下面开始第一次的笔记</p>
-<hr>
-<h1 id="范围"><a href="#范围" class="headerlink" title="范围"></a>范围</h1><p>第一章 构造过程抽象</p>
-<p>1.1.1 ~ 1.1.5 节，P1-13</p>
-<p><strong>keywords</strong>: 计算过程、程序设计的基本元素（基本/组合/抽象）、应用序、正则序</p>
-<h1 id="笔记"><a href="#笔记" class="headerlink" title="笔记"></a>笔记</h1><blockquote>
-<p>（本书序）每一个计算机程序都是现实中的或者精神中的某个过程的一个模型，通过人的头脑孵化出来……数量上数不胜数，详情琐碎繁杂……我们很少通过自己的程序将这种过程模拟到永远令人满意的程度。正因为如此……就需要去修改程序，直到这一模型最终达到了一种亚稳定状态。而在这时，就又会出现另一个需要我们去为之奋斗的模型……<strong>如果说艺术解释了我们的梦想，那么计算机就是在以程序的名义执行它们。</strong></p>
-<p>（第一版前言）我们所设计的这门计算机科学导引课程……首先，我们希望建立起一种看法：<strong>一个计算机语言并不仅仅是让计算机去执行操作的一种方式</strong>，更重要的，它是一种表述有关方法学的思想的新颖的形式化媒介。因此，<strong>程序必须写的能够供人们阅读，偶尔地取供计算机执行。</strong>……我们的目标是，使完成了这一科目的学生能对<strong>程序设计的风格要素</strong>和<strong>审美观</strong>有一种很好的感觉。……这些技能不仅仅适用于计算机程序设计，对于所有的工程设计都是通用的。</p>
-</blockquote>
-<p>开篇就给人一种读这本书会是一种精神上的享受的感觉。确实，里面提到的很多东西是以前的学习中从未接触到的。</p>
-<p>第一章的名字叫做，构造过程抽象。准备学习的是有关于<strong>计算过程</strong>的知识。计算过程是存在于计算机里的一类抽象事物，过程会去操作一些被称为<strong>数据</strong>的抽象事物。人们创建出<strong>程序</strong>的规则模式，指导过程的进行。书中将计算过程比喻成“巫术”，将我们写的程序比作“咒语”。学习程序设计的人们就是“巫师学徒”，我们要去理解和掌握“咒语”的效果。“咒语”中会出现小错误（bug），可能产生复杂的错误结果。这个比喻特别形象生动。我也理解了程序并不是使输入产生输出的最主要的因素，比方说我用编程语言写了一段代码，控制了一些“过程”，是这些“过程”将输入的结果转化成了输出。</p>
-<blockquote>
-<p>一个强有力的程序设计语言，不仅是一种指挥计算机执行任务的方式，还应当成为一种框架，使我们能在其中组织自己有关计算过程的思想。</p>
-</blockquote>
-<h2 id="程序设计的基本要素"><a href="#程序设计的基本要素" class="headerlink" title="程序设计的基本要素"></a>程序设计的基本要素</h2><p>第一个重要的知识点，但每一种强有力的语言都有以下三个机制：</p>
-<ol>
-<li>基本表达形式，用于表示语言中最简单的个体。（C语言运算符）</li>
-<li>组合的方法，从较简单的东西出发，构造复合的元素。（结构体）</li>
-<li>抽象的方法，为复合对象命名，将它们当成简单的单元去操作。（函数）</li>
-</ol>
-<hr>
-<h2 id="Scheme-相关"><a href="#Scheme-相关" class="headerlink" title="Scheme 相关"></a>Scheme 相关</h2><ul>
-<li><p>1.1.1 讲了 Scheme 的表达式和求值。</p>
-</li>
-<li><p>1.1.2 讲了 define 的用法。这边提一下 Scheme，它是 Lisp 语言的两种主要方言（方言的意思是拥有 Lisp 主要特性的同时拥有一些自己独有的特性）之一（另一种是 Commom Lisp）。Scheme 是函数式编程语言，这种思想是非常古老的。Lisp 不是一种主流语言，却是今天还在广泛使用的历史第二悠久的语言（比它还老的是 Fortran）。使用学习 Scheme 的原因是这一语言拥有的一些特性，使它成为研究程序设计、构造、数据结构、语言特征的一种极佳媒介。</p>
-</li>
-</ul>
-<p>举例子：下面的表达式就是 Scheme 中最常见的前缀组合式。对 Scheme 解释器输入表达式，解释器就可以返回你结果</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">(+ 137 349)</div></pre></td></tr></table></figure>
-<p>结果 486</p>
-<p>像加减乘除这种一般性的求值规则，就是前面说到的每个强有力的语言都有的三个机制的第一点：基本表达形式。而 define 就是一种例外，是特殊形式。特殊形式就有自己的求值规则。各种不同类型的<strong>表达式</strong>和与之关联的<strong>求值规则</strong>组成了程序设计语言的<strong>语法形式</strong>。<strong>语法糖</strong>说的是：为完全可以采用统一形式描述的东西给出的另一种表面结构。</p>
+        <h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><h1 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h1><h1 id="消息格式"><a href="#消息格式" class="headerlink" title="消息格式"></a>消息格式</h1><p>OP:<br>若是 client 送给 server 的封包，设为 1 ，反向为 2。</p>
+<p>HTYPE<br>硬件类别，Ethernet 为 1。</p>
+<p>HLEN:<br>硬件地址长度， Ethernet 为 6。</p>
+<p>HOPS:<br>若封包需经过 router 传送，每站加 1 ，若在同一网内，为 0。</p>
+<p>TRANSACTION ID:<br>DHCP REQUEST 时产生的数值，以作 DHCPREPLY 时的依据。</p>
+<p>SECONDS:<br>Client 端启动时间（秒）。</p>
+<p>FLAGS:<br>从 0 到 15 共 16 bits ，最左一 bit 为 1 时表示 server 将以广播方式传送封包给 client ，其余尚未使用。</p>
+<p>ciaddr:<br>要是 client 端想继续使用之前取得之 IP 地址，则列于这里。</p>
+<p>yiaddr:<br>从 server 送回 client 之 DHCP OFFER 与 DHCPACK封包中，此栏填写分配给 client 的 IP 地址。</p>
+<p>siaddr:<br>若 client 需要透过网络开机，从 server 送出之 DHCP OFFER、DHCPACK、DHCPNACK封包中，此栏填写开机程序代码所在 server 之地址。</p>
+<p>giaddr:<br>若需跨网域进行 DHCP 发放，此栏为 relay agent 的地址，否则为 0。</p>
+<p>chaddr:<br>Client 之硬件地址。</p>
+<p>sname:<br>Server 之名称字符串，以 0x00 结尾。</p>
+<p>file:<br>若 client 需要透过网络开机，此栏将指出开机程序名称，稍后以 TFTP 传送。</p>
+<p>options:<br>允许厂商定议选项（Vendor-Specific Area)，以提供更多的设定信息（如：Netmask、Gateway、DNS、等等）。其长度可变，同时可携带多个选项，每一选项之第一个 byte 为信息代码，其后一个 byte 为该项数据长度，最后为项目内容。CODE LEN VALUE 此字段完全兼容 BOOTP ，同时扩充了更多选项。其中，DHCP封包可利用编码为 0x53 之选项来设定封包类别：</p>
+<p>项值类别:<br>1 DHCP DISCOVER<br>2 DHCP OFFER<br>3 DHCP REQUEST<br>4 DHCPDECLINE<br>5 DHCPACK<br>6 DHCPNACK<br>7 DHCPRELEASE<br>DHCP 的选项非常多，有空请查阅 RFC 或相关文献，并好好理解，这里不再叙述了。</p>
+<h1 id="协议操作和状态机"><a href="#协议操作和状态机" class="headerlink" title="协议操作和状态机"></a>协议操作和状态机</h1><p>状态机：状态机由状态寄存器和组合逻辑电路构成，能够根据控制信号按照预先设定的状态进行状态转移，是协调相关信号动作，完成特定操作的控制中心。</p>
+<h1 id="DHCP-relay"><a href="#DHCP-relay" class="headerlink" title="DHCP relay"></a>DHCP relay</h1><p>用DHCP Relay代理可以去掉在每个物理的网段都要有DHCP服务器的必要,它可以传递消息到不在同一个物理子网的DHCP服务器，也可以将服务器的消息传回给不在同一个物理子网的DHCP客户机。</p>
+<p>1 当dhcp client 启动并进行dhcp 初始化时，它会在本地网络广播配置请求报文。<br>2 如果本地网络存在dhcp server，则可以直接进行dhcp 配置，不需要dhcp relay。<br>3 如果本地网络没有dhcp server，则与本地网络相连的具有dhcprelay 功能的网络设备收到该广播报文后，将进行适当处理并转发给指定的其它网络上的dhcp server。<br>4 dhcp server 根据dhcp client 提供的信息进行相应的配置，并通过dhcp relay 将配置信息发送给dhcp client，完成对dhcp client 的动态配置。<br>事实上，从开始到最终完成配置，需要多个这样的交互过程。<br>1 dhcp relay设备修改dhcp消息中的相应字段，把dhcp的广播包改成单播包，并负责在服务器与客户机之间转换。<br>2 netcore路由器（2x05）可以作为dhcp relay 代理。</p>
+<p>在DHCP客户端看来，DHCP中继代理就像DHCP服务器；在DHCP服务器看来，DHCP中继代理就像DHCP客户端。</p>
+<h1 id="DHCP-与-DNS-交互"><a href="#DHCP-与-DNS-交互" class="headerlink" title="DHCP 与 DNS 交互"></a>DHCP 与 DNS 交互</h1><p>DNS 是一台机器使用互联网服务的一个很重要的部分，如果没有 DNS 服务器或者其他方式将域名映射为 IP 地址，大部分用户几乎难以访问互联网系统。由于 DNS 映射通常采取烦琐的手工配置，因此，将指定 DHCP 地址与相应地址的 DNS 映射更新方法结合起来会更加方便。这可以通过组合 DHCP/DNS 服务器或者动态 DNS 来解决。</p>
+<h1 id="DHCP-安全问题：认证、与-DHCP-有关的攻击"><a href="#DHCP-安全问题：认证、与-DHCP-有关的攻击" class="headerlink" title="DHCP 安全问题：认证、与 DHCP 有关的攻击"></a>DHCP 安全问题：认证、与 DHCP 有关的攻击</h1><h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><hr>
+<p>links</p>
 <ul>
-<li><p>1.1.3 讲了表达式的求值。语法树，就是说我们写的语句，在计算机看来，都是一棵棵语法树。</p>
-</li>
-<li><p>1.1.4 讲了复合过程，介绍了“复合”的做法。</p>
-</li>
-<li><p>1.1.5 讲了表达式的求值规则，<strong>代换模型</strong>。其实很简单，就像做函数题一样将参数代入求出结果。不过，<strong>代换</strong>不是解释器的实际工作方式的具体描述。如何求值的方式有两种</p>
-<ol>
-<li>正则序求值，思路是“完全展开后规约”，就是先不求出值，而是用运算对象表达式去代替形参，直到得到一个只包含基本运算符的表达式后，再求值。</li>
-<li>应用序求值，思路是“先求值参数而后应用”，先把参数的值求了然后带入函数中应用。</li>
-</ol>
-</li>
+<li><a href="https://wenku.baidu.com/view/8fdeb5ddcf84b9d529ea7a59.html" target="_blank" rel="external">Wireshark对DHCP建立过程进行抓包分析</a></li>
+<li><a href="https://baike.baidu.com/item/DHCP/218195?fr=aladdin" target="_blank" rel="external">DHCP</a></li>
+<li><a href="http://blog.csdn.net/u012359618/article/details/51872678" target="_blank" rel="external">DHCP详解</a></li>
+<li><a href="http://network.51cto.com/art/201406/441752.htm" target="_blank" rel="external">DHCP的基本实现原理</a></li>
+<li><a href="https://baike.baidu.com/item/DHCP%20Relay/3755455?fr=aladdin" target="_blank" rel="external">DHCP Relay</a></li>
 </ul>
-<p>对于可以产生合法的应用，可以证明两种方法的结果是一样的。Lisp 采用的是应用序求值，是因为正则序可能多次求同样的算式导致重复计算的工作。但下面就给出了一个反例：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">(define (p) (p))</div><div class="line">(define (test x y) </div><div class="line">    (if (= x 0)</div><div class="line">        0</div><div class="line">        y))</div><div class="line"></div><div class="line">(test 0 (p))</div></pre></td></tr></table></figure>
-<p>对于正则序，不断展开，展开成</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">(if(= 0 0) 0 (p))</div></pre></td></tr></table></figure>
-<p>就停住，并得出结果 0。</p>
-<p>但对于应用序，由于参数 <code>(p)</code> 是递归的，会不断地求 <code>(p)</code> 的值，不断调用自身，因此会在这里卡住死循环。每种编程语言的表达式求值，都是这两种中的一个。</p>
 
       
     </div>
@@ -474,8 +439,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/07/09/csapp-14-Exception-Control-Flow-Execptions-and-Processes/" rel="next" title="【CSAPP笔记】14. 异常控制流和进程">
-                <i class="fa fa-chevron-left"></i> 【CSAPP笔记】14. 异常控制流和进程
+              <a href="/2017/09/11/dark-time/" rel="next" title="《暗时间》">
+                <i class="fa fa-chevron-left"></i> 《暗时间》
               </a>
             
           </div>
@@ -484,8 +449,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/09/10/shape-of-voice/" rel="prev" title="Shape of Voice">
-                Shape of Voice <i class="fa fa-chevron-right"></i>
+              <a href="/2017/09/16/sicp-note-2/" rel="prev" title="计算机程序的构造与解释——过程结构">
+                计算机程序的构造与解释——过程结构 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -606,7 +571,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#安利的链接"><span class="nav-number">1.</span> <span class="nav-text">安利的链接</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考链接"><span class="nav-number">2.</span> <span class="nav-text">参考链接</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#范围"><span class="nav-number">3.</span> <span class="nav-text">范围</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#笔记"><span class="nav-number">4.</span> <span class="nav-text">笔记</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#程序设计的基本要素"><span class="nav-number">4.1.</span> <span class="nav-text">程序设计的基本要素</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Scheme-相关"><span class="nav-number">4.2.</span> <span class="nav-text">Scheme 相关</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#简介"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#定义"><span class="nav-number">2.</span> <span class="nav-text">定义</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#消息格式"><span class="nav-number">3.</span> <span class="nav-text">消息格式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#协议操作和状态机"><span class="nav-number">4.</span> <span class="nav-text">协议操作和状态机</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#DHCP-relay"><span class="nav-number">5.</span> <span class="nav-text">DHCP relay</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#DHCP-与-DNS-交互"><span class="nav-number">6.</span> <span class="nav-text">DHCP 与 DNS 交互</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#DHCP-安全问题：认证、与-DHCP-有关的攻击"><span class="nav-number">7.</span> <span class="nav-text">DHCP 安全问题：认证、与 DHCP 有关的攻击</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">8.</span> <span class="nav-text">总结</span></a></li></ol></div>
             
 
           </div>
