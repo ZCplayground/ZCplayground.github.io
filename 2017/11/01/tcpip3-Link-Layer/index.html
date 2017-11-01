@@ -93,16 +93,20 @@
 
 
 
-<meta name="description" content="范围第一章 构造过程抽象 1.1.7 ~ 1.1.8 节，P13 - 20 keywords：牛顿法求平方根、局部名、约束/自由变量、作用域、块结构（内部定义过程/过程抽象） 笔记1.1.7 牛顿法求平方根 数学的函数和计算机里的函数有一个很重要的区别，就是后者必须是一个切实可行的计算过程。  数学中定义：根号 x 是某个大于等于零的数 y， y^2 = x 。虽然这是一般性的定义，但没有给出切确">
+<meta name="description" content="在体系结构中，我们知道：链路层（或数据链路层）包含为共享相同介质的邻居建立连接的协议和方法，同时，设计链路层的目的是为 IP 模块发送和接受 IP 数据报，链路层可用于携带支持 IP 的辅助性协议，例如 ARP。 TCP/IP 取得成功的的原因之一在于它能工作在几乎任意一种链路之上。不同的链路层依赖于其使用的网络硬件类型：有限局域网，例如以太网；城域网，例如有线电视、DSL 连接；有线语音网络，例">
 <meta property="og:type" content="article">
-<meta property="og:title" content="计算机程序的构造与解释——过程结构">
-<meta property="og:url" content="http://yoursite.com/2017/09/16/sicp-note-2/index.html">
+<meta property="og:title" content="《TCP&#x2F;IP 详解 卷1：协议》第 3 章：链路层">
+<meta property="og:url" content="http://yoursite.com/2017/11/01/tcpip3-Link-Layer/index.html">
 <meta property="og:site_name" content="ZCplayground">
-<meta property="og:description" content="范围第一章 构造过程抽象 1.1.7 ~ 1.1.8 节，P13 - 20 keywords：牛顿法求平方根、局部名、约束/自由变量、作用域、块结构（内部定义过程/过程抽象） 笔记1.1.7 牛顿法求平方根 数学的函数和计算机里的函数有一个很重要的区别，就是后者必须是一个切实可行的计算过程。  数学中定义：根号 x 是某个大于等于零的数 y， y^2 = x 。虽然这是一般性的定义，但没有给出切确">
-<meta property="og:updated_time" content="2017-10-11T03:08:54.896Z">
+<meta property="og:description" content="在体系结构中，我们知道：链路层（或数据链路层）包含为共享相同介质的邻居建立连接的协议和方法，同时，设计链路层的目的是为 IP 模块发送和接受 IP 数据报，链路层可用于携带支持 IP 的辅助性协议，例如 ARP。 TCP/IP 取得成功的的原因之一在于它能工作在几乎任意一种链路之上。不同的链路层依赖于其使用的网络硬件类型：有限局域网，例如以太网；城域网，例如有线电视、DSL 连接；有线语音网络，例">
+<meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/Ethernet1.png">
+<meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/Ethernet%20Switch.png">
+<meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/frame%20format.png">
+<meta property="og:updated_time" content="2017-11-01T09:48:05.079Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="计算机程序的构造与解释——过程结构">
-<meta name="twitter:description" content="范围第一章 构造过程抽象 1.1.7 ~ 1.1.8 节，P13 - 20 keywords：牛顿法求平方根、局部名、约束/自由变量、作用域、块结构（内部定义过程/过程抽象） 笔记1.1.7 牛顿法求平方根 数学的函数和计算机里的函数有一个很重要的区别，就是后者必须是一个切实可行的计算过程。  数学中定义：根号 x 是某个大于等于零的数 y， y^2 = x 。虽然这是一般性的定义，但没有给出切确">
+<meta name="twitter:title" content="《TCP&#x2F;IP 详解 卷1：协议》第 3 章：链路层">
+<meta name="twitter:description" content="在体系结构中，我们知道：链路层（或数据链路层）包含为共享相同介质的邻居建立连接的协议和方法，同时，设计链路层的目的是为 IP 模块发送和接受 IP 数据报，链路层可用于携带支持 IP 的辅助性协议，例如 ARP。 TCP/IP 取得成功的的原因之一在于它能工作在几乎任意一种链路之上。不同的链路层依赖于其使用的网络硬件类型：有限局域网，例如以太网；城域网，例如有线电视、DSL 连接；有线语音网络，例">
+<meta name="twitter:image" content="http://osax8w13y.bkt.clouddn.com/Ethernet1.png">
 
 
 
@@ -130,13 +134,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/09/16/sicp-note-2/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/11/01/tcpip3-Link-Layer/"/>
 
 
 
 
 
-  <title>计算机程序的构造与解释——过程结构 | ZCplayground</title>
+  <title>《TCP/IP 详解 卷1：协议》第 3 章：链路层 | ZCplayground</title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -276,7 +280,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/16/sicp-note-2/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/11/01/tcpip3-Link-Layer/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="ZC">
@@ -293,7 +297,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">计算机程序的构造与解释——过程结构</h1>
+          <h1 class="post-title" itemprop="name headline">《TCP/IP 详解 卷1：协议》第 3 章：链路层</h1>
         
 
         <div class="post-meta">
@@ -305,8 +309,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-16T22:27:02+08:00">
-                2017-09-16
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-01T16:43:00+08:00">
+                2017-11-01
               </time>
             
 
@@ -328,8 +332,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/SICP/" itemprop="url" rel="index">
-                    <span itemprop="name">SICP</span>
+                  <a href="/categories/TCP-IP/" itemprop="url" rel="index">
+                    <span itemprop="name">TCP/IP</span>
                   </a>
                 </span>
 
@@ -345,7 +349,7 @@
 
           
           
-             <span id="/2017/09/16/sicp-note-2/" class="leancloud_visitors" data-flag-title="计算机程序的构造与解释——过程结构">
+             <span id="/2017/11/01/tcpip3-Link-Layer/" class="leancloud_visitors" data-flag-title="《TCP/IP 详解 卷1：协议》第 3 章：链路层">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -373,62 +377,46 @@
       
 
       
-        <h1 id="范围"><a href="#范围" class="headerlink" title="范围"></a>范围</h1><p>第一章 构造过程抽象</p>
-<p>1.1.7 ~ 1.1.8 节，P13 - 20</p>
-<p><strong>keywords</strong>：牛顿法求平方根、局部名、约束/自由变量、作用域、块结构（内部定义过程/过程抽象）</p>
-<h1 id="笔记"><a href="#笔记" class="headerlink" title="笔记"></a>笔记</h1><h2 id="1-1-7-牛顿法求平方根"><a href="#1-1-7-牛顿法求平方根" class="headerlink" title="1.1.7 牛顿法求平方根"></a>1.1.7 牛顿法求平方根</h2><ul>
-<li><p>数学的函数和计算机里的函数有一个很重要的区别，就是后者必须是一个<strong>切实可行的计算过程</strong>。</p>
+        <p>在体系结构中，我们知道：链路层（或数据链路层）包含为共享相同介质的<strong>邻居</strong>建立连接的协议和方法，同时，设计链路层的目的是<strong>为 IP 模块发送和接受 IP 数据报</strong>，链路层可用于携带支持 IP 的辅助性协议，例如 ARP。</p>
+<p><strong>TCP/IP 取得成功的的原因之一在于它能工作在几乎任意一种链路之上。</strong>不同的链路层依赖于其使用的网络硬件类型：有限局域网，例如以太网；城域网，例如有线电视、DSL 连接；有线语音网络，例如支持调制解调器的电话线；无线网络，如 WiFi（无线局域网）；基于蜂窝技术的无线数据服务。在本章中，主要讨论以太网，以及如何使用点到点协议 （PPP）。</p>
+<p>大多数链路层技术都有一个相关的协议，描述由网络硬件传输的 <strong>PDU</strong>（Protocol Data Unit，协议数据单元） 格式。在描述链路层数据单元时，我们通常使用术语<strong>帧</strong>（frame），来和那些更高层的 PDU 格式区别开来，如网络层和传输层的 PDU <strong>分组</strong>（packet）和<strong>段</strong>（fragment）。帧通常支持<strong>可变帧长度</strong>，但有一个上限——最大传输单元（MTU，Maximum Transmission Unit），这是链路层的一个特点。</p>
+<h1 id="以太网、IEEE-802-局域网标准"><a href="#以太网、IEEE-802-局域网标准" class="headerlink" title="以太网、IEEE 802 局域网标准"></a>以太网、IEEE 802 局域网标准</h1><p><strong>以太网</strong>（Ethernet）这个术语通常指<strong>一套标准</strong>，由 DEC、Intel、Xerox 公司于 1980 年首次发布，在 1982 年加以修订。第一个常见格式的以太网，目前被称为 “10 Mb/s 以太网” 或 “共享以太网”，它被 IEEE 采纳成为 <strong>802.3 标准</strong>。这种网络的结构通常如下所示：</p>
+<p><img src="http://osax8w13y.bkt.clouddn.com/Ethernet1.png" alt=""></p>
+<p>以太网包含如下概念和知识点：</p>
+<h2 id="CSMA-CD-or-MAC"><a href="#CSMA-CD-or-MAC" class="headerlink" title="CSMA/CD or MAC"></a>CSMA/CD or MAC</h2><p>基本共享以太网包含一个或<strong>多个站（station）</strong>，它们都被连接到一个<strong>共享的电缆段上</strong>。标准需要每个以太网接口实现一种分布式算法。This common scheme is called <strong>carrier sense, multiple access with collision detection.</strong> ，也就是<strong>CSMA/CD：带冲突检测的载波侦听多路访问</strong>。</p>
 <ul>
-<li>数学中定义：根号 x 是某个大于等于零的数 y， y^2 = x 。虽然这是一般性的定义，但没有给出切确的计算过程</li>
-<li>牛顿法就是一个切确的计算过程。</li>
-<li>函数与过程的矛盾，是<strong>描述一件事情的特征</strong>和<strong>描述如何去做这就事情</strong>直接的普遍性差异的一个具体反映。</li>
-</ul>
+<li><p>CSMA/CD 协调哪些计算机可以访问共享的介质（电缆），不需要其他特殊协议或同步。有助于降低成本、促进以太网技术的普及。</p>
 </li>
-<li><p>牛顿法</p>
-<ul>
-<li>如果 y 是 x 的平方根，y == x/y</li>
-<li>要求 x 的平方根 y，从一个假设值 y 开始，不断求 y 与 x/y 的平均值，来得到更好的猜测</li>
-<li>当猜测“足够好”时，结束循环。</li>
-</ul>
+<li><p>“载波侦听”：一个站在发送自己的数据之前，首先<strong>检测目前网络上发送的信号</strong>，在网络<strong>空闲</strong>时，才发送自己的帧。</p>
+</li>
+<li><p>“碰撞检测”：如果其他站碰巧在发送，重叠的电信号被视为<strong>碰撞（collision）</strong>。在这种情况下，站可以<strong>检测（detect）</strong>到。如果检测到碰撞，会导致发送方<strong>等待一个随机时间，然后重新发送数据。</strong></p>
+</li>
+<li><p>等待时间量的选择依据一个的概率分布。随后，如果再次检测到碰撞，每个碰撞会使等待时间长度加倍。最终每个站会得到机会转发，或者在尝试一定次数之后（传统以太网为 16）后超时。</p>
+</li>
+<li><p>只有当<strong>介质（medium）</strong>被确定为空闲状态时，链路层的 PDU 可以从一个站发送到其他一个或更多站。<strong>任何给定的时间内，网络中同一时刻只能有一个帧在传输</strong>。CSMA/CD 因此有另一个更正式的名字：<strong>介质访问控制协议，Medium Access Control。</strong></p>
 </li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line">(define (sqrt-iter guess x)</div><div class="line">  (if (good-enough? guess x)</div><div class="line">      guess</div><div class="line">      (sqrt-iter (improve guess x) x)))</div><div class="line">;Value: sqrt-iter</div><div class="line"></div><div class="line">(define (improve guess x)</div><div class="line">  (average guess (/ x guess)))</div><div class="line">;Value: improve</div><div class="line"></div><div class="line">(define (average x y)</div><div class="line">  (/ (+ x y) 2))</div><div class="line">;Value: average</div><div class="line"></div><div class="line">(define (good-enough? guess x)</div><div class="line">  (&lt; (abs (- (square guess) x)) 0.001))</div><div class="line">;Value: good-enough?</div><div class="line"></div><div class="line">(define (square x)</div><div class="line">  (* x x))</div><div class="line">;Value: square</div><div class="line"></div><div class="line">(define (abs x)</div><div class="line">  (if (&lt; x 0)(- x) x))</div><div class="line">;Value: abs</div><div class="line"></div><div class="line">(define (sqrt x)</div><div class="line">  (sqrt-iter 1.0 x))</div><div class="line">;Value: sqrt</div><div class="line"></div><div class="line">(sqrt 9)</div><div class="line">;Value: 3.00009155413138</div></pre></td></tr></table></figure>
+<h2 id="交换机"><a href="#交换机" class="headerlink" title="交换机"></a>交换机</h2><p>随着以太网技术的发展，更快的计算机和基础设施使得局域网速度不断提升。（速度从 10Mb/s 增加到 100Mb/s、10Gb/s 甚至更高）。</p>
+<p>二十世纪九十年代初，共享电缆已经很大程度被双绞线（类似电话线）替代。随着<strong>快速以太网</strong>的发展（100Mb/s），最初<strong>基于竞争的 MAC 协议已经变得不流行</strong>。</p>
 <ul>
-<li>过程 <code>good-enough?</code> 就是说明什么情况下算改进到“足够好”，末尾的问号有一个提示 <strong>这个参数是一个过程</strong> 的作用。</li>
-<li>最后封装成 <code>sqrt</code> 时，用 1.0 作为起始的猜测值。</li>
-<li>这个程序说明，在用于写纯粹数值计算的程序时，至今介绍的简单程序设计语言足以写出其他语言（例如 C）中写出的任何东西了（amazing）。这个程序甚至没有循环结构，但展示了如何不用特殊的迭代结构来实现迭代，只需常规的过程调用即可。</li>
+<li>局域网中的每个站之间的线路变成<strong>不共享</strong>，而是由<strong>以太网交换机（Ethernet Switch）</strong>实现了一个专用的星形拓扑结构。</li>
 </ul>
+<p><img src="http://osax8w13y.bkt.clouddn.com/Ethernet%20Switch.png" alt=""></p>
+<ul>
+<li>交换机为以太网中的每个站提供<strong>同时</strong>发送和接受数据的能力。</li>
+<li>每个站使用一条<strong>专用的线路</strong>连接到一个交换机<strong>端口（port）</strong>，在这种情况下，以太网以<strong>全双工</strong>方式运行，不需要使用 CSMA/CD 算法。</li>
+<li>交换机可以通过<strong>交换机端口级联（interconnect）</strong>来形成更大的以太网。这种端口叫做<strong>“上行（uplink）端口”</strong></li>
+</ul>
+<h2 id="全双工、半双工"><a href="#全双工、半双工" class="headerlink" title="全双工、半双工"></a>全双工、半双工</h2><ul>
+<li><p><strong>半双工（half duplex mode）</strong>：使用一条共享的电缆，CSMA/AD，以太网最初被开发出来的时候就工作在半双工模式。</p>
+</li>
+<li><p><strong>全双工（full duplex mode）</strong>：交换式以太网。网络不再是单一的共享线路，而代之以很多链路的组合。减少了冲突检测电路的使用，增加了以太网的物理长度。</p>
+</li>
+</ul>
+<h2 id="以太网帧格式-Frame-Format"><a href="#以太网帧格式-Frame-Format" class="headerlink" title="以太网帧格式 / Frame Format"></a>以太网帧格式 / Frame Format</h2><p>下面介绍交换机如何处理 PDU。</p>
+<p><img src="http://osax8w13y.bkt.clouddn.com/frame%20format.png" alt=""></p>
 <hr>
-<ul>
-<li>1.1.8 过程作为黑箱抽象</li>
-</ul>
-<p>程序的过程的分解：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">        sqrt</div><div class="line">         |</div><div class="line">     sqrt-iter</div><div class="line">    /        \</div><div class="line">good-enough  improve</div><div class="line">/        \      \</div><div class="line">square  abs    average</div></pre></td></tr></table></figure>
-<ul>
-<li>对平方根的计算问题可以很自然地分解成若干子问题。<strong>分解的重要性并不仅仅在于把这个问题分成了多少个小部分</strong>，关键在于<strong>分解中的每一个过程完成了一件清楚的工作</strong>。</li>
-<li>例如 基于 <code>square</code> 来定义 <code>good-enough?</code>时就将前者看成一个<strong>黑箱</strong>，如何计算平方的细节隐去不谈了，只需要注意它能计算出平方的事实。这里就说<code>square</code>是一个<strong>过程抽象</strong></li>
-<li>用户在使用一个过程时，应该不需要去弄清它究竟是如何实现的</li>
-</ul>
-<hr>
-<h2 id="局部名"><a href="#局部名" class="headerlink" title="局部名"></a>局部名</h2><p>下面这两个过程定义应该是无法区分的：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">(define (square x) (* x x))</div><div class="line"></div><div class="line">(define (square y) (* y y))</div></pre></td></tr></table></figure>
-<p>这一原则：<strong>过程的意义不应该依赖于作者为其形参所选用的名字</strong>，从表面看起来十分明显，但其实意义非常深远。</p>
-<ul>
-<li>过程的形参必须局部于有关的过程体。（如果不相关，且两个不同的过程用了同样的参数名字，那两个过程的参数会相互影响，两个过程彼此之间也不是我们所希望的黑箱了）</li>
-<li>形参的具体名字是什么，其实完全没关系。这样子的名字叫做<strong>约束变量</strong>。如果一个变量没有被约束，称它是<strong>自由的</strong>。</li>
-<li>一个名字的定义被约束，则被约束的那一集表达式称为这个名字的<strong>作用域</strong>。</li>
-<li>即：在一个过程定义里，形参（约束变量）以这个过程作为作用域。</li>
-</ul>
-<p>例如 <code>good-enough?</code> 里，<code>guess</code>和 <code>x</code>是约束的，<code>&lt;</code> 、<code>-</code>、 <code>abs</code>、 <code>square</code> 是自由的。前两个的名字的选择只要不要跟后面四个相同就可以了。</p>
-<hr>
-<h2 id="内部定义和块结构"><a href="#内部定义和块结构" class="headerlink" title="内部定义和块结构"></a>内部定义和块结构</h2><ul>
-<li>我们只希望一个过程对用户是重要的，那就是<code>sqrt</code>。我们希望隐藏那些<strong>辅助过程</strong>，因为 <code>sqrt</code> 需要它。然而那些辅助过程却会干扰那些用 <code>sqrt</code> 的用户的思维。我们想要一种方式去“隐藏”</li>
-<li>在许多程序员一起构造一个大型系统时，这种情况非常常见。</li>
-<li>方法：<strong>允许过程里带有一些内部定义，使它们局部于这一个过程。</strong></li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">(define (sqrt x)</div><div class="line">  (define (good-enough? guess x)</div><div class="line">    (&lt; (abs (- (square guess) x)) 0.001))</div><div class="line">  (define (improve guess x)</div><div class="line">    (average guess (/ x guess)))</div><div class="line">  (define (sqrt-iter guess x)</div><div class="line">    (if (good-enough? guess x)</div><div class="line">	guess</div><div class="line">	(sqrt-iter (improve guess x) x)))</div><div class="line">  (sqrt-iter 1.0 x))</div><div class="line">;Value: sqrt</div><div class="line"></div><div class="line">(define (average x y)</div><div class="line">  (/ (+ x y) 2))</div><div class="line">;Value: average</div><div class="line"></div><div class="line">(define (abs x)</div><div class="line">  (if(&lt; x 0) (- x) x))</div><div class="line">;Value: abs</div><div class="line"></div><div class="line">(sqrt 9)</div><div class="line">;Value: 3.00009155413138</div></pre></td></tr></table></figure>
-<p>第一个 define 里的三个 define 中 x 作为内部定义的自由变量。这种方式叫做<strong>词法作用域</strong></p>
-
+<h1 id="网桥和交换机"><a href="#网桥和交换机" class="headerlink" title="网桥和交换机"></a>网桥和交换机</h1><h1 id="生成树协议"><a href="#生成树协议" class="headerlink" title="生成树协议"></a>生成树协议</h1><h2 id="端口状态和角色"><a href="#端口状态和角色" class="headerlink" title="端口状态和角色"></a>端口状态和角色</h2><h2 id="BPDU"><a href="#BPDU" class="headerlink" title="BPDU"></a>BPDU</h2><h2 id="建立生成树"><a href="#建立生成树" class="headerlink" title="建立生成树"></a>建立生成树</h2><h2 id="处理拓扑变化"><a href="#处理拓扑变化" class="headerlink" title="处理拓扑变化"></a>处理拓扑变化</h2><h2 id="快速生成树协议"><a href="#快速生成树协议" class="headerlink" title="快速生成树协议"></a>快速生成树协议</h2><h1 id="点到点协议"><a href="#点到点协议" class="headerlink" title="点到点协议"></a>点到点协议</h1><h2 id="链路控制协议"><a href="#链路控制协议" class="headerlink" title="链路控制协议"></a>链路控制协议</h2><h2 id="网络控制协议"><a href="#网络控制协议" class="headerlink" title="网络控制协议"></a>网络控制协议</h2><h2 id="PPPoE"><a href="#PPPoE" class="headerlink" title="PPPoE"></a>PPPoE</h2><h1 id="MTU"><a href="#MTU" class="headerlink" title="MTU"></a>MTU</h1><h1 id="隧道基础"><a href="#隧道基础" class="headerlink" title="隧道基础"></a>隧道基础</h1><h1 id="与链路层相关的攻击"><a href="#与链路层相关的攻击" class="headerlink" title="与链路层相关的攻击"></a>与链路层相关的攻击</h1><h1 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h1>
       
     </div>
 
@@ -464,8 +452,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/09/13/tcpip6-DHCP/" rel="next" title="DHCP 学习笔记">
-                <i class="fa fa-chevron-left"></i> DHCP 学习笔记
+              <a href="/2017/10/30/tcpip2-IP-address/" rel="next" title="《TCP/IP 详解 卷1：协议》第 2 章：Internet 地址结构">
+                <i class="fa fa-chevron-left"></i> 《TCP/IP 详解 卷1：协议》第 2 章：Internet 地址结构
               </a>
             
           </div>
@@ -473,10 +461,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/09/17/sicp-note-3/" rel="prev" title="计算机程序的构造与解释——过程的“形状”">
-                计算机程序的构造与解释——过程的“形状” <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -596,7 +580,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#范围"><span class="nav-number">1.</span> <span class="nav-text">范围</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#笔记"><span class="nav-number">2.</span> <span class="nav-text">笔记</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-7-牛顿法求平方根"><span class="nav-number">2.1.</span> <span class="nav-text">1.1.7 牛顿法求平方根</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#局部名"><span class="nav-number">2.2.</span> <span class="nav-text">局部名</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#内部定义和块结构"><span class="nav-number">2.3.</span> <span class="nav-text">内部定义和块结构</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#以太网、IEEE-802-局域网标准"><span class="nav-number">1.</span> <span class="nav-text">以太网、IEEE 802 局域网标准</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#CSMA-CD-or-MAC"><span class="nav-number">1.1.</span> <span class="nav-text">CSMA/CD or MAC</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#交换机"><span class="nav-number">1.2.</span> <span class="nav-text">交换机</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#全双工、半双工"><span class="nav-number">1.3.</span> <span class="nav-text">全双工、半双工</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#以太网帧格式-Frame-Format"><span class="nav-number">1.4.</span> <span class="nav-text">以太网帧格式 / Frame Format</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#网桥和交换机"><span class="nav-number">2.</span> <span class="nav-text">网桥和交换机</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#生成树协议"><span class="nav-number">3.</span> <span class="nav-text">生成树协议</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#端口状态和角色"><span class="nav-number">3.1.</span> <span class="nav-text">端口状态和角色</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#BPDU"><span class="nav-number">3.2.</span> <span class="nav-text">BPDU</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#建立生成树"><span class="nav-number">3.3.</span> <span class="nav-text">建立生成树</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#处理拓扑变化"><span class="nav-number">3.4.</span> <span class="nav-text">处理拓扑变化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#快速生成树协议"><span class="nav-number">3.5.</span> <span class="nav-text">快速生成树协议</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#点到点协议"><span class="nav-number">4.</span> <span class="nav-text">点到点协议</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#链路控制协议"><span class="nav-number">4.1.</span> <span class="nav-text">链路控制协议</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#网络控制协议"><span class="nav-number">4.2.</span> <span class="nav-text">网络控制协议</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#PPPoE"><span class="nav-number">4.3.</span> <span class="nav-text">PPPoE</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#MTU"><span class="nav-number">5.</span> <span class="nav-text">MTU</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#隧道基础"><span class="nav-number">6.</span> <span class="nav-text">隧道基础</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#与链路层相关的攻击"><span class="nav-number">7.</span> <span class="nav-text">与链路层相关的攻击</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考链接"><span class="nav-number">8.</span> <span class="nav-text">参考链接</span></a></li></ol></div>
             
 
           </div>
