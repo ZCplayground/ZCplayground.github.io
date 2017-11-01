@@ -102,7 +102,8 @@
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/Ethernet1.png">
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/Ethernet%20Switch.png">
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/frame%20format.png">
-<meta property="og:updated_time" content="2017-11-01T09:48:05.079Z">
+<meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/Ethernetpacket1.png">
+<meta property="og:updated_time" content="2017-11-01T13:58:34.900Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="《TCP&#x2F;IP 详解 卷1：协议》第 3 章：链路层">
 <meta name="twitter:description" content="在体系结构中，我们知道：链路层（或数据链路层）包含为共享相同介质的邻居建立连接的协议和方法，同时，设计链路层的目的是为 IP 模块发送和接受 IP 数据报，链路层可用于携带支持 IP 的辅助性协议，例如 ARP。 TCP/IP 取得成功的的原因之一在于它能工作在几乎任意一种链路之上。不同的链路层依赖于其使用的网络硬件类型：有限局域网，例如以太网；城域网，例如有线电视、DSL 连接；有线语音网络，例">
@@ -415,8 +416,115 @@
 </ul>
 <h2 id="以太网帧格式-Frame-Format"><a href="#以太网帧格式-Frame-Format" class="headerlink" title="以太网帧格式 / Frame Format"></a>以太网帧格式 / Frame Format</h2><p>下面介绍交换机如何处理 PDU。</p>
 <p><img src="http://osax8w13y.bkt.clouddn.com/frame%20format.png" alt=""></p>
+<p>所有的以太网帧都基于一个共同的格式。</p>
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>长度(byte)</th>
+<th>内容</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>前导（Preamble）</td>
+<td>7</td>
+<td>一般是一种公认的模式，典型值为 0xAA</td>
+<td>接收接口电路使用，以确定帧的到达时间并确定编码位之间的时间量（称为时钟恢复）。<strong>简单来说，就是用于同步。</strong></td>
+</tr>
+<tr>
+<td>帧起始分隔符（SFD）</td>
+<td>1</td>
+<td>固定值：0xAB</td>
+<td>以太网帧<strong>开始的标志</strong></td>
+</tr>
+<tr>
+<td>目的MAC地址（DST）</td>
+<td>6</td>
+<td>一个 MAC 地址</td>
+<td>指明帧的接受者注：目的地址也支持多个站点，例如广播（ARP协议）、组播（ICMPv6）</td>
+</tr>
+<tr>
+<td>源MAC地址（SRC）</td>
+<td>6</td>
+<td>一个 MAC 地址</td>
+<td>指明帧的发送者</td>
+</tr>
+<tr>
+<td>长度或类型</td>
+<td>2</td>
+<td>常见值有 IPv4（0x0800）、IPv6（0x86DD）、ARP（0x0806）</td>
+<td>帧的数据字段的长度（长度或类型）</td>
+</tr>
+<tr>
+<td>标签</td>
+<td>最大482字节</td>
+<td>如 QoS 指示符（服务质量）</td>
+<td>包含由其他 IEEE 标准定义的各种协议字段</td>
+</tr>
+<tr>
+<td><strong>有效载荷</strong></td>
+<td>46~1500</td>
+<td>略</td>
+<td>存放高层 PDU 的地方。对于TCP/IP 是 IP 数据包</td>
+</tr>
+<tr>
+<td>填充</td>
+<td>可选</td>
+<td>一定长度的连续 0</td>
+<td>确保帧长度符合<strong>最小长度要求</strong></td>
+</tr>
+<tr>
+<td><strong>循环冗余检验</strong> FCS</td>
+<td>4</td>
+<td>见下文</td>
+<td>对接收网卡提供判断是否传输错误的一种方法</td>
+</tr>
+</tbody>
+</table>
+<h2 id="帧检验序列-循环冗余检验"><a href="#帧检验序列-循环冗余检验" class="headerlink" title="帧检验序列/循环冗余检验"></a>帧检验序列/循环冗余检验</h2><p>最后一个字段 FCS（Frame Check Sequence）提供了对<strong>帧完整性的检查</strong>。方法是：Cyclic Redundancy Check (CRC) <strong>循环冗余检验</strong>。<a href="http://blog.csdn.net/liyuanbhu/article/details/7882789" target="_blank" rel="external">这篇文章</a>介绍的很好，在这里引用一下：</p>
+<blockquote>
+<p>CRC 算法的基本思想是将传输的数据当做一个位数很长的数。将这个数除以另一个数。得到的<strong>余数</strong>作为校验数据附加到原数据后面。（商是抛弃的）…… 为了进行CRC运算，也就是这种特殊的除法运算，<strong>必须要指定个被除数</strong>，在CRC算法中，这个被除数有一个专有名称叫做<strong>“生成多项式”</strong>。生成多项式的选取是个很有难度的问题，如果选的不好，那么检出错误的概率就会低很多。好在这个问题已经被专家们研究了很长一段时间了，对于我们这些使用者来说，只要把现成的成果拿来用就行了。</p>
+<p>多项式的位宽（Width，简记为W），这个位宽不是多项式对应的二进制数的位数，而是位数减 1。按照 CRC 算法的要求，计算前要在原始数据后填上 W 个 0。</p>
+</blockquote>
+<p>值得注意的是，CRC 使用的是 <strong>mod 2 二进制除法</strong>计算余数。<strong>与四则运算不同的是模2运算不考虑进位和借位，即模2加法是不带进位的二进制加法运算，模2减法是不带借位的二进制减法运算。</strong>该计算结果的反码放置在帧的 CRC 或 FCS 字段中。在接受到数据之后，接收方执行相同的算法，得到结果，判断与存放在 FCS 字段的值是否匹配。如果两者不匹配，帧可能在传输过程中受损，通常被<strong>丢弃</strong>。</p>
 <hr>
-<h1 id="网桥和交换机"><a href="#网桥和交换机" class="headerlink" title="网桥和交换机"></a>网桥和交换机</h1><h1 id="生成树协议"><a href="#生成树协议" class="headerlink" title="生成树协议"></a>生成树协议</h1><h2 id="端口状态和角色"><a href="#端口状态和角色" class="headerlink" title="端口状态和角色"></a>端口状态和角色</h2><h2 id="BPDU"><a href="#BPDU" class="headerlink" title="BPDU"></a>BPDU</h2><h2 id="建立生成树"><a href="#建立生成树" class="headerlink" title="建立生成树"></a>建立生成树</h2><h2 id="处理拓扑变化"><a href="#处理拓扑变化" class="headerlink" title="处理拓扑变化"></a>处理拓扑变化</h2><h2 id="快速生成树协议"><a href="#快速生成树协议" class="headerlink" title="快速生成树协议"></a>快速生成树协议</h2><h1 id="点到点协议"><a href="#点到点协议" class="headerlink" title="点到点协议"></a>点到点协议</h1><h2 id="链路控制协议"><a href="#链路控制协议" class="headerlink" title="链路控制协议"></a>链路控制协议</h2><h2 id="网络控制协议"><a href="#网络控制协议" class="headerlink" title="网络控制协议"></a>网络控制协议</h2><h2 id="PPPoE"><a href="#PPPoE" class="headerlink" title="PPPoE"></a>PPPoE</h2><h1 id="MTU"><a href="#MTU" class="headerlink" title="MTU"></a>MTU</h1><h1 id="隧道基础"><a href="#隧道基础" class="headerlink" title="隧道基础"></a>隧道基础</h1><h1 id="与链路层相关的攻击"><a href="#与链路层相关的攻击" class="headerlink" title="与链路层相关的攻击"></a>与链路层相关的攻击</h1><h1 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h1>
+<h1 id="网桥和交换机"><a href="#网桥和交换机" class="headerlink" title="网桥和交换机"></a>网桥和交换机</h1><h1 id="生成树协议"><a href="#生成树协议" class="headerlink" title="生成树协议"></a>生成树协议</h1><h2 id="端口状态和角色"><a href="#端口状态和角色" class="headerlink" title="端口状态和角色"></a>端口状态和角色</h2><h2 id="BPDU"><a href="#BPDU" class="headerlink" title="BPDU"></a>BPDU</h2><h2 id="建立生成树"><a href="#建立生成树" class="headerlink" title="建立生成树"></a>建立生成树</h2><h2 id="处理拓扑变化"><a href="#处理拓扑变化" class="headerlink" title="处理拓扑变化"></a>处理拓扑变化</h2><h2 id="快速生成树协议"><a href="#快速生成树协议" class="headerlink" title="快速生成树协议"></a>快速生成树协议</h2><h1 id="点到点协议"><a href="#点到点协议" class="headerlink" title="点到点协议"></a>点到点协议</h1><h2 id="链路控制协议"><a href="#链路控制协议" class="headerlink" title="链路控制协议"></a>链路控制协议</h2><h2 id="网络控制协议"><a href="#网络控制协议" class="headerlink" title="网络控制协议"></a>网络控制协议</h2><h2 id="PPPoE"><a href="#PPPoE" class="headerlink" title="PPPoE"></a>PPPoE</h2><h1 id="MTU"><a href="#MTU" class="headerlink" title="MTU"></a>MTU</h1><p>以太网帧有最小和最大尺寸。</p>
+<ul>
+<li><p>最小帧要求有 64 字节，有效载荷长度最小为 48 长度。当有效载荷较短，就需要填充一些字节（都是 0），确保达到最小长度。</p>
+</li>
+<li><p>最小长度对使用 CSMA/CD 的以太网来说很重要，如果帧太小意味着传输速度过快。当某个站检测到碰撞时，可能会发生这个帧已经传输完的情况，不知道是哪个帧发生了冲突。</p>
+</li>
+<li><p>传统以太网最大帧长度是 1518 字节。选择这个值也是有折衷的：如果一个帧发生了错误，那么只需要重传 1.5 KB 就好。</p>
+</li>
+</ul>
+<p>因为以太网有最大长度限制，所以<strong>携带高层协议 PDU 的长度是有限制的</strong>。不仅是以太网，在很多链路层网络中都有这个特点。链路层的这种特征叫做<strong>最大传输单元（MTU）</strong>。</p>
+<ul>
+<li>本地链路的 MTU 对会话期间数据报的大小有直接影响。</li>
+<li>当两台主机跨越多种网络通信时，<strong>每种不同的链路可能有不同大小的 MTU</strong>。因此，在包含所有链路的整个网络路径上，最小的 MTU 叫做 <strong>路径 MTU</strong>。</li>
+<li>如果 IP 需要发送一个数据报，大小大于链路层 MTU，则 IP 通过<strong>分片（slice）</strong>将数据报分解成较小的部分，使每个分片都小于 MTU。分片会在 IP 协议中详细讨论。</li>
+</ul>
+<h1 id="隧道基础"><a href="#隧道基础" class="headerlink" title="隧道基础"></a>隧道基础</h1><h1 id="与链路层相关的攻击"><a href="#与链路层相关的攻击" class="headerlink" title="与链路层相关的攻击"></a>与链路层相关的攻击</h1><h1 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h1><ul>
+<li><p><a href="https://baike.baidu.com/item/%E6%A8%A12%E8%BF%90%E7%AE%97/18556715?fr=aladdin" target="_blank" rel="external">mod 2 运算</a></p>
+</li>
+<li><p><a href="http://blog.csdn.net/liyuanbhu/article/details/7882789" target="_blank" rel="external">循环冗余校验（CRC）算法入门引导</a></p>
+</li>
+</ul>
+<ul>
+<li><a href="http://blog.csdn.net/huang_shiyang/article/details/50881305" target="_blank" rel="external">CRC查找表法推导及代码实现比较</a></li>
+</ul>
+<hr>
+<p>另：使用 Wireshark 抓包没有前导、SFD、FCS 字段，搜索后得到如下原因：</p>
+<ul>
+<li>抓preamble没有意义。</li>
+<li>Wireshark抓到的数据包是网卡driver给上来的，有些网卡driver会把帧后面的4字节的FCS去掉，不上传给tcp/ip协议栈，Wireshark自然就看不到了。</li>
+</ul>
+<p>查看 MAC 地址的方法：在 cmd 中输入</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ipconfig /all</div></pre></td></tr></table></figure>
+<p>附上一个 ARP 包的例子：</p>
+<p><img src="http://osax8w13y.bkt.clouddn.com/Ethernetpacket1.png" alt=""></p>
+
       
     </div>
 
@@ -580,7 +688,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#以太网、IEEE-802-局域网标准"><span class="nav-number">1.</span> <span class="nav-text">以太网、IEEE 802 局域网标准</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#CSMA-CD-or-MAC"><span class="nav-number">1.1.</span> <span class="nav-text">CSMA/CD or MAC</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#交换机"><span class="nav-number">1.2.</span> <span class="nav-text">交换机</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#全双工、半双工"><span class="nav-number">1.3.</span> <span class="nav-text">全双工、半双工</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#以太网帧格式-Frame-Format"><span class="nav-number">1.4.</span> <span class="nav-text">以太网帧格式 / Frame Format</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#网桥和交换机"><span class="nav-number">2.</span> <span class="nav-text">网桥和交换机</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#生成树协议"><span class="nav-number">3.</span> <span class="nav-text">生成树协议</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#端口状态和角色"><span class="nav-number">3.1.</span> <span class="nav-text">端口状态和角色</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#BPDU"><span class="nav-number">3.2.</span> <span class="nav-text">BPDU</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#建立生成树"><span class="nav-number">3.3.</span> <span class="nav-text">建立生成树</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#处理拓扑变化"><span class="nav-number">3.4.</span> <span class="nav-text">处理拓扑变化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#快速生成树协议"><span class="nav-number">3.5.</span> <span class="nav-text">快速生成树协议</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#点到点协议"><span class="nav-number">4.</span> <span class="nav-text">点到点协议</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#链路控制协议"><span class="nav-number">4.1.</span> <span class="nav-text">链路控制协议</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#网络控制协议"><span class="nav-number">4.2.</span> <span class="nav-text">网络控制协议</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#PPPoE"><span class="nav-number">4.3.</span> <span class="nav-text">PPPoE</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#MTU"><span class="nav-number">5.</span> <span class="nav-text">MTU</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#隧道基础"><span class="nav-number">6.</span> <span class="nav-text">隧道基础</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#与链路层相关的攻击"><span class="nav-number">7.</span> <span class="nav-text">与链路层相关的攻击</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考链接"><span class="nav-number">8.</span> <span class="nav-text">参考链接</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#以太网、IEEE-802-局域网标准"><span class="nav-number">1.</span> <span class="nav-text">以太网、IEEE 802 局域网标准</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#CSMA-CD-or-MAC"><span class="nav-number">1.1.</span> <span class="nav-text">CSMA/CD or MAC</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#交换机"><span class="nav-number">1.2.</span> <span class="nav-text">交换机</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#全双工、半双工"><span class="nav-number">1.3.</span> <span class="nav-text">全双工、半双工</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#以太网帧格式-Frame-Format"><span class="nav-number">1.4.</span> <span class="nav-text">以太网帧格式 / Frame Format</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#帧检验序列-循环冗余检验"><span class="nav-number">1.5.</span> <span class="nav-text">帧检验序列/循环冗余检验</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#网桥和交换机"><span class="nav-number">2.</span> <span class="nav-text">网桥和交换机</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#生成树协议"><span class="nav-number">3.</span> <span class="nav-text">生成树协议</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#端口状态和角色"><span class="nav-number">3.1.</span> <span class="nav-text">端口状态和角色</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#BPDU"><span class="nav-number">3.2.</span> <span class="nav-text">BPDU</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#建立生成树"><span class="nav-number">3.3.</span> <span class="nav-text">建立生成树</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#处理拓扑变化"><span class="nav-number">3.4.</span> <span class="nav-text">处理拓扑变化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#快速生成树协议"><span class="nav-number">3.5.</span> <span class="nav-text">快速生成树协议</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#点到点协议"><span class="nav-number">4.</span> <span class="nav-text">点到点协议</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#链路控制协议"><span class="nav-number">4.1.</span> <span class="nav-text">链路控制协议</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#网络控制协议"><span class="nav-number">4.2.</span> <span class="nav-text">网络控制协议</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#PPPoE"><span class="nav-number">4.3.</span> <span class="nav-text">PPPoE</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#MTU"><span class="nav-number">5.</span> <span class="nav-text">MTU</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#隧道基础"><span class="nav-number">6.</span> <span class="nav-text">隧道基础</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#与链路层相关的攻击"><span class="nav-number">7.</span> <span class="nav-text">与链路层相关的攻击</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考链接"><span class="nav-number">8.</span> <span class="nav-text">参考链接</span></a></li></ol></div>
             
 
           </div>
