@@ -112,7 +112,7 @@
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/STP%20TOPO2.png">
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/Ethernetpacket1.png">
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/stppacket.png">
-<meta property="og:updated_time" content="2017-11-02T17:23:44.186Z">
+<meta property="og:updated_time" content="2017-11-02T17:28:36.248Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="《TCP&#x2F;IP 详解 卷1：协议》第 3 章：链路层">
 <meta name="twitter:description" content="在体系结构中，我们知道：链路层（或数据链路层）包含为共享相同介质的邻居建立连接的协议和方法，同时，设计链路层的目的是为 IP 模块发送和接受 IP 数据报，链路层可用于携带支持 IP 的辅助性协议，例如 ARP。 TCP/IP 取得成功的的原因之一在于它能工作在几乎任意一种链路之上。不同的链路层依赖于其使用的网络硬件类型：有限局域网，例如以太网；城域网，例如有线电视、DSL 连接；有线语音网络，例">
@@ -635,8 +635,8 @@
 <tr>
 <td>DST</td>
 <td>6</td>
-<td>总是被发送至 01:80:C2:00:00:00</td>
-<td>链路层组、因特网组播寻址</td>
+<td><strong>总是被发送至 01:80:C2:00:00:00</strong></td>
+<td>链路层组、因特网<strong>组播寻址</strong></td>
 </tr>
 <tr>
 <td>SRC</td>
@@ -653,20 +653,20 @@
 <tr>
 <td>LLC/SNAP</td>
 <td>3</td>
-<td>此头部由 802.1 定义，针对 BPDU 设置为常数 0x424203</td>
-<td>STP 用 LLC（逻辑链路控制）封装。并非所有 BPDU 都用 LLC/SNAP 封装，但这是很常见的选项</td>
+<td>此头部由 802.1 定义，针对 BPDU 设置为<strong>常数 0x424203</strong></td>
+<td>STP <strong>用 LLC（逻辑链路控制）封装</strong>。并非所有 BPDU 都用 LLC/SNAP 封装，但这是很常见的选项</td>
 </tr>
 <tr>
 <td>协议（Protocol identifier）</td>
 <td>2</td>
-<td>生成树协议设置为 0x0000</td>
+<td>生成树协议设置为 <strong>0x0000</strong></td>
 <td>协议 ID 号</td>
 </tr>
 <tr>
 <td>版本（Protocol Version Identifier）</td>
 <td>1</td>
 <td>0/2/3</td>
-<td>STP/RSTP/MSP 用于指出协议版本</td>
+<td>STP/RSTP/MSP 用于指出<strong>协议版本</strong></td>
 </tr>
 <tr>
 <td>类型（BPDU Type）</td>
@@ -691,7 +691,7 @@
 <td><strong>根路径成本</strong>（Root Path Cost）</td>
 <td>4</td>
 <td>到达根 ID 字段中指定的网桥的路径计算成本</td>
-<td>用于计算生成树算法。 cost 是与链路传速速度成反比的。</td>
+<td>用于计算生成树算法。 <strong>cost 是与链路传速速度成反比的</strong>。</td>
 </tr>
 <tr>
 <td><strong>网桥 ID</strong>（Bridge Identifier）</td>
@@ -709,7 +709,7 @@
 <td><strong>消息有效期</strong>（MsgA）</td>
 <td>2</td>
 <td>一开始设置为 0 。任何接收 BPDU 的桥将在其<strong>非根端口上发送帧</strong>，该字段<strong>增加 1</strong></td>
-<td>此字段不像其他与时间相关的字段一样是一个固定值。实质上，该字段用作跳数，给出在接收BPDU之前已经处理的桥的数量。</td>
+<td>此字段不像其他与时间相关的字段一样是一个固定值。<strong>实质上，该字段用作跳数</strong>，给出在接收BPDU之前已经处理的桥的数量。</td>
 </tr>
 <tr>
 <td><strong>最大有效期</strong>（MaxA）</td>
@@ -808,7 +808,7 @@
 <ol>
 <li>选<strong>每个网段</strong>的指定端口，考虑对象：每条链路。选取方法：比较<strong>每条链路两端发出的</strong> BPDU 的 cost。</li>
 </ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">S1-S2 网段: 端口 8 发出的 BPDU 的 cost 为 0; 端口 1 发出的 cost 为 19 + 4 + 19 = 42</div><div class="line">（这里，BPDU 不会逆着发，联想一下猴王的例子）</div><div class="line">           端口 8 成为指定端口</div><div class="line">S1-S3 网段: 端口 7: 0; 端口 6: 19 + 19 + 4 = 42 </div><div class="line">            端口 7 成为指定端口</div><div class="line">S2-S3 网段: 端口 2: 19; 端口 3: 19 + 4 = 23</div><div class="line">            端口 2 成为指定端口</div><div class="line">S3-S4 网段: 端口 5: 19; 端口 4: 19 + 19 = 38</div><div class="line">            端口 5 成为指定端口</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">S1-S2 网段: 端口 8 发出的 BPDU 的 cost 为 0; 端口 1 发出的 cost 为 19 + 4 + 19 = 42</div><div class="line">（这里，BPDU 不会逆着发，联想一下猴王的例子）</div><div class="line">            端口 8 成为指定端口</div><div class="line">S1-S3 网段: 端口 7: 0; 端口 6: 19 + 19 + 4 = 42 </div><div class="line">            端口 7 成为指定端口</div><div class="line">S2-S3 网段: 端口 2: 19; 端口 3: 19 + 4 = 23</div><div class="line">            端口 2 成为指定端口</div><div class="line">S3-S4 网段: 端口 5: 19; 端口 4: 19 + 19 = 38</div><div class="line">            端口 5 成为指定端口</div></pre></td></tr></table></figure>
 <p>下图是更新的状态：S1 当选根桥（root bridge）。端口 1、4、6 是根端口（蓝色圆圈）；端口 2、5、7、8 是指定端口（红色正方形）。<strong>既不是根端口，也不是指定端口的，就阻塞</strong>（图中的端口 3）。自然，形成了一棵生成树。</p>
 <p><img src="http://osax8w13y.bkt.clouddn.com/STP%20TOPO2.png" alt=""></p>
 <p>现在再来体会以下根端口和指定端口的定义。</p>
