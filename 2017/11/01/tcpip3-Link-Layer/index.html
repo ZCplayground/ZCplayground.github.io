@@ -102,8 +102,14 @@
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/Ethernet1.png">
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/Ethernet%20Switch.png">
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/frame%20format.png">
+<meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/switch.png">
+<meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/filteringdatabase.png">
+<meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/STP%20%E6%8B%93%E6%89%91.png">
+<meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/STP%20%E6%8B%93%E6%89%912.png">
+<meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/STP%20state%20machine.png">
+<meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/BPDU.png">
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/Ethernetpacket1.png">
-<meta property="og:updated_time" content="2017-11-01T13:58:34.900Z">
+<meta property="og:updated_time" content="2017-11-02T03:49:38.088Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="《TCP&#x2F;IP 详解 卷1：协议》第 3 章：链路层">
 <meta name="twitter:description" content="在体系结构中，我们知道：链路层（或数据链路层）包含为共享相同介质的邻居建立连接的协议和方法，同时，设计链路层的目的是为 IP 模块发送和接受 IP 数据报，链路层可用于携带支持 IP 的辅助性协议，例如 ARP。 TCP/IP 取得成功的的原因之一在于它能工作在几乎任意一种链路之上。不同的链路层依赖于其使用的网络硬件类型：有限局域网，例如以太网；城域网，例如有线电视、DSL 连接；有线语音网络，例">
@@ -396,6 +402,8 @@
 </li>
 <li><p>只有当<strong>介质（medium）</strong>被确定为空闲状态时，链路层的 PDU 可以从一个站发送到其他一个或更多站。<strong>任何给定的时间内，网络中同一时刻只能有一个帧在传输</strong>。CSMA/CD 因此有另一个更正式的名字：<strong>介质访问控制协议，Medium Access Control。</strong></p>
 </li>
+<li><p><strong>以太网是一种广播网络。</strong></p>
+</li>
 </ul>
 <h2 id="交换机"><a href="#交换机" class="headerlink" title="交换机"></a>交换机</h2><p>随着以太网技术的发展，更快的计算机和基础设施使得局域网速度不断提升。（速度从 10Mb/s 增加到 100Mb/s、10Gb/s 甚至更高）。</p>
 <p>二十世纪九十年代初，共享电缆已经很大程度被双绞线（类似电话线）替代。随着<strong>快速以太网</strong>的发展（100Mb/s），最初<strong>基于竞争的 MAC 协议已经变得不流行</strong>。</p>
@@ -490,7 +498,32 @@
 </blockquote>
 <p>值得注意的是，CRC 使用的是 <strong>mod 2 二进制除法</strong>计算余数。<strong>与四则运算不同的是模2运算不考虑进位和借位，即模2加法是不带进位的二进制加法运算，模2减法是不带借位的二进制减法运算。</strong>该计算结果的反码放置在帧的 CRC 或 FCS 字段中。在接受到数据之后，接收方执行相同的算法，得到结果，判断与存放在 FCS 字段的值是否匹配。如果两者不匹配，帧可能在传输过程中受损，通常被<strong>丢弃</strong>。</p>
 <hr>
-<h1 id="网桥和交换机"><a href="#网桥和交换机" class="headerlink" title="网桥和交换机"></a>网桥和交换机</h1><h1 id="生成树协议"><a href="#生成树协议" class="headerlink" title="生成树协议"></a>生成树协议</h1><h2 id="端口状态和角色"><a href="#端口状态和角色" class="headerlink" title="端口状态和角色"></a>端口状态和角色</h2><h2 id="BPDU"><a href="#BPDU" class="headerlink" title="BPDU"></a>BPDU</h2><h2 id="建立生成树"><a href="#建立生成树" class="headerlink" title="建立生成树"></a>建立生成树</h2><h2 id="处理拓扑变化"><a href="#处理拓扑变化" class="headerlink" title="处理拓扑变化"></a>处理拓扑变化</h2><h2 id="快速生成树协议"><a href="#快速生成树协议" class="headerlink" title="快速生成树协议"></a>快速生成树协议</h2><h1 id="点到点协议"><a href="#点到点协议" class="headerlink" title="点到点协议"></a>点到点协议</h1><h2 id="链路控制协议"><a href="#链路控制协议" class="headerlink" title="链路控制协议"></a>链路控制协议</h2><h2 id="网络控制协议"><a href="#网络控制协议" class="headerlink" title="网络控制协议"></a>网络控制协议</h2><h2 id="PPPoE"><a href="#PPPoE" class="headerlink" title="PPPoE"></a>PPPoE</h2><h1 id="MTU"><a href="#MTU" class="headerlink" title="MTU"></a>MTU</h1><p>以太网帧有最小和最大尺寸。</p>
+<h1 id="网桥和交换机"><a href="#网桥和交换机" class="headerlink" title="网桥和交换机"></a>网桥和交换机</h1><p>IEEE 802.1d 标准规定了网桥的操作。</p>
+<ul>
+<li><strong>交换机本质上是高性能的网桥。</strong></li>
+</ul>
+<p>图中的交换机 A 和 B 互连，形成一个<strong>扩展的局域网</strong>。</p>
+<p><img src="http://osax8w13y.bkt.clouddn.com/switch.png" alt=""></p>
+<p>下面介绍交换机的 <strong>MAC 学习（learn）</strong>过程：</p>
+<ul>
+<li>每个网络单元都有自己的 MAC 地址。</li>
+<li>每个网桥经过一段时间的<strong>对域外 MAC 地址的学习</strong>后，最终每个交换机会知道<strong>每个站可以由哪个端口到达</strong>。</li>
+<li>每个交换机基于每个端口的列表被存储在一张被称为<strong>过滤数据库（filtering database）</strong>的表中。</li>
+</ul>
+<p><img src="http://osax8w13y.bkt.clouddn.com/filteringdatabase.png" alt=""></p>
+<ul>
+<li>当交换机（桥）首次打开时，其数据库为空，因此不知道其他站点的位置。 无论何时收到<strong>目的地为自己以外的站的帧</strong>，它将为此帧目的端口<strong>之外的每个端口创建一个副本，并从每个端口发送帧的副本</strong>。（好像与广播有些许差别</li>
+<li>why learn？如果交换机从未学习站的位置，<strong>每个帧都需要被交付到每个网段</strong>，这将导致显著的不必要开销。<strong>学习能力（learning capability）可以显著降低开销，这是交换机和网桥的一个基本功能。</strong></li>
+<li>由于站可能出现异动、网卡更换、MAC 地址改变等各种情况，所以过滤数据库中的一个 MAC 地址可以通过某端口访问这条信息也<strong>不能假设是永远正确的。</strong><ul>
+<li>为了解决这个问题，网桥适用一个计时器（通常是五分钟）。如果在这个有效期内，没有再次看到某条目的地址，则将这个条目<strong>删除</strong>。</li>
+</ul>
+</li>
+</ul>
+<h1 id="生成树协议"><a href="#生成树协议" class="headerlink" title="生成树协议"></a>生成树协议</h1><p><img src="http://osax8w13y.bkt.clouddn.com/STP%20%E6%8B%93%E6%89%91.png" alt=""></p>
+<p><img src="http://osax8w13y.bkt.clouddn.com/STP%20%E6%8B%93%E6%89%912.png" alt=""></p>
+<h2 id="端口状态和角色"><a href="#端口状态和角色" class="headerlink" title="端口状态和角色"></a>端口状态和角色</h2><p><img src="http://osax8w13y.bkt.clouddn.com/STP%20state%20machine.png" alt=""></p>
+<h2 id="BPDU"><a href="#BPDU" class="headerlink" title="BPDU"></a>BPDU</h2><p><img src="http://osax8w13y.bkt.clouddn.com/BPDU.png" alt=""></p>
+<h2 id="建立生成树"><a href="#建立生成树" class="headerlink" title="建立生成树"></a>建立生成树</h2><h2 id="处理拓扑变化"><a href="#处理拓扑变化" class="headerlink" title="处理拓扑变化"></a>处理拓扑变化</h2><h2 id="快速生成树协议"><a href="#快速生成树协议" class="headerlink" title="快速生成树协议"></a>快速生成树协议</h2><h1 id="点到点协议"><a href="#点到点协议" class="headerlink" title="点到点协议"></a>点到点协议</h1><h2 id="链路控制协议"><a href="#链路控制协议" class="headerlink" title="链路控制协议"></a>链路控制协议</h2><h2 id="网络控制协议"><a href="#网络控制协议" class="headerlink" title="网络控制协议"></a>网络控制协议</h2><h2 id="PPPoE"><a href="#PPPoE" class="headerlink" title="PPPoE"></a>PPPoE</h2><h1 id="MTU"><a href="#MTU" class="headerlink" title="MTU"></a>MTU</h1><p>以太网帧有最小和最大尺寸。</p>
 <ul>
 <li><p>最小帧要求有 64 字节，有效载荷长度最小为 48 长度。当有效载荷较短，就需要填充一些字节（都是 0），确保达到最小长度。</p>
 </li>
