@@ -112,7 +112,7 @@
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/STP%20TOPO2.png">
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/Ethernetpacket1.png">
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/stppacket.png">
-<meta property="og:updated_time" content="2017-11-02T17:08:36.573Z">
+<meta property="og:updated_time" content="2017-11-02T17:23:44.186Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="《TCP&#x2F;IP 详解 卷1：协议》第 3 章：链路层">
 <meta name="twitter:description" content="在体系结构中，我们知道：链路层（或数据链路层）包含为共享相同介质的邻居建立连接的协议和方法，同时，设计链路层的目的是为 IP 模块发送和接受 IP 数据报，链路层可用于携带支持 IP 的辅助性协议，例如 ARP。 TCP/IP 取得成功的的原因之一在于它能工作在几乎任意一种链路之上。不同的链路层依赖于其使用的网络硬件类型：有限局域网，例如以太网；城域网，例如有线电视、DSL 连接；有线语音网络，例">
@@ -401,14 +401,14 @@
 </li>
 <li><p>“碰撞检测”：如果其他站碰巧在发送，重叠的电信号被视为<strong>碰撞（collision）</strong>。在这种情况下，站可以<strong>检测（detect）</strong>到。如果检测到碰撞，会导致发送方<strong>等待一个随机时间，然后重新发送数据。</strong></p>
 </li>
-<li><p>等待时间量的选择依据一个的概率分布。随后，如果再次检测到碰撞，每个碰撞会使等待时间长度加倍。最终每个站会得到机会转发，或者在尝试一定次数之后（传统以太网为 16）后超时。</p>
+<li><p>等待时间量的选择依据一个的概率分布。<strong>随后，如果再次检测到碰撞，每个碰撞会使等待时间长度加倍</strong>。最终<strong>每个站会得到机会转发</strong>，或者在尝试一定次数之后（传统以太网为 16）后<strong>超时</strong>。</p>
 </li>
 <li><p>只有当<strong>介质（medium）</strong>被确定为空闲状态时，链路层的 PDU 可以从一个站发送到其他一个或更多站。<strong>任何给定的时间内，网络中同一时刻只能有一个帧在传输</strong>。CSMA/CD 因此有另一个更正式的名字：<strong>介质访问控制协议，Medium Access Control。</strong></p>
 </li>
 <li><p><strong>以太网是一种广播网络。</strong></p>
 </li>
 </ul>
-<h2 id="以太网帧格式-Frame-Format"><a href="#以太网帧格式-Frame-Format" class="headerlink" title="以太网帧格式 / Frame Format"></a>以太网帧格式 / Frame Format</h2><p>下面介绍交换机如何处理 PDU。</p>
+<h2 id="以太网帧格式-Frame-Format"><a href="#以太网帧格式-Frame-Format" class="headerlink" title="以太网帧格式 / Frame Format"></a>以太网帧格式 / Frame Format</h2><p>下面介绍交换机如何处理 PDU（Protocol Data Unit，协议数据单元）。</p>
 <p><img src="http://osax8w13y.bkt.clouddn.com/frame%20format.png" alt=""></p>
 <p>所有的以太网帧都基于一个共同的格式。</p>
 <table>
@@ -437,7 +437,7 @@
 <td>目的MAC地址（DST）</td>
 <td>6</td>
 <td>一个 MAC 地址</td>
-<td>指明帧的接受者注：目的地址也支持多个站点，例如广播（ARP协议）、组播（ICMPv6）</td>
+<td>指明帧的接受者。目的地址也支持多个站点，例如广播（ARP协议）、组播（ICMPv6）</td>
 </tr>
 <tr>
 <td>源MAC地址（SRC）</td>
@@ -446,31 +446,31 @@
 <td>指明帧的发送者</td>
 </tr>
 <tr>
-<td>长度或类型</td>
+<td>长度或类型（Length/Type）</td>
 <td>2</td>
 <td>常见值有 IPv4（0x0800）、IPv6（0x86DD）、ARP（0x0806）</td>
 <td>帧的数据字段的长度（长度或类型）</td>
 </tr>
 <tr>
-<td>标签</td>
+<td>标签(tag)</td>
 <td>最大482字节</td>
 <td>如 QoS 指示符（服务质量）</td>
 <td>包含由其他 IEEE 标准定义的各种协议字段</td>
 </tr>
 <tr>
-<td><strong>有效载荷</strong></td>
+<td><strong>有效载荷</strong>（payload）</td>
 <td>46~1500</td>
 <td>略</td>
 <td>存放高层 PDU 的地方。对于TCP/IP 是 IP 数据包</td>
 </tr>
 <tr>
-<td>填充</td>
+<td>填充（女仆长のpad）</td>
 <td>可选</td>
 <td>一定长度的连续 0</td>
 <td>确保帧长度符合<strong>最小长度要求</strong></td>
 </tr>
 <tr>
-<td><strong>循环冗余检验</strong> FCS</td>
+<td><strong>循环冗余检验</strong>（FCS）</td>
 <td>4</td>
 <td>见下文</td>
 <td>对接收网卡提供判断是否传输错误的一种方法</td>
@@ -482,7 +482,7 @@
 <p>CRC 算法的基本思想是将传输的数据当做一个位数很长的数。将这个数除以另一个数。得到的<strong>余数</strong>作为校验数据附加到原数据后面。（商是抛弃的）…… 为了进行CRC运算，也就是这种特殊的除法运算，<strong>必须要指定个被除数</strong>，在CRC算法中，这个被除数有一个专有名称叫做<strong>“生成多项式”</strong>。生成多项式的选取是个很有难度的问题，如果选的不好，那么检出错误的概率就会低很多。好在这个问题已经被专家们研究了很长一段时间了，对于我们这些使用者来说，只要把现成的成果拿来用就行了。</p>
 <p>多项式的位宽（Width，简记为W），这个位宽不是多项式对应的二进制数的位数，而是位数减 1。按照 CRC 算法的要求，计算前要在原始数据后填上 W 个 0。</p>
 </blockquote>
-<p>值得注意的是，CRC 使用的是 <strong>mod 2 二进制除法</strong>计算余数。<strong>与四则运算不同的是模2运算不考虑进位和借位，即模2加法是不带进位的二进制加法运算，模2减法是不带借位的二进制减法运算。</strong>该计算结果的反码放置在帧的 CRC 或 FCS 字段中。在接受到数据之后，接收方执行相同的算法，得到结果，判断与存放在 FCS 字段的值是否匹配。如果两者不匹配，帧可能在传输过程中受损，通常被<strong>丢弃</strong>。</p>
+<p>值得注意的是，CRC 使用的是 <a href="https://baike.baidu.com/item/%E6%A8%A12%E8%BF%90%E7%AE%97/18556715?fr=aladdin" target="_blank" rel="external">mod 2 二进制除法</a>计算余数。<strong>与四则运算不同的是模2运算不考虑进位和借位，即模2加法是不带进位的二进制加法运算，模2减法是不带借位的二进制减法运算。</strong>该计算结果的反码放置在帧的 CRC 或 FCS 字段中。在接受到数据之后，接收方执行相同的算法，得到结果，判断与存放在 FCS 字段的值是否匹配。如果两者不匹配，帧可能在传输过程中受损，通常被<strong>丢弃</strong>。</p>
 <hr>
 <h1 id="网桥和交换机"><a href="#网桥和交换机" class="headerlink" title="网桥和交换机"></a>网桥和交换机</h1><p>IEEE 802.1d 标准规定了网桥的操作。 <strong>交换机本质上是高性能的网桥。</strong></p>
 <h2 id="交换机"><a href="#交换机" class="headerlink" title="交换机"></a>交换机</h2><p>随着以太网技术的发展，更快的计算机和基础设施使得局域网速度不断提升。（速度从 10Mb/s 增加到 100Mb/s、10Gb/s 甚至更高）。</p>
@@ -515,7 +515,7 @@
 <li>当交换机（桥）首次打开时，其数据库为空，因此不知道其他站点的位置。 无论何时收到<strong>目的地为自己以外的站的帧</strong>，它将为此帧目的端口<strong>之外的每个端口创建一个副本，并从每个端口发送帧的副本</strong>。（好像与广播有些许差别</li>
 <li>why learn？如果交换机从未学习站的位置，<strong>每个帧都需要被交付到每个网段</strong>，这将导致显著的不必要开销。<strong>学习能力（learning capability）可以显著降低开销，这是交换机和网桥的一个基本功能。</strong></li>
 <li>由于站可能出现异动、网卡更换、MAC 地址改变等各种情况，所以过滤数据库中的一个 MAC 地址可以通过某端口访问这条信息也<strong>不能假设是永远正确的。</strong><ul>
-<li>为了解决这个问题，网桥适用一个计时器（通常是五分钟）。如果在这个有效期内，没有再次看到某条目的地址，则将这个条目<strong>删除</strong>。</li>
+<li>为了解决这个问题，过滤数据库使用一个计时器（通常是五分钟）。如果在这个有效期内，没有再次看到某条目的地址，则将这个条目<strong>删除</strong>。</li>
 </ul>
 </li>
 </ul>
@@ -602,11 +602,141 @@
 </tbody>
 </table>
 <p>我们主要需要理解根端口和指定端口。贴出英文，好好揣摩：</p>
-<p>根端口：ports at the end of an edge on the spanning tree headed toward the root.</p>
-<p>指定端口：ports in the forwarding state acting as the port on the least-cost path to the root from the attached segment.</p>
+<ul>
+<li><p>根端口：ports at the end of an edge on the spanning tree headed toward the root.</p>
+</li>
+<li><p>指定端口：ports in the forwarding state acting as the port on the least-cost path to the root from the attached segment.</p>
+</li>
+</ul>
 <h2 id="BPDU"><a href="#BPDU" class="headerlink" title="BPDU"></a>BPDU</h2><p>下面介绍<strong>网桥协议数据单元（BPDU，Bridge Protocol Data Unit）</strong>，是 STP 形成、维护生成树过程中所使用的帧。</p>
 <p><img src="http://osax8w13y.bkt.clouddn.com/BPDU.png" alt=""></p>
-<p>字段|长度（bytes）|内容|含义<br>前导|7|略|略，见 Ethernet，下同<br>帧起始标志 SFD|1|略|略<br>DST|6|总是被发送至 01:80:C2:00:00:00 |链路层组、因特网组播寻址<br>SRC|6|略|略<br>长度/类型（L/T）|2|略|略<br>LLC/SNAP|3|此头部由 802.1 定义，针对 BPDU 设置为常数 0x424203|STP 用 LLC（逻辑链路控制）封装。并非所有 BPDU 都用 LLC/SNAP 封装，但这是很常见的选项<br>协议（Protocol identifier）|2|生成树协议设置为 0x0000|协议 ID 号<br>版本（Protocol Version Identifier）|1| 0/2/3 |STP/RSTP/MSP 用于指出协议版本<br>类型（BPDU Type）|1|与上一个字段，协议版本类似|略<br>标志（BPDU flags）|1|见下面详解|略|<br><strong>根 ID</strong>（Root Identifier）|8|发送发使用的<strong>根网桥标识符</strong>，详情见网桥 ID 字段|生成树以某个特定网桥作为<strong>根</strong><br><strong>根路径成本</strong>（Root Path Cost）|4|到达根 ID 字段中指定的网桥的路径计算成本|用于计算生成树算法。 cost 是与链路传速速度成反比的。<br><strong>网桥 ID</strong>（Bridge Identifier）|8|交换机的 6 字节的 MAC 地址，以及前面一个 2 字节的<strong>优先级字段</strong>|优先级的值可以通过管理软件来设置，强制要求生成树以某个特定网桥为根网桥<br><strong>端口 ID</strong>（Port identifier）|2|端口标识符，即由发送帧给出的端口号。也有一个可配置的 1 字节的<strong>优先级</strong>字段|作用类似网桥 ID 字段中优先级的作用。<br><strong>消息有效期</strong>（MsgA）|2|一开始设置为 0 。任何接收 BPDU 的桥将在其<strong>非根端口上发送帧</strong>，该字段<strong>增加 1</strong>|此字段不像其他与时间相关的字段一样是一个固定值。实质上，该字段用作跳数，给出在接收BPDU之前已经处理的桥的数量。<br><strong>最大有效期</strong>（MaxA）|2|指出 BPDU 超时的期限，默认为 20 秒|在端口上接收到BPDU时，其包含的信息被保存在存储器中，并参与STP算法的执行中，直到被超时，<strong>超时是发生在(MaxA – MsgA)</strong>。如果在<strong>这个时间段内根端口没有接收到另一个 BPDU，根网桥被宣布“死亡”，重新开始根网桥选举过程</strong>。<br><strong>欢迎时间</strong>（Hello Time）|2|比如 2 秒|表示 BPDU 帧发送间隔<br><strong>转发延迟</strong>（Forward Delay）|2|典型为 15 秒|给出在学习和收听状态下等待所花费的时间。<strong>延迟是为了等待整个生成树的同步、MAC 表的刷新。</strong><br>FCS|4|略|略</p>
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>长度（bytes）</th>
+<th>内容</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>前导</td>
+<td>7</td>
+<td>略</td>
+<td>略，见 Ethernet，下同</td>
+</tr>
+<tr>
+<td>帧起始标志 SFD</td>
+<td>1</td>
+<td>略</td>
+<td>略</td>
+</tr>
+<tr>
+<td>DST</td>
+<td>6</td>
+<td>总是被发送至 01:80:C2:00:00:00</td>
+<td>链路层组、因特网组播寻址</td>
+</tr>
+<tr>
+<td>SRC</td>
+<td>6</td>
+<td>略</td>
+<td>略</td>
+</tr>
+<tr>
+<td>长度/类型（L/T）</td>
+<td>2</td>
+<td>略</td>
+<td>略</td>
+</tr>
+<tr>
+<td>LLC/SNAP</td>
+<td>3</td>
+<td>此头部由 802.1 定义，针对 BPDU 设置为常数 0x424203</td>
+<td>STP 用 LLC（逻辑链路控制）封装。并非所有 BPDU 都用 LLC/SNAP 封装，但这是很常见的选项</td>
+</tr>
+<tr>
+<td>协议（Protocol identifier）</td>
+<td>2</td>
+<td>生成树协议设置为 0x0000</td>
+<td>协议 ID 号</td>
+</tr>
+<tr>
+<td>版本（Protocol Version Identifier）</td>
+<td>1</td>
+<td>0/2/3</td>
+<td>STP/RSTP/MSP 用于指出协议版本</td>
+</tr>
+<tr>
+<td>类型（BPDU Type）</td>
+<td>1</td>
+<td>与上一个字段，协议版本类似</td>
+<td>略</td>
+</tr>
+<tr>
+<td>标志（BPDU flags）</td>
+<td>1</td>
+<td>见下面详解</td>
+<td>略</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>根 ID</strong>（Root Identifier）</td>
+<td>8</td>
+<td>发送发使用的<strong>根网桥标识符</strong>，详情见网桥 ID 字段</td>
+<td>生成树以某个特定网桥作为<strong>根</strong></td>
+</tr>
+<tr>
+<td><strong>根路径成本</strong>（Root Path Cost）</td>
+<td>4</td>
+<td>到达根 ID 字段中指定的网桥的路径计算成本</td>
+<td>用于计算生成树算法。 cost 是与链路传速速度成反比的。</td>
+</tr>
+<tr>
+<td><strong>网桥 ID</strong>（Bridge Identifier）</td>
+<td>8</td>
+<td>交换机的 6 字节的 MAC 地址，以及前面一个 2 字节的<strong>优先级字段</strong></td>
+<td>优先级的值可以通过管理软件来设置，强制要求生成树以某个特定网桥为根网桥</td>
+</tr>
+<tr>
+<td><strong>端口 ID</strong>（Port identifier）</td>
+<td>2</td>
+<td>端口标识符，即由发送帧给出的端口号。也有一个可配置的 1 字节的<strong>优先级</strong>字段</td>
+<td>作用类似网桥 ID 字段中优先级的作用。</td>
+</tr>
+<tr>
+<td><strong>消息有效期</strong>（MsgA）</td>
+<td>2</td>
+<td>一开始设置为 0 。任何接收 BPDU 的桥将在其<strong>非根端口上发送帧</strong>，该字段<strong>增加 1</strong></td>
+<td>此字段不像其他与时间相关的字段一样是一个固定值。实质上，该字段用作跳数，给出在接收BPDU之前已经处理的桥的数量。</td>
+</tr>
+<tr>
+<td><strong>最大有效期</strong>（MaxA）</td>
+<td>2</td>
+<td>指出 BPDU 超时的期限，默认为 20 秒</td>
+<td>在端口上接收到BPDU时，其包含的信息被保存在存储器中，并参与STP算法的执行中，直到被超时，<strong>超时是发生在(MaxA – MsgA)</strong>。如果在<strong>这个时间段内根端口没有接收到另一个 BPDU，根网桥被宣布“死亡”，重新开始根网桥选举过程</strong>。</td>
+</tr>
+<tr>
+<td><strong>欢迎时间</strong>（Hello Time）</td>
+<td>2</td>
+<td>比如 2 秒</td>
+<td>表示 BPDU 帧发送间隔</td>
+</tr>
+<tr>
+<td><strong>转发延迟</strong>（Forward Delay）</td>
+<td>2</td>
+<td>典型为 15 秒</td>
+<td>给出在学习和收听状态下等待所花费的时间。<strong>延迟是为了等待整个生成树的同步、MAC 表的刷新。</strong></td>
+</tr>
+<tr>
+<td>FCS</td>
+<td>4</td>
+<td>略</td>
+<td>略</td>
+</tr>
+</tbody>
+</table>
 <p>1 byte 的 flag 字段的位分别定义为：</p>
 <table>
 <thead>
@@ -662,9 +792,9 @@
 <p>我们可以这么理解：一群猴子要选出一个猴王出来，一开始，所有猴子都觉得自己能当猴王。假设有三只猴子 A、B、C：</p>
 <ul>
 <li>B 先向 A 发出挑战（交换机 B 用自己的 ID 发送 BPDU 给 A）</li>
-<li>然而可惜的是， B 失败了（交换机 A 发送过来的 BPDU 中根 ID 字段比自己的要小），这样 B 就会承认 A 比较厉害，此后不再会挑战 A 的权威。（之后是基于 A 的更小的 ID 构造 BPDU，而不是发送自己的网桥 ID 了）</li>
-<li>B 会向隔壁的 C 传达这个意思：A 是目前最厉害的猴子！（以后发送的 BPDU 中的根 ID 字段是 A 的 mac 地址）</li>
-<li>如果“A 是目前最厉害的猴子”这个消息传遍整个了猴群，那么 A 就当选了猴王。</li>
+<li>然而可惜的是， B 失败了（交换机 A 发送过来的 BPDU 中根 ID 字段比自己的要小），这样 B 就会承认 A 比较厉害，<strong>此后不再会挑战 A 的权威</strong>。（之后是基于 A 的更小的 ID 构造 BPDU，而不是发送自己的网桥 ID 了）</li>
+<li>B 不仅向 A 俯首称臣了，还要向隔壁的 C 传达：<strong>A 是目前最厉害的猴子！</strong>（以后发送的 BPDU 中的根 ID 字段是 A 的 mac 地址）</li>
+<li><strong>如果“A 是目前最厉害的猴子”这个消息传遍整个了猴群，那么 A 就当选了猴王。</strong></li>
 </ul>
 <p>下面来看一个例子，这个例子里包括四台交换机，各有两个端口互连，路径成本标在路径上：</p>
 <p><img src="http://osax8w13y.bkt.clouddn.com/STP%20TOPO1.png" alt=""></p>
@@ -678,12 +808,17 @@
 <ol>
 <li>选<strong>每个网段</strong>的指定端口，考虑对象：每条链路。选取方法：比较<strong>每条链路两端发出的</strong> BPDU 的 cost。</li>
 </ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">S1-S2 网段: 端口 8 发出的 BPDU 的 cost 为 0; 端口 1 发出的 cost 为 19 + 4 + 19 = 42（这里，BPDU 不会逆着发，联想一下猴王的例子）</div><div class="line">           端口 8 成为指定端口</div><div class="line">S1-S3 网段: 端口 7: 0; 端口 6: 19 + 19 + 4 = 42 </div><div class="line">            端口 7 成为指定端口</div><div class="line">S2-S3 网段: 端口 2: 19; 端口 3: 19 + 4 = 23</div><div class="line">            端口 2 成为指定端口</div><div class="line">S3-S4 网段: 端口 5: 19; 端口 4: 19 + 19 = 38</div><div class="line">            端口 5 成为指定端口</div></pre></td></tr></table></figure>
-<p>下图是更新的状态：S1 当选根桥（root bridge）。端口 1、4、6 是根端口（蓝色圆圈）；端口 2、5、7、8 是指定端口（红色正方形）。既不是根端口，也不是指定端口的，就阻塞（图中的端口 3）。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">S1-S2 网段: 端口 8 发出的 BPDU 的 cost 为 0; 端口 1 发出的 cost 为 19 + 4 + 19 = 42</div><div class="line">（这里，BPDU 不会逆着发，联想一下猴王的例子）</div><div class="line">           端口 8 成为指定端口</div><div class="line">S1-S3 网段: 端口 7: 0; 端口 6: 19 + 19 + 4 = 42 </div><div class="line">            端口 7 成为指定端口</div><div class="line">S2-S3 网段: 端口 2: 19; 端口 3: 19 + 4 = 23</div><div class="line">            端口 2 成为指定端口</div><div class="line">S3-S4 网段: 端口 5: 19; 端口 4: 19 + 19 = 38</div><div class="line">            端口 5 成为指定端口</div></pre></td></tr></table></figure>
+<p>下图是更新的状态：S1 当选根桥（root bridge）。端口 1、4、6 是根端口（蓝色圆圈）；端口 2、5、7、8 是指定端口（红色正方形）。<strong>既不是根端口，也不是指定端口的，就阻塞</strong>（图中的端口 3）。自然，形成了一棵生成树。</p>
 <p><img src="http://osax8w13y.bkt.clouddn.com/STP%20TOPO2.png" alt=""></p>
-<p>现在再来体会以下根端口和指定端口的定义。根端口是在生成树的<strong>边（edge）上</strong>，<strong>朝向根网桥</strong>的端口。联想 Prim 最小生成树算法，既然根端口是生成树边上朝向根网桥的端口，那么意味着根端口向整棵树的枝叶发消息的时候，往根端口发送就可以了。指定端口即作为<strong>从附加网段</strong>（attached segment）<strong>到根的最小路径上的端口</strong>。“附加的网段”可以想象成生成树扩张的状态。当叶节点需要向根网桥发送 BPDU（例如发送了拓扑改变），则往指定端口发就可以了。一句话总结，就是：</p>
+<p>现在再来体会以下根端口和指定端口的定义。</p>
 <ul>
-<li><strong>根端口就像是树中的 child 指针，指定端口就像是 parent 指针。</strong></li>
+<li><p>根端口是在生成树的<strong>边（edge）上</strong>，<strong>朝向根网桥</strong>的端口。我们可以联想 Prim 最小生成树算法，既然根端口是生成树边上朝向根网桥的端口，那么意味着<strong>根端口向整棵树的枝叶发</strong>消息的时候，<strong>往根端口发</strong>就可以了。</p>
+</li>
+<li><p>指定端口即作为<strong>从附加网段</strong>（attached segment）<strong>到根的最小路径上的端口</strong>。“附加的网段”可以想象成生成树扩张的状态。当<strong>叶节点需要向根网桥发送 BPDU</strong>（例如发送了拓扑改变），则<strong>往指定端口发</strong>就可以了。一句话总结，就是：</p>
+</li>
+<li><p><strong>根端口就像是树中的 child 指针，指定端口就像是 parent 指针。</strong></p>
+</li>
 </ul>
 <p>此外，还可以得出以下一些性质：</p>
 <ul>
@@ -704,7 +839,7 @@
 <blockquote>
 <p>生成树是一个具有<strong>缓慢收敛时间的旧协议</strong>。如果未正确实施，可能会导致主要的网络中断。 阻止链接的想法是客户现在不能接受的一个适当的高可用解决方案。 </p>
 </blockquote>
-<p>拓扑变化之后，只能通过一段时间未检测到 BPDU 来检测。收敛时间（沿着生成树重新建立数据流的时间）可能很长。</p>
+<p>拓扑变化之后，只能通过一段时间未检测到 BPDU 来检测。<strong>收敛时间</strong>（沿着生成树重新建立数据流的时间）可能很长。</p>
 <ul>
 <li>为什么 STP 拓扑变化通知必须发回根端口？因为只有根端口能发 TC 置 1 的 BPDU。更新拓扑的机制是收到 TC BPUD 而老化数据库，更新拓扑。</li>
 </ul>
@@ -740,13 +875,15 @@
 <li><a href="http://blog.163.com/hlz_2599/blog/static/14237847420101124112234233/" target="_blank" rel="external">生成树详解</a></li>
 </ul>
 <hr>
-<p>另：使用 Wireshark 抓包没有前导、SFD、FCS 字段，搜索后得到如下原因：</p>
+<p>另：使用 Wireshark 抓以太网包没有前导、SFD、FCS 字段，搜索后得到如下原因：</p>
 <ul>
-<li>抓preamble没有意义。</li>
-<li>Wireshark抓到的数据包是网卡driver给上来的，有些网卡driver会把帧后面的4字节的FCS去掉，不上传给tcp/ip协议栈，Wireshark自然就看不到了。</li>
+<li>抓 preamble 没有意义。</li>
+<li>Wireshark 抓到的数据包是网卡 driver 给上来的，有些网卡 driver 会把帧后面的 4 字节的 FCS 去掉，不上传给 tcp/ip 协议栈，Wireshark 自然就看不到了。</li>
 </ul>
+<hr>
 <p>查看 MAC 地址的方法：在 cmd 中输入</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ipconfig /all</div></pre></td></tr></table></figure>
+<hr>
 <h1 id="Wireshark-抓包实例"><a href="#Wireshark-抓包实例" class="headerlink" title="Wireshark 抓包实例"></a>Wireshark 抓包实例</h1><p>附上一个 ARP 包的例子来看看以太网帧：</p>
 <p><img src="http://osax8w13y.bkt.clouddn.com/Ethernetpacket1.png" alt=""></p>
 <p>生成树协议：</p>
