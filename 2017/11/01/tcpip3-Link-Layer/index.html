@@ -110,9 +110,12 @@
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/BPDU.png">
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/STP%20TOPO1.png">
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/STP%20TOPO2.png">
+<meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/PPP%20frame.png">
+<meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/LCP%20state%20machine.png">
+<meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/LCP%20Frame.png">
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/Ethernetpacket1.png">
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/stppacket.png">
-<meta property="og:updated_time" content="2017-11-04T17:11:57.456Z">
+<meta property="og:updated_time" content="2017-11-06T16:31:16.905Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="《TCP&#x2F;IP 详解 卷1：协议》第 3 章：链路层">
 <meta name="twitter:description" content="在体系结构中，我们知道：链路层（或数据链路层）包含为共享相同介质的邻居建立连接的协议和方法，同时，设计链路层的目的是为 IP 模块发送和接受 IP 数据报，链路层可用于携带支持 IP 的辅助性协议，例如 ARP。 TCP/IP 取得成功的的原因之一在于它能工作在几乎任意一种链路之上。不同的链路层依赖于其使用的网络硬件类型：有限局域网，例如以太网；城域网，例如有线电视、DSL 连接；有线语音网络，例">
@@ -865,6 +868,7 @@
 </li>
 </ul>
 <h2 id="PPP-基本帧格式"><a href="#PPP-基本帧格式" class="headerlink" title="PPP 基本帧格式"></a>PPP 基本帧格式</h2><p>PPP 设计时，是基于<strong>高级数据链路控制（HDLC）</strong>建立的一种良好帧格式。</p>
+<p><img src="http://osax8w13y.bkt.clouddn.com/PPP%20frame.png" alt=""></p>
 <table>
 <thead>
 <tr>
@@ -925,8 +929,18 @@
 </tr>
 </tbody>
 </table>
+<h2 id="PPP-状态机"><a href="#PPP-状态机" class="headerlink" title="PPP 状态机"></a>PPP 状态机</h2><p>下面是 PPP 状态机：</p>
+<p><img src="http://osax8w13y.bkt.clouddn.com/LCP%20state%20machine.png" alt=""></p>
+<ul>
+<li><strong>链路不可用阶段</strong>。PPP链路都需从这个阶段开始和结束。</li>
+<li><strong>链路建立阶段</strong>。是PPP协议最关键和最复杂的阶段。这是在数据链路层进行。该阶段主要是发送一些配置报文来配置数据链路，这些配置的参数不包括网络层协议所需的参数。在这个阶段<strong>主要是通过LCP协议进行链路参数的配置</strong>。</li>
+<li><strong>验证阶段</strong>。多数情况下的链路两端设备是需要经过认证后才进入到网络层协议阶段，缺省情况下链路两端的设备是不进行认证的。在该阶段支持<strong>PAP 和 CHAP</strong>两种认证方式，验证方式的选择是依据在链路建立阶段双方进行协商的结果。</li>
+<li><strong>网络层协议阶段</strong>。一旦PPP完成了前面几个阶段，每种网络层协议（IP、IPX和AppleTalk）会通过各自相应的网络控制协议进行配置，每个<strong>NCP 协议</strong>可在任何时间打开和关闭。</li>
+<li><strong>网络终止阶段</strong>。PPP能在任何时候终止链路。当载波丢失、授权失败、链路质量检测失败和管理员人为关闭链路等情况均会导致链路终止。PPP 的除了不可用阶段，任何一种状态都可以立即进入网络终止阶段。</li>
+</ul>
 <h2 id="链路控制协议"><a href="#链路控制协议" class="headerlink" title="链路控制协议"></a>链路控制协议</h2><p><strong>链路控制协议（LCP）</strong>构成了互联网协议族中的点对点协议（PPP）的一部分。 在建立PPP通信时，发送和接收设备都<strong>发送LCP分组以确定随后的数据传输的标准。</strong></p>
-<p>LCP Frame 是在 PPP Frame 上进行了简单的封装</p>
+<p>LCP Frame 是在 PPP Frame 上进行了简单的封装。</p>
+<p><img src="http://osax8w13y.bkt.clouddn.com/LCP%20Frame.png" alt=""></p>
 <table>
 <thead>
 <tr>
@@ -957,9 +971,84 @@
 </tr>
 </tbody>
 </table>
-<p>代码字段配置的操作类型有：配置请求（）、配置ACK（）、配置NACK（）、配置REJECT（）、终止请求（）、终止ACK（）、代码REJECT（）、协议REJECT（）、回送请求（）、回送应答（）、放弃请求（）、标识（）、剩余时间（）。</p>
-<p>LCP协议：<br>检查链接的设备的身份，并接受或拒绝该设备<br>确定传输的可接受分组大小<br>在配置中搜索错误<br>如果需求超过参数可以终止链接</p>
-<h2 id="LCP-状态"><a href="#LCP-状态" class="headerlink" title="LCP 状态"></a>LCP 状态</h2><h2 id="PPP-认证"><a href="#PPP-认证" class="headerlink" title="PPP 认证"></a>PPP 认证</h2><h2 id="网络控制协议"><a href="#网络控制协议" class="headerlink" title="网络控制协议"></a>网络控制协议</h2><h2 id="PPPoE"><a href="#PPPoE" class="headerlink" title="PPPoE"></a>PPPoE</h2><h1 id="MTU"><a href="#MTU" class="headerlink" title="MTU"></a>MTU</h1><p>以太网帧有最小和最大尺寸。</p>
+<ul>
+<li>代码字段配置的操作类型有：配置请求（按排序从 0x01 递增到 0X0D）、配置ACK、配置NACK 、配置REJECT 、终止请求 、终止ACK 、代码REJECT 、协议REJECT 、回送请求 、回送应答 、放弃请求 、标识 、剩余时间。</li>
+<li><strong>ACK</strong> 标识接受一组选项，<strong>NACK</strong> 表明部分拒绝。</li>
+<li><strong>REJECT</strong> 完全拒绝一个或多个选项。</li>
+<li><strong>配置</strong>消息使得链路两端开始<strong>基本配置过程</strong>，建立商定的选项。</li>
+<li><strong>终止</strong>消息可以<strong>清除一条链路</strong></li>
+<li><strong>回送</strong>可由 LCP 在一条活跃的链路上随时交换，验证对方的操作。</li>
+<li><strong>放弃请求</strong>，用于性能测试，指示对方丢弃没有相应的分组。</li>
+<li><strong>标识</strong>、<strong>剩余时间</strong>用于管理目的：了解对方的系统类型，指出链路建立的时间。</li>
+</ul>
+<h2 id="LCP-状态"><a href="#LCP-状态" class="headerlink" title="LCP 状态"></a>LCP 状态</h2><p>LCP 用于建立 PPP 链路 ，商定各方选项。典型的过程包括：<strong>配置请求、配置确认、认证交换、数据交换、终止交换。</strong>因为 PPP 是一个<strong>包括很多部分的通用协议</strong>，所以一条链路的建立和终止之间可以发生很多其他种类的操作。</p>
+<p>（下面引用自<a href="http://blog.csdn.net/xdsoft365/article/details/6335882" target="_blank" rel="external">闲谈PPP协议</a>）</p>
+<ul>
+<li>配置请求：</li>
+</ul>
+<blockquote>
+<p>一般而言在进入<strong>链路建立阶段</strong>时，通信双方无论哪一端都会连续发送几个配置请求报文<strong>（Config-Request报文）</strong>，而这几个请求报文的数据域可能是完全一样的，而仅仅是它们的标识域不同罢了。通常一个配置请求报文的ID是从0x01开始逐步加1的，当对端接收到该配置请求报文后，无论使用何种报文（回应报文可能是Config-Ack、Config-Nak和Config-Reject三种报文中的一种）来回应对方，但必须要求回应报文中的ID（标识域）要与接收报文中的ID一致，当通信设备收到回应后就可以将该回应与发送时的进行比较来决定下一步的操作。</p>
+<p>当接收Config-Request报文的一端能识别发送过来的所有配置参数选项且认可所有配置参数选项数据域的内容时，接收端将会给对端回一个Config-Ack报文并将配置请求报文中的配置参数选项原封不动的放置在Config-Ack报文的数据域内（根据协议的规定是不可改变配置参数选项的顺序）。当配置请求报文的发送端收到Config-Ack报后，则会从当前阶段进入到下一个阶段。 </p>
+</blockquote>
+<ul>
+<li><p>一旦底层协议表明一个关联变成活跃（例如调制解调器检测到载波），则认为这个链路已经被建立。然后，如果链接需要被<strong>认证</strong>（一般来说是要的），例如拨号到一个 ISP 时，需要一些额外的信息交换（用户名、密码），以验证链路上一方 or 双方的身份。</p>
+</li>
+<li><p>NACK 和 REJECT</p>
+</li>
+</ul>
+<blockquote>
+<p>当接收Config-Request报文的一端能识别发送端所发送过来的所有配置参数选项，但<strong>对部分配置参数选项数据域中的内容不认可</strong>时，接收端将会给对端回应一个<strong>Config-Nak</strong>报文，（注意，是能够识别，只是对部分参数内容不认可，所以不是Config-Reject报文）。然而当接收端收到Config-Nak报文后，会重新发送Config-Request报文，而这个Config-Request报文与上一次所发送的Config-Request报文区别在于那些被对端不认可的配置参数选项的内容被填写到刚刚协商完后再次发送的Config-Request报文中。</p>
+<p>当接收Config-Request报文的一端<strong>不能识别所有的发送端发送过来的配置参数选项</strong>时，此时接收端将会向对端回一个<strong>Config-Reject</strong>报文，该报文中的数据域只携带那些不能识别的配置参数选项（当配置参数选项的类型域不识别时）。当对端接收到Config-Reject报文后，同样会再次发送一个Config-Request报文，这个配置请求报文与上一次发送的区别在于将不可识别的那些配置参数选项给删除了。 </p>
+<ul>
+<li>链路终止</li>
+</ul>
+<p>分为Terminate-Request和Terminate-Reply两种报文。LCP报文中提供了一种机制来关闭一个点对点的连接，<strong>想要关断链路的一端会持续发送Terminate-Request报文，直到收到一个Terminate-Reply为止</strong>。接收端一旦收到了一个Terminate-Request报文后，必须回应一个Terminate-Reply报文，同时等待对端先将链路断开后，再完成本端的所有断开的操作。LCP的链路终止报文的数据域与链路配置报文的数据域不一样，链路终止报文中无需携带各配置参数选项。对于链路终止报文也同样需要ID一致，当接收到Terminate-Reply报文才会做链路终止操作。</p>
+</blockquote>
+<ul>
+<li>当底层协议或硬件表明一个关联停止（例如载波消失），或发生了链路终止请求，并从对方接收到确认终止响应，则这个链路已被终止。</li>
+</ul>
+<h2 id="魔术数字"><a href="#魔术数字" class="headerlink" title="魔术数字"></a>魔术数字</h2><p>如果一个工作站处于<strong>环回模式</strong>，这时会使点到点链路出现一个常见问题。<strong>魔术字</strong>（发送方选择的任意数字）是在链路建立过程中比较重要的一个参数，这个参数是在Config-Request里面被协商的，主要的作用是防止环路。LCP 通过发送<strong>魔术数字</strong>，<strong>查看是否立即返回相同类型的信息</strong>。如果是的话，视为检测到环回，并可能需要进行维护。</p>
+<p>（下面引用自<a href="http://blog.csdn.net/xdsoft365/article/details/6335882" target="_blank" rel="external">闲谈PPP协议</a>）</p>
+<blockquote>
+<p>协议为了避免双方可能产生同样的魔术字，从而导致通信出现不必要的麻烦，因此要求由设备<strong>采用一些随机方法产生一个独一无二的魔术字</strong>。一般来说魔术字的选择会采用设备的系列号、网络硬件地址或时钟。双方产生相同魔术字的可能性不能说是没有的，但应尽量避免…… </p>
+<p>我们知道魔术字产生的作用是用来帮助检测链路是否存在环路，当接收端收到一个Config-Request报文时，会将此报文与上一次所接收到的Config-Request进行比较，如果两个报文中所含的魔术字不一致的话，表明链路不存在环路。但如果一致的话，接收端认为链路<strong>可能</strong>存在环路，<strong>但不一定</strong>存在环路，还需进一步确认，方法是： <strong>此时接收端将发送一个Config-Nak报文，并在该报文中携带一个重新产生的魔术字，而且此时在未接收到任何Config-Request或Config-Nak报文之前，接收端也不会发送任何的Config-Request报文。</strong></p>
+<ol>
+<li><p>链路实际不存在环路，而是由于对方产生了一样的魔术字，但实际这种情况出现的概率是<strong>很小</strong>的。当Config-Nak被原来的发送端接收到后，应该立即重新发送一个Config-Request报文（此报文中的魔术字为之前Nak报文中的，也就是第一次接收端收到的魔术字），当接收端接收到后，与上次比较，由于接收端已经在Nak报文中<strong>产生了一个不同的魔术字</strong>，此时接收端收到的Config-Request报文中的魔术字与上次配置请求报文中不一样，所以接收端可断定链路不存在环路。</p>
+</li>
+<li><p>链路实际上确实存在环路。在这条链路上就会不断的出现Config-Request、Config-Nak报文，而且魔术字一直是相同的。这样周而复始下去，接收端就会认为PPP链路存在环路的可能性在不断增加，<strong>当达到一定数量级时，就可认为此链路存在环路。</strong>（注意，不是第一次受到相同的魔术字就判断有环路的）</p>
+</li>
+</ol>
+<p>好了，基本上通过PPP闲谈，我们可以比较彻底的了解PPP协议的工作机制和特点，其实，会者不难，协议都是人制订的，只有简单易用的协议才会最终保留下来，就像TCP/IP打败OSI一样。所以，只要静下心来，没有什么高深的。</p>
+</blockquote>
+<h1 id="PPP-认证"><a href="#PPP-认证" class="headerlink" title="PPP 认证"></a>PPP 认证</h1><p>在一条 PPP 链路处于网络状态前，通常需要使用某种认证机制，识别建立链路的对方身份。</p>
+<ul>
+<li>最简单、安全性最低的认证方案就是<strong>密码认证协议（PAP）</strong>。非常简单，就是一方请求另一方发送一个明文密码。由于未加密，容易被轻易捕获。</li>
+<li><strong>查询 - 握手认证协议（CHAP）</strong></li>
+</ul>
+<blockquote>
+<p>其实CHAP的C代表Chanllenge的意思，即验证方会首先发起挑战：你把密码告诉我，这是第一次握手；然后被验证方才会将密码告知验证方，这是第二次握手；最后验证方反馈验证结果，这是第三次握手。而PAP则只有后两次握手，另外PAP的密码是明文，CHAP的是密文。</p>
+</blockquote>
+<ul>
+<li><p>一个随机值从认证方发送到另一方。通过一种特殊的单向（不可逆）功能，将一个随机值和共享密钥（通常由密码生成）结合形成响应中的一个数字。在接受到这个响应之后，认证方能更可靠地验证对方密钥是否正确。不会以明文方式传输密钥或者密码。每次使用不同的随机值，窃听者即使可能捕捉到这个值，也无法通过重放来欺骗对方。</p>
+</li>
+<li><p><a href="http://network.51cto.com/art/201109/291563.htm" target="_blank" rel="external">CHAP认证概述</a></p>
+</li>
+</ul>
+<blockquote>
+<p>CHAP认证第一步：主认证方发送挑战信息【01(此报文为认证请求）、id(此认证的序列号）、随机数据、主认证方认证用户名】，被认证方接收到挑战信息，根据接收到主认证方的认证用户名到自己本地的数据库中查找对应的密码（如果没有设密码就用默认的密码），查到密码再结合主认证方发来的id和随机数据根据MD5算法算出一个Hash值。</p>
+<p>CHAP认证第二步：被认证方回复认证请求，认证请求里面包括【02（此报文为CHAP认证响应报文）、id(与认证请求中的id相同）、Hash值、被认证方的认证用户名】，主认证方处理挑战的响应信息，根据被认证方发来的认证用户名，主认证方在本地数据库中查找被认证方对应的密码（口令）结合id找到先前保存的随机数据和id根据MD5算法算出一个Hash值，与被认证方得到的Hash值做比较，如果一致，则认证通过，如果不一致，则认证不通过。</p>
+<p>CHAP认证第三步：认证方告知被认证方认证是否通过。</p>
+</blockquote>
+<h2 id="网络控制协议"><a href="#网络控制协议" class="headerlink" title="网络控制协议"></a>网络控制协议</h2><p>在 LCP 完成链路建立和确认之后，该链路每端都进入网络状态。然后就可以开始使用<strong>一个或多个的 NCP</strong>（Network Control Protocol，NCP 网络控制协议）来<strong>进行网络层的相关协商。</strong></p>
+<p>典型的例如 IPCP（针对 IPv4 的标准 NCP）用于在一条链路上建立 IPv4 链接。包括一系列选项：IP 压缩、移动 IPv4等等。</p>
+<h1 id="环回"><a href="#环回" class="headerlink" title="环回"></a>环回</h1><p>在魔术数字提到的<strong>环回（loop）</strong>概念，可能一开始看起来很奇怪。不过在很多情况下，客户机可能希望用 Internet 协议来与同一计算机上的服务器通信。为了实现这个目标，大多是实现一种工作在网络层的环回能力。</p>
+<ul>
+<li>使用一个虚拟的还回网络接口来实现。它<strong>像一个真正的网络接口</strong>，但<strong>实际上是</strong>一个由<strong>操作系统提供的专门的软件</strong>。</li>
+<li>以 127 开头的 IPv4 地址就是为了这个目的而保留。类 UNIX 系统为环回接口分配的地址是 <code>127.0.0.1</code>（IPv6 为 <code>::1</code>)，分配的名称是 <strong>localhost</strong>。Linux 中，环回接口被称为 <strong>lo</strong>。</li>
+<li>发送到环回接口的 IP 数据报<strong>不会出现在任何网络中</strong>。</li>
+<li>大多数的实现有经过传输层和网络层对数据的完整处理流程，仅在数据报离开网络层时将其送回给网络层协议栈。</li>
+</ul>
+<h2 id="PPPoE"><a href="#PPPoE" class="headerlink" title="PPPoE"></a>PPPoE</h2><h1 id="MTU"><a href="#MTU" class="headerlink" title="MTU"></a>MTU</h1><p>以太网帧有最小和最大尺寸。</p>
 <ul>
 <li><p>最小帧要求有 64 字节，有效载荷长度最小为 48 长度。当有效载荷较短，就需要填充一些字节（都是 0），确保达到最小长度。</p>
 </li>
@@ -974,13 +1063,20 @@
 <li>当两台主机跨越多种网络通信时，<strong>每种不同的链路可能有不同大小的 MTU</strong>。因此，在包含所有链路的整个网络路径上，最小的 MTU 叫做 <strong>路径 MTU</strong>。</li>
 <li>如果 IP 需要发送一个数据报，大小大于链路层 MTU，则 IP 通过<strong>分片（slice）</strong>将数据报分解成较小的部分，使每个分片都小于 MTU。分片会在 IP 协议中详细讨论。</li>
 </ul>
-<h1 id="隧道基础"><a href="#隧道基础" class="headerlink" title="隧道基础"></a>隧道基础</h1><h1 id="还回"><a href="#还回" class="headerlink" title="还回"></a>还回</h1><h1 id="与链路层相关的攻击"><a href="#与链路层相关的攻击" class="headerlink" title="与链路层相关的攻击"></a>与链路层相关的攻击</h1><h1 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h1><ul>
+<h1 id="隧道基础"><a href="#隧道基础" class="headerlink" title="隧道基础"></a>隧道基础</h1><h1 id="与链路层相关的攻击"><a href="#与链路层相关的攻击" class="headerlink" title="与链路层相关的攻击"></a>与链路层相关的攻击</h1><h1 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h1><ul>
 <li><a href="https://baike.baidu.com/item/%E6%A8%A12%E8%BF%90%E7%AE%97/18556715?fr=aladdin" target="_blank" rel="external">mod 2 运算</a></li>
 <li><a href="http://blog.csdn.net/liyuanbhu/article/details/7882789" target="_blank" rel="external">循环冗余校验（CRC）算法入门引导</a></li>
 <li><a href="http://blog.csdn.net/huang_shiyang/article/details/50881305" target="_blank" rel="external">CRC查找表法推导及代码实现比较</a></li>
 <li><a href="https://en.wikipedia.org/wiki/Spanning_Tree_Protocol" target="_blank" rel="external">wiki - Spanning Tree Protocol</a></li>
 <li><a href="http://m.blog.csdn.net/hong0220/article/details/17448249" target="_blank" rel="external">STP生成树协议之根端口 指定端口 阻塞端口</a></li>
-<li><a href="http://blog.163.com/hlz_2599/blog/static/14237847420101124112234233/" target="_blank" rel="external">生成树详解</a></li>
+<li><p><a href="http://blog.163.com/hlz_2599/blog/static/14237847420101124112234233/" target="_blank" rel="external">生成树详解</a></p>
+</li>
+<li><p><a href="http://blog.csdn.net/xdsoft365/article/details/6335882" target="_blank" rel="external">闲谈PPP协议</a></p>
+</li>
+<li><a href="https://en.wikipedia.org/wiki/Point-to-Point_Protocol" target="_blank" rel="external">Point-to-Point Protocol - wiki</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Point-to-point_protocol_over_Ethernet" target="_blank" rel="external">Point-to-point protocol over Ethernet - wiki</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Link_Control_Protocol" target="_blank" rel="external">Link Control Protocol - wiki</a></li>
+<li><a href="http://network.51cto.com/art/201109/291563.htm" target="_blank" rel="external">CHAP认证概述</a></li>
 </ul>
 <hr>
 <p>另：使用 Wireshark 抓以太网包没有前导、SFD、FCS 字段，搜索后得到如下原因：</p>
@@ -1160,7 +1256,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#以太网、IEEE-802-局域网标准"><span class="nav-number">1.</span> <span class="nav-text">以太网、IEEE 802 局域网标准</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#CSMA-CD-or-MAC"><span class="nav-number">1.1.</span> <span class="nav-text">CSMA/CD or MAC</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#以太网帧格式-Frame-Format"><span class="nav-number">1.2.</span> <span class="nav-text">以太网帧格式 / Frame Format</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#帧检验序列-循环冗余检验"><span class="nav-number">1.3.</span> <span class="nav-text">帧检验序列/循环冗余检验</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#网桥和交换机"><span class="nav-number">2.</span> <span class="nav-text">网桥和交换机</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#交换机"><span class="nav-number">2.1.</span> <span class="nav-text">交换机</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#全双工、半双工"><span class="nav-number">2.2.</span> <span class="nav-text">全双工、半双工</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#互连、MAC-学习"><span class="nav-number">2.3.</span> <span class="nav-text">互连、MAC 学习</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#生成树协议"><span class="nav-number">3.</span> <span class="nav-text">生成树协议</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#STP-状态机"><span class="nav-number">3.1.</span> <span class="nav-text">STP 状态机</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#端口角色"><span class="nav-number">3.2.</span> <span class="nav-text">端口角色</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#BPDU"><span class="nav-number">3.3.</span> <span class="nav-text">BPDU</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#建立生成树"><span class="nav-number">3.4.</span> <span class="nav-text">建立生成树</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#处理拓扑变化"><span class="nav-number">3.5.</span> <span class="nav-text">处理拓扑变化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#快速生成树协议"><span class="nav-number">3.6.</span> <span class="nav-text">快速生成树协议</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#点到点协议"><span class="nav-number">4.</span> <span class="nav-text">点到点协议</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#PPP-基本帧格式"><span class="nav-number">4.1.</span> <span class="nav-text">PPP 基本帧格式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#链路控制协议"><span class="nav-number">4.2.</span> <span class="nav-text">链路控制协议</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#LCP-状态"><span class="nav-number">4.3.</span> <span class="nav-text">LCP 状态</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#PPP-认证"><span class="nav-number">4.4.</span> <span class="nav-text">PPP 认证</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#网络控制协议"><span class="nav-number">4.5.</span> <span class="nav-text">网络控制协议</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#PPPoE"><span class="nav-number">4.6.</span> <span class="nav-text">PPPoE</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#MTU"><span class="nav-number">5.</span> <span class="nav-text">MTU</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#隧道基础"><span class="nav-number">6.</span> <span class="nav-text">隧道基础</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#还回"><span class="nav-number">7.</span> <span class="nav-text">还回</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#与链路层相关的攻击"><span class="nav-number">8.</span> <span class="nav-text">与链路层相关的攻击</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考链接"><span class="nav-number">9.</span> <span class="nav-text">参考链接</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Wireshark-抓包实例"><span class="nav-number">10.</span> <span class="nav-text">Wireshark 抓包实例</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#以太网、IEEE-802-局域网标准"><span class="nav-number">1.</span> <span class="nav-text">以太网、IEEE 802 局域网标准</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#CSMA-CD-or-MAC"><span class="nav-number">1.1.</span> <span class="nav-text">CSMA/CD or MAC</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#以太网帧格式-Frame-Format"><span class="nav-number">1.2.</span> <span class="nav-text">以太网帧格式 / Frame Format</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#帧检验序列-循环冗余检验"><span class="nav-number">1.3.</span> <span class="nav-text">帧检验序列/循环冗余检验</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#网桥和交换机"><span class="nav-number">2.</span> <span class="nav-text">网桥和交换机</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#交换机"><span class="nav-number">2.1.</span> <span class="nav-text">交换机</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#全双工、半双工"><span class="nav-number">2.2.</span> <span class="nav-text">全双工、半双工</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#互连、MAC-学习"><span class="nav-number">2.3.</span> <span class="nav-text">互连、MAC 学习</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#生成树协议"><span class="nav-number">3.</span> <span class="nav-text">生成树协议</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#STP-状态机"><span class="nav-number">3.1.</span> <span class="nav-text">STP 状态机</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#端口角色"><span class="nav-number">3.2.</span> <span class="nav-text">端口角色</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#BPDU"><span class="nav-number">3.3.</span> <span class="nav-text">BPDU</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#建立生成树"><span class="nav-number">3.4.</span> <span class="nav-text">建立生成树</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#处理拓扑变化"><span class="nav-number">3.5.</span> <span class="nav-text">处理拓扑变化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#快速生成树协议"><span class="nav-number">3.6.</span> <span class="nav-text">快速生成树协议</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#点到点协议"><span class="nav-number">4.</span> <span class="nav-text">点到点协议</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#PPP-基本帧格式"><span class="nav-number">4.1.</span> <span class="nav-text">PPP 基本帧格式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#PPP-状态机"><span class="nav-number">4.2.</span> <span class="nav-text">PPP 状态机</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#链路控制协议"><span class="nav-number">4.3.</span> <span class="nav-text">链路控制协议</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#LCP-状态"><span class="nav-number">4.4.</span> <span class="nav-text">LCP 状态</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#魔术数字"><span class="nav-number">4.5.</span> <span class="nav-text">魔术数字</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#PPP-认证"><span class="nav-number">5.</span> <span class="nav-text">PPP 认证</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#网络控制协议"><span class="nav-number">5.1.</span> <span class="nav-text">网络控制协议</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#环回"><span class="nav-number">6.</span> <span class="nav-text">环回</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#PPPoE"><span class="nav-number">6.1.</span> <span class="nav-text">PPPoE</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#MTU"><span class="nav-number">7.</span> <span class="nav-text">MTU</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#隧道基础"><span class="nav-number">8.</span> <span class="nav-text">隧道基础</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#与链路层相关的攻击"><span class="nav-number">9.</span> <span class="nav-text">与链路层相关的攻击</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考链接"><span class="nav-number">10.</span> <span class="nav-text">参考链接</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Wireshark-抓包实例"><span class="nav-number">11.</span> <span class="nav-text">Wireshark 抓包实例</span></a></li></ol></div>
             
 
           </div>
