@@ -93,16 +93,21 @@
 
 
 
-<meta name="description" content="简介定义消息格式OP:若是 client 送给 server 的封包，设为 1 ，反向为 2。 HTYPE硬件类别，Ethernet 为 1。 HLEN:硬件地址长度， Ethernet 为 6。 HOPS:若封包需经过 router 传送，每站加 1 ，若在同一网内，为 0。 TRANSACTION ID:DHCP REQUEST 时产生的数值，以作 DHCPREPLY 时的依据。 SECOND">
+<meta name="description" content="简介为了使用 TCP/IP 协议族，每台主机or路由器都需要一定的配置信息：  IP地址 子网掩码 广播地址 路由或转发表 DNS  协议配置方法：  手动 通过使用网络服务来获得 使用一些算法来自动确定  服务器、路由器通常采取手工配置。而客户端主机也要手动配置的话就太麻烦了！ 定义动态主机配置协议[RFC2131] Dynamic Host Configuration Protocol  In">
 <meta property="og:type" content="article">
-<meta property="og:title" content="DHCP 学习笔记">
+<meta property="og:title" content="《TCP&#x2F;IP 详解 卷1：协议》第 6 章：DHCP 与自动配置">
 <meta property="og:url" content="http://yoursite.com/2017/09/13/tcpip6-DHCP/index.html">
 <meta property="og:site_name" content="ZCplayground">
-<meta property="og:description" content="简介定义消息格式OP:若是 client 送给 server 的封包，设为 1 ，反向为 2。 HTYPE硬件类别，Ethernet 为 1。 HLEN:硬件地址长度， Ethernet 为 6。 HOPS:若封包需经过 router 传送，每站加 1 ，若在同一网内，为 0。 TRANSACTION ID:DHCP REQUEST 时产生的数值，以作 DHCPREPLY 时的依据。 SECOND">
-<meta property="og:updated_time" content="2017-09-12T17:42:33.743Z">
+<meta property="og:description" content="简介为了使用 TCP/IP 协议族，每台主机or路由器都需要一定的配置信息：  IP地址 子网掩码 广播地址 路由或转发表 DNS  协议配置方法：  手动 通过使用网络服务来获得 使用一些算法来自动确定  服务器、路由器通常采取手工配置。而客户端主机也要手动配置的话就太麻烦了！ 定义动态主机配置协议[RFC2131] Dynamic Host Configuration Protocol  In">
+<meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/DHCP%20packet%20.png">
+<meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/DHCP%20exchange.png">
+<meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/DHCP%20state%20machine.png">
+<meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/DHCP%20relay.png">
+<meta property="og:updated_time" content="2017-11-07T01:54:37.735Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="DHCP 学习笔记">
-<meta name="twitter:description" content="简介定义消息格式OP:若是 client 送给 server 的封包，设为 1 ，反向为 2。 HTYPE硬件类别，Ethernet 为 1。 HLEN:硬件地址长度， Ethernet 为 6。 HOPS:若封包需经过 router 传送，每站加 1 ，若在同一网内，为 0。 TRANSACTION ID:DHCP REQUEST 时产生的数值，以作 DHCPREPLY 时的依据。 SECOND">
+<meta name="twitter:title" content="《TCP&#x2F;IP 详解 卷1：协议》第 6 章：DHCP 与自动配置">
+<meta name="twitter:description" content="简介为了使用 TCP/IP 协议族，每台主机or路由器都需要一定的配置信息：  IP地址 子网掩码 广播地址 路由或转发表 DNS  协议配置方法：  手动 通过使用网络服务来获得 使用一些算法来自动确定  服务器、路由器通常采取手工配置。而客户端主机也要手动配置的话就太麻烦了！ 定义动态主机配置协议[RFC2131] Dynamic Host Configuration Protocol  In">
+<meta name="twitter:image" content="http://osax8w13y.bkt.clouddn.com/DHCP%20packet%20.png">
 
 
 
@@ -136,7 +141,7 @@
 
 
 
-  <title>DHCP 学习笔记 | ZCplayground</title>
+  <title>《TCP/IP 详解 卷1：协议》第 6 章：DHCP 与自动配置 | ZCplayground</title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -293,7 +298,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">DHCP 学习笔记</h1>
+          <h1 class="post-title" itemprop="name headline">《TCP/IP 详解 卷1：协议》第 6 章：DHCP 与自动配置</h1>
         
 
         <div class="post-meta">
@@ -345,7 +350,7 @@
 
           
           
-             <span id="/2017/09/13/tcpip6-DHCP/" class="leancloud_visitors" data-flag-title="DHCP 学习笔记">
+             <span id="/2017/09/13/tcpip6-DHCP/" class="leancloud_visitors" data-flag-title="《TCP/IP 详解 卷1：协议》第 6 章：DHCP 与自动配置">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -373,30 +378,164 @@
       
 
       
-        <h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><h1 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h1><h1 id="消息格式"><a href="#消息格式" class="headerlink" title="消息格式"></a>消息格式</h1><p>OP:<br>若是 client 送给 server 的封包，设为 1 ，反向为 2。</p>
-<p>HTYPE<br>硬件类别，Ethernet 为 1。</p>
-<p>HLEN:<br>硬件地址长度， Ethernet 为 6。</p>
-<p>HOPS:<br>若封包需经过 router 传送，每站加 1 ，若在同一网内，为 0。</p>
-<p>TRANSACTION ID:<br>DHCP REQUEST 时产生的数值，以作 DHCPREPLY 时的依据。</p>
-<p>SECONDS:<br>Client 端启动时间（秒）。</p>
-<p>FLAGS:<br>从 0 到 15 共 16 bits ，最左一 bit 为 1 时表示 server 将以广播方式传送封包给 client ，其余尚未使用。</p>
-<p>ciaddr:<br>要是 client 端想继续使用之前取得之 IP 地址，则列于这里。</p>
-<p>yiaddr:<br>从 server 送回 client 之 DHCP OFFER 与 DHCPACK封包中，此栏填写分配给 client 的 IP 地址。</p>
-<p>siaddr:<br>若 client 需要透过网络开机，从 server 送出之 DHCP OFFER、DHCPACK、DHCPNACK封包中，此栏填写开机程序代码所在 server 之地址。</p>
-<p>giaddr:<br>若需跨网域进行 DHCP 发放，此栏为 relay agent 的地址，否则为 0。</p>
-<p>chaddr:<br>Client 之硬件地址。</p>
-<p>sname:<br>Server 之名称字符串，以 0x00 结尾。</p>
-<p>file:<br>若 client 需要透过网络开机，此栏将指出开机程序名称，稍后以 TFTP 传送。</p>
-<p>options:<br>允许厂商定议选项（Vendor-Specific Area)，以提供更多的设定信息（如：Netmask、Gateway、DNS、等等）。其长度可变，同时可携带多个选项，每一选项之第一个 byte 为信息代码，其后一个 byte 为该项数据长度，最后为项目内容。CODE LEN VALUE 此字段完全兼容 BOOTP ，同时扩充了更多选项。其中，DHCP封包可利用编码为 0x53 之选项来设定封包类别：</p>
-<p>项值类别:<br>1 DHCP DISCOVER<br>2 DHCP OFFER<br>3 DHCP REQUEST<br>4 DHCPDECLINE<br>5 DHCPACK<br>6 DHCPNACK<br>7 DHCPRELEASE<br>DHCP 的选项非常多，有空请查阅 RFC 或相关文献，并好好理解，这里不再叙述了。</p>
-<h1 id="协议操作和状态机"><a href="#协议操作和状态机" class="headerlink" title="协议操作和状态机"></a>协议操作和状态机</h1><p>状态机：状态机由状态寄存器和组合逻辑电路构成，能够根据控制信号按照预先设定的状态进行状态转移，是协调相关信号动作，完成特定操作的控制中心。</p>
-<h1 id="DHCP-relay"><a href="#DHCP-relay" class="headerlink" title="DHCP relay"></a>DHCP relay</h1><p>用DHCP Relay代理可以去掉在每个物理的网段都要有DHCP服务器的必要,它可以传递消息到不在同一个物理子网的DHCP服务器，也可以将服务器的消息传回给不在同一个物理子网的DHCP客户机。</p>
-<p>1 当dhcp client 启动并进行dhcp 初始化时，它会在本地网络广播配置请求报文。<br>2 如果本地网络存在dhcp server，则可以直接进行dhcp 配置，不需要dhcp relay。<br>3 如果本地网络没有dhcp server，则与本地网络相连的具有dhcprelay 功能的网络设备收到该广播报文后，将进行适当处理并转发给指定的其它网络上的dhcp server。<br>4 dhcp server 根据dhcp client 提供的信息进行相应的配置，并通过dhcp relay 将配置信息发送给dhcp client，完成对dhcp client 的动态配置。<br>事实上，从开始到最终完成配置，需要多个这样的交互过程。<br>1 dhcp relay设备修改dhcp消息中的相应字段，把dhcp的广播包改成单播包，并负责在服务器与客户机之间转换。<br>2 netcore路由器（2x05）可以作为dhcp relay 代理。</p>
-<p>在DHCP客户端看来，DHCP中继代理就像DHCP服务器；在DHCP服务器看来，DHCP中继代理就像DHCP客户端。</p>
-<h1 id="DHCP-与-DNS-交互"><a href="#DHCP-与-DNS-交互" class="headerlink" title="DHCP 与 DNS 交互"></a>DHCP 与 DNS 交互</h1><p>DNS 是一台机器使用互联网服务的一个很重要的部分，如果没有 DNS 服务器或者其他方式将域名映射为 IP 地址，大部分用户几乎难以访问互联网系统。由于 DNS 映射通常采取烦琐的手工配置，因此，将指定 DHCP 地址与相应地址的 DNS 映射更新方法结合起来会更加方便。这可以通过组合 DHCP/DNS 服务器或者动态 DNS 来解决。</p>
-<h1 id="DHCP-安全问题：认证、与-DHCP-有关的攻击"><a href="#DHCP-安全问题：认证、与-DHCP-有关的攻击" class="headerlink" title="DHCP 安全问题：认证、与 DHCP 有关的攻击"></a>DHCP 安全问题：认证、与 DHCP 有关的攻击</h1><h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><hr>
-<p>links</p>
+        <h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>为了使用 TCP/IP 协议族，每台主机or路由器都需要一定的配置信息：</p>
 <ul>
+<li>IP地址</li>
+<li>子网掩码</li>
+<li>广播地址</li>
+<li>路由或转发表</li>
+<li>DNS</li>
+</ul>
+<p>协议配置方法：</p>
+<ul>
+<li>手动</li>
+<li>通过使用网络服务来获得</li>
+<li>使用一些算法来自动确定</li>
+</ul>
+<p>服务器、路由器通常采取手工配置。而客户端主机也要手动配置的话就太麻烦了！</p>
+<h1 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h1><p>动态主机配置协议[RFC2131] Dynamic Host Configuration Protocol</p>
+<ul>
+<li>Internet 客户端主机（有时也有路由器）中用于建立基本要素、指定配置信息的协议与程序。</li>
+<li>流行的 client-server协议，应用层 协议</li>
+<li>前身为 Internet 引导程序协议（Bootstrap Protocol，BOOTP）</li>
+<li>分配方式：自动、动态、手动。</li>
+<li>地址池和租用的概念</li>
+</ul>
+<h1 id="消息格式"><a href="#消息格式" class="headerlink" title="消息格式"></a>消息格式</h1><p><img src="http://osax8w13y.bkt.clouddn.com/DHCP%20packet%20.png" alt=""></p>
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>OP</td>
+<td>若是 client 送给 server 的封包，设为 1 ，反向为 2。</td>
+</tr>
+<tr>
+<td>HTYPE</td>
+<td>硬件类别，Ethernet 为 1。</td>
+</tr>
+<tr>
+<td>HLEN</td>
+<td>硬件地址长度， Ethernet 为 6。</td>
+</tr>
+<tr>
+<td>HOPS</td>
+<td>若封包需经过 router 传送，每站加 1 ，若在同一网内，为 0。</td>
+</tr>
+<tr>
+<td>TRANSACTION ID</td>
+<td>DHCP REQUEST 时产生的数值，以作 DHCPREPLY 时的依据。</td>
+</tr>
+<tr>
+<td>SECONDS</td>
+<td>Client 端启动时间（秒）。（时间戳）</td>
+</tr>
+<tr>
+<td>FLAGS</td>
+<td>从 0 到 15 共 16 bits ，最左一 bit 为 1 时表示 server 将以广播方式传送封包给 client ，其余尚未使用。</td>
+</tr>
+<tr>
+<td>ciaddr</td>
+<td>要是 client 端想继续使用之前取得之 IP 地址，则列于这里。</td>
+</tr>
+<tr>
+<td>yiaddr</td>
+<td>从 server 送回 client 之 DHCP OFFER 与 DHCPACK封包中，此栏填写分配给 client 的 IP 地址。</td>
+</tr>
+<tr>
+<td>siaddr</td>
+<td>若 client 需要透过网络开机，从 server 送出之 DHCP OFFER、DHCPACK、DHCPNACK封包中，此栏填写开机程序代码所在 server 之地址。</td>
+</tr>
+<tr>
+<td>giaddr</td>
+<td>若需跨网域进行 DHCP 发放，此栏为 relay agent 的地址，否则为 0。</td>
+</tr>
+<tr>
+<td>chaddr</td>
+<td>Client 之硬件地址。</td>
+</tr>
+<tr>
+<td>sname</td>
+<td>Server 之名称字符串，以 0x00 结尾。</td>
+</tr>
+<tr>
+<td>file</td>
+<td>若 client 需要透过网络开机，此栏将指出开机程序名称，稍后以 TFTP 传送。</td>
+</tr>
+<tr>
+<td>options</td>
+<td>允许厂商定议选项（Vendor-Specific Area)，以提供更多的设定信息（如：Netmask、Gateway、DNS、等等）。</td>
+</tr>
+</tbody>
+</table>
+<p>最后一项 options 长度可变，同时可携带多个选项，每一选项之第一个 byte 为信息代码，其后一个 byte 为该项数据长度，最后为项目内容。</p>
+<p>项值类别:<br>1 DHCP DISCOVER<br>2 DHCP OFFER<br>3 DHCP REQUEST<br>4 DHCP DECLINE<br>5 DHCP ACK<br>6 DHCP NACK<br>7 DHCP RELEASE<br>DHCP 的选项非常多，这里不再叙述了。</p>
+<h1 id="协议操作和状态机"><a href="#协议操作和状态机" class="headerlink" title="协议操作和状态机"></a>协议操作和状态机</h1><p><img src="http://osax8w13y.bkt.clouddn.com/DHCP%20exchange.png" alt=""></p>
+<p>四步：</p>
+<ul>
+<li>Discover<ul>
+<li>由于 DHCP Server 对于 client 来说是未知的，因此发现的操作的报文是广播的。</li>
+</ul>
+</li>
+<li>Offer<ul>
+<li>所有支持 TCP/IP 的主机都会接受到此报文，然而只有 DHCP Server 会回应。Offer也需要是广播，因为 client 此时可能还没有 IP 地址。</li>
+</ul>
+</li>
+<li>Request<ul>
+<li>Request也需要广播，通知其他 DHCP Server 自己做出的选择。</li>
+</ul>
+</li>
+<li>ACK<ul>
+<li>仍需要广播，其他 DHCP Server 将收回之前提供的 IP 地址。</li>
+</ul>
+</li>
+</ul>
+<p>状态机：状态机由状态寄存器和组合逻辑电路构成，能够根据控制信号按照预先设定的状态进行状态转移，是协调相关信号动作，完成特定操作的控制中心。</p>
+<p><img src="http://osax8w13y.bkt.clouddn.com/DHCP%20state%20machine.png" alt=""></p>
+<h1 id="DHCP-relay"><a href="#DHCP-relay" class="headerlink" title="DHCP relay"></a>DHCP relay</h1><p><img src="http://osax8w13y.bkt.clouddn.com/DHCP%20relay.png" alt=""></p>
+<p>用DHCP Relay代理可以去掉在每个物理的网段都要有DHCP服务器的必要。它可以传递消息到不在同一个物理子网的DHCP服务器，也可以将服务器的消息传回给不在同一个物理子网的DHCP客户机。</p>
+<ol>
+<li>当dhcp client 启动并进行dhcp 初始化时，它会在本地网络广播配置请求报文。</li>
+<li>如果本地网络存在 dhcp server，则可以直接进行 dhcp 配置，不需要 dhcp relay。</li>
+<li>如果本地网络没有 dhcp server，则与本地网络相连的具有 dhcprelay 功能的网络设备收到该广播报文后，将进行适当处理并转发给指定的其它网络上的 dhcp server。</li>
+<li>dhcp server 根据 dhcp client 提供的信息进行相应的配置，并通过 dhcp relay 将配置信息发送给 dhcp client，完成对dhcp client 的动态配置。</li>
+</ol>
+<p>事实上，从开始到最终完成配置，需要多个这样的交互过程。</p>
+<ol>
+<li>dhcp relay 设备修改 dhcp 消息中的相应字段，把 dhcp 的广播包改成单播包，并负责在服务器与客户机之间转换。</li>
+<li>netcore路由器（2x05）可以作为dhcp relay 代理。</li>
+</ol>
+<p>在 DHCP 客户端看来，DHCP 中继代理就像 DHCP 服务器；在 DHCP 服务器看来，DHCP 中继代理就像 DHCP 客户端。</p>
+<h1 id="DHCP-与-DNS-交互"><a href="#DHCP-与-DNS-交互" class="headerlink" title="DHCP 与 DNS 交互"></a>DHCP 与 DNS 交互</h1><p>DNS 是一台机器使用互联网服务的一个很重要的部分，如果没有 DNS 服务器或者其他方式将域名映射为 IP 地址，大部分用户几乎难以访问互联网系统。由于 DNS 映射通常采取烦琐的手工配置，因此，将指定 DHCP 地址与相应地址的 DNS 映射更新方法结合起来会更加方便。这可以通过组合 DHCP/DNS 服务器或者动态 DNS 来解决。</p>
+<h1 id="DHCP-安全问题：认证、与-DHCP-有关的攻击"><a href="#DHCP-安全问题：认证、与-DHCP-有关的攻击" class="headerlink" title="DHCP 安全问题：认证、与 DHCP 有关的攻击"></a>DHCP 安全问题：认证、与 DHCP 有关的攻击</h1><p>不幸的是，DHCP 并没有提供安全保障。为了缓解这些问题，[RFC3118]提出了DHCP认证（DHCP Authentication）</p>
+<ul>
+<li><p>DHCP 认证</p>
+<ol>
+<li>Authentication Information  保存一个类似于密码的字符串，用于 client 和 server 的匹配。</li>
+<li>很明显这种流量可能被攻击者截获，很不安全，只能抵御偶然的DHCP问题</li>
+</ol>
+</li>
+<li><p>DHCP 延期认证</p>
+<ol>
+<li>如此，则discover 、offer、ACK 消息中包含认证选项</li>
+<li>用 MAC 确认身份。 </li>
+<li>Client 和 Server 有一个共享的密钥，用于确保两者之间互换的 DHCP 消息没有被修改（Integrity）</li>
+</ol>
+</li>
+<li><p>DHCP 认证没有被广泛使用的原因：</p>
+<ol>
+<li>所有 DHCP Server 和每个认证的 Client 都要分发共享密钥</li>
+<li>认证的定义出现在 DHCP 已经广泛使用之后。</li>
+</ol>
+</li>
+</ul>
+<p>DHCP 很容易受到拒绝服务式攻击，大多数攻击可以通过为 DHCP 增加安全机制来缓解，但是目前仍然很少被使用。</p>
+<hr>
+<h1 id="links"><a href="#links" class="headerlink" title="links"></a>links</h1><ul>
 <li><a href="https://wenku.baidu.com/view/8fdeb5ddcf84b9d529ea7a59.html" target="_blank" rel="external">Wireshark对DHCP建立过程进行抓包分析</a></li>
 <li><a href="https://baike.baidu.com/item/DHCP/218195?fr=aladdin" target="_blank" rel="external">DHCP</a></li>
 <li><a href="http://blog.csdn.net/u012359618/article/details/51872678" target="_blank" rel="external">DHCP详解</a></li>
@@ -571,7 +710,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#简介"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#定义"><span class="nav-number">2.</span> <span class="nav-text">定义</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#消息格式"><span class="nav-number">3.</span> <span class="nav-text">消息格式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#协议操作和状态机"><span class="nav-number">4.</span> <span class="nav-text">协议操作和状态机</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#DHCP-relay"><span class="nav-number">5.</span> <span class="nav-text">DHCP relay</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#DHCP-与-DNS-交互"><span class="nav-number">6.</span> <span class="nav-text">DHCP 与 DNS 交互</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#DHCP-安全问题：认证、与-DHCP-有关的攻击"><span class="nav-number">7.</span> <span class="nav-text">DHCP 安全问题：认证、与 DHCP 有关的攻击</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">8.</span> <span class="nav-text">总结</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#简介"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#定义"><span class="nav-number">2.</span> <span class="nav-text">定义</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#消息格式"><span class="nav-number">3.</span> <span class="nav-text">消息格式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#协议操作和状态机"><span class="nav-number">4.</span> <span class="nav-text">协议操作和状态机</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#DHCP-relay"><span class="nav-number">5.</span> <span class="nav-text">DHCP relay</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#DHCP-与-DNS-交互"><span class="nav-number">6.</span> <span class="nav-text">DHCP 与 DNS 交互</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#DHCP-安全问题：认证、与-DHCP-有关的攻击"><span class="nav-number">7.</span> <span class="nav-text">DHCP 安全问题：认证、与 DHCP 有关的攻击</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#links"><span class="nav-number">8.</span> <span class="nav-text">links</span></a></li></ol></div>
             
 
           </div>

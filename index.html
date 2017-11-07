@@ -1215,7 +1215,7 @@ keywords：牛顿法求平方根、局部名、约束/自由变量、作用域�
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/09/13/tcpip6-DHCP/" itemprop="url">DHCP 学习笔记</a></h1>
+                <a class="post-title-link" href="/2017/09/13/tcpip6-DHCP/" itemprop="url">《TCP/IP 详解 卷1：协议》第 6 章：DHCP 与自动配置</a></h1>
         
 
         <div class="post-meta">
@@ -1267,7 +1267,7 @@ keywords：牛顿法求平方根、局部名、约束/自由变量、作用域�
 
           
           
-             <span id="/2017/09/13/tcpip6-DHCP/" class="leancloud_visitors" data-flag-title="DHCP 学习笔记">
+             <span id="/2017/09/13/tcpip6-DHCP/" class="leancloud_visitors" data-flag-title="《TCP/IP 详解 卷1：协议》第 6 章：DHCP 与自动配置">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -1297,11 +1297,22 @@ keywords：牛顿法求平方根、局部名、约束/自由变量、作用域�
       
         
           
-          简介定义消息格式OP:若是 client 送给 server 的封包，设为 1 ，反向为 2。
-HTYPE硬件类别，Ethernet 为 1。
-HLEN:硬件地址长度， Ethernet 为 6。
-HOPS:若封包需经过 router 传送，每站加 1 ，若在同一网内，为 0。
-TRANSACTIO
+          简介为了使用 TCP/IP 协议族，每台主机or路由器都需要一定的配置信息：
+
+IP地址
+子网掩码
+广播地址
+路由或转发表
+DNS
+
+协议配置方法：
+
+手动
+通过使用网络服务来获得
+使用一些算法来自动确定
+
+服务器、路由器通常采取手工配置。而客户端主机也要手动配置的话就太麻烦了！
+定义动态主机配置协
           ...
           <!--noindex-->
           <div class="post-button text-center">

@@ -113,10 +113,11 @@
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/PPP%20frame.png">
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/LCP%20state%20machine.png">
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/LCP%20Frame.png">
+<meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/PPPoE.png">
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/Ethernetpacket1.png">
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/stppacket.png">
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/stp%20presentation.JPG">
-<meta property="og:updated_time" content="2017-11-06T16:38:42.570Z">
+<meta property="og:updated_time" content="2017-11-07T01:52:50.180Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="《TCP&#x2F;IP 详解 卷1：协议》第 3 章：链路层">
 <meta name="twitter:description" content="在体系结构中，我们知道：链路层（或数据链路层）包含为共享相同介质的邻居建立连接的协议和方法，同时，设计链路层的目的是为 IP 模块发送和接受 IP 数据报，链路层可用于携带支持 IP 的辅助性协议，例如 ARP。 TCP/IP 取得成功的的原因之一在于它能工作在几乎任意一种链路之上。不同的链路层依赖于其使用的网络硬件类型：有限局域网，例如以太网；城域网，例如有线电视、DSL 连接；有线语音网络，例">
@@ -1039,14 +1040,29 @@
 </blockquote>
 <h2 id="网络控制协议"><a href="#网络控制协议" class="headerlink" title="网络控制协议"></a>网络控制协议</h2><p>在 LCP 完成链路建立和确认之后，该链路每端都进入网络状态。然后就可以开始使用<strong>一个或多个的 NCP</strong>（Network Control Protocol，NCP 网络控制协议）来<strong>进行网络层的相关协商。</strong></p>
 <p>典型的例如 IPCP（针对 IPv4 的标准 NCP）用于在一条链路上建立 IPv4 链接。包括一系列选项：IP 压缩、移动 IPv4等等。</p>
-<h1 id="环回"><a href="#环回" class="headerlink" title="环回"></a>环回</h1><p>在魔术数字提到的<strong>环回（loop）</strong>概念，可能一开始看起来很奇怪。不过在很多情况下，客户机可能希望用 Internet 协议来与同一计算机上的服务器通信。为了实现这个目标，大多是实现一种工作在网络层的环回能力。</p>
+<h1 id="环回"><a href="#环回" class="headerlink" title="环回"></a>环回</h1><p>在魔术数字提到的<strong>环回（loop）</strong>概念，可能一开始看起来很奇怪。不过在很多情况下，<strong>客户机可能希望用 Internet 协议来与同一计算机上的服务器通信</strong>。为了实现这个目标，大多是实现一种工作在网络层的环回能力。</p>
 <ul>
 <li>使用一个虚拟的还回网络接口来实现。它<strong>像一个真正的网络接口</strong>，但<strong>实际上是</strong>一个由<strong>操作系统提供的专门的软件</strong>。</li>
 <li>以 127 开头的 IPv4 地址就是为了这个目的而保留。类 UNIX 系统为环回接口分配的地址是 <code>127.0.0.1</code>（IPv6 为 <code>::1</code>)，分配的名称是 <strong>localhost</strong>。Linux 中，环回接口被称为 <strong>lo</strong>。</li>
 <li>发送到环回接口的 IP 数据报<strong>不会出现在任何网络中</strong>。</li>
 <li>大多数的实现有经过传输层和网络层对数据的完整处理流程，仅在数据报离开网络层时将其送回给网络层协议栈。</li>
 </ul>
-<h2 id="PPPoE"><a href="#PPPoE" class="headerlink" title="PPPoE"></a>PPPoE</h2><h1 id="MTU"><a href="#MTU" class="headerlink" title="MTU"></a>MTU</h1><p>以太网帧有最小和最大尺寸。</p>
+<h2 id="PPPoE"><a href="#PPPoE" class="headerlink" title="PPPoE"></a>PPPoE</h2><p>对于大多数局域网和一些广域网连接，<a href="http://www.zcplayground.cc/2017/09/13/tcpip6-DHCP/" target="_blank" rel="external">DHCP</a> 提供了最基本的客户机系统的自动配置方式。对于广域网连接（常见的 DSL，Digital Subscriber Line 数字用户线路），常用另一种基于 PPP 的方式替代 DHCP。这种方法涉及在以太网中携带 PPP，因此称为 <strong>PPPoE（Point-to-point protocol over Ethernet）</strong>。</p>
+<ul>
+<li>PPPoE 用于广域网连接设备作为一个交换机或者网桥（DSL Modem，也就是所谓的调制解调器，不支持路由）而不是路由器的情况下。</li>
+<li>PPPoE 作为一些 ISP 建立连接的首选，也是建立用户连接到网络的“最后一公里”的首选。</li>
+<li><a href="https://en.wikipedia.org/wiki/Point-to-point_protocol_over_Ethernet" target="_blank" rel="external">wiki:</a> 2005年的一本网络书籍指出：“大多数DSL提供商使用PPPoE，它提供认证，加密和压缩。” PPPoE的典型应用包括利用 PPP 设施使用用户名和密码验证用户，主要通过PAP协议而较少通过CHAP。</li>
+</ul>
+<p>PPPoE是由UUNET，Redback Networks（现爱立信）和RouterWare（现在的风河系统）开发的。【RFC 2516】</p>
+<p><img src="http://osax8w13y.bkt.clouddn.com/PPPoE.png" alt=""></p>
+<p>上图显示了一个典型的 ISP 使用 DSL 为客户提供服务。</p>
+<ul>
+<li>用户将一台家用 PC 连接到 DSL 调制解调器，使用一个点到点的以太网络（<strong>使用一根电缆的以太网</strong>）</li>
+<li>DSL 提供一条点到点的数字链路。一般是与一条传统的模拟<strong>电话线同时工作</strong>。对物理电话线的同时使用是采取<strong>频分复用</strong>实现的。</li>
+<li>DSL 调制解调器有效地向 ISP 的<strong>接入集中器</strong>（access concentrator）上的 <strong>PPP端口</strong>提供桥接服务。将接入集线器将客户的调制解调器线路和 ISP 的网络设备互连。</li>
+<li>一旦 DSL 调制解调器已经成功建立了一个低层的链接 ISP，PC 可以开始 PPPoE 交换。【RFC2516】</li>
+</ul>
+<h1 id="MTU"><a href="#MTU" class="headerlink" title="MTU"></a>MTU</h1><p>以太网帧有最小和最大尺寸。</p>
 <ul>
 <li><p>最小帧要求有 64 字节，有效载荷长度最小为 48 长度。当有效载荷较短，就需要填充一些字节（都是 0），确保达到最小长度。</p>
 </li>
@@ -1061,7 +1077,16 @@
 <li>当两台主机跨越多种网络通信时，<strong>每种不同的链路可能有不同大小的 MTU</strong>。因此，在包含所有链路的整个网络路径上，最小的 MTU 叫做 <strong>路径 MTU</strong>。</li>
 <li>如果 IP 需要发送一个数据报，大小大于链路层 MTU，则 IP 通过<strong>分片（slice）</strong>将数据报分解成较小的部分，使每个分片都小于 MTU。分片会在 IP 协议中详细讨论。</li>
 </ul>
-<h1 id="隧道基础"><a href="#隧道基础" class="headerlink" title="隧道基础"></a>隧道基础</h1><h1 id="与链路层相关的攻击"><a href="#与链路层相关的攻击" class="headerlink" title="与链路层相关的攻击"></a>与链路层相关的攻击</h1><h1 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h1><ul>
+<h1 id="隧道基础"><a href="#隧道基础" class="headerlink" title="隧道基础"></a>隧道基础</h1><p>简单来说：隧道就是在高层（或同等层）分组携带底层的数据。</p>
+<h1 id="与链路层相关的攻击"><a href="#与链路层相关的攻击" class="headerlink" title="与链路层相关的攻击"></a>与链路层相关的攻击</h1><p>攻击 TCP/IP 以下的层次一直是常见的做法：</p>
+<ul>
+<li>早期，以太网是名副其实的<strong>共享电缆</strong>，使得任何一台连接到以太网的电脑可以“嗅探”别人的帧并检查其内容。在当时很多高层协议都包含明文密码等敏感信息，通过查看一个分组并解码就可以轻易获得密码。</li>
+<li>一个目标是交换机的过滤数据库。如果 filtering database 被快速填充（例如被大量伪装的站快速填充），交换机就有可能被迫放弃合法条目，从而导致中断对合法站的服务。</li>
+<li>使用 STP，一个站可以伪装成一个到根网桥最低路径上的站，从而吸引流量导向它。</li>
+<li>Wi-Fi 网络的窃听和伪装问题。</li>
+<li>如果攻击者可以访问两个端点之间的信道，就有很多方式来攻击 PPP 网络。对于简单的认证机制 PAP，简单的嗅探就可以捕获密码，用于后续的非法访问。</li>
+</ul>
+<h1 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h1><ul>
 <li><a href="https://baike.baidu.com/item/%E6%A8%A12%E8%BF%90%E7%AE%97/18556715?fr=aladdin" target="_blank" rel="external">mod 2 运算</a></li>
 <li><a href="http://blog.csdn.net/liyuanbhu/article/details/7882789" target="_blank" rel="external">循环冗余校验（CRC）算法入门引导</a></li>
 <li><p><a href="http://blog.csdn.net/huang_shiyang/article/details/50881305" target="_blank" rel="external">CRC查找表法推导及代码实现比较</a></p>
@@ -1097,7 +1122,6 @@
 <hr>
 <p>附上组会上分享的生成树板书：</p>
 <p><img src="http://osax8w13y.bkt.clouddn.com/stp%20presentation.JPG" alt=""></p>
-<hr>
 
       
     </div>
