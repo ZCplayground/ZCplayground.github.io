@@ -1,0 +1,948 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="摘要本白皮书提出OpenFlow：研究人员在他们每天使用的网络中运行实验协议的一种方法。 OpenFlow基于，具有内部流程表和用于添加和删除流条目的标准化接口。我们的目标是鼓励网络供应商将OpenFlow添加到他们的交换机产品中，以部署在大学校园骨干网和配线室中。我们认为，OpenFlow是一个务实的妥协：一方面，它允许研究人员以统一的方式在异构交换机上以线速率和高速运行实验。而另一方面，供应商">
+<meta property="og:type" content="article">
+<meta property="og:title" content="OpenFlow-Enabling-Innovation-in-Campus-Networks">
+<meta property="og:url" content="http://yoursite.com/2017/11/17/OpenFlow-Enabling-Innovation-in-Campus-Networks/index.html">
+<meta property="og:site_name" content="ZCplayground">
+<meta property="og:description" content="摘要本白皮书提出OpenFlow：研究人员在他们每天使用的网络中运行实验协议的一种方法。 OpenFlow基于，具有内部流程表和用于添加和删除流条目的标准化接口。我们的目标是鼓励网络供应商将OpenFlow添加到他们的交换机产品中，以部署在大学校园骨干网和配线室中。我们认为，OpenFlow是一个务实的妥协：一方面，它允许研究人员以统一的方式在异构交换机上以线速率和高速运行实验。而另一方面，供应商">
+<meta property="og:updated_time" content="2017-11-17T15:19:49.601Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="OpenFlow-Enabling-Innovation-in-Campus-Networks">
+<meta name="twitter:description" content="摘要本白皮书提出OpenFlow：研究人员在他们每天使用的网络中运行实验协议的一种方法。 OpenFlow基于，具有内部流程表和用于添加和删除流条目的标准化接口。我们的目标是鼓励网络供应商将OpenFlow添加到他们的交换机产品中，以部署在大学校园骨干网和配线室中。我们认为，OpenFlow是一个务实的妥协：一方面，它允许研究人员以统一的方式在异构交换机上以线速率和高速运行实验。而另一方面，供应商">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/11/17/OpenFlow-Enabling-Innovation-in-Campus-Networks/"/>
+
+
+
+
+
+  <title>OpenFlow-Enabling-Innovation-in-Campus-Networks | ZCplayground</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">ZCplayground</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/11/17/OpenFlow-Enabling-Innovation-in-Campus-Networks/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ZC">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ZCplayground">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">OpenFlow-Enabling-Innovation-in-Campus-Networks</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-17T23:12:14+08:00">
+                2017-11-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/SDN/" itemprop="url" rel="index">
+                    <span itemprop="name">SDN</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/11/17/OpenFlow-Enabling-Innovation-in-Campus-Networks/" class="leancloud_visitors" data-flag-title="OpenFlow-Enabling-Innovation-in-Campus-Networks">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h1><p>本白皮书提出OpenFlow：研究人员在他们每天使用的网络中<strong>运行实验协议</strong>的一种方法。 OpenFlow基于，具有内部流程表和用于添加和删除流条目的标准化接口。我们的目标是鼓励网络供应商将OpenFlow添加到他们的交换机产品中，以部署在大学校园骨干网和配线室中。我们认为，OpenFlow是一个务实的妥协：一方面，它允许研究人员<strong>以统一的方式在异构交换机上</strong>以线速率和高速运行实验。而另一方面，<strong>供应商不需要暴露交换机的内部工作</strong>。除了允许研究人员在实际交通环境中评估他们的想法之外，OpenFlow还可以在像GENI这样的大型测试平台中成为有用的校园组件。斯坦福大学的两座建筑将很快运行OpenFlow网络，使用商用以太网交换机和路由器。我们将努力鼓励其他学校的部署;我们鼓励您考虑在您的大学网络中部署OpenFlow。</p>
+<p>基于以太网交换机，具有：</p>
+<ul>
+<li>internal flow-table</li>
+<li>a standardized interface to add and remove flow entries.</li>
+</ul>
+<p>pragmatic compromise：</p>
+<ul>
+<li>run experiments on heterogeneous switches in a uniform way  </li>
+<li>vendors do not need to expose the internal workings of their switches.</li>
+</ul>
+<h1 id="可编程网络的需求？"><a href="#可编程网络的需求？" class="headerlink" title="可编程网络的需求？"></a>可编程网络的需求？</h1><ul>
+<li>创新因为<strong>既有的巨量已安装的基础设施、已有协议、以及不愿意产生实际流量</strong>变得非常困难。</li>
+<li>许多 new idea 是 untried、untested</li>
+<li><p>Network：ossified（僵死、保守）</p>
+</li>
+<li><p>GENI 研究可编程网络架构、虚拟化、网络分片 slice）的实验室</p>
+</li>
+<li>Virtualized programmable networks could lower the barrier to entry for new ideas。but ambitious and costly。</li>
+</ul>
+<p>本文提出的问题是：</p>
+<p>As researchers, how can we run experiments in our campus networks?</p>
+<ul>
+<li>早期实验人员是怎么把网络设备部署在实验网络的？</li>
+<li>实验人员是怎么使用部分网络而不影响其他使用这个网络的人的？</li>
+<li>实验用交换机有什么功能需求？</li>
+</ul>
+<p>Our goal here： to propose a <strong>new switch feature</strong> that can <strong>help extend programmability</strong> into the wiring closet（配线间） of college campuses.</p>
+<p>一些弃用的方法：说服有名的厂商为它们的路由器交换机开发一个可编程平台。</p>
+<ul>
+<li>接口很狭窄（narrow）</li>
+<li>内部灵活性（internal flexiblity）被隐藏</li>
+<li>differ from vendor to vendor</li>
+<li>vender 不愿开放接口（害怕既有网络被颠覆、害怕潜在的竞争者等等</li>
+</ul>
+<p>还有一些现有市面上的软件平台，不过被弃用了，主要原因是 bad <strong>performance</strong> ，需要 <strong>specialized hardware</strong>（part of the<br>Linux distribution, or from XORP）。或者是<strong>贵</strong>（ATCA-based virtualized programmable router）、<strong>规模小</strong>（NetFPGA，只有四个接口）。</p>
+<p>OpenFlow 要：</p>
+<ul>
+<li>适合<strong>高性能和低成本</strong>的实现，<strong>灵活性</strong>。</li>
+<li>适合用来做<strong>广范围的研究</strong></li>
+<li><strong>保证实验流量可以和现实流量分开</strong></li>
+<li>符合供应商对封闭平台的需求。</li>
+</ul>
+<p>OpenFlow Switch — a specification that is an initial attempt to meet these four goals.</p>
+<h1 id="OpenFlow-交换机"><a href="#OpenFlow-交换机" class="headerlink" title="OpenFlow 交换机"></a>OpenFlow 交换机</h1><p>对象是交换机、路由器中运用的最多的<strong>流表</strong>。</p>
+<p>OpenFlow provides an open protocol to program the flowtable in different switches and routers. </p>
+<p>研究人员可以通过选择数据包的路由和接收的处理控制自己的流量，由此可以做新的路由协议的实验、新寻址方法、尝试 IP的替代方案等等、</p>
+<p>OpenFlow Switch consists of a Flow Table, an action(extensible, but there is a minimum reqirement) associated with each flow entry. </p>
+<p>action的设计因为要达到低花费、高性能、灵活性的要求，这意味着放弃指定任意处理每个数据包的能力，并寻求更有限但仍然有用的行动范围。</p>
+<p>OpenFlow 交换机包括至少三个部分：</p>
+<ul>
+<li><strong>流表</strong>  an action associated with each flow entry, to tell the switch how to process the flow,</li>
+<li><strong>安全通道</strong>  connects the switch to a remote control process(called the controller) </li>
+<li><strong>OpenFlow Protocol</strong> provides an open and standardway for a controller to communicate with a switch.</li>
+</ul>
+<p>OpenFlow Protocol 提供标准外部接口，可以让控制器下发流表。</p>
+<p>将交换机归类为不支持正常的第2层和第3层处理的<strong>专用OpenFlow交换机</strong>（Dedicated OpenFlow switches），以及<strong>支持OpenFlow的通用商用以太网交换机</strong>和路由器（OpenFlow-enabled switches，OpenFlow协议和接口已添加为新功能）是非常有用的。</p>
+<h2 id="专用OpenFlow交换机"><a href="#专用OpenFlow交换机" class="headerlink" title="专用OpenFlow交换机"></a>专用OpenFlow交换机</h2><p>专用的OpenFlow交换机是一个哑数据路径元素，在远程控制器进程定义的端口之间转发数据包。</p>
+<ul>
+<li><strong>flows</strong> are broadly defined, （Flow 的定义）</li>
+</ul>
+<p>could be a TCP connection, or all packets from a particular MAC address or IP address, or all packets with the same VLAN tag, or all packets from the same switch port. For experiments involving non-IPv4 packets, a flow could be defined as all packets matching a specific (but non-standard) header.</p>
+<p>流表的每一个项目里有一个 action 对应，最基础的三个是：</p>
+<ol>
+<li>Forward(to a given port or ports)</li>
+<li>发送到控制器。(through Secure Channel)</li>
+<li>Drop</li>
+</ol>
+<p>流表项的三个字段：（1）一个 header 定义流，（2）定义如何处理包的动作，（3）跟踪每个流的包和字节数的统计，以及 自上次数据包匹配流程以来的时间（以帮助删除不活动的流量）。</p>
+<h2 id="支持OpenFlow的通用商用以太网交换机"><a href="#支持OpenFlow的通用商用以太网交换机" class="headerlink" title="支持OpenFlow的通用商用以太网交换机"></a>支持OpenFlow的通用商用以太网交换机</h2><p>商用的路由器、交换机、接入点等等可以通过升级，使其支持流表功能、安全通道、OpenFlow 协议。</p>
+<p>为了赢得网络管理员的信任，启用OpenFlow的交换机必须将实验流量（由流量表处理）与生产流量隔离，生产流量将由交换机的正常的第2层和第3层流水线处理。（方法有 VLAN、或者加入一种新的 action，就是按照正常的流水线发送此包）</p>
+<h2 id="Controller"><a href="#Controller" class="headerlink" title="Controller"></a>Controller</h2><p>控制器代表实验添加和删除流表中的流入口。</p>
+<ul>
+<li>might be a simple application running on a PC to statically establish flows to interconnect a set of test computers for the duration of an experiment. </li>
+<li>Viewed this way, OpenFlow is a generalization of VLANs.</li>
+</ul>
+<h1 id="使用-OpenFlow"><a href="#使用-OpenFlow" class="headerlink" title="使用 OpenFlow"></a>使用 OpenFlow</h1><blockquote>
+<p>As a simple example of how an OpenFlow Switch might be used imagine that Amy (a researcher) invented Amy-OSPF as a new routing protocol to replace OSPF. She wants to try her protocol in a network of OpenFlow Switches, without changing any end-host software. Amy-OSPF will run in a controller; each time a new application flow starts AmyOSPF picks a route through a series of OpenFlow Switches, and adds a flow- entry in each switch along the path. In her experiment, Amy decides to use Amy-OSPF for the traffic entering the OpenFlow network from her own desktop PC— so she doesn’t disrupt the network for others. To do this, she defines one flow to be all the traffic entering the OpenFlow switch through the switch port her PC is connected to, and adds a flow-entry with the action “Encapsulate and forward all packets to a controller”. When her packets reach a controller, her new protocol chooses a route and adds a new flow-entry (for the application flow) to every switch along the chosen path. When subsequent packets arrive at a switch, they are processed quickly (and at line-rate) by the Flow Table.</p>
+</blockquote>
+<p><strong>很自然而然的</strong>，我们会对这种中心控制器模型的<strong>性能、可靠性、可扩展性</strong>提出问题：</p>
+<ol>
+<li>fast enough？</li>
+<li>controller fails？</li>
+</ol>
+<p>Ethane prototype: Preliminary(初期) results suggested that an Ethane controller based on a low-cost desktop PC could process over 10,000 new flows per second</p>
+<p>还列了几个实验的例子。</p>
+<ul>
+<li>Network Management and Access Control</li>
+</ul>
+<blockquote>
+<p> A controller checks a new flow against a set of rules, such as “Guests can communicate using HTTP, but only via a web proxy” or “VoIP phones are not allowed to communicate with laptops.” — it essentially takes over DNS, DHCP and authenticates all users when they join, keeping track of which switch port (or access point) they are connected to.</p>
+</blockquote>
+<ul>
+<li>VLANs. </li>
+</ul>
+<blockquote>
+<p>OpenFlow can easily provide users with their own isolated network, just as VLANs do.</p>
+</blockquote>
+<ul>
+<li><p>Mobile wireless VOIP clients.</p>
+</li>
+<li><p>A non-IP network. </p>
+</li>
+</ul>
+<blockquote>
+<p>OpenFlow doesn’t require packets to be of any one format ——  so long as the Flow Table is able to match on the packet header 。This would allow experiments using new naming, addressing and routing schemes</p>
+</blockquote>
+<ul>
+<li>Processing packets rather than flows. every packet to be processed.</li>
+</ul>
+<blockquote>
+<p>For example, an intrusion detection system that inspects every packet, an explicit congestion control mechanism, or when modifying the contents of packets, such as when converting packets from one protocol format to another.</p>
+</blockquote>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>我们相信OpenFlow是一个务实的妥协方案，可以让研究人员以统一的方式在异构交换机和路由器上运行实验，而无需供应商公开其产品的内部工作，或研究人员编写供应商特定的控制软件。</p>
+<p>如果我们在我们的园区成功部署OpenFlow网络，我们希望OpenFlow将在其他大学逐渐流行起来，增加支持实验的网络数量。 我们希望新一代的控制软件能够出现，使研究人员能够重新使用控制器和实验，并在别人的工作基础上继续努力。 随着时间的推移，我们希望不同大学的OpenFlow网络将通过隧道和覆盖网络相互连接，也许可以通过运行在连接大学的骨干网上的新的OpenFlow网络来实现。</p>
+<h1 id="阅读感谢"><a href="#阅读感谢" class="headerlink" title="阅读感谢"></a>阅读感谢</h1><p>本篇论文可以说是 OpenFlow 和 SDN 的开山之作。提出了 OpenFlow 的创新源泉在于网络协议开发者的痛点：开发新的网络协议的困难之处。着眼点在于实现一个统一的方法方便网络创新实验，对无论是硬件从业人员（做交换机）还是软件开发人员（写控制器、开发新协议）都有好处。介绍了流表表项的机制。OpenFlow的特色：性能好，扩展性，实验的前景。可以实现实验流量和现实流量的分离这点我觉得挺不错的。值得一提的是，和互联网在刚开始的时候只是政府支持的一个小项目，也是以学校为起点，最终成长为今天这样一个强大的工具。而在这点上 OpenFlow 是和 Internet 是一样的。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/11/01/tcpip3-Link-Layer/" rel="next" title="《TCP/IP 详解 卷1：协议》第 3 章：链路层">
+                <i class="fa fa-chevron-left"></i> 《TCP/IP 详解 卷1：协议》第 3 章：链路层
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="ZC" />
+          <p class="site-author-name" itemprop="name">ZC</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">49</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#摘要"><span class="nav-number">1.</span> <span class="nav-text">摘要</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#可编程网络的需求？"><span class="nav-number">2.</span> <span class="nav-text">可编程网络的需求？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#OpenFlow-交换机"><span class="nav-number">3.</span> <span class="nav-text">OpenFlow 交换机</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#专用OpenFlow交换机"><span class="nav-number">3.1.</span> <span class="nav-text">专用OpenFlow交换机</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#支持OpenFlow的通用商用以太网交换机"><span class="nav-number">3.2.</span> <span class="nav-text">支持OpenFlow的通用商用以太网交换机</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Controller"><span class="nav-number">3.3.</span> <span class="nav-text">Controller</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#使用-OpenFlow"><span class="nav-number">4.</span> <span class="nav-text">使用 OpenFlow</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">5.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#阅读感谢"><span class="nav-number">6.</span> <span class="nav-text">阅读感谢</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ZC</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("guhO5d3jdrym6QcCp5oIrsMc-gzGzoHsz", "ldFdhqrIxGxOqWs5mgH8pmLT");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+
+  
+
+  
+
+</body>
+</html>
