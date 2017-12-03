@@ -93,19 +93,16 @@
 
 
 
-<meta name="description" content="范围第一章 构造过程抽象 1.3 节，用高阶函数做抽象。P37 - 48 keywords：过程作为参数、lambda 演算子 笔记1.3.1 过程作为参数我们可以用 define 对一些过程做抽象。例如下面这个求立方： 123456(* 3 3 3)(* y y y)抽象为：(define (cube x) (* x x x)) 这一章我们将看见一种更高级的过程抽象。通过 define 产生的过">
+<meta name="description" content="摘要软件定义网络（SDN）是一项激动人心的技术，可以帮助我们设计和管理网络。 虽然这项技术似乎突然出现，但SDN是使计算机网络更具可编程性的悠久历史的一部分。 在本文中，我们追踪可编程网络的智能历史，包括主动网络，早期分离控制和数据平面的工作，以及最近在OpenFlow和网络操作系统方面的工作。 我们强调关键概念，以及推动每项创新的技术推动和应用拉动。 一路走来，揭开了关于技术的常见误区和误区，明">
 <meta property="og:type" content="article">
-<meta property="og:title" content="计算机程序的构造与解释——高阶函数做抽象">
-<meta property="og:url" content="http://yoursite.com/2017/10/11/sicp-note-4/index.html">
+<meta property="og:title" content="The Road to SDN, An Interllectual History of Programmable Networks">
+<meta property="og:url" content="http://yoursite.com/2017/12/03/Nick-Feamster-The-Road-To-SDN/index.html">
 <meta property="og:site_name" content="ZCplayground">
-<meta property="og:description" content="范围第一章 构造过程抽象 1.3 节，用高阶函数做抽象。P37 - 48 keywords：过程作为参数、lambda 演算子 笔记1.3.1 过程作为参数我们可以用 define 对一些过程做抽象。例如下面这个求立方： 123456(* 3 3 3)(* y y y)抽象为：(define (cube x) (* x x x)) 这一章我们将看见一种更高级的过程抽象。通过 define 产生的过">
-<meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/%E8%BF%87%E7%A8%8B%E5%8F%82%E6%95%B0.png">
-<meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/lambda.png">
-<meta property="og:updated_time" content="2017-10-11T07:35:22.251Z">
+<meta property="og:description" content="摘要软件定义网络（SDN）是一项激动人心的技术，可以帮助我们设计和管理网络。 虽然这项技术似乎突然出现，但SDN是使计算机网络更具可编程性的悠久历史的一部分。 在本文中，我们追踪可编程网络的智能历史，包括主动网络，早期分离控制和数据平面的工作，以及最近在OpenFlow和网络操作系统方面的工作。 我们强调关键概念，以及推动每项创新的技术推动和应用拉动。 一路走来，揭开了关于技术的常见误区和误区，明">
+<meta property="og:updated_time" content="2017-12-03T12:36:08.096Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="计算机程序的构造与解释——高阶函数做抽象">
-<meta name="twitter:description" content="范围第一章 构造过程抽象 1.3 节，用高阶函数做抽象。P37 - 48 keywords：过程作为参数、lambda 演算子 笔记1.3.1 过程作为参数我们可以用 define 对一些过程做抽象。例如下面这个求立方： 123456(* 3 3 3)(* y y y)抽象为：(define (cube x) (* x x x)) 这一章我们将看见一种更高级的过程抽象。通过 define 产生的过">
-<meta name="twitter:image" content="http://osax8w13y.bkt.clouddn.com/%E8%BF%87%E7%A8%8B%E5%8F%82%E6%95%B0.png">
+<meta name="twitter:title" content="The Road to SDN, An Interllectual History of Programmable Networks">
+<meta name="twitter:description" content="摘要软件定义网络（SDN）是一项激动人心的技术，可以帮助我们设计和管理网络。 虽然这项技术似乎突然出现，但SDN是使计算机网络更具可编程性的悠久历史的一部分。 在本文中，我们追踪可编程网络的智能历史，包括主动网络，早期分离控制和数据平面的工作，以及最近在OpenFlow和网络操作系统方面的工作。 我们强调关键概念，以及推动每项创新的技术推动和应用拉动。 一路走来，揭开了关于技术的常见误区和误区，明">
 
 
 
@@ -133,13 +130,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/10/11/sicp-note-4/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/12/03/Nick-Feamster-The-Road-To-SDN/"/>
 
 
 
 
 
-  <title>计算机程序的构造与解释——高阶函数做抽象 | ZCplayground</title>
+  <title>The Road to SDN, An Interllectual History of Programmable Networks | ZCplayground</title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -279,7 +276,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/10/11/sicp-note-4/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/03/Nick-Feamster-The-Road-To-SDN/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="ZC">
@@ -296,7 +293,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">计算机程序的构造与解释——高阶函数做抽象</h1>
+          <h1 class="post-title" itemprop="name headline">The Road to SDN, An Interllectual History of Programmable Networks</h1>
         
 
         <div class="post-meta">
@@ -308,8 +305,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-11T11:09:43+08:00">
-                2017-10-11
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-03T15:25:33+08:00">
+                2017-12-03
               </time>
             
 
@@ -331,8 +328,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/SICP/" itemprop="url" rel="index">
-                    <span itemprop="name">SICP</span>
+                  <a href="/categories/paper-reading/" itemprop="url" rel="index">
+                    <span itemprop="name">paper-reading</span>
                   </a>
                 </span>
 
@@ -348,7 +345,7 @@
 
           
           
-             <span id="/2017/10/11/sicp-note-4/" class="leancloud_visitors" data-flag-title="计算机程序的构造与解释——高阶函数做抽象">
+             <span id="/2017/12/03/Nick-Feamster-The-Road-To-SDN/" class="leancloud_visitors" data-flag-title="The Road to SDN, An Interllectual History of Programmable Networks">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -376,29 +373,83 @@
       
 
       
-        <h1 id="范围"><a href="#范围" class="headerlink" title="范围"></a>范围</h1><p>第一章 构造过程抽象</p>
-<p>1.3 节，用高阶函数做抽象。P37 - 48</p>
-<p><strong>keywords</strong>：过程作为参数、lambda 演算子</p>
-<h1 id="笔记"><a href="#笔记" class="headerlink" title="笔记"></a>笔记</h1><h2 id="1-3-1-过程作为参数"><a href="#1-3-1-过程作为参数" class="headerlink" title="1.3.1 过程作为参数"></a>1.3.1 过程作为参数</h2><p>我们可以用 define 对一些过程做抽象。例如下面这个求立方：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">(* 3 3 3)</div><div class="line">(* y y y)</div><div class="line"></div><div class="line">抽象为：</div><div class="line"></div><div class="line">(define (cube x) (* x x x))</div></pre></td></tr></table></figure>
-<p>这一章我们将看见一种更高级的过程抽象。通过 define 产生的过程，迫使我们永远只能使用特定的操作，并且要传入参数，而不能基于更高级的操作去工作。</p>
-<p><strong>如果过程只能限制以数为参数，将严重限制我们建立抽象的能力。</strong>因此我们要构造出<strong>以过程为参数、返回过程的高阶过程</strong>，以及 lambda 演算子等技巧。这是强有力的抽象机制，极大的增强了语言的表述能力。下面看看如何将过程作为参数。</p>
-<p>考虑几个计算过程：</p>
-<p><img src="http://osax8w13y.bkt.clouddn.com/%E8%BF%87%E7%A8%8B%E5%8F%82%E6%95%B0.png" alt=""></p>
-<p>在这里可以明显的看出，三个过程中有一种共享的基础模式。（在一段范围内把某种东西累加起来）我们也希望程序语言足够强大，写出一个过程，<strong>表达求和的概念</strong>，而<strong>不是只能写出一种特定的求和过程</strong>。其实就上述三个过程，我们可以从中抽象出一种通式：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">(define (sum term a next b))</div><div class="line">    (if (&gt; a b)</div><div class="line">        0</div><div class="line">        (+ (term a)</div><div class="line">            (sum term (next a) next b))))</div></pre></td></tr></table></figure>
-<p><code>sum</code>除了原有的两个参数 a 与 b，增加了<strong>过程参数</strong><code>term</code>和<code>next</code>，可以很简单的看出：<code>term</code>是指对当前数进行一个操作后，再把结果累加。<code>next</code>就是计算下一步的 a 值。</p>
-<p>下面是对原有的代码进行改进的过程，将过程作为了参数。将一个迭代累加的过程抽象成了一个通式，只需要传入过程来控制我们想要的累加形式即可。“抽象”不仅是用 sum-integers、sum-pi 等名字去描述那些过程，还可以从各种 sum 中抽象出更强的抽象：<strong>求和的概念</strong>。厉害厉害！值得一提的是，之前还很轻易地用 C 语言就可以改写的 Scheme 程序，从这里开始就变得难了。因为 C 语言要实现类似的效果，需要传递函数指针。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line">(define (inc n)(+ n 1))</div><div class="line">;Value: inc</div><div class="line">;定义 inc 过程，用作 x++ 的功能</div><div class="line"></div><div class="line">(define (sum term a next b)</div><div class="line">  (if (&gt; a b)</div><div class="line">      0</div><div class="line">      (+ (term a)(sum term (next a)next b))))</div><div class="line">;Value: sum</div><div class="line"></div><div class="line">(define (sum-cubes a b)</div><div class="line">  (sum cube a inc b))</div><div class="line">;Value: sum-cubes</div><div class="line"></div><div class="line">(define (cube x)(* x x x))</div><div class="line">;Value: cube</div><div class="line"></div><div class="line">(sum-cubes 1 10)</div><div class="line">;Value: 3025</div><div class="line"></div><div class="line">(define (pi-sum a b)</div><div class="line">  (define (pi-term x)</div><div class="line">    (/ 1.0 (* x (+ x 2))))</div><div class="line">  (define (pi-next x)</div><div class="line">    (+ x 4))</div><div class="line">  (sum pi-term a pi-next b))</div><div class="line">;Value: pi-sum</div><div class="line">;这个式子会收敛于 π/8</div><div class="line"></div><div class="line">(* 8 (pi-sum 1 1000))</div><div class="line">;Value: 3.139592655589783</div></pre></td></tr></table></figure>
-<p>一旦有了 sum ，我们就能用它作为基本构件，去形式化其他概念。例如，求函数 f 在范围 a 和 b 之间的定积分近似值，可以用下面公式去完成：</p>
-<p>$$\int_a^b = \lbrace f(a+\frac{dx}{2}) + f(a+dx+\frac{dx}{2}) + f(a+2dx+\frac{dx}{2}) + … \rbrace dx $$</p>
-<p>这个式子的意思：将 x 轴取极小的小块（dx），大括号内的东西是所有长方体的长的累加，乘以 dx 就是积分。利用前面的 sum，我们可以直接描述 integral 过程：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">(define (integral f a b dx)</div><div class="line">  (define (add-dx x)(+ x dx))</div><div class="line">  (* (sum f (+ a (/ dx 2.0)) add-dx b) dx))</div><div class="line">;Value: integral</div><div class="line"></div><div class="line">(integral cube 0 1 0.001)</div><div class="line">;Value: .249999875000001</div></pre></td></tr></table></figure>
-<h2 id="1-3-2-lambda-构造"><a href="#1-3-2-lambda-构造" class="headerlink" title="1.3.2 lambda 构造"></a>1.3.2 lambda 构造</h2><p>在用过程做为参数时，我们不免要定义一些诸如 <code>pi-next</code>、<code>add-dx</code> 这样的过程名。这种做法有些不舒服，这些过程用作高阶函数的参数，它们在 <code>pi-sum</code> 和 <code>integral</code> 过程之外，是没什么用途的。我们可以通过引入一种 <strong>lambda λ 表达式</strong>来完成这种描述。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">;比如 pi-sum 可以这么写：</div><div class="line">(lambda (x) (+ x 4))</div></pre></td></tr></table></figure>
-<p>lambda 创建过程的语法和 define 是一样的，只不过 lambda 不为过程提供一个名字。</p>
-<p>可以以如下方法来阅读 lambda 语句：</p>
-<p><img src="http://osax8w13y.bkt.clouddn.com/lambda.png" alt=""></p>
+        <h1 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h1><p>软件定义网络（SDN）是一项激动人心的技术，可以帮助我们设计和管理网络。 <strong>虽然这项技术似乎突然出现，但SDN是使计算机网络更具可编程性的悠久历史的一部分。</strong> 在本文中，我们追踪可编程网络的智能历史，包括<strong>主动网络，早期分离控制和数据平面的工作，以及最近在OpenFlow和网络操作系统方面的工作</strong>。 我们强调关键概念，以及推动每项创新的技术推动和应用拉动。 一路走来，揭开了关于技术的常见误区和误区，明确了SDN和网络虚拟化等相关技术之间的关系。</p>
+<h1 id="The-Road-to-SDN"><a href="#The-Road-to-SDN" class="headerlink" title="The Road to SDN"></a>The Road to SDN</h1><p>传统网络是非常复杂，且难以管理的：</p>
+<ol>
+<li>设备种类繁杂（路由器、交换机、各种middlebox）</li>
+<li>设备上运行的分布式控制软件通常是专有且封闭的。</li>
+<li>底层协议要标准化需要经过多年的时间，来实践互操作性等。</li>
+<li>配置网络需要通过一些配置接口或者软件，这些接口和软件在不同的硬件提供商之间差别很大，不兼容。</li>
+</ol>
+<p>这就导致了增加了网络的复杂性，降低了网络研发的创新速度。SDN 作为一种设计和管理网络的新思路，主要有两个特点：</p>
+<ol>
+<li>分离数据和控制平面。</li>
+<li>巩固控制平面，一个单独的软件控制器通过 API 控制多个数据平面元素。OpenFlow 就是其中一种 API。</li>
+</ol>
+<p>今天，SDN 在变得越来越重要，不过，它背后的一些思想甚至已经经历了 20 多年的成长和进化。SDN 在某种程度上就是回顾了这些早期的思想，作为一个集大成者，将控制平面和数据平面进行清晰的分离，来简化网络管理，简化配置。</p>
+<blockquote>
+<p>we caution the reader that any history is incomplete and more nuanced than a single storyline might suggest. 我们需要提醒读者的是，任何一段历史都是不完整的，但能比单一的一段故事所描述的更细致。</p>
+</blockquote>
+<h1 id="Active-Network-the-mid-1990s-to-the-early-2000s"><a href="#Active-Network-the-mid-1990s-to-the-early-2000s" class="headerlink" title="Active Network (the mid 1990s to the early 2000s)"></a>Active Network (the mid 1990s to the early 2000s)</h1><p>对于网络，研究人员的测试、配置新 idea 的开发流程通常是：</p>
+<ol>
+<li>设计好新的协议，并在实验室小规模范围实验。</li>
+<li>在更大的网络上做模拟（比如校园网）</li>
+<li>如果效果好、资金等方面都到位，就可以通过 IETF 等组织来标准化这个协议。<strong>这个过程通常耗时非常久，使很多研究人员疲惫。</strong></li>
+</ol>
+<p>一些研究人员想要改变这个情况，他们追求一种能够打开网络控制的手段，因为其实从各种意义上来讲，传统网络是不可编程的。</p>
+<p>Active Network 基本思路：</p>
+<p>展现一个可编程接口（Network API），暴露各种单独网络节点的各种资源（处理进程、存储器、包队列等），还可以通过自定义功能来实现对经过这个节点的分组进行某种处理。</p>
+<p>Active Network 使用两种编程模型：</p>
+<ol>
+<li>胶囊。在分组中携带可以执行的代码，也就是说分组运行执行自定义操作。</li>
+<li>可编程路由器和交换机，强调的是由可编程的交换机根据分组中的代码，执行不同的操作。</li>
+</ol>
+<p>为什么成为了历史尘埃：</p>
+<ol>
+<li>虽然进行了初步的网络可编程功能的探索，但是对象是<strong>数据平面的可编程性</strong>。数据平面的“杀手级”应用是非常少，或者说很难构想的。</li>
+<li>对 active Network 的应用，需要引入了非常多 middlebox，这意味着不同硬件厂商提供的是不兼容的编程模型。也就是说虽然开放了可编程接口，但不同厂商的设备之间还是封闭的。</li>
+<li>这种直接打开一个 API 暴露硬件内部处理细节的方式，目的是为了让实验人员的开发更方便，但这种方式不一定讨硬件供货商的喜。</li>
+<li>对于一些紧迫的问题，也没有引人注目的解决效果。比如，还是不容易部署；没有进一步实现控制和数据平面的解耦合等。</li>
+</ol>
+<p>虽然如此，但 Active Network 的初步尝试中，蕴含着 SDN 至今沿用的思想：</p>
+<ol>
+<li>为了方便配置新的机器，方便研发</li>
+<li>对网络行为的细粒度控制</li>
+<li>方便研究人员进行研发的需求</li>
+</ol>
+<p>对未来研究的智力贡献有：</p>
+<ol>
+<li>可编程网络功能的思想。</li>
+<li>对报头的解复用能力。</li>
+<li>提供一个愿景——对 middlebox 的一种统一的架构</li>
+</ol>
+<h1 id="Control-and-Data-Plane-Separation-around-2001-to-2007"><a href="#Control-and-Data-Plane-Separation-around-2001-to-2007" class="headerlink" title="Control and Data Plane Separation (around 2001 to 2007)"></a>Control and Data Plane Separation (around 2001 to 2007)</h1><p>到了二十一世纪，急速增加的网络流量对网络提出了可靠性、可预测性、性能的新要求。网络管理员寻求更好的管理网络的办法，以及想要实现一些新的功能。</p>
+<p>传统的交换机和路由器体现了一种控制与数据平面的紧耦合，这使得一些对网络的 configuration debug、预测、控制路由行为等操作非常的具有挑战性。ISP 也为了管理范围越来越大的网络头疼，这需要更好的可靠性，需要更多的服务。这些驱动了这种创新：</p>
+<ol>
+<li>在控制平面和数据平面之间有一个开放的接口。例如：ForCES（Forwarding and Control Separation）</li>
+<li>对网络的一种逻辑上中心控制。(logical centralized control of the network)</li>
+</ol>
+<p>与 Active Network 着眼点就有所不同了：</p>
+<ol>
+<li>分离控制与数据平面的创新主要是由网络管理员来推动的，而 Active Network 主要是由终端用户和网络协议研究人员推动的。</li>
+<li>前者主要注重控制平面的可编程性，而后者着重数据平面可编程性。</li>
+<li>前者希望有一个对网络范围的清晰视线，后者只在设备配置这个层次。</li>
+</ol>
+<blockquote>
+<p>Forces Protocol，是第一个将控制通道从分组交换网络中分离出来的协议，最早标准化于2003年。协议允许许多控制元素（control element，CE）去控制传输元素（forwarding element，FE）。也就是说，交换机、各种 FE，由一个叫 forces interface 的标准化的控制通道来控制。在forces interface 之上，又有各种控制器来控制 FE 的具体行为。这也是有一点像 OpenFlow 的模型。但这种方法存在一个问题：需要采取由供应商提供的标准、并配置新硬件。引入新的控制时很困难。这些障碍与早期的一些工作遇到的障碍是一样的，例如 Active Network。</p>
+</blockquote>
+<p>为什么 ForCES 成为了历史尘埃：</p>
+<ol>
+<li>对其有一些主要的争论是是否违反了 fate-sharing 原则</li>
+<li>vendor 还是不愿意开放接口。这是 OpenFlow 解决得较好的一个方面，使用 OpenFlow，硬件供货商无需暴露硬件内部细节。</li>
+<li>对数据平面的控制还要依赖与现有协议，而没有提供更宽广范围的可编程性。对现有协议的依赖也限制了控制器提供的应用。因此也限制了 ForCES 的大规模应用。</li>
+</ol>
+<p>但也是有着 SDN 思想：</p>
+<ol>
+<li>有一个逻辑上处于中心的控制器，使用接口 API 来控制数据平面。</li>
+<li>分布式状态管理。</li>
+</ol>
+<h1 id="OpenFlow-API-and-Network-Operating-System-around-2007-to-2010"><a href="#OpenFlow-API-and-Network-Operating-System-around-2007-to-2010" class="headerlink" title="OpenFlow API and Network Operating System (around 2007 to 2010)"></a>OpenFlow API and Network Operating System (around 2007 to 2010)</h1><hr>
 
       
     </div>
@@ -435,8 +486,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/09/17/sicp-note-3/" rel="next" title="计算机程序的构造与解释——过程的“形状”">
-                <i class="fa fa-chevron-left"></i> 计算机程序的构造与解释——过程的“形状”
+              <a href="/2017/11/17/OpenFlow-Enabling-Innovation-in-Campus-Networks/" rel="next" title="OpenFlow-Enabling-Innovation-in-Campus-Networks">
+                <i class="fa fa-chevron-left"></i> OpenFlow-Enabling-Innovation-in-Campus-Networks
               </a>
             
           </div>
@@ -444,10 +495,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/10/21/p4-specification/" rel="prev" title="p4-specification">
-                p4-specification <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -567,7 +614,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#范围"><span class="nav-number">1.</span> <span class="nav-text">范围</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#笔记"><span class="nav-number">2.</span> <span class="nav-text">笔记</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3-1-过程作为参数"><span class="nav-number">2.1.</span> <span class="nav-text">1.3.1 过程作为参数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3-2-lambda-构造"><span class="nav-number">2.2.</span> <span class="nav-text">1.3.2 lambda 构造</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#摘要"><span class="nav-number">1.</span> <span class="nav-text">摘要</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#The-Road-to-SDN"><span class="nav-number">2.</span> <span class="nav-text">The Road to SDN</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Active-Network-the-mid-1990s-to-the-early-2000s"><span class="nav-number">3.</span> <span class="nav-text">Active Network (the mid 1990s to the early 2000s)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Control-and-Data-Plane-Separation-around-2001-to-2007"><span class="nav-number">4.</span> <span class="nav-text">Control and Data Plane Separation (around 2001 to 2007)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#OpenFlow-API-and-Network-Operating-System-around-2007-to-2010"><span class="nav-number">5.</span> <span class="nav-text">OpenFlow API and Network Operating System (around 2007 to 2010)</span></a></li></ol></div>
             
 
           </div>
@@ -851,26 +898,6 @@
   
 
   
-  
-    <script type="text/x-mathjax-config">
-      MathJax.Hub.Config({
-        tex2jax: {
-          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
-          processEscapes: true,
-          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-        }
-      });
-    </script>
-
-    <script type="text/x-mathjax-config">
-      MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax(), i;
-        for (i=0; i < all.length; i += 1) {
-          all[i].SourceElement().parentNode.className += ' has-jax';
-        }
-      });
-    </script>
-    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
   
 
 
