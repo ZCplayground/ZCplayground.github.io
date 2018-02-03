@@ -93,12 +93,12 @@
 
 
 
-<meta name="description" content="在体系结构中，我们知道：链路层（或数据链路层）包含为共享相同介质的邻居建立连接的协议和方法，同时，设计链路层的目的是为 IP 模块发送和接受 IP 数据报，链路层可用于携带支持 IP 的辅助性协议，例如 ARP。 TCP/IP 取得成功的的原因之一在于它能工作在几乎任意一种链路之上。不同的链路层依赖于其使用的网络硬件类型：有限局域网，例如以太网；城域网，例如有线电视、DSL 连接；有线语音网络，例">
+<meta name="description" content="在体系结构中，我们知道：链路层（或数据链路层）包含为共享相同介质的邻居建立连接的协议和方法。该层是在广域网（WAN）中的相邻网络节点之间或同一局域网（LAN）网段上的节点之间传输数据的协议层，除此之外，提供检测物理层中可能发生的错误的手段，但不一定会去尝试纠正。同时，设计链路层的目的是为 IP 模块发送和接受 IP 数据报，链路层可用于携带支持 IP 的辅助性协议，例如 ARP。   The li">
 <meta property="og:type" content="article">
 <meta property="og:title" content="《TCP&#x2F;IP 详解 卷1：协议》第 3 章：链路层">
 <meta property="og:url" content="http://yoursite.com/2017/11/01/tcpip3-Link-Layer/index.html">
 <meta property="og:site_name" content="ZCplayground">
-<meta property="og:description" content="在体系结构中，我们知道：链路层（或数据链路层）包含为共享相同介质的邻居建立连接的协议和方法，同时，设计链路层的目的是为 IP 模块发送和接受 IP 数据报，链路层可用于携带支持 IP 的辅助性协议，例如 ARP。 TCP/IP 取得成功的的原因之一在于它能工作在几乎任意一种链路之上。不同的链路层依赖于其使用的网络硬件类型：有限局域网，例如以太网；城域网，例如有线电视、DSL 连接；有线语音网络，例">
+<meta property="og:description" content="在体系结构中，我们知道：链路层（或数据链路层）包含为共享相同介质的邻居建立连接的协议和方法。该层是在广域网（WAN）中的相邻网络节点之间或同一局域网（LAN）网段上的节点之间传输数据的协议层，除此之外，提供检测物理层中可能发生的错误的手段，但不一定会去尝试纠正。同时，设计链路层的目的是为 IP 模块发送和接受 IP 数据报，链路层可用于携带支持 IP 的辅助性协议，例如 ARP。   The li">
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/Ethernet1.png">
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/frame%20format.png">
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/Ethernet%20Switch.png">
@@ -117,10 +117,10 @@
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/Ethernetpacket1.png">
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/stppacket.png">
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/stp%20presentation.JPG">
-<meta property="og:updated_time" content="2017-11-07T02:03:50.915Z">
+<meta property="og:updated_time" content="2018-02-03T15:08:42.757Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="《TCP&#x2F;IP 详解 卷1：协议》第 3 章：链路层">
-<meta name="twitter:description" content="在体系结构中，我们知道：链路层（或数据链路层）包含为共享相同介质的邻居建立连接的协议和方法，同时，设计链路层的目的是为 IP 模块发送和接受 IP 数据报，链路层可用于携带支持 IP 的辅助性协议，例如 ARP。 TCP/IP 取得成功的的原因之一在于它能工作在几乎任意一种链路之上。不同的链路层依赖于其使用的网络硬件类型：有限局域网，例如以太网；城域网，例如有线电视、DSL 连接；有线语音网络，例">
+<meta name="twitter:description" content="在体系结构中，我们知道：链路层（或数据链路层）包含为共享相同介质的邻居建立连接的协议和方法。该层是在广域网（WAN）中的相邻网络节点之间或同一局域网（LAN）网段上的节点之间传输数据的协议层，除此之外，提供检测物理层中可能发生的错误的手段，但不一定会去尝试纠正。同时，设计链路层的目的是为 IP 模块发送和接受 IP 数据报，链路层可用于携带支持 IP 的辅助性协议，例如 ARP。   The li">
 <meta name="twitter:image" content="http://osax8w13y.bkt.clouddn.com/Ethernet1.png">
 
 
@@ -392,9 +392,19 @@
       
 
       
-        <p>在体系结构中，我们知道：链路层（或数据链路层）包含为共享相同介质的<strong>邻居</strong>建立连接的协议和方法，同时，设计链路层的目的是<strong>为 IP 模块发送和接受 IP 数据报</strong>，链路层可用于携带支持 IP 的辅助性协议，例如 ARP。</p>
+        <p>在体系结构中，我们知道：<strong>链路层（或数据链路层）</strong>包含为共享相同介质的<strong>邻居</strong>建立连接的协议和方法。该层是在广域网（WAN）中的<strong>相邻网络节点之间</strong>或<strong>同一局域网（LAN）网段上的节点</strong>之间传输数据的协议层，除此之外，提供检测物理层中可能发生的错误的手段，但不一定会去尝试纠正。同时，设计链路层的目的是<strong>为 IP 模块发送和接受 IP 数据报</strong>，链路层可用于携带支持 IP 的辅助性协议，例如 ARP。</p>
+<blockquote>
+<p> The link layer has the networking scope of the <strong>local network connection to which a host is attached</strong>. This regime is called the <strong>link</strong> in TCP/IP literature. It is the <strong>lowest component layer</strong> of the Internet protocols, </p>
+<p>The data link layer provides the functional and procedural means to transfer data between network entities and might provide the means to detect and possibly correct errors that may occur in the physical layer.</p>
+</blockquote>
 <p><strong>TCP/IP 取得成功的的原因之一在于它能工作在几乎任意一种链路之上。</strong>不同的链路层依赖于其使用的网络硬件类型：有限局域网，例如以太网；城域网，例如有线电视、DSL 连接；有线语音网络，例如支持调制解调器的电话线；无线网络，如 WiFi（无线局域网）；基于蜂窝技术的无线数据服务。在本章中，主要讨论以太网，以及如何使用点到点协议 （PPP）。</p>
+<blockquote>
+<p>… as TCP/IP is designed to be <strong>hardware independent</strong>. As a result, TCP/IP may be implemented on top of virtually any hardware networking technology.</p>
+</blockquote>
 <p>大多数链路层技术都有一个相关的协议，描述由网络硬件传输的 <strong>PDU</strong>（Protocol Data Unit，协议数据单元） 格式。在描述链路层数据单元时，我们通常使用术语<strong>帧</strong>（frame），来和那些更高层的 PDU 格式区别开来，如网络层和传输层的 PDU <strong>分组</strong>（packet）和<strong>段</strong>（fragment）。帧通常支持<strong>可变帧长度</strong>，但有一个上限——最大传输单元（MTU，Maximum Transmission Unit），这是链路层的一个特点。</p>
+<blockquote>
+<p>Data-link <strong>frames</strong>, as these protocol data units are called, <strong>do not cross the boundaries of a local network</strong>. Inter-network routing and global addressing are higher-layer functions, allowing data-link protocols to focus on local delivery</p>
+</blockquote>
 <h1 id="以太网、IEEE-802-局域网标准"><a href="#以太网、IEEE-802-局域网标准" class="headerlink" title="以太网、IEEE 802 局域网标准"></a>以太网、IEEE 802 局域网标准</h1><p><strong>以太网</strong>（Ethernet）这个术语通常指<strong>一套标准</strong>，由 DEC、Intel、Xerox 公司于 1980 年首次发布，在 1982 年加以修订。第一个常见格式的以太网，目前被称为 “10 Mb/s 以太网” 或 “共享以太网”，它被 IEEE 采纳成为 <strong>802.3 标准</strong>。这种网络的结构通常如下所示：</p>
 <p><img src="http://osax8w13y.bkt.clouddn.com/Ethernet1.png" alt=""></p>
 <p>以太网包含如下概念和知识点：</p>
@@ -1087,7 +1097,11 @@
 <li>如果攻击者可以访问两个端点之间的信道，就有很多方式来攻击 PPP 网络。对于简单的认证机制 PAP，简单的嗅探就可以捕获密码，用于后续的非法访问。</li>
 </ul>
 <h1 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h1><ul>
-<li><a href="https://baike.baidu.com/item/%E6%A8%A12%E8%BF%90%E7%AE%97/18556715?fr=aladdin" target="_blank" rel="external">mod 2 运算</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Internet_protocol_suite" target="_blank" rel="external">wiki - Internet_protocol_suite</a></li>
+<li><p><a href="https://en.wikipedia.org/wiki/Data_link_layer" target="_blank" rel="external">wiki - Data_link_layer</a></p>
+</li>
+<li><p><a href="https://baike.baidu.com/item/%E6%A8%A12%E8%BF%90%E7%AE%97/18556715?fr=aladdin" target="_blank" rel="external">mod 2 运算</a></p>
+</li>
 <li><a href="http://blog.csdn.net/liyuanbhu/article/details/7882789" target="_blank" rel="external">循环冗余校验（CRC）算法入门引导</a></li>
 <li><p><a href="http://blog.csdn.net/huang_shiyang/article/details/50881305" target="_blank" rel="external">CRC查找表法推导及代码实现比较</a></p>
 </li>
@@ -1096,13 +1110,13 @@
 <li><a href="http://m.blog.csdn.net/hong0220/article/details/17448249" target="_blank" rel="external">STP生成树协议之根端口 指定端口 阻塞端口</a></li>
 <li><p><a href="http://blog.163.com/hlz_2599/blog/static/14237847420101124112234233/" target="_blank" rel="external">生成树详解</a></p>
 </li>
-<li><p><a href="https://en.wikipedia.org/wiki/Link_Control_Protocol" target="_blank" rel="external">Link Control Protocol - wiki</a></p>
+<li><p><a href="https://en.wikipedia.org/wiki/Link_Control_Protocol" target="_blank" rel="external">wiki - Link Control Protocol</a></p>
 </li>
 <li><a href="http://blog.csdn.net/xdsoft365/article/details/6335882" target="_blank" rel="external">闲谈PPP协议</a></li>
-<li><a href="https://en.wikipedia.org/wiki/Point-to-Point_Protocol" target="_blank" rel="external">Point-to-Point Protocol - wiki</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Point-to-Point_Protocol" target="_blank" rel="external">wiki - Point-to-Point Protocol</a></li>
 <li><p><a href="http://network.51cto.com/art/201109/291563.htm" target="_blank" rel="external">CHAP认证概述</a></p>
 </li>
-<li><p><a href="https://en.wikipedia.org/wiki/Point-to-point_protocol_over_Ethernet" target="_blank" rel="external">Point-to-point protocol over Ethernet - wiki</a></p>
+<li><p><a href="https://en.wikipedia.org/wiki/Point-to-point_protocol_over_Ethernet" target="_blank" rel="external">wiki - Point-to-point protocol over Ethernet</a></p>
 </li>
 </ul>
 <hr>
@@ -1242,7 +1256,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">50</span>
+                <span class="site-state-item-count">51</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -1313,7 +1327,7 @@
         <div class="copyright" >
   
   &copy; 
-  <span itemprop="copyrightYear">2017</span>
+  <span itemprop="copyrightYear">2018</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
