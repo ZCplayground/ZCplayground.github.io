@@ -1,0 +1,1090 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="IP 是 TCPIP 协议族中的核心协议。所有 TCP、UDP、ICMP、IGMP 数据都通过 IP 数据包（又称为 packet）来传输。IP 的英文名为 Internet Protocol，是互联网协议族中用于跨越网络边界中继数据报的主要通信协议，主要提供主机寻址、数据报路由操作。它的路由功能可以实现互联，从本质上建立互联网（网络的网络）。  IP 是一种尽力而为（best-effort de">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《TCP&#x2F;IP 详解 卷1：协议》第 5 章：Internet 协议">
+<meta property="og:url" content="http://yoursite.com/2018/02/06/tcpip5-IP-Protocol/index.html">
+<meta property="og:site_name" content="ZCplayground">
+<meta property="og:description" content="IP 是 TCPIP 协议族中的核心协议。所有 TCP、UDP、ICMP、IGMP 数据都通过 IP 数据包（又称为 packet）来传输。IP 的英文名为 Internet Protocol，是互联网协议族中用于跨越网络边界中继数据报的主要通信协议，主要提供主机寻址、数据报路由操作。它的路由功能可以实现互联，从本质上建立互联网（网络的网络）。  IP 是一种尽力而为（best-effort de">
+<meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/IPv4header.png">
+<meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/IPOption.png">
+<meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/IPv6header.png">
+<meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/nextheader.png">
+<meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/IPv6Nextheader.png">
+<meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/IPV4fragmentation.png">
+<meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/IPv6Fragmentation.png">
+<meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/IPforwarding.png">
+<meta property="og:updated_time" content="2018-02-06T17:30:09.518Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="《TCP&#x2F;IP 详解 卷1：协议》第 5 章：Internet 协议">
+<meta name="twitter:description" content="IP 是 TCPIP 协议族中的核心协议。所有 TCP、UDP、ICMP、IGMP 数据都通过 IP 数据包（又称为 packet）来传输。IP 的英文名为 Internet Protocol，是互联网协议族中用于跨越网络边界中继数据报的主要通信协议，主要提供主机寻址、数据报路由操作。它的路由功能可以实现互联，从本质上建立互联网（网络的网络）。  IP 是一种尽力而为（best-effort de">
+<meta name="twitter:image" content="http://osax8w13y.bkt.clouddn.com/IPv4header.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/02/06/tcpip5-IP-Protocol/"/>
+
+
+
+
+
+  <title>《TCP/IP 详解 卷1：协议》第 5 章：Internet 协议 | ZCplayground</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">ZCplayground</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/02/06/tcpip5-IP-Protocol/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ZC">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ZCplayground">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">《TCP/IP 详解 卷1：协议》第 5 章：Internet 协议</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-06T00:27:59+08:00">
+                2018-02-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/TCP-IP/" itemprop="url" rel="index">
+                    <span itemprop="name">TCP/IP</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/02/06/tcpip5-IP-Protocol/" class="leancloud_visitors" data-flag-title="《TCP/IP 详解 卷1：协议》第 5 章：Internet 协议">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>IP 是 TCPIP 协议族中的<strong>核心协议</strong>。所有 TCP、UDP、ICMP、IGMP 数据都通过 IP 数据包（又称为 packet）来传输。IP 的英文名为 <strong>Internet Protocol</strong>，是互联网协议族中用于<strong>跨越网络边界中继数据报</strong>的主要通信协议，主要提供主机寻址、数据报路由操作。它的路由功能可以<strong>实现互联，从本质上建立互联网（网络的网络）</strong>。</p>
+<ul>
+<li><p>IP 是一种<strong>尽力而为（best-effort delivery service）</strong>的数据交付。尽力而为的含义是不保证IP数据包能够成功地到达目的地。有能力的时候，我会帮你转发。IP 不是简单的丢弃所有不必要流量，但是在某些错误发生时，例如一台路由器的缓冲区用尽，IP的简单错误处理方法就是丢弃一些数据。任何更高级的可靠性（重传，拥塞控制）都必须由高层的传输层来提供，例如 TCP</p>
+</li>
+<li><p>IP 是<strong>无连接（connection-less）</strong>的。无连接意味着IP不维护网原单元中数据包任何相关的链接状态信息每个数据包独立于其他数据包来处理。这意味着IP数据包可以不按顺序交付。如果一个主机向同一个目的地先后发送 A 和 B 两个数据包。那么每个数据包可以独立路由通过不同的路径，并且 B 可能在 A 之前到达。传输层协议，通常是 TCP ，需要处理这些潜在的问题，以便为应用提供无差错的交付。</p>
+</li>
+</ul>
+<h1 id="IPv4-头部字段"><a href="#IPv4-头部字段" class="headerlink" title="IPv4 头部字段"></a>IPv4 头部字段</h1><p><img src="http://osax8w13y.bkt.clouddn.com/IPv4header.png" alt=""></p>
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>长度(bits)</th>
+<th>内容</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>版本（version）</td>
+<td>4</td>
+<td>4</td>
+<td>指明 IP 数据包的版本号</td>
+</tr>
+<tr>
+<td>头部长度（IHL）</td>
+<td>4</td>
+<td>5</td>
+<td>以 32 bits 为单位的字，IPv4 packet header 的长度。正常就是 5（20个字节）</td>
+</tr>
+<tr>
+<td><a href="https://en.wikipedia.org/wiki/Differentiated_services" target="_blank" rel="external">区分服务（DS）</a></td>
+<td>6</td>
+<td>见下文</td>
+<td>为 IP 网络提供 QoS 服务，典型例子为 voIP（voice over IP）</td>
+</tr>
+<tr>
+<td><a href="https://en.wikipedia.org/wiki/Explicit_Congestion_Notification" target="_blank" rel="external">显示拥塞控制（ECN）</a></td>
+<td>2</td>
+<td>见下文</td>
+<td>IP 协议的扩展，使得内置 ECN 功能的端点间通讯时拥有拥塞控制机制</td>
+</tr>
+<tr>
+<td>总长度（Total Length）</td>
+<td>16</td>
+<td>以字节为单位，整个 IP 数据报的长度。通过总长度字段和 IHL 字段，可以知道数据（又称有效载荷）从哪里开始</td>
+</tr>
+<tr>
+<td>标识（Identification）</td>
+<td>16</td>
+<td>每个主机都有一个内部计数器，发送数据报时都将计数器自增 1 然后复制到标识字段</td>
+<td>避免一个分片和其他分片混淆，对于实现分片很重要</td>
+</tr>
+<tr>
+<td>标志（Flags）</td>
+<td>3</td>
+<td>见下文</td>
+<td>见下文</td>
+</tr>
+<tr>
+<td>分片偏移（Fragment Offset）</td>
+<td>13</td>
+<td>以 8 字节为单位，特定分片相对于原始未分片IP数据报开始的偏移量</td>
+<td>用于组合分片</td>
+</tr>
+<tr>
+<td>TTL（time-to-live）</td>
+<td>8</td>
+<td>发送方将其初始化为某个值（例如 64），每经过一次路由器的转发 TTL 自减 1，到达 0 时被丢弃</td>
+<td>防止数据报因为意外路由环路而长久停留在网络中</td>
+</tr>
+<tr>
+<td>协议（Protocol）</td>
+<td>8</td>
+<td>典型的例如 17（UDP）、6（TCP）</td>
+<td>表示数据报有效载荷部分的协议类型</td>
+</tr>
+<tr>
+<td>头部检验和（Header Checksum）</td>
+<td>16</td>
+<td>略</td>
+<td>仅计算 IP header，意味着有效载荷数据部分的正确性需要其他协议来提供完整性验证机制</td>
+</tr>
+<tr>
+<td>源IP地址（Source IP Address）</td>
+<td>32</td>
+<td>略</td>
+<td>略</td>
+</tr>
+<tr>
+<td>目的IP地址（Destination IP Address）</td>
+<td>32</td>
+<td>略</td>
+<td>基本的 IPv4 header 到此为止，共 20 bytes</td>
+</tr>
+<tr>
+<td>IP 选项（Option）</td>
+<td>可变长度 最长 320 bits / 40 bytes</td>
+<td>见下文</td>
+<td>见下文</td>
+</tr>
+<tr>
+<td>IP 数据（IP Data）</td>
+<td>可变长度，最长为 65515 bytes</td>
+<td>略</td>
+<td>又叫有效载荷（payload） </td>
+</tr>
+</tbody>
+</table>
+<p>DS 和 ECN 是通过标记 IP 数据报，使它们的转发不同于其它数据报。（可能跟 ISP 收取不同的特殊费用有关）</p>
+<ul>
+<li>DS 中字段称为<strong>区分服务代码点（Differentiated Services Code Point (DSCP)）</strong>，是 IP 上用于支持 QoS 的服务。</li>
+<li>ECN 是指<strong>显示拥塞控制 Explicit Congestion Notification</strong>。具有 ECN 功能的路由器在拥塞时，转发 packet 时会设置 ECN 位，被目的节点接受时，有些协议（例如 TCP）会发现这种标记，然后通知发送方降低发送速率来缓解拥塞。</li>
+</ul>
+<p>关于分片相关的 Flag，是一个 3 bits 字段，内容如下：</p>
+<ul>
+<li>bit 0: 不使用，填 0</li>
+<li>bit 1: Don’t Fragment (DF)，不对此 datagram 分片。此位被设置时，当某个 datagram 经过路由器时若需要分片，则会被丢弃。将数据包发送给没有足够资源来处理碎片的主机时，可以使用此功能。还可以用于<strong>路径 MTU 发现</strong>。</li>
+<li>bit 2: More Fragments (MF)，对于除了最后一片以外的分片，都设置了 MF 来表明“后面仍有其他分片”，方便拼接。最后一个分片 MF = 0 且 Fragmentation Offset 字段不为零，这样就将其与未分片的数据包区分开来。</li>
+</ul>
+<h2 id="IP-选项"><a href="#IP-选项" class="headerlink" title="IP 选项"></a>IP 选项</h2><p><img src="http://osax8w13y.bkt.clouddn.com/IPOption.png" alt=""></p>
+<p>IP 选项（Option）字段是一些可选参数通常用来配置一些行为，例如在路由期间使用的方法、一些探测、控制，早期对于 IP 进行的一些实验也是通过 IP 选项来完成的。在早期，处于 IPv4 的设计阶段 Internet 规模较小，来自恶意用户的威胁也比较少。随着时间的推移，所涉及相关的安全问题使得很多选项变得不再使用。许多路由器把某些 IP 选项认为是恶意或危险的，会被边界路由器或防火墙所拦截。多数标准化的选项在现如今的 Internet中很少使用</p>
+<h1 id="IPv6-头部字段"><a href="#IPv6-头部字段" class="headerlink" title="IPv6 头部字段"></a>IPv6 头部字段</h1><p><img src="http://osax8w13y.bkt.clouddn.com/IPv6header.png" alt=""></p>
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>长度(bits)</th>
+<th>内容</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>版本（version）</td>
+<td>4</td>
+<td>6</td>
+<td>指明 IP 数据包的版本号</td>
+</tr>
+<tr>
+<td>区分服务（DS）</td>
+<td>6</td>
+<td>同 IPv4</td>
+<td>略</td>
+</tr>
+<tr>
+<td>显示拥塞控制（ECN）</td>
+<td>2</td>
+<td>同 IPv4</td>
+<td>略</td>
+</tr>
+<tr>
+<td>流标签（Flow Label）</td>
+<td>20</td>
+<td>未有详细定义</td>
+<td>可用来标记特定流的报文，以便在网络层区分不同的报文。流标签在IPv6报文头中携带，转发路由器可以不必根据报文内容来识别不同的流，因此使用IPSec后仍然可以根据流标签进行QoS处理。</td>
+</tr>
+<tr>
+<td>负载长度（Payload Length）</td>
+<td>16</td>
+<td>整个 IPv6 数据报减去头部后的字节数</td>
+<td>略</td>
+</tr>
+<tr>
+<td>下一个头部（Next Header)</td>
+<td>8</td>
+<td>见下文</td>
+<td>见下文</td>
+</tr>
+<tr>
+<td>跳数限制（Hop Limit）</td>
+<td>8</td>
+<td>同 IPv4 的 Time-to-live</td>
+<td>略</td>
+</tr>
+<tr>
+<td>源IP地址（Source IP Address）</td>
+<td>128</td>
+<td>略</td>
+<td>略</td>
+</tr>
+<tr>
+<td>目的IP地址（Destination IP Address）</td>
+<td>128</td>
+<td>略</td>
+<td>基本的 IPv6 header 到此为止，共 40 bytes</td>
+</tr>
+</tbody>
+</table>
+<h2 id="IPv6-选项及扩展头部"><a href="#IPv6-选项及扩展头部" class="headerlink" title="IPv6 选项及扩展头部"></a>IPv6 选项及扩展头部</h2><p>可以发现，IPv6 的头部字段相对于 IPv4 较为简易。许多 IPv4 中利用特定字段来实现的功能，例如分片，很少在 IPv6 中使用，因此没有在 IPv6 中分配相应的位。基于这种情况，IPv6 有一个固定的 40 字节头部在开头，而仅在需要时使用<strong>扩展头部</strong>。相对于 IPv4，IPv6 提供了一种更灵活和可扩展的方式，将选项和<strong>扩展头部</strong>相结合。在 IPv6 头部之后增加<strong>下一个扩展头部</strong>实现。IPv6 的设计者简化了高性能路由器的设计，因为 IPv6 的路由器处理分组所需要的命令比 IPv4 简单。</p>
+<p><img src="http://osax8w13y.bkt.clouddn.com/nextheader.png" alt=""></p>
+<p><strong>下一个头部（Next Header）字段</strong>告诉接收方如何解释头部之后的数据。最后一个 Next Header 内容是携带有效载荷的上层协议信息，之后就是有效载荷。IPv6 使用许多下一个字段形成一个链。IPv6 头部（header）仅出现在数据报的开头。</p>
+<p><img src="http://osax8w13y.bkt.clouddn.com/IPv6Nextheader.png" alt=""></p>
+<h1 id="分片"><a href="#分片" class="headerlink" title="分片"></a>分片</h1><p>相关知识点：<a href="http://www.zcplayground.cc/2017/11/01/tcpip3-Link-Layer/" target="_blank" rel="external">MTU</a></p>
+<blockquote>
+<p> 如果 IP 需要发送一个数据报，大小大于链路层 MTU，则 IP 通过分片将数据报分解成较小的部分，使每个分片都小于 MTU。</p>
+</blockquote>
+<h2 id="IPv4"><a href="#IPv4" class="headerlink" title="IPv4"></a>IPv4</h2><p>下图是 IPv4 分片的示例图（来自 wiki）：</p>
+<p><img src="http://osax8w13y.bkt.clouddn.com/IPV4fragmentation.png" alt=""></p>
+<h2 id="IPv6"><a href="#IPv6" class="headerlink" title="IPv6"></a>IPv6</h2><blockquote>
+<p>IPv6 routers do not perform IP fragmentation. IPv6 hosts are required to either perform path MTU discovery, perform end-to-end fragmentation, or to send packets no larger than the default Maximum transmission unit (MTU), which is 1280 octets.</p>
+</blockquote>
+<p>IPv6 <strong>路由器</strong>不执行 IP 分片。 要求IPv6主机执行路径MTU发现，执行<strong>端到端分片</strong>，或发送不大于默认最大传输单元（MTU）的数据包。IPv6 的数据只在源端分片，目的端重组，中间路由器收到超过它 MTU 的数据会发送 ICMPv6 告诉源主机它的 MTU 大小，并把数据抛弃。</p>
+<p>下图是 IPv6 分片的示例图：</p>
+<p><img src="http://osax8w13y.bkt.clouddn.com/IPv6Fragmentation.png" alt=""></p>
+<p>IPv6 中有用于指示分片功能的下一个头部。所包含的信息与 IPv4 header 中三个跟分片有关的字段（identification、flag、offset）功能相同，只不过位数略有不同。在下面这个例子中较大的数据包被分为三个小的分片。</p>
+<ul>
+<li>每个分片有一个 IPv6 头部。</li>
+<li>负载长度字段被修改，反应新生成的分片的大小。</li>
+<li>分片头部的标识符，用于指示是同一个数据报。确保网络中不同时原始数据报的生存期内不会被分配相同的标识符字段。</li>
+<li>由于偏移量字段是以 8 bytes 为单位的，因此分片需要在满足条件的边界处进行。除了最后一个分片以外，所有的分片都是 8 bytes 的倍数。</li>
+<li>接收方对分片进行重组（reassembly）。之前必须确保已接受所有数据包的原始分片。按照顺序重组成一个完整数据报，以便交给高层的其他协议处理。</li>
+</ul>
+<h1 id="IP-转发"><a href="#IP-转发" class="headerlink" title="IP 转发"></a>IP 转发</h1><p>数据报的<strong>路由</strong>（Routing）是IP层的一个主要功能。</p>
+<p>从概念上来说IP转发是很简单的，如果目的地是直接相连的主机，例如点到点链接，或例如以太网这样的共享网络，IP 数据报将直接发送至目的地，而不需要使用路由器（直接交付）。否则主机将数据报发送到一台路由器，将由该路由器将数据报发送至目的地。这个简单方案，适用于大多数的主机配置。</p>
+<h2 id="路由器"><a href="#路由器" class="headerlink" title="路由器"></a>路由器</h2><p>Router，重要的网络层设备。目前语境下的大多数主机可配置为主机，也可配置为路由器。</p>
+<p>主机与路由器的最大区别在于处理 IP 数据报时，主机不转发那些不是由它生成的路由器数据包，但是路由器会这样做。</p>
+<h2 id="转发表"><a href="#转发表" class="headerlink" title="转发表"></a>转发表</h2><p>当一个网络接口接收到一个数据包的时候，IP 模块首先检查<code>目的ip地址</code>是否为自己的 IP 地址。如果是的话数据将直接交付给 IPv4 头部的协议字段或 IPv6 头部的下一个头部指定的协议模块（即上交至对应协议栈）。如果数据包的目的地不是本地 IP 模块使用的 IP 地址，那么</p>
+<ul>
+<li>如果 IP 层配置为一台路由器，则根据<strong>路由表（routing table）</strong>来转发该数据报。</li>
+<li>如果 IP 层配置是主机，那么数据包会被默默地丢弃。除了一些特殊情况，比如 ICMP 消息可能就会发送一些额外的信息回源节点。</li>
+</ul>
+<p>转发表中的内容没有被协议标准规定的很精确，这些工作留给 IP 协议的实现者。通常转发表需要包含下列关键信息</p>
+<ul>
+<li>目的地</li>
+<li>掩码（用于进行最匹配前缀运算，见 <a href="http://www.zcplayground.cc/2017/10/30/tcpip2-IP-address/" target="_blank" rel="external">IP地址</a>）</li>
+<li>下一跳</li>
+<li>下一跳网络接口（以太网、wifi、DSL 等）</li>
+</ul>
+<h2 id="IP-转发行动"><a href="#IP-转发行动" class="headerlink" title="IP 转发行动"></a>IP 转发行动</h2><p>简单来说 IP 转发的过程如下：</p>
+<ul>
+<li>主机在自己的转发表中查找“最匹配的前缀”。若找不到匹配前缀，则使用默认路由（default route），一般默认路由能够指出适合的下一跳网关地址。通过 ARP（IPv6 则是了邻居发现）向网关发送这个数据包。</li>
+<li>网关接收到这个数据包之后检查自己的转发路由表，同样选择一个最合适的前缀，获得下一跳地址并将数据报发送出去。</li>
+<li>若接收到数据报的是一个未在目的地子网的路由器，则路由器会仿照上诉步骤，进行相似的路由转发。</li>
+<li>若数据报达到目标子网，则会进行<strong>直接交付</strong>（即下一跳内容是主机的网络接口，没有再涉及路由器）</li>
+</ul>
+<p>通常路由器不会直接将数据报发送至目的地，而是将其发送至一个<strong>更接近目的地的下一跳</strong>路由器。这是IP层的一个常见思路——<strong>“逐跳进行”</strong>。</p>
+<ul>
+<li>没有任何一个路由器或主机包含任何目的地的完整转发路径。转发机制只提供数据报发送的下一跳的地址。</li>
+<li>假设每一个下一跳都能够“更接近目的地”。</li>
+<li>TTL 字段用来限制数据包不会在网络中循环。</li>
+<li><strong>路由协议（routing Protocol）</strong>用于保证路由表的正确，例如 RIP、OSPF、BGP 等。不在此讨论。</li>
+</ul>
+<p>下面给出直接交付和简介交付的例子：</p>
+<p><img src="http://osax8w13y.bkt.clouddn.com/IPforwarding.png" alt=""></p>
+<hr>
+<h1 id="something-else"><a href="#something-else" class="headerlink" title="something else"></a>something else</h1><p>packet 是网络层的 PDU（协议数据单元），数据包</p>
+<p>datagram 数据报，用于形容网络层的传输数据，一个 datagram 可以被分到一个或多个 packets，在数据链路层中传输。而且也有说法说 datagram 形容起始点和目的地都使用无连接网络服务的的网络层的信息单元，例如 UDP 协议中也称传输单元是 datagram。</p>
+<h1 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h1><p>-<a href="https://en.wikipedia.org/wiki/Internet_layer" target="_blank" rel="external">wiki/Internet_layer</a><br>-<a href="https://en.wikipedia.org/wiki/IPv6" target="_blank" rel="external">wiki/IPv6</a><br>-<a href="https://en.wikipedia.org/wiki/IPv4#Fragmentation_and_reassembly" target="_blank" rel="external">wiki/IPv4</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/02/04/2017-conclude/" rel="next" title="2017 Summary">
+                <i class="fa fa-chevron-left"></i> 2017 Summary
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="ZC" />
+          <p class="site-author-name" itemprop="name">ZC</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">53</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#IPv4-头部字段"><span class="nav-number">1.</span> <span class="nav-text">IPv4 头部字段</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#IP-选项"><span class="nav-number">1.1.</span> <span class="nav-text">IP 选项</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#IPv6-头部字段"><span class="nav-number">2.</span> <span class="nav-text">IPv6 头部字段</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#IPv6-选项及扩展头部"><span class="nav-number">2.1.</span> <span class="nav-text">IPv6 选项及扩展头部</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#分片"><span class="nav-number">3.</span> <span class="nav-text">分片</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#IPv4"><span class="nav-number">3.1.</span> <span class="nav-text">IPv4</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IPv6"><span class="nav-number">3.2.</span> <span class="nav-text">IPv6</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#IP-转发"><span class="nav-number">4.</span> <span class="nav-text">IP 转发</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#路由器"><span class="nav-number">4.1.</span> <span class="nav-text">路由器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#转发表"><span class="nav-number">4.2.</span> <span class="nav-text">转发表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IP-转发行动"><span class="nav-number">4.3.</span> <span class="nav-text">IP 转发行动</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#something-else"><span class="nav-number">5.</span> <span class="nav-text">something else</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考链接"><span class="nav-number">6.</span> <span class="nav-text">参考链接</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ZC</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("guhO5d3jdrym6QcCp5oIrsMc-gzGzoHsz", "ldFdhqrIxGxOqWs5mgH8pmLT");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+
+  
+
+  
+
+</body>
+</html>
