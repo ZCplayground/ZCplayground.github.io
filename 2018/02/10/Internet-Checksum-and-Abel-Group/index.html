@@ -93,20 +93,16 @@
 
 
 
-<meta name="description" content="链路层是经过单一链路通信的协议层。 IP 网络层协议的设计目标是为跨越不同物理类型的、多节点网络的 packet ，提供主机寻址、路由操作。  在其中要注意的一点是：网络层使用的地址和底层网络硬件使用的地址是不同的概念。网络硬件的地址是由设备制造商定义的存储在设备硬件的永久型内存中，所以它不会改变。网络接口的 IP 地址是由用户或网络管理员分配，可以按需分配、选择，而且 IP 地址可能改变。 网">
+<meta name="description" content="Internet 校验和（Checksum）仅计算头部的正确性，这一点很重要，这意味着 IP 协议不检查 IPv4 packet 有效载荷部分的数据正确性。为了保证有效载荷部分的正常传输，其他协议必须通过自己的协议数据完整性检测机制来保护重要数据。我们可以看到在封装在 IP 的几乎所有协议（UDP、TCP、ICMP、IGMP）在自己头部中都有一个涵盖头部数据的校验和。 IPv6 放弃了校验和字段。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="《TCP&#x2F;IP 详解 卷1：协议》第 4 章：地址解析协议">
-<meta property="og:url" content="http://yoursite.com/2018/02/03/tcpip4-Address-Resolution-Protocol/index.html">
+<meta property="og:title" content="Internet 校验和的数学性质">
+<meta property="og:url" content="http://yoursite.com/2018/02/10/Internet-Checksum-and-Abel-Group/index.html">
 <meta property="og:site_name" content="ZCplayground">
-<meta property="og:description" content="链路层是经过单一链路通信的协议层。 IP 网络层协议的设计目标是为跨越不同物理类型的、多节点网络的 packet ，提供主机寻址、路由操作。  在其中要注意的一点是：网络层使用的地址和底层网络硬件使用的地址是不同的概念。网络硬件的地址是由设备制造商定义的存储在设备硬件的永久型内存中，所以它不会改变。网络接口的 IP 地址是由用户或网络管理员分配，可以按需分配、选择，而且 IP 地址可能改变。 网">
-<meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/direct%20delivery.png">
-<meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/arp.png">
-<meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/ARP%20frame.png">
-<meta property="og:updated_time" content="2018-02-04T15:44:46.366Z">
+<meta property="og:description" content="Internet 校验和（Checksum）仅计算头部的正确性，这一点很重要，这意味着 IP 协议不检查 IPv4 packet 有效载荷部分的数据正确性。为了保证有效载荷部分的正常传输，其他协议必须通过自己的协议数据完整性检测机制来保护重要数据。我们可以看到在封装在 IP 的几乎所有协议（UDP、TCP、ICMP、IGMP）在自己头部中都有一个涵盖头部数据的校验和。 IPv6 放弃了校验和字段。">
+<meta property="og:updated_time" content="2018-02-10T18:00:53.113Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="《TCP&#x2F;IP 详解 卷1：协议》第 4 章：地址解析协议">
-<meta name="twitter:description" content="链路层是经过单一链路通信的协议层。 IP 网络层协议的设计目标是为跨越不同物理类型的、多节点网络的 packet ，提供主机寻址、路由操作。  在其中要注意的一点是：网络层使用的地址和底层网络硬件使用的地址是不同的概念。网络硬件的地址是由设备制造商定义的存储在设备硬件的永久型内存中，所以它不会改变。网络接口的 IP 地址是由用户或网络管理员分配，可以按需分配、选择，而且 IP 地址可能改变。 网">
-<meta name="twitter:image" content="http://osax8w13y.bkt.clouddn.com/direct%20delivery.png">
+<meta name="twitter:title" content="Internet 校验和的数学性质">
+<meta name="twitter:description" content="Internet 校验和（Checksum）仅计算头部的正确性，这一点很重要，这意味着 IP 协议不检查 IPv4 packet 有效载荷部分的数据正确性。为了保证有效载荷部分的正常传输，其他协议必须通过自己的协议数据完整性检测机制来保护重要数据。我们可以看到在封装在 IP 的几乎所有协议（UDP、TCP、ICMP、IGMP）在自己头部中都有一个涵盖头部数据的校验和。 IPv6 放弃了校验和字段。">
 
 
 
@@ -134,13 +130,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/02/03/tcpip4-Address-Resolution-Protocol/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/02/10/Internet-Checksum-and-Abel-Group/"/>
 
 
 
 
 
-  <title>《TCP/IP 详解 卷1：协议》第 4 章：地址解析协议 | ZCplayground</title>
+  <title>Internet 校验和的数学性质 | ZCplayground</title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -280,7 +276,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/02/03/tcpip4-Address-Resolution-Protocol/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/02/10/Internet-Checksum-and-Abel-Group/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="ZC">
@@ -297,7 +293,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">《TCP/IP 详解 卷1：协议》第 4 章：地址解析协议</h1>
+          <h1 class="post-title" itemprop="name headline">Internet 校验和的数学性质</h1>
         
 
         <div class="post-meta">
@@ -309,8 +305,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-03T23:15:10+08:00">
-                2018-02-03
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-10T23:55:26+08:00">
+                2018-02-10
               </time>
             
 
@@ -349,7 +345,7 @@
 
           
           
-             <span id="/2018/02/03/tcpip4-Address-Resolution-Protocol/" class="leancloud_visitors" data-flag-title="《TCP/IP 详解 卷1：协议》第 4 章：地址解析协议">
+             <span id="/2018/02/10/Internet-Checksum-and-Abel-Group/" class="leancloud_visitors" data-flag-title="Internet 校验和的数学性质">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -377,144 +373,57 @@
       
 
       
-        <ul>
-<li>链路层是经过单一链路通信的协议层。</li>
-<li>IP 网络层协议的设计目标是为跨越不同物理类型的、多节点网络的 packet ，提供主机寻址、路由操作。</li>
-</ul>
-<p>在其中要注意的一点是：<strong>网络层使用的地址和底层网络硬件使用的地址是不同的概念</strong>。网络硬件的地址是由设备制造商定义的存储在设备硬件的永久型内存中，所以它不会改变。网络接口的 IP 地址是由用户或网络管理员分配，可以按需分配、选择，而且 IP 地址可能改变。</p>
-<p><strong>网络接口的硬件</strong>通常有一个主要的<strong>硬件地址</strong>，例如以太网或 802.11 无线接口的 48 bits MAC 地址。由硬件交换的<strong>帧（frame）</strong>需要正确的地址定位到正确的<strong>硬件接口</strong>，否则无法传输数据。如果一个主机需要发送一个帧到另一个主机，仅知道这台主机的 IP 地址是不够的，还需要知道主机在网络中<strong>有效的硬件地址</strong>。这就需要；两个地址之间的互相转换。</p>
-<p>对于 TCP/IP 网络，地址解析协议，<strong>ARP（Address Resolution Protocol）</strong>提供了一种在IPv4地址和各种网络技术中使用的硬件地址之间的映射。地址解析是发现两个地址之间映射关系的过程。</p>
-<p><strong>ARP 仅用于 IPv4</strong>。IPv6 使用的是邻居发现协议，是 ICMPv6 的一部分。</p>
-<p>ARP 是一个通用的协议。它被设计为支持多种地址之间的映射。不过实际上它最常被用于 IPv4地址和 MAC 地址之间的映射。ARP 提供<strong>动态映射</strong>，动态这个术语是因为它会自动执行以及随时间变化不需要系统管理员重新配置，ARP 的操作通常用户或系统人员无关</p>
-<h1 id="直接交付"><a href="#直接交付" class="headerlink" title="直接交付"></a>直接交付</h1><p>当我们使用互联网服务时，例如在浏览器中打开一个网页，本地必须确定如何与相关的服务器联系。首先判断服务器是否位于本地（即是否在同一个子网）还是远程。如果是远程的需要一台可以到达目的地的路由器。只有位于与目的地同一 IP 子网的系统时，ARP 才能工作。</p>
-<p><strong>直接交付</strong>（Direct delivery）发生在一个 IP 数据包被发送到一个具有与发送地址相同 IP 前缀的目的地址。即发送方跟接收方为同一子网。直接交付的示意图如下：</p>
-<p><img src="http://osax8w13y.bkt.clouddn.com/direct%20delivery.png" alt=""></p>
-<p>例如，用 Web 浏览器打开如下地址：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://10.0.0.1</div></pre></td></tr></table></figure>
-<p>一个直接交付的操作：</p>
-<ol>
-<li>应用程序是一个外部浏览器调用一个函数来解析URL，看他是否包含主机名。这里不是这种情况，而是一个IPv4地址。</li>
-<li>程序使用TCP协议建立一条连接。通过向目的地址发送一个IPv4数据包TCP尝试向远程主机发送一个连接请求（SYN）。</li>
-<li>假设发送主机与目的IP地址，<strong>具有相同的网络前缀</strong>，这意味着数据报可以<strong>直接发送到这个地址而不经过任何路由器。</strong></li>
-<li>假设链路层使用的是以太网地址。则发送主机必须将 32 位的IPv4目的地址转换为 48 位的以太网地址。这就是 <strong>ARP 功能</strong>。</li>
-<li>在<strong>共享的链路层网段</strong>上 ARP 向所有主机发送一个称为 <strong>ARP 请求（ARP request）</strong>的以太网帧。这是被称为<strong>链路层广播</strong>。ARP 请求的内容是寻找以下问题的答案：“如果你的 IPv4 地址是 10.0.0.1，请向我回应您的 IP 地址。”</li>
-<li>同一广播域的所有系统都可以接收到 ARP 请求。这其中可能包括根本不运行IPv4的系统，但不包括位于不同 vLAN 的系统。如果某个系统使用了这个请求内包含的 IPv4 地址，需要回应一个<strong>ARP 应答（ARP reply）</strong>，这个应答的内容就是其 MAC 地址。<strong>应答通常不是广播</strong>，而是直接发送给请求的发送方。收到应答的主机学习IPv4 到 Mac 地址的映射记录在内存之后，以供以后使用（缓存）。</li>
-<li>发送方将数据报封装在以太网帧中，使用由 ARP 交换学习到的一台 MAC 地址作为目的地址。直接将数据交付到正确的主机。</li>
+        <p>Internet 校验和（Checksum）<strong>仅计算头部的正确性</strong>，这一点很重要，这意味着 IP 协议<strong>不检查 IPv4 packet 有效载荷部分的数据正确性</strong>。为了保证有效载荷部分的正常传输，其他协议必须通过自己的协议数据完整性检测机制来保护重要数据。我们可以看到在封装在 IP 的几乎所有协议（UDP、TCP、ICMP、IGMP）在自己头部中都有一个涵盖头部数据的校验和。</p>
+<p><strong>IPv6 放弃了校验和字段。</strong>原因如下：位错误带来的后果一般是数据被投递到错误的目的地、数据的来源显示错误、有效载荷中的位错误。由于位错误比较少见，而且其他上层协议的字段提供了对有效载荷部分的更有力的确保正确性的机制，因此IPV6删除了这个字段。</p>
+<p>特别的，当 IPv4 的数据包经过一台路由器时，TTL 字段减一会导致头部校验和的重新计算，即<strong>每一跳路由都会导致校验和的重新计算。</strong></p>
+<p>校验和检测失败时 IPv4 <strong>将直接丢弃接收到有误的数据包不会生成差错信息</strong>，更高层需要以某种方式检测丢失的数据报并在必要时重新传输。</p>
+<h1 id="internet校验和的内容"><a href="#internet校验和的内容" class="headerlink" title="internet校验和的内容"></a>internet校验和的内容</h1><h2 id="Internet-校验和的内容如下"><a href="#Internet-校验和的内容如下" class="headerlink" title="Internet 校验和的内容如下"></a>Internet 校验和的内容如下</h2><ol>
+<li>将校验和的字段设置为零。</li>
+<li>将整个<strong>头部</strong>（仅有 header 部分）认为是一个 16 bits integer 的一个序列。计算这一系列的 16 位整数的<strong>反码和</strong>。将运算结果存放到校验和字段内。</li>
+<li>收到 IPv4 packet 时，对整个 header （校验和字段不是 0 而是有填充）进行相同的计算。反码和结果应该为 0 ，代表数据无误。若非 0 ，则代表数据有误</li>
 </ol>
-<h1 id="ARP-缓存"><a href="#ARP-缓存" class="headerlink" title="ARP 缓存"></a>ARP 缓存</h1><p><strong>ARP 缓存（ARP cache）</strong>是 ARP 高效运行的关键。每个主机和路由器上有 ARP 缓存表。表存放了使用地址解析为每个接口维护从网络层地址到硬件地址的<strong>最新映射</strong>。当IP地址映射成硬件地址时，生成一个缓存表里的条目。默认到期时间是 20 分钟[RFC1122]</p>
-<p>利用 <code>arp -a</code> 命令观察系统的 ARP cache。</p>
-<p><img src="http://osax8w13y.bkt.clouddn.com/arp.png" alt=""></p>
-<p>ARP 缓存存在<strong>超时</strong>。</p>
-<p>命令允许管理员设置缓存条目永不超时，即设置为静态。大多数实现中，完整的条目超时时间为二十分钟，不完整的条目（例如一个到不存在的主机的请求）超时时间为三分钟。</p>
-<p>这是一个关于<strong>软状态（soft state）</strong>的重要例子。软状态是指在超时前没有更新而被丢弃的信息。如果网络条件发生改变，软状态有助于启动自动重新配置。因此很多 Internet 协议使用软状态，软状态的成本就是必须刷新状态，以避免过期。在一些协议设计中经常包括软状态刷新，以保持软状态的活跃。</p>
-<h1 id="ARP-帧格式"><a href="#ARP-帧格式" class="headerlink" title="ARP 帧格式"></a>ARP 帧格式</h1><p><img src="http://osax8w13y.bkt.clouddn.com/ARP%20frame.png" alt=""></p>
-<table>
-<thead>
-<tr>
-<th>字段</th>
-<th>长度(byte)</th>
-<th>内容</th>
-<th>含义</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>DST</td>
-<td>6</td>
-<td>ff:ff:ff:ff:ff:ff</td>
-<td>ARP 请求默认是广播地址，同一广播域所有以太网接口都可以接受到</td>
-</tr>
-<tr>
-<td>SRC</td>
-<td>6</td>
-<td>略</td>
-<td>发送方 MAC 地址会作为 ARP 应答的目的地址</td>
-</tr>
-<tr>
-<td>Length or Type</td>
-<td>2</td>
-<td>0x0806</td>
-<td>ARP 的以太网 type 是固定的 0x0806</td>
-</tr>
-<tr>
-<td>硬件类型（Hard type）</td>
-<td>2</td>
-<td>以太网是 1</td>
-<td>硬件地址类型（链路层可能有很多不同的）</td>
-</tr>
-<tr>
-<td>协议类型（Prot type）</td>
-<td>2</td>
-<td>IPv4 是 0x0800</td>
-<td>指出映射的网络层协议类型</td>
-</tr>
-<tr>
-<td>硬件大小（Hard size）</td>
-<td>1</td>
-<td>以太网是 6</td>
-<td>硬件地址的长度，以字节为单位，MAC 地址是 8 个字节</td>
-</tr>
-<tr>
-<td>协议大小（Prot size）</td>
-<td>1</td>
-<td>IPv4 是 4</td>
-<td>网络层协议地址的长度，以字节为单位，IPv4 地址是 4 个字节</td>
-</tr>
-<tr>
-<td>操作类型（OP）</td>
-<td>2</td>
-<td>1~4</td>
-<td>1：ARP 请求、2：ARP应答、3：RARP 请求、4：RARP 应答</td>
-</tr>
-<tr>
-<td>发送方硬件地址</td>
-<td>长度可变</td>
-<td>顾名思义</td>
-<td>顾名思义。紧跟在后面的四个字段是 ARP 的主要内容</td>
-</tr>
-<tr>
-<td>发送方协议地址</td>
-<td>长度可变</td>
-<td>顾名思义</td>
-<td>顾名思义</td>
-</tr>
-<tr>
-<td>目的硬件地址</td>
-<td>长度可变</td>
-<td>顾名思义，且 ARP request 是 0</td>
-<td>顾名思义</td>
-</tr>
-<tr>
-<td>目的协议地址</td>
-<td>长度可变</td>
-<td>顾名思义</td>
-<td>顾名思义</td>
-</tr>
-<tr>
-<td>填充（Pad）</td>
-<td>长度可变</td>
-<td>顾名思义</td>
-<td>顾名思义</td>
-</tr>
-<tr>
-<td>FCS</td>
-<td>4</td>
-<td>4字节循环冗余校检码(CRC)</td>
-<td>Frame Check Sequence</td>
-</tr>
-</tbody>
-</table>
-<p>目标主机生成应答的方式就是填充自己的硬件地址，然后将两个发送方地址和两个接收方地址交换，将<code>op</code>字段设置为 2，然后发送自己的应答。</p>
-<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>ARP 是一个 TCP/IP 的基本协议，不过，它通常在应用程序或用户没有察觉的情况下使用和运行。ARP 用于确定本地可达的 IPv4 子网中，使用某个IPv4地址的主机对应的硬件地址。ARP 在数据报的目的地与发送方处于同一子网时发挥功效。不在同一子网，将会转发到一台路由器（详见 IP 协议）。ARP 缓存是其运行的基础，可以使用<code>arp</code>命令查看并处理缓存。缓存条目都有计时器。</p>
-<hr>
-<p>参考链接：</p>
-<ul>
-<li><a href="https://en.wikipedia.org/wiki/Address_Resolution_Protocol" target="_blank" rel="external">wiki - ARP</a></li>
-</ul>
+<h2 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h2><p>例如要发送的 packet 内容是 ：<strong>E3 4F 23 96 44 27 99 F3 【00 00】</strong> （checksum 字段清零）</p>
+<p>将整个序列看成 16 位的整数，一个十六进制数是 4 bits，所以要看成 4 个十六进制数为一个整数。</p>
 <blockquote>
-<p>The Address Resolution Protocol (ARP) is a communication protocol used for discovering the link layer address associated with a given IPv4 address, a critical function in the Internet protocol suite. ARP was defined in 1982 by RFC 826,[1] which is Internet Standard STD 37.</p>
-<p>ARP is used for mapping a network address such as an IPv4 address, to a physical address, such as a MAC address. ARP has been implemented with many combinations of network and data link layer technologies, such as IPv4, Chaosnet, DECnet and Xerox PARC Universal Packet (PUP) using IEEE 802 standards, FDDI, X.25, Frame Relay and Asynchronous Transfer Mode (ATM). IPv4 over IEEE 802.3 and IEEE 802.11 is the most common usage.In Internet Protocol Version 6 (IPv6) networks, the functionality of ARP is provided by the Neighbor Discovery Protocol (NDP).</p>
+<p>二进制反码求和:从低位到高位逐列进行和计算,如果最高位(16位)进位,则得到的结果加1,一直循环到最高位没有进位为止.最后把得到的结果取反.</p>
 </blockquote>
+<p>可以用如下的简单方法求<strong>反码和</strong>：对几个数进行补码和，也就是我们通常所用的加法，然后将进位的数字加到最低位。</p>
+<p>最后把结果取反。</p>
+<ul>
+<li>补码和：E34F + 2396 + 4427 + 99F3 = 1E4FF</li>
+<li>反码和：进位的数字加到最低位：E4FF + 1 = E500</li>
+<li>取反：checksum = ~(E500) = 1AFF</li>
+</ul>
+<p>则填充 checksum 之后发送的 packet 内容变成：<strong>E3 4F 23 96 44 27 99 F3 【1A FF】</strong></p>
+<p>接收方检测过程：计算包括 checksum 在内的整个 packet 的反码和，再取反。</p>
+<ul>
+<li>补码和：E34F + 2396 + 4427 + 99F3 + 1AFF = 1FFFE</li>
+<li>反码和：进位的数字加到最低位：FFFE + 1 = FFFF</li>
+<li>取反结果 = ~(FFFF) = 0</li>
+</ul>
+<p>若结果为 0 ，说明数据在传输过程中没有发生变动。若结果不为 0 ，则数据在传输过程中有变动、受损。</p>
+<h2 id="数学性质"><a href="#数学性质" class="headerlink" title="数学性质"></a>数学性质</h2><p>这里运用到离散数学中关于群论的知识点。</p>
+<p>集合 G 不为空集，在 G 上的二元运算满足封闭性、结合律、存在单位元、每个元素都有逆元，则称<g, +=""> 为群，若满足交换律，则称群 G 为阿贝尔群。</g,></p>
+<p>可以通过观察发现，16 位整数的一个十六进制值序列集合 V = {0001,0002，…，FFFF} ，定义 + 为二进制反码和运算，<code>&lt;V, +&gt;</code> 构成<strong>阿贝尔群</strong>。</p>
+<ul>
+<li>对于任意的 X,Y in V, (X + Y)  in V [封闭]</li>
+<li>对于任意的 X,Y,Z in V, X + (Y + Z) = (X + Y) + Z [可结合]</li>
+<li>对于任意的 X in V, e + X = X + e = X ，e = FFFF [单位元 e 是 FFFF]</li>
+<li>对于任意的 X in V, 存在 X′ in V 使 X + X′ = e [每个元素都存在逆元]</li>
+<li>对于任意的 X,Y in V, (X + Y) = (Y + X) [交换律]</li>
+</ul>
+<p>事实上，观察构造 checksum 的过程我们可以得知：checksum 其实是前面 4 个 16 bit integer 做二进制反码和运算（下文用 ‘+’ 代替）的结果的<strong>取反</strong>。<strong>取反</strong>这个操作特别的有意思，因为你对任何一段长度为 n 的二进制数据取反，与原来的数据相加，结果一定是长度为 n 的 1 串。</p>
+<p>例如：1011，取反是 0100。1011 + 0100 = 1111</p>
+<p>所以，对于 16 bit integer，这个结果一定是 FFFF。<strong>FFFF</strong> 在我们前面的分析中，就是阿贝尔群<code>&lt;V, +&gt;</code>的<strong>单位元</strong>！所以我们可以得出一个结论：在构造 packet checksum 时，checksum 其实就是其余数据在群<code>&lt;V, +&gt;</code>中的<strong>逆元</strong>！！</p>
+<p>当收到 packet 的一方，在做验证的时候，因为前面的 4 个 16 bit integer 和后面这 2 个字节的 checksum 是互为<strong>逆元</strong>的，所以对它们进行 + 的运算结果<strong>一定是单位元 FFFF</strong>。而由于整个运算集合构成了一个群，因此<strong>确保了每一个元素都有一个对应的逆元，也就证明了：如果检验和检测正确，意味着数据完好，如果出错，意味着数据受损。</strong></p>
+<p>关于这个十六位整数的十六进制值序列集合，非常让人感兴趣的一点是 <strong>其中没有 0000</strong>。这是为什么呢？我们考虑一下，如果将数字0000放入集合，则 <code>&lt;V, +&gt;</code> 不再是一个阿贝尔群。</p>
+<p>0000 显然可以作为单位元 e。对于群，每个元素都要有一个逆元，取随意的元素 AB12 来说，需要有一个逆元 X′ + AB12 = 0000，这样的 X′ 在<code>&lt;V, +&gt;</code>是不存在的。因此，我们需要排除 0000 ，使得<code>&lt;V, +&gt;</code> 构成阿贝尔群。</p>
+<p>那么<strong>排除 0000</strong>的道理又何在呢？首先，排除 0000 使得<code>&lt;V, +&gt;</code>是一个阿贝尔群，之前已经说过了。第二条理由是，任何一个合法的 IPv4 包，<strong>不可能所有的字节都为 0</strong> 。如果要将 0000 纳入群众，则是考虑存在一个合法的 IPv4 包，除了 checksum 之外的字节都为 0 的情况，而这种情况 </p>
+<ol>
+<li>会导致<code>&lt;V, +&gt;</code> 不再是一个阿贝尔群。 </li>
+<li>实际是不存在的，不存在任何一个合法的 IPv4 头部全是 0 的情况。</li>
+</ol>
+<p>因此我们可以排除 0000，由此推断出 Internet 校验和的群属性。</p>
 
       
     </div>
@@ -551,8 +460,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/12/03/Nick-Feamster-The-Road-To-SDN/" rel="next" title="The Road to SDN, An Interllectual History of Programmable Networks">
-                <i class="fa fa-chevron-left"></i> The Road to SDN, An Interllectual History of Programmable Networks
+              <a href="/2018/02/09/first-yakuman/" rel="next" title="first yakuman">
+                <i class="fa fa-chevron-left"></i> first yakuman
               </a>
             
           </div>
@@ -560,10 +469,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/02/04/2017-conclude/" rel="prev" title="2017 Summary">
-                2017 Summary <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -683,7 +588,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#直接交付"><span class="nav-number">1.</span> <span class="nav-text">直接交付</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ARP-缓存"><span class="nav-number">2.</span> <span class="nav-text">ARP 缓存</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ARP-帧格式"><span class="nav-number">3.</span> <span class="nav-text">ARP 帧格式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#internet校验和的内容"><span class="nav-number">1.</span> <span class="nav-text">internet校验和的内容</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Internet-校验和的内容如下"><span class="nav-number">1.1.</span> <span class="nav-text">Internet 校验和的内容如下</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实例"><span class="nav-number">1.2.</span> <span class="nav-text">实例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数学性质"><span class="nav-number">1.3.</span> <span class="nav-text">数学性质</span></a></li></ol></li></ol></div>
             
 
           </div>
