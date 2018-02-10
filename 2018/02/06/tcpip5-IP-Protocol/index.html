@@ -107,7 +107,7 @@
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/IPV4fragmentation.png">
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/IPv6Fragmentation.png">
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/IPforwarding.png">
-<meta property="og:updated_time" content="2018-02-06T17:40:46.065Z">
+<meta property="og:updated_time" content="2018-02-10T18:03:19.460Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="《TCP&#x2F;IP 详解 卷1：协议》第 5 章：Internet 协议">
 <meta name="twitter:description" content="IP 是 TCPIP 协议族中的核心协议。所有 TCP、UDP、ICMP、IGMP 数据都通过 IP 数据包（又称为 packet）来传输。IP 的英文名为 Internet Protocol，是互联网协议族中用于跨越网络边界中继数据报的主要通信协议，主要提供主机寻址、数据报路由操作。它的路由功能可以实现互联，从本质上建立互联网（网络的网络）。  IP 是一种尽力而为（best-effort de">
@@ -463,7 +463,7 @@
 <tr>
 <td>头部检验和（Header Checksum）</td>
 <td>16</td>
-<td>略</td>
+<td>见下文</td>
 <td>仅计算 IP header，意味着有效载荷数据部分的正确性需要其他协议来提供完整性验证机制</td>
 </tr>
 <tr>
@@ -503,6 +503,7 @@
 <li>bit 1: Don’t Fragment (DF)，不对此 datagram 分片。此位被设置时，当某个 datagram 经过路由器时若需要分片，则会被丢弃。将数据包发送给没有足够资源来处理碎片的主机时，可以使用此功能。还可以用于<strong>路径 MTU 发现</strong>。</li>
 <li>bit 2: More Fragments (MF)，对于除了最后一片以外的分片，都设置了 MF 来表明“后面仍有其他分片”，方便拼接。最后一个分片 MF = 0 且 Fragmentation Offset 字段不为零，这样就将其与未分片的数据包区分开来。</li>
 </ul>
+<p>关于 IP checksum，参见 <a href="http://www.zcplayground.cc/2018/02/10/Internet-Checksum-and-Abel-Group/" target="_blank" rel="external">here</a></p>
 <h2 id="IP-选项"><a href="#IP-选项" class="headerlink" title="IP 选项"></a>IP 选项</h2><p><img src="http://osax8w13y.bkt.clouddn.com/IPOption.png" alt=""></p>
 <p>IP 选项（Option）字段是一些可选参数通常用来配置一些行为，例如在路由期间使用的方法、一些探测、控制，早期对于 IP 进行的一些实验也是通过 IP 选项来完成的。在早期，处于 IPv4 设计阶段的 Internet 规模较小，来自恶意用户的威胁也比较少。随着时间的推移，所涉及相关的安全问题使得很多选项变得不再使用。许多路由器把某些 IP 选项认为是恶意或危险的，会被边界路由器或防火墙所拦截。多数标准化的选项在现如今的 Internet中很少使用。</p>
 <h1 id="IPv6-头部字段"><a href="#IPv6-头部字段" class="headerlink" title="IPv6 头部字段"></a>IPv6 头部字段</h1><p><img src="http://osax8w13y.bkt.clouddn.com/IPv6header.png" alt=""></p>

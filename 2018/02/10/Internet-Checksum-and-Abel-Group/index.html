@@ -99,7 +99,7 @@
 <meta property="og:url" content="http://yoursite.com/2018/02/10/Internet-Checksum-and-Abel-Group/index.html">
 <meta property="og:site_name" content="ZCplayground">
 <meta property="og:description" content="Internet 校验和（Checksum）仅计算头部的正确性，这一点很重要，这意味着 IP 协议不检查 IPv4 packet 有效载荷部分的数据正确性。为了保证有效载荷部分的正常传输，其他协议必须通过自己的协议数据完整性检测机制来保护重要数据。我们可以看到在封装在 IP 的几乎所有协议（UDP、TCP、ICMP、IGMP）在自己头部中都有一个涵盖头部数据的校验和。 IPv6 放弃了校验和字段。">
-<meta property="og:updated_time" content="2018-02-10T18:00:53.113Z">
+<meta property="og:updated_time" content="2018-02-10T18:04:12.140Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Internet 校验和的数学性质">
 <meta name="twitter:description" content="Internet 校验和（Checksum）仅计算头部的正确性，这一点很重要，这意味着 IP 协议不检查 IPv4 packet 有效载荷部分的数据正确性。为了保证有效载荷部分的正常传输，其他协议必须通过自己的协议数据完整性检测机制来保护重要数据。我们可以看到在封装在 IP 的几乎所有协议（UDP、TCP、ICMP、IGMP）在自己头部中都有一个涵盖头部数据的校验和。 IPv6 放弃了校验和字段。">
@@ -424,6 +424,8 @@
 <li>实际是不存在的，不存在任何一个合法的 IPv4 头部全是 0 的情况。</li>
 </ol>
 <p>因此我们可以排除 0000，由此推断出 Internet 校验和的群属性。</p>
+<hr>
+<p>参考链接：<a href="http://blog.csdn.net/qq_34369618/article/details/60603867" target="_blank" rel="external">http://blog.csdn.net/qq_34369618/article/details/60603867</a></p>
 
       
     </div>
