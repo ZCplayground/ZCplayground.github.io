@@ -106,10 +106,11 @@
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/destination%20unreachable.png">
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/PTB.png">
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/time%20exceeded.png">
+<meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/redirect.png">
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/ping%20request.png">
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/ping%20reply.png">
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/port%20unreachable.png">
-<meta property="og:updated_time" content="2018-03-07T12:11:22.005Z">
+<meta property="og:updated_time" content="2018-03-07T12:14:37.938Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="《TCP&#x2F;IP 详解 卷1：协议》第 8 章：Internet 控制报文协议">
 <meta name="twitter:description" content="ICMP 报文路由器是 Internet 的重要组成部分，严密监视 Internet 的操作。IP 协议未给发送失败的 IP 数据包提供一种错误处理，也没有给端系统提供直接的方法来发现错误。为了解决这一不足之处，ICMP（Internet Control Message Protocol，Internet 控制报文协议） 被设计出来，与 IP 结合使用。当路由器处理一个数据包的过程中发生了意外，就">
@@ -541,7 +542,7 @@
 <h2 id="重定向-Redirect"><a href="#重定向-Redirect" class="headerlink" title="重定向 Redirect"></a>重定向 Redirect</h2><p>ICMPv4 类型 5，ICMPv6 类型 137。</p>
 <p>一个路由器收到一个数据报，但<strong>确定自身并不是该数据报应该被投递到的合适下一跳</strong>。则该路由器发送一个重定向报文给原来的主机，并把该报文发送到正确的下一跳路由器（或主机）。即：如果路由器在接受到数据报时，确定存在一个比自己更好的下一跳，则会触发 ICMP 重定向消息，使原来的发送方更新其转发表。</p>
 <p>不过，路由器主要还是通过动态路由协议来获得可达目的地的最佳下一跳节点。</p>
-<p>![]<a href="http://osax8w13y.bkt.clouddn.com/redirect.png" target="_blank" rel="external">http://osax8w13y.bkt.clouddn.com/redirect.png</a>)</p>
+<p><img src="http://osax8w13y.bkt.clouddn.com/redirect.png" alt="">)</p>
 <h1 id="Wireshark-抓包"><a href="#Wireshark-抓包" class="headerlink" title="Wireshark 抓包"></a>Wireshark 抓包</h1><ul>
 <li>ping request</li>
 </ul>
