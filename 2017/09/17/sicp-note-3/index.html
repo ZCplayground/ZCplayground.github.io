@@ -93,19 +93,19 @@
 
 
 
-<meta name="description" content="范围第一章 构造过程抽象 1.2 节，过程和它们所产生的计算。考察计算过程的局部演化方式，研究计算过程消耗资源（时间和空间资源）的速率。P20 - 37 keywords：线性递归、迭代、树形递归、增长的阶、概率算法 算法：斐波那契数列、利用三倍角公式求正弦、分治法求幂、辗转相除法求GCD、费马小定理检查测质数 笔记 我们已经考虑了程序设计的基本要素：基本算术操作、组合这些基本操作定义符合过程、对">
+<meta name="description" content="范围第一章 构造过程抽象 1.2 节，过程和它们所产生的计算。考察计算过程的局部演化方式，研究计算过程消耗资源（时间和空间资源）的速率。P20 - 37 keywords：线性递归、迭代、树形递归、增长的阶、概率算法 算法：斐波那契数列、利用三倍角公式求正弦、分治法求幂、辗转相除法求GCD、费马小定理检查测质数 笔记在上一节，我们已经考虑了程序设计的基本要素：  基本算术操作 组合这些基本操作定义">
 <meta property="og:type" content="article">
 <meta property="og:title" content="计算机程序的构造与解释——过程的“形状”">
 <meta property="og:url" content="http://yoursite.com/2017/09/17/sicp-note-3/index.html">
 <meta property="og:site_name" content="ZCplayground">
-<meta property="og:description" content="范围第一章 构造过程抽象 1.2 节，过程和它们所产生的计算。考察计算过程的局部演化方式，研究计算过程消耗资源（时间和空间资源）的速率。P20 - 37 keywords：线性递归、迭代、树形递归、增长的阶、概率算法 算法：斐波那契数列、利用三倍角公式求正弦、分治法求幂、辗转相除法求GCD、费马小定理检查测质数 笔记 我们已经考虑了程序设计的基本要素：基本算术操作、组合这些基本操作定义符合过程、对">
+<meta property="og:description" content="范围第一章 构造过程抽象 1.2 节，过程和它们所产生的计算。考察计算过程的局部演化方式，研究计算过程消耗资源（时间和空间资源）的速率。P20 - 37 keywords：线性递归、迭代、树形递归、增长的阶、概率算法 算法：斐波那契数列、利用三倍角公式求正弦、分治法求幂、辗转相除法求GCD、费马小定理检查测质数 笔记在上一节，我们已经考虑了程序设计的基本要素：  基本算术操作 组合这些基本操作定义">
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/Linear%20recursion.png">
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/Linear%20iteration.png">
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/Tree%20recursion.png">
-<meta property="og:updated_time" content="2017-10-11T03:08:55.030Z">
+<meta property="og:updated_time" content="2018-03-07T03:15:17.691Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="计算机程序的构造与解释——过程的“形状”">
-<meta name="twitter:description" content="范围第一章 构造过程抽象 1.2 节，过程和它们所产生的计算。考察计算过程的局部演化方式，研究计算过程消耗资源（时间和空间资源）的速率。P20 - 37 keywords：线性递归、迭代、树形递归、增长的阶、概率算法 算法：斐波那契数列、利用三倍角公式求正弦、分治法求幂、辗转相除法求GCD、费马小定理检查测质数 笔记 我们已经考虑了程序设计的基本要素：基本算术操作、组合这些基本操作定义符合过程、对">
+<meta name="twitter:description" content="范围第一章 构造过程抽象 1.2 节，过程和它们所产生的计算。考察计算过程的局部演化方式，研究计算过程消耗资源（时间和空间资源）的速率。P20 - 37 keywords：线性递归、迭代、树形递归、增长的阶、概率算法 算法：斐波那契数列、利用三倍角公式求正弦、分治法求幂、辗转相除法求GCD、费马小定理检查测质数 笔记在上一节，我们已经考虑了程序设计的基本要素：  基本算术操作 组合这些基本操作定义">
 <meta name="twitter:image" content="http://osax8w13y.bkt.clouddn.com/Linear%20recursion.png">
 
 
@@ -381,39 +381,38 @@
 <p>1.2 节，过程和它们所产生的计算。考察计算过程的局部演化方式，研究计算过程消耗资源（时间和空间资源）的速率。P20 - 37</p>
 <p><strong>keywords</strong>：线性递归、迭代、树形递归、增长的阶、概率算法</p>
 <p><strong>算法</strong>：斐波那契数列、利用三倍角公式求正弦、分治法求幂、辗转相除法求GCD、费马小定理检查测质数</p>
-<h1 id="笔记"><a href="#笔记" class="headerlink" title="笔记"></a>笔记</h1><ul>
-<li><p>我们已经考虑了程序设计的基本要素：基本算术操作、组合这些基本操作定义符合过程、对复合过程进行抽象。即使知道了这些，我们还不能说已经理解了如何去编程序。这个阶段就好像在学下象棋，知道了每个棋子的移动规则，但却还不知道基本的开局、战术和策略。</p>
-</li>
-<li><p>像初学象棋者一样，我们还不知道编程领域中各种有用的常见模式。要想成为专家，我们就需要去学习看清不同的过程会产生什么样子的计算过程，考察一些过程产生的计算过程的<strong>局部演化方式</strong>，也可以说是<strong>形状</strong>。还将研究这些计算过程消耗的时间和空间资源。</p>
-</li>
+<h1 id="笔记"><a href="#笔记" class="headerlink" title="笔记"></a>笔记</h1><p>在上一节，我们已经考虑了程序设计的基本要素：</p>
+<ul>
+<li>基本算术操作</li>
+<li><strong>组合</strong>这些基本操作定义符合过程</li>
+<li>对复合过程进行<strong>抽象</strong></li>
 </ul>
+<p>即使知道了这些，我们还不能说已经理解了如何去编程序。这个阶段就好像在学下象棋，知道了每个棋子的移动规则，但却还不知道基本的开局、战术和策略。</p>
+<p>像初学象棋者一样，我们还不知道编程领域中各种有用的常见模式。要想成为专家，我们就需要去学习看清不同的过程会产生什么样子的计算过程，考察一些过程产生的计算过程的<strong>局部演化方式</strong>，也可以说是<strong>形状</strong>。还将研究这些计算过程消耗的时间和空间资源。</p>
 <h2 id="1-2-1-线性递归和迭代"><a href="#1-2-1-线性递归和迭代" class="headerlink" title="1.2.1 线性递归和迭代"></a>1.2.1 线性递归和迭代</h2><blockquote>
 <p>“如果有程序员用递归写阶乘，我直接把他开除。” —— 好像是在某人代码大全读书笔记上看到的片段</p>
 </blockquote>
 <p>递归计算阶乘：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">(define (factorial n)</div><div class="line">  (if (= n 1)</div><div class="line">      1</div><div class="line">      (* n (factorial (- n 1)))))</div><div class="line">;Value: factorial</div><div class="line"></div><div class="line">(factorial 6)</div><div class="line">;Value: 720</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">(define (factorial n)</div><div class="line">  (if (= n 1)</div><div class="line">      1</div><div class="line">      (* n (factorial (- n 1)))))</div><div class="line"></div><div class="line">(factorial 6)</div><div class="line">;Value: 720</div></pre></td></tr></table></figure>
 <p>线性迭代计算阶乘：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">(define (factorial n)</div><div class="line">  (fact-iter 1 1 n))</div><div class="line">;Value: factorial</div><div class="line"></div><div class="line">(define (fact-iter product counter max-count)</div><div class="line">  (if (&gt; counter max-count)</div><div class="line">      product</div><div class="line">      (fact-iter (* counter product)</div><div class="line">		 (+ counter 1)</div><div class="line">		 max-count)))</div><div class="line">;Value: fact-iter</div><div class="line"></div><div class="line">(factorial 6)</div><div class="line">;Value: 720</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">(define (factorial n)</div><div class="line">  (fact-iter 1 1 n)) </div><div class="line"></div><div class="line">(define (fact-iter product counter max-count)</div><div class="line">  (if (&gt; counter max-count)</div><div class="line">      product</div><div class="line">      (fact-iter (* counter product)</div><div class="line">		 (+ counter 1)</div><div class="line">		 max-count))) </div><div class="line"></div><div class="line">(factorial 6)</div><div class="line">;Value: 720</div></pre></td></tr></table></figure>
 <p>对两个计算过程做一个比较，考虑两个计算过程的<strong>“形状”</strong>，会发现有很大的不同。</p>
 <p><img src="http://osax8w13y.bkt.clouddn.com/Linear%20recursion.png" alt=""></p>
 <p><img src="http://osax8w13y.bkt.clouddn.com/Linear%20iteration.png" alt=""></p>
-<ul>
-<li><p><strong>线性递归过程</strong></p>
-<ol>
-<li>整个计算过程构造成一个<strong>推迟进行操作</strong>的链条，<strong>收缩阶段</strong>表现为运算的实际运行。</li>
-<li>为了执行这种计算过程，解释器就需要维护好哪些以后要执行的操作的轨迹。（栈的概念）</li>
-<li>用这种方法计算阶乘，<strong>推迟执行的乘法链条长度</strong>正比于 n </li>
+<p>递归是一个经常在计算机学科中各门课、各种书籍中出现的字眼。我觉得在这本书里对递归的解释非常地到位以及准确。</p>
+<h3 id="线性递归过程"><a href="#线性递归过程" class="headerlink" title="线性递归过程"></a><strong>线性递归过程</strong></h3><ol>
+<li>线性递归这一过程揭示的是<strong>先逐步展开而后收缩的过程</strong>。整个计算过程构造成一个<strong>由一系列推迟进行操作所构成的链条</strong>，<strong>收缩阶段表现为之前积累下来的运算的实际运行</strong>。</li>
+<li>对于递归计算过程而言，这里还存在着另外的一些“隐含信息”，它们并未保存在变量里，而是<strong>由解释器维持着</strong>。为了执行这种计算过程，解释器就需要维护好哪些以后要执行的操作的轨迹（栈的概念）。这个链条越长（递归的深度越深），需要保存的信息就越多。</li>
+<li>用这种方法计算 n 的阶乘，<strong>推迟执行的乘法链条长度</strong>正比于 n </li>
+<li>当我们说一个过程是递归的时候，论述的是这一个过程<strong>语法形式</strong>上的一种事实——过程的定义中（直接或间接地）调用了自己。而当我们说一个计算过程具有递归形式（例如线性递归）的时候，我们说的是这一计算过程的<strong>实际进展方式</strong>，而不是其书写上的语法形式。</li>
 </ol>
-</li>
-<li><p><strong>迭代计算过程</strong></p>
-<ol>
+<h3 id="迭代计算过程"><a href="#迭代计算过程" class="headerlink" title="迭代计算过程"></a><strong>迭代计算过程</strong></h3><ol>
 <li>第二个计算过程里没有任何的增长or收缩。</li>
 <li>状态可以用固定数目的状态描述变量（<code>product</code>描述累计结果，<code>counter</code>描述何时结束迭代）描述的计算过程。</li>
 <li>用这种方法计算阶乘，<strong>所需要的计算步骤</strong>正比于 n</li>
 </ol>
-</li>
-<li><p>在迭代的情况里，在计算过程中的任何一点，那几个状态描述变量提供了有关<strong>计算状态的一个完整描述</strong>。</p>
-</li>
+<ul>
+<li>在迭代的情况里，在计算过程中的任何一点，那几个状态描述变量提供了有关<strong>计算状态的一个完整描述</strong>。</li>
 <li>对于递归的计算过程，这里面存在的隐含信息，它们未保存在变量里，而是<strong>由解释器维持着</strong>。<strong>这个链条越长，需要保存的信息也就越多</strong>。</li>
 <li>因此，常见语言的大部分实现中，对于递归过程的解释，所消耗的内存与过程调用的数量成正比。</li>
 <li><strong>尾递归</strong>，通常被视为一种编译技巧。即：递归调用都在每次函数调用的尾部，可以被编译器优化成迭代。</li>
@@ -423,9 +422,11 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">(define (fib n)</div><div class="line">  (cond ((= n 0) 0)</div><div class="line">	((= n 1) 1)</div><div class="line">	(else (+ (fib (- n 1))</div><div class="line">		 (fib (- n 2))))))</div><div class="line">;Value: fib</div><div class="line"></div><div class="line">(fib 5)</div><div class="line">;Value: 5</div></pre></td></tr></table></figure>
 <p>会产生<strong>树形递归</strong>，每个调用中两次递归调用了自身。这是一种很糟糕的方式，因为做了过多的冗余计算。</p>
 <p><img src="http://osax8w13y.bkt.clouddn.com/Tree%20recursion.png" alt=""></p>
-<p>不难证明，这一过程中，计算 <code>(fib 1)</code> 和 <code>(fib 0)</code> 的次数（也就是上面递归树的叶子个数）正好是 <code>Fib(n+1)</code>。而<code>Fib(n)</code> 的增长对于 n 来说是指数级的：Fib(n) 就是最接近黄金分割率的 n 次方除以根号 5 的整数。</p>
+<p>不难证明，这一过程中，计算 <code>(fib 1)</code> 和 <code>(fib 0)</code> 的次数（也就是上面递归树的叶子个数）正好是 <code>Fib(n+1)</code>。而<code>Fib(n)</code> 的增长对于 n 来说是指数级的：Fib(n) 就是最接近黄金分割率的 n 次方除以根号 5 的整数，其中黄金分割率为：</p>
+<p>$$ \phi = (1 + \sqrt {5} / 2 $$</p>
+<p>简单来说，树形递归的计算步骤将随着输入的增长而指数性增长。</p>
 <p>因此，需要规划出一个线性迭代过程。用 a 和 b 表示 <code>Fib(1) = 1</code> 和 <code>Fib(0) = 0</code>，然后反复使用这两条规则：<code>a = a + b</code>/<code>b = a</code>。不难证明，经过 n 次变换， a 和 b 分别等于 <code>Fib(n + 1)</code> 和 <code>Fib(n)</code></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">(define (fib n)</div><div class="line">  (fib-iter 1 0 n))</div><div class="line">;Value: fib</div><div class="line"></div><div class="line">(define (fib-iter a b count)</div><div class="line">  (if (= count 0)</div><div class="line">      b</div><div class="line">      (fib-iter (+ a b) a (- count 1))))</div><div class="line">;Value: fib-iter</div><div class="line"></div><div class="line">(fib 5)</div><div class="line">;Value: 5</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">(define (fib n)</div><div class="line">  (fib-iter 1 0 n)) </div><div class="line"></div><div class="line">(define (fib-iter a b count)</div><div class="line">  (if (= count 0)</div><div class="line">      b</div><div class="line">      (fib-iter (+ a b) a (- count 1))))</div><div class="line"></div><div class="line">(fib 5)</div><div class="line">;Value: 5</div></pre></td></tr></table></figure>
 <hr>
 <ul>
 <li><p>1.2.3 增长的阶</p>
@@ -438,10 +439,16 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">b^n = b^(n/2) * b^(n/2)   # n 是偶数</div><div class="line">b^n = b * b^(n-1)         # n 是奇数</div><div class="line">b^n = 1                   # n == 0</div></pre></td></tr></table></figure>
 <p>可以把复杂度从 θ(n) 降到  θ(log n)</p>
 <hr>
-<h2 id="1-2-5-最大公约数"><a href="#1-2-5-最大公约数" class="headerlink" title="1.2.5 最大公约数"></a>1.2.5 最大公约数</h2><p>r 如果是 a 除以 b 的余数，那么 a 与 b 的公约数正好也是 b 与 r 的公约数。</p>
+<h2 id="1-2-5-最大公约数-Greatest-Common-Divisor"><a href="#1-2-5-最大公约数-Greatest-Common-Divisor" class="headerlink" title="1.2.5 最大公约数 Greatest Common Divisor"></a>1.2.5 最大公约数 Greatest Common Divisor</h2><p>r 如果是 a 除以 b 的余数，那么 a 与 b 的公约数正好也是 b 与 r 的公约数。</p>
 <p>GCD(a, b) = GCD(b, r)</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">(define (gcd a b)</div><div class="line">  (if (= b 0)</div><div class="line">      a</div><div class="line">      (gcd b (remainder a b))))</div><div class="line">;Value: gcd</div><div class="line"></div><div class="line">(gcd 16 28)</div><div class="line">;Value: 4</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">(define (gcd a b)</div><div class="line">  (if (= b 0)</div><div class="line">      a</div><div class="line">      (gcd b (remainder a b)))) </div><div class="line"></div><div class="line">(gcd 16 28)</div><div class="line">;Value: 4</div></pre></td></tr></table></figure>
 <p><code>remainder</code> 是基础过程，求余。</p>
+<p>欧几里得算法是一个高效的算法，这里有一条神奇的 Lame 定理：</p>
+<blockquote>
+<p>如果欧几里得算法需要 K 步 计算出一对整数的 GCD，那么这对数中较小的那个数必然大于或等于第 K 个斐波那契数</p>
+</blockquote>
+<p>证明略（或许以后会补</p>
+<p>利用这一定理，证明：若 n 是 GCD 两个参数中较小的那个，计算过程需要 k 步，则有 $ n ≥ Fib(k) = \phi^k / \sqrt 5  $，步数 k 的增长是 n 的对数，所以算法增长的阶是 O(log n) 的。</p>
 <hr>
 <h2 id="1-2-6-用费马检查来进行质数检测"><a href="#1-2-6-用费马检查来进行质数检测" class="headerlink" title="1.2.6 用费马检查来进行质数检测"></a>1.2.6 用费马检查来进行质数检测</h2><p>基本方法：检测 n 是不是质数，从 1 到 根号 n 之间检查因子。需要 θ(根号n) 的复杂度。但有比此更快的 θ(log n) 的方法。是基于数论中著名的<strong>费马小定理</strong>的结果。</p>
 <p>假如a是整数，n是质数，且a,n互质（即两者只有一个公约数1），那么a的(n-1)次方除以n的余数恒等于1。<code>a^(n-1) mod n == 1</code></p>
@@ -618,7 +625,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#范围"><span class="nav-number">1.</span> <span class="nav-text">范围</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#笔记"><span class="nav-number">2.</span> <span class="nav-text">笔记</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-1-线性递归和迭代"><span class="nav-number">2.1.</span> <span class="nav-text">1.2.1 线性递归和迭代</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-2-树形递归"><span class="nav-number">2.2.</span> <span class="nav-text">1.2.2 树形递归</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-4-分治法求幂"><span class="nav-number">2.3.</span> <span class="nav-text">1.2.4 分治法求幂</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-5-最大公约数"><span class="nav-number">2.4.</span> <span class="nav-text">1.2.5 最大公约数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-6-用费马检查来进行质数检测"><span class="nav-number">2.5.</span> <span class="nav-text">1.2.6 用费马检查来进行质数检测</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#范围"><span class="nav-number">1.</span> <span class="nav-text">范围</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#笔记"><span class="nav-number">2.</span> <span class="nav-text">笔记</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-1-线性递归和迭代"><span class="nav-number">2.1.</span> <span class="nav-text">1.2.1 线性递归和迭代</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#线性递归过程"><span class="nav-number">2.1.1.</span> <span class="nav-text">线性递归过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#迭代计算过程"><span class="nav-number">2.1.2.</span> <span class="nav-text">迭代计算过程</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-2-树形递归"><span class="nav-number">2.2.</span> <span class="nav-text">1.2.2 树形递归</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-4-分治法求幂"><span class="nav-number">2.3.</span> <span class="nav-text">1.2.4 分治法求幂</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-5-最大公约数-Greatest-Common-Divisor"><span class="nav-number">2.4.</span> <span class="nav-text">1.2.5 最大公约数 Greatest Common Divisor</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-6-用费马检查来进行质数检测"><span class="nav-number">2.5.</span> <span class="nav-text">1.2.6 用费马检查来进行质数检测</span></a></li></ol></li></ol></div>
             
 
           </div>
@@ -902,6 +909,26 @@
   
 
   
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
   
 
 

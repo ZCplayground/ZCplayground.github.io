@@ -100,7 +100,7 @@
 <meta property="og:site_name" content="ZCplayground">
 <meta property="og:description" content="最近开始看被形容为计算机界的“圣经”的一本 MIT 计算机科学入门课的教材 SICP ，计算机程序的构造和解释（Structue and Interpretation of Computer Programs）。我这次不打算像读《CSAPP》那样整本书看完再进行整理，而是想在阅读这本书的过程中不断地记录读书时的感想，重要的概念，有意思的习题等等……便于给自己查缺补漏，另一方面等到时过境迁，回头看">
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/o_sicp-cover.jpg">
-<meta property="og:updated_time" content="2017-10-11T03:08:55.029Z">
+<meta property="og:updated_time" content="2018-03-07T03:10:01.499Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="计算机程序的构造与解释——启程">
 <meta name="twitter:description" content="最近开始看被形容为计算机界的“圣经”的一本 MIT 计算机科学入门课的教材 SICP ，计算机程序的构造和解释（Structue and Interpretation of Computer Programs）。我这次不打算像读《CSAPP》那样整本书看完再进行整理，而是想在阅读这本书的过程中不断地记录读书时的感想，重要的概念，有意思的习题等等……便于给自己查缺补漏，另一方面等到时过境迁，回头看">
@@ -384,12 +384,9 @@
 <li><a href="http://www.nowamagic.net/librarys/veda/detail/1905" target="_blank" rel="external">向热爱计算机科学的你推荐SICP</a></li>
 </ul>
 <h1 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h1><ul>
-<li><a href="https://en.wikipedia.org/wiki/Scheme_%28programming_language%29" target="_blank" rel="external">wiki - Scheme (programming language)</a> Scheme 语言的基本了解</li>
-<li><a href="http://www.gnu.org/software/mit-scheme/" target="_blank" rel="external">MIT/GNU Scheme</a> 编写 Scheme 程序的一个环境 —— MIT/GNU Scheme</li>
-<li><a href="http://www.math.pku.edu.cn/teachers/qiuzy/progtech/scheme/mit_scheme.htm" target="_blank" rel="external">MIT Scheme 的基本使用</a> 北大课程中关于 MIT/GNU Scheme 的参考手册，总结的很全，怎么写程序，怎么运行出结果，或者从文件中读取，都有总结。</li>
-<li><a href="http://www.gnu.org/software/mit-scheme/documentation/mit-scheme-ref/index.html" target="_blank" rel="external">MIT/GNU Scheme 9.2</a> documentation</li>
+<li><a href="https://en.wikipedia.org/wiki/Scheme_%28programming_language%29" target="_blank" rel="external">wiki - Scheme (programming language)</a> Scheme 语言的基本了解 </li>
 </ul>
-<p>下面开始第一次的笔记</p>
+<p>Scheme 语言的解释器环境推荐 <a href="http://blog.csdn.net/sqh201030412/article/details/70859225" target="_blank" rel="external">Racket</a></p>
 <hr>
 <h1 id="范围"><a href="#范围" class="headerlink" title="范围"></a>范围</h1><p>第一章 构造过程抽象</p>
 <p>1.1.1 ~ 1.1.5 节，P1-13</p>
@@ -399,7 +396,8 @@
 <p>（第一版前言）我们所设计的这门计算机科学导引课程……首先，我们希望建立起一种看法：<strong>一个计算机语言并不仅仅是让计算机去执行操作的一种方式</strong>，更重要的，它是一种表述有关方法学的思想的新颖的形式化媒介。因此，<strong>程序必须写的能够供人们阅读，偶尔地取供计算机执行。</strong>……我们的目标是，使完成了这一科目的学生能对<strong>程序设计的风格要素</strong>和<strong>审美观</strong>有一种很好的感觉。……这些技能不仅仅适用于计算机程序设计，对于所有的工程设计都是通用的。</p>
 </blockquote>
 <p>开篇就给人一种读这本书会是一种精神上的享受的感觉。确实，里面提到的很多东西是以前的学习中从未接触到的。</p>
-<p>第一章的名字叫做，构造过程抽象。准备学习的是有关于<strong>计算过程</strong>的知识。计算过程是存在于计算机里的一类抽象事物，过程会去操作一些被称为<strong>数据</strong>的抽象事物。人们创建出<strong>程序</strong>的规则模式，指导过程的进行。书中将计算过程比喻成“巫术”，将我们写的程序比作“咒语”。学习程序设计的人们就是“巫师学徒”，我们要去理解和掌握“咒语”的效果。“咒语”中会出现小错误（bug），可能产生复杂的错误结果。这个比喻特别形象生动。我也理解了程序并不是使输入产生输出的最主要的因素，比方说我用编程语言写了一段代码，控制了一些“过程”，是这些“过程”将输入的结果转化成了输出。</p>
+<p>第一章的名字叫做，构造过程抽象。准备学习的是有关于<strong>计算过程</strong>的知识。计算过程是存在于计算机里的一类抽象事物，过程会去操作一些被称为<strong>数据</strong>的抽象事物。人们创建出<strong>程序</strong>的规则模式，<strong>指导过程的进行</strong>。</p>
+<p>书中将计算过程比喻成“巫术”，将我们写的程序比作“咒语”。学习程序设计的人们就是“巫师学徒”，我们要去理解和掌握“咒语”的效果。“咒语”中会出现小错误（bug），可能产生复杂的错误结果。这个比喻特别形象生动。我也理解了程序并不是使输入产生输出的最主要的因素，比方说我用编程语言写了一段代码，控制了一些“过程”，是这些“过程”将输入的结果转化成了输出。</p>
 <blockquote>
 <p>一个强有力的程序设计语言，不仅是一种指挥计算机执行任务的方式，还应当成为一种框架，使我们能在其中组织自己有关计算过程的思想。</p>
 </blockquote>
@@ -428,11 +426,14 @@
 <li><p>1.1.5 讲了表达式的求值规则，<strong>代换模型</strong>。其实很简单，就像做函数题一样将参数代入求出结果。不过，<strong>代换</strong>不是解释器的实际工作方式的具体描述。如何求值的方式有两种</p>
 <ol>
 <li>正则序求值，思路是“完全展开后规约”，就是先不求出值，而是用运算对象表达式去代替形参，直到得到一个只包含基本运算符的表达式后，再求值。</li>
-<li>应用序求值，思路是“先求值参数而后应用”，先把参数的值求了然后带入函数中应用。</li>
+<li>应用序求值，思路是“先求值参数而后应用”，先把参数的值求了然后带入函数中。</li>
 </ol>
 </li>
 </ul>
-<p>对于可以产生合法的应用，可以证明两种方法的结果是一样的。Lisp 采用的是应用序求值，是因为正则序可能多次求同样的算式导致重复计算的工作。但下面就给出了一个反例：</p>
+<ul>
+<li>可以证明：对于可以产生合法值的过程应用，两种方法产出的结果将是一样的。</li>
+</ul>
+<p>Lisp 采用的是应用序求值，是因为正则序可能多次求同样的算式导致重复计算的工作。但下面就给出了一个反例：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">(define (p) (p))</div><div class="line">(define (test x y) </div><div class="line">    (if (= x 0)</div><div class="line">        0</div><div class="line">        y))</div><div class="line"></div><div class="line">(test 0 (p))</div></pre></td></tr></table></figure>
 <p>对于正则序，不断展开，展开成</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">(if(= 0 0) 0 (p))</div></pre></td></tr></table></figure>
