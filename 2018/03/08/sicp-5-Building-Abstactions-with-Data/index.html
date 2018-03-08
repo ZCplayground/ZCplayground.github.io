@@ -1,0 +1,900 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="进入第二章——构造数据抽象 抽象数据导引什么是数据抽象？ 过程抽象中，构造更复杂的过程，就把一个过程用作其中的元素。比如说 平方和 过程的实现中使用了求平方和加和两个过程，构造更复杂的过程时，元素的实现细节被隐藏了。对平方和来说，这就构造了抽象——这一过程的使用方式，与该过程如何通过更基本的过程实现的具体细节相分离。 针对数据的类似概念就是数据抽象，数据抽象是一种方法学。一个复合数据对象的使用，应">
+<meta property="og:type" content="article">
+<meta property="og:title" content="计算机程序的构造与解释——构造数据抽象">
+<meta property="og:url" content="http://yoursite.com/2018/03/08/sicp-5-Building-Abstactions-with-Data/index.html">
+<meta property="og:site_name" content="ZCplayground">
+<meta property="og:description" content="进入第二章——构造数据抽象 抽象数据导引什么是数据抽象？ 过程抽象中，构造更复杂的过程，就把一个过程用作其中的元素。比如说 平方和 过程的实现中使用了求平方和加和两个过程，构造更复杂的过程时，元素的实现细节被隐藏了。对平方和来说，这就构造了抽象——这一过程的使用方式，与该过程如何通过更基本的过程实现的具体细节相分离。 针对数据的类似概念就是数据抽象，数据抽象是一种方法学。一个复合数据对象的使用，应">
+<meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/closure.png">
+<meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/sequence.png">
+<meta property="og:updated_time" content="2018-03-08T14:08:07.858Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="计算机程序的构造与解释——构造数据抽象">
+<meta name="twitter:description" content="进入第二章——构造数据抽象 抽象数据导引什么是数据抽象？ 过程抽象中，构造更复杂的过程，就把一个过程用作其中的元素。比如说 平方和 过程的实现中使用了求平方和加和两个过程，构造更复杂的过程时，元素的实现细节被隐藏了。对平方和来说，这就构造了抽象——这一过程的使用方式，与该过程如何通过更基本的过程实现的具体细节相分离。 针对数据的类似概念就是数据抽象，数据抽象是一种方法学。一个复合数据对象的使用，应">
+<meta name="twitter:image" content="http://osax8w13y.bkt.clouddn.com/closure.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/03/08/sicp-5-Building-Abstactions-with-Data/"/>
+
+
+
+
+
+  <title>计算机程序的构造与解释——构造数据抽象 | ZCplayground</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">ZCplayground</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/08/sicp-5-Building-Abstactions-with-Data/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ZC">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ZCplayground">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">计算机程序的构造与解释——构造数据抽象</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-08T20:27:44+08:00">
+                2018-03-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/SICP/" itemprop="url" rel="index">
+                    <span itemprop="name">SICP</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/03/08/sicp-5-Building-Abstactions-with-Data/" class="leancloud_visitors" data-flag-title="计算机程序的构造与解释——构造数据抽象">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>进入第二章——构造数据抽象</p>
+<h1 id="抽象数据导引"><a href="#抽象数据导引" class="headerlink" title="抽象数据导引"></a>抽象数据导引</h1><p>什么是数据抽象？</p>
+<p>过程抽象中，构造更复杂的过程，就把一个过程用作其中的元素。比如说 <code>平方和</code> 过程的实现中使用了<code>求平方</code>和<code>加和</code>两个过程，构造更复杂的过程时，元素的实现细节被隐藏了。对<code>平方和</code>来说，这就构造了<strong>抽象</strong>——这一过程的使用方式，与该过程如何通过更基本的过程实现的具体细节相分离。</p>
+<p>针对数据的类似概念就是<strong>数据抽象</strong>，数据抽象是一种<strong>方法学</strong>。一个复合数据对象的使用，应该与是怎么由更基本的数据对象构造的细节隔离开的。</p>
+<p>前一章中，涉及的数字，只是一些基础的数字和数值运算。第二章开始，我们要考察更复杂的数据。就像简单的过程可以复合形成复合过程，将数据对象组合起来，形成<strong>复合数据</strong>。</p>
+<p>复合数据的意义：</p>
+<ul>
+<li>提升我们在程序设计时所位于的概念层次。</li>
+<li>提高设计的模块性。</li>
+<li>增强语言的表达能力。</li>
+</ul>
+<p>比如，要完成一个对分数进行运算的程序。若将一个分数看成一个分子和一个分母，分别用两个变量来代表。这样做下去，会非常难受，要记得哪一个分母和哪一个分子对应，这种杂乱麻烦的记录工作会严重搅乱程序设计。若是能将两个变量“合在一起”，形成一个<strong>复合数据</strong>，情况就好得多。</p>
+<ul>
+<li>对分数的操作就可以将这一个复合数据当做一个概念上的单位，提升了层次。</li>
+<li>进一步提高程序的模块性。也就是说，处理分数的那些程序部分，与分数如何表达的细节隔离开了。这种把数据对象的使用部分和表示细节部分相分离的技术思想非常具有一般性，这就是被称为<strong>数据抽象</strong>的强有力的设计方法学。</li>
+<li>复合对象的使用最重要的是真正地提高了语言的表达能力。举最简单的“线性组合”：$ax + by$为例，我们想到写一个过程接受四个参数返回$ax + by$的值，那么就是下面这个样子：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">(define (linear-combination a b x y)</div><div class="line">    (+ (* a x) (* b y)))</div></pre></td></tr></table></figure>
+<p>但是，如果编程语言的表达能力更强，所针对的不仅仅是简单数据，而是分数、复数、多项式等等其他东西的话，应该是下面这个样子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">(define (linear-combination a b x y)</div><div class="line">    (add (mul a x)(mul b y)))</div></pre></td></tr></table></figure>
+<p><code>add</code>和<code>mul</code> 也不是简单的加法和乘法了，而是更复杂的内在。从<strong>抽象</strong>的意义来看，对于过程<code>linear-combination</code>来说，这里的 a、b、x、y 是什么，根本没有关系。这个例子也说明了，为什么一种程序设计语言要提供一种复合简单对象的方法，以及直接操作符合对象的能力，是多么的重要。</p>
+<p>复合简单数据的方法就是程序设计语言应该提供某种<strong>“粘合剂”</strong>用于把简单数据对象组合起来，形成复杂的数据对象。在复合的思想中有一个关键的概念——<strong>闭包</strong>，就是粘合剂不但能组合基本的数据，还可以粘合复杂的数据对象（形成更复杂的数据对象）。</p>
+<p>除此之外，还将看到，数据抽象能让程序在不同的层次之间建立起<strong>抽象屏障</strong>。这个知识点就像是网络的 OSI 七层模型，或者说“用户——软件——操作系统——硬件”的层次，概念是相同的。</p>
+<h1 id="序对"><a href="#序对" class="headerlink" title="序对"></a>序对</h1><p>剧透：<strong>序对可以用做构造任意种类的复杂数据结构的通用的基本构件。</strong></p>
+<p>序对其实和离散数学中的“有序对”没什么差别。具体到 Scheme 语言里，有一个基本过程：<code>cons</code>，需要两个参数，返回一个包含这两个参数作为其成分的符合数据对象。对于一个由<code>cons</code>构造的序对，基本过程<code>car</code>和<code>cdr</code>可以取出前后两个部分。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">(define x (cons 1 2))</div><div class="line">(define y (cons 3 4))</div><div class="line">(define z (cons x y))</div><div class="line"></div><div class="line">(car x)</div><div class="line"></div><div class="line">(cdr y)</div><div class="line"></div><div class="line">(car z)</div><div class="line"></div><div class="line">(car ( cdr z))</div><div class="line"></div><div class="line"></div><div class="line">结果：</div><div class="line">1</div><div class="line">4</div><div class="line">(mcons 1 2)</div><div class="line">3</div></pre></td></tr></table></figure>
+<h2 id="Closure-Property"><a href="#Closure-Property" class="headerlink" title="Closure Property"></a>Closure Property</h2><p>介绍一个重要的概念，cons 的<strong>闭包性质</strong>。</p>
+<p>闭包性质这一术语来自抽象代数（离散数学也有），意思是一集元素在某个运算下封闭，封闭是指这个运算运用于一集合中的元素，产出的仍然是该集合的元素。</p>
+<p><img src="http://osax8w13y.bkt.clouddn.com/closure.png" alt=""></p>
+<p>如图所示，由于闭包性，你可以不仅可以用 <code>cons</code>去组合数值，还可以用<code>cons</code>组合序对！这一性质，通过它可以构造出许多不同种类的数据结构来。<strong>闭包性质是 cons 组合威力的关键要素，它能用来构建出层次性结构的数据对象。</strong></p>
+<p>非常有意思的性质，对不对？联系一下 C 语言，我们可以发现其实 C 语言提供的数据组合方法并不具备这种性质。例如 <code>struct</code> 是可以包含别的 <code>struct</code>，但是要求程序员显示地操纵指针（也就是别的东西，而不是数据对象本身），并限制性地要求<code>struct</code>里面包含的只能是预先定义好的元素。</p>
+<blockquote>
+<p>Alan Perlis 评价：“……过多的可声明数据结构导致了函数的专用化，造成了对合作的阻碍。让 100 个函数在一个数据结构上操作，远比让 10 个函数在 10 个数据结构上操作更好些。”</p>
+</blockquote>
+<h1 id="Squence"><a href="#Squence" class="headerlink" title="Squence"></a>Squence</h1><p>利用序对构造出的一类有用结构就是<strong>序列</strong>（Sequence）。定义也非常简单，看下图就行。与我们熟知的表很想，但我觉得链表（linked list）特指那种有一个数据对象和一个指针构成的数据结构。序列更适合本书语境。</p>
+<p><img src="http://osax8w13y.bkt.clouddn.com/sequence.png" alt=""></p>
+<p>可以像图上那样写很多 cons 复合来构成表。为了方便表的构造，Scheme 有一个基础操作<code>list</code>。简单来说<code>(list 1 2 3 4)</code>就等同于上面那一堆 cons 的结果。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">(define one-through-four (list 1 2 3 4))</div><div class="line"></div><div class="line">(car one-through-four)</div><div class="line"></div><div class="line">(cdr one-through-four)</div><div class="line"></div><div class="line">;结果：</div><div class="line">1</div><div class="line">(mcons 2 (mcons 3 (mcons 4 &apos;())))</div></pre></td></tr></table></figure>
+<p>对表来说，<code>car</code>就是<strong>选取表的第一项</strong>，<code>cdr</code>就是选取表中<strong>除去第一项之后剩下元素形成的子表</strong>。嵌套应用<code>car</code>和<code>cdr</code>可以取出表的各项。</p>
+<p><code>cons</code> 只能用于在原有表的<strong>前面</strong>增加一个元素，因为表尾最后一个元素应该是<code>nil</code>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">(define one-through-four (list 1 2 3 4))</div><div class="line">(cons 10 one-through-four)</div><div class="line"></div><div class="line"></div><div class="line">;结果：</div><div class="line">(mcons</div><div class="line"> 10</div><div class="line"> (mcons</div><div class="line">  1</div><div class="line">  (mcons</div><div class="line">   2</div><div class="line">   (mcons 3 (mcons 4 &apos;())))))</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">;用 cons 在后添加是错误的</div><div class="line">(define one-through-four (list 1 2 3 4))</div><div class="line">(cons  one-through-four 10)</div><div class="line"></div><div class="line">;结果：</div><div class="line">(mcons</div><div class="line"> (mcons</div><div class="line">  1</div><div class="line">  (mcons</div><div class="line">   2</div><div class="line">   (mcons 3 (mcons 4 &apos;()))))</div><div class="line"> 10)</div><div class="line"></div><div class="line">(list 1 2 3 4 10)</div><div class="line"></div><div class="line">;结果：</div><div class="line">(mcons</div><div class="line"> 1</div><div class="line"> (mcons</div><div class="line">  2</div><div class="line">  (mcons</div><div class="line">   3</div><div class="line">   (mcons 4 (mcons 10 &apos;())))))</div></pre></td></tr></table></figure>
+<h2 id="一些函数"><a href="#一些函数" class="headerlink" title="一些函数"></a>一些函数</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div></pre></td><td class="code"><pre><div class="line">;取出列表的第n项</div><div class="line">(define (list-ref L n)</div><div class="line">  (if (= n 0)</div><div class="line">      (car L)</div><div class="line">      (list-ref (cdr L)(- n 1))))</div><div class="line"></div><div class="line">(define squares (list 1 4 9 16 25))</div><div class="line"></div><div class="line">(list-ref squares 3)</div><div class="line"></div><div class="line">;求表长</div><div class="line">;null? 是基本过程，检查参数是不是空表</div><div class="line">(define (length L)</div><div class="line">  (if (null? L)</div><div class="line">      0</div><div class="line">      (+ 1 (length (cdr L)))))</div><div class="line"></div><div class="line">(length squares)</div><div class="line"></div><div class="line"></div><div class="line">;连接两个表</div><div class="line">(define (append L1 L2)</div><div class="line">  (if (null? L1)</div><div class="line">      L2</div><div class="line">      (cons (car L1) (append (cdr L1)L2))))</div><div class="line"></div><div class="line">(define odds (list 1 3 5 7 9))</div><div class="line"></div><div class="line">(append squares odds)</div><div class="line"></div><div class="line"></div><div class="line">;习题1：求表最后一个元素，迭代</div><div class="line">(define (last-pair L)</div><div class="line">  (if (null? (cdr L))</div><div class="line">      L</div><div class="line">      (last-pair (cdr L))))</div><div class="line"></div><div class="line">(last-pair squares)</div><div class="line"></div><div class="line">;习题2：表逆序</div><div class="line">(define (reverse L)(reverse-iter L nil))</div><div class="line"></div><div class="line">(define (reverse-iter list other)</div><div class="line">  (if (null? list)</div><div class="line">      other</div><div class="line">      (reverse-iter (cdr list)(cons(car list) other))))</div><div class="line"></div><div class="line">(reverse squares)</div></pre></td></tr></table></figure>
+<p>尤其是表逆序这一题，我看着代码看了很久。思考它与典型的过程化语言C语言打出来的链表逆序有什么不同。可以看出，表逆序是一个递归过程。在前面的学习中，知道了递归的意思就是与操作延迟推行。表逆序这个过程，若<code>list</code>为空，<code>other</code>便为输出结果。<code>other</code>最初是<code>nil</code>，会直接递归执行到原表 L 的尾部，递归开始返回。从倒数第一个元素，用<code>cons</code> 将其加到 <code>other</code>前面，就完成了这一过程。</p>
+<p>这也是 SICP 给我几个最大的触动之一。简单的序对就能够构成很多已知的数据结构，比如说树、还有链表，像类似于什么求链表长度、求树的深度这样子的函数都能够用看上去十分玄幻，但细看十分精妙的几行 scheme 就能写成。光是知道了这几点，我觉得都已经让我觉得非常满足了。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/03/06/tcpip-8-ICMP/" rel="next" title="《TCP/IP 详解 卷1：协议》第 8 章：Internet 控制报文协议">
+                <i class="fa fa-chevron-left"></i> 《TCP/IP 详解 卷1：协议》第 8 章：Internet 控制报文协议
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="ZC" />
+          <p class="site-author-name" itemprop="name">ZC</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">59</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#抽象数据导引"><span class="nav-number">1.</span> <span class="nav-text">抽象数据导引</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#序对"><span class="nav-number">2.</span> <span class="nav-text">序对</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Closure-Property"><span class="nav-number">2.1.</span> <span class="nav-text">Closure Property</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Squence"><span class="nav-number">3.</span> <span class="nav-text">Squence</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#一些函数"><span class="nav-number">3.1.</span> <span class="nav-text">一些函数</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ZC</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("guhO5d3jdrym6QcCp5oIrsMc-gzGzoHsz", "ldFdhqrIxGxOqWs5mgH8pmLT");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>
