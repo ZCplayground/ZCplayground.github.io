@@ -1,0 +1,892 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="引言有 4 种 IP 地址，单播（unicast）、任播（anycast）、组播（multicast）和广播（broadcast）。IPv4 可以使用所有地址，IPv6 可以使用除广播之外的地址。 本章讨论广播和组播的细节，例如：  链路层如何有效地从一台计算机向其他计算机发送广播或组播流量。 互联网组管理协议（IGMP）和组播侦听协议（MLD）如何工作，通知组播路由器子网中哪些组播地址在使用">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《TCP&#x2F;IP 详解 卷1：协议》第 9 章：广播和本地组播（IGMP 和 MLD）">
+<meta property="og:url" content="http://yoursite.com/2018/03/09/tcpip-9-IGMP/index.html">
+<meta property="og:site_name" content="ZCplayground">
+<meta property="og:description" content="引言有 4 种 IP 地址，单播（unicast）、任播（anycast）、组播（multicast）和广播（broadcast）。IPv4 可以使用所有地址，IPv6 可以使用除广播之外的地址。 本章讨论广播和组播的细节，例如：  链路层如何有效地从一台计算机向其他计算机发送广播或组播流量。 互联网组管理协议（IGMP）和组播侦听协议（MLD）如何工作，通知组播路由器子网中哪些组播地址在使用">
+<meta property="og:updated_time" content="2018-03-09T15:08:19.688Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="《TCP&#x2F;IP 详解 卷1：协议》第 9 章：广播和本地组播（IGMP 和 MLD）">
+<meta name="twitter:description" content="引言有 4 种 IP 地址，单播（unicast）、任播（anycast）、组播（multicast）和广播（broadcast）。IPv4 可以使用所有地址，IPv6 可以使用除广播之外的地址。 本章讨论广播和组播的细节，例如：  链路层如何有效地从一台计算机向其他计算机发送广播或组播流量。 互联网组管理协议（IGMP）和组播侦听协议（MLD）如何工作，通知组播路由器子网中哪些组播地址在使用">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/03/09/tcpip-9-IGMP/"/>
+
+
+
+
+
+  <title>《TCP/IP 详解 卷1：协议》第 9 章：广播和本地组播（IGMP 和 MLD） | ZCplayground</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">ZCplayground</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/09/tcpip-9-IGMP/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ZC">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ZCplayground">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">《TCP/IP 详解 卷1：协议》第 9 章：广播和本地组播（IGMP 和 MLD）</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-09T23:03:06+08:00">
+                2018-03-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/TCP-IP/" itemprop="url" rel="index">
+                    <span itemprop="name">TCP/IP</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/03/09/tcpip-9-IGMP/" class="leancloud_visitors" data-flag-title="《TCP/IP 详解 卷1：协议》第 9 章：广播和本地组播（IGMP 和 MLD）">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h1><p>有 4 种 IP 地址，单播（unicast）、任播（anycast）、组播（multicast）和广播（broadcast）。IPv4 可以使用所有地址，IPv6 可以使用除广播之外的地址。</p>
+<p>本章讨论广播和组播的细节，例如：</p>
+<ul>
+<li>链路层如何有效地从一台计算机向其他计算机发送广播或组播流量。</li>
+<li>互联网组管理协议（IGMP）和组播侦听协议（MLD）如何工作，通知组播路由器子网中哪些组播地址在使用</li>
+</ul>
+<p>广播和组播都是为了将数据报交付至多个目的地的技术，也是客户端请求／发现服务器的手段。</p>
+<ul>
+<li>交付至多个目的地。有许多应用程序要将消息交付到多个收件方。若没有广播和做播，采取 TCP 与多个目的地分别建立连接，是非常低效的。</li>
+<li><p>客户端请求／发现服务器。用了广播和组播，客户端／应用程序可以向一个服务器发送请求，而不需要知道特定的服务器 IP 地址。特别是在网络环境的配置信息不完善时，这种功能在配置方面非常有用。（例如 DHCP）</p>
+<p>虽然广播和组播都可以完成上述功能，但组播一般情况下<strong>比广播更可取</strong>，因为组播只涉及到那些支持特定服务或协议的系统（在特定的组播组里），而广播不是。广播请求会影响广播范围内所有能到达的主机，组播只影响那些对该请求感兴趣的主机。<strong>广播更简单，但开销更大；组播改善了效率，但带来更多的复杂性。</strong></p>
+</li>
+</ul>
+<p>一般来说，只用使用 UDP 传输协议的应用程序才利用广播和组播，在 UDP 下，发送单个报文到多个收件方才是有意义的。TCP 是面向连接的协议，使用 TCP 的话意味着两台主机（由IP地址指定）上面的进程（由端口号指定）之间建立了连接。TCP 可以使用单播和任播，但是不能使用广播和组播地址。</p>
+<h1 id="广播"><a href="#广播" class="headerlink" title="广播"></a>广播</h1><p>广播是指将报文发送到网络中所有可能的接收者。原理上很清晰：路由器简单地把它接受到的任意报文，在除了报文到达接口之外的所有借口都发送一个副本。</p>
+<h2 id="广播地址"><a href="#广播地址" class="headerlink" title="广播地址"></a>广播地址</h2><p>回忆一下，每个以太网帧包含源和目的 MAC 地址。使用单播地址时，MAC 地址由ARP 或 IPv6 邻居发现来确定。当一个帧以这种方式发送到单播 IP 地址时，任意两个主机之间的通信不会打扰这个网络上的其他主机。</p>
+<p>诸如以太网这种链路层支持<strong>链路层广播</strong>。</p>
+<p>组播的 MAC 地址以十六进制表示看起来像</p>
+<p>每个 IPv4 子网都有一个本子网广播地址，就是地址中的主机部分全置 1 形成的。特殊地址：255.255.255.255 被称为本地广播地址（也称为“有限广播”）。该地址我们在 DHCP 中见过。由于主机在未配置网络环境时，自身没有 IP 地址，也没有关于子网掩码等信息。适用本地广播地址，路由器是不会转发的，有限广播地址仅出现在本地网络。</p>
+<p>看一个例子：</p>
+<p>todo</p>
+<h1 id="组播"><a href="#组播" class="headerlink" title="组播"></a>组播</h1><p>为了减少在广播中涉及的开销，可以只向那些<strong>对该流量感兴趣的接收方</strong>发送流量。这被称为组播（multicasting）。实现组播就要比广播更具复杂性，因为要实现组播就要维持一个组播状态信息（multicast state），主机和路由器维持状态信息来说明哪些接收方对哪类流量感兴趣。除此之外，该状态应该是软状态（soft state），应该定期更新或者是超时删除。</p>
+<p>组播在企业和本地网络中的使用超过在广域网中的使用。在这种环境下广播的低效就体现的比较严重。</p>
+<p>为了使组播工作，就要设计一种机制来使得主机发布其对某些流量的意愿（说白了就是加入某个组播组）的协议，路由器也要知道如何转发组播流量。</p>
+<h2 id="将-IP-组播地址转换为-802-MAC／以太网地址"><a href="#将-IP-组播地址转换为-802-MAC／以太网地址" class="headerlink" title="将 IP 组播地址转换为 802 MAC／以太网地址"></a>将 IP 组播地址转换为 802 MAC／以太网地址</h2><p>下面研究 IP 组播流量是如何使用 MAC 层组播地址的。</p>
+<p>当我们要发送组播流量时，链路层帧（我们专注考虑 IEEE 802，以太网和 Wi-Fi）中要存放什么样的目的 MAC 地址呢？这里的技术就是简单的将一个IP组播地址直接映射到一些对应的MAC地址。</p>
+<p>IANA 拥有 IEEE 组织唯一标识符（简称 OUI，以太网地址前缀）00:00:5e，</p>
+<h2 id="发送／接收组播数据报"><a href="#发送／接收组播数据报" class="headerlink" title="发送／接收组播数据报"></a>发送／接收组播数据报</h2><p>组播的基本概念是主机给定的接口上进程<strong>加入</strong>（joining）或<strong>离开</strong>（leaving）一个或多个组播组的概念。</p>
+<p>能接受一个特定组播组数据的主机集合叫主机组。主机组可以跨越多个网络，成员资格是动态的，意思是主机成员可随时加入 or 离开主机组。一些组播地址被 IANA 确定为知名地址。</p>
+<p>组成员资格是与接口相关的，一个进程可以在多个接口上加入同一组，也可以加入同一接口上的多个组。一个主机接收到一个组播数据报，向属于这个组播组的每个进程传递数据报的复制。</p>
+<h2 id="主机地址过滤"><a href="#主机地址过滤" class="headerlink" title="主机地址过滤"></a>主机地址过滤</h2><p>为了了解操作系统进程如何为程序已加入的组播组接收组播数据报，我们需要了解<strong>过滤</strong>（filtering）操作。过滤在主机的网络接口卡（NIC）上发生。如图所示：</p>
+<p><img src="" alt=""></p>
+<p>在典型的交换式以太网环境中，广播和组播帧是沿着生成树在 VLAN 的所有段上被复制。简单来说，帧被交付至每台主机的 NIC 上，然后检查帧的完整性（CRC），决定是否接受该帧。若接收，就将其交付给设备驱动程序和网络协议栈。目的地址是接口的硬件地址的帧，以及广播帧，就按照上述过程处理了。但组播帧的情况更复杂一点。</p>
+<p>NIC 处理组播帧一般有两类：</p>
+<ul>
+<li>基于组播硬件地址的散列值过滤。</li>
+<li>基于侦听组播地址的一张有限表。</li>
+</ul>
+<ol>
+<li>散列表的方法就意味着会出现冲突，意味着一些不需要的帧会误以为可以通过。这不是一个致命的问题，因为协议栈的较高层次依然会有检测。</li>
+<li>有限表的方法，如果长厂超过限制，就会导致所有的组播流量将交给主机软件。尽管存在不完美的硬件过滤，组播仍然比广播更高效。</li>
+</ol>
+<p>一旦 NIC 确定一个帧可以接收（CRC 正确、VLAN 标签匹配、MAC 地址和 NIC 地址表的条目相匹配或散列值匹配），该帧被传递到设备驱动程序，在此执行另外的过滤。</p>
+<ul>
+<li>首先，指定一种特定的协议（例如 IPv4、ARP 等等）</li>
+<li>过滤以检查主机是否属于被寻址的组播组。</li>
+<li>然后，设备驱动程序将该帧传递到下一层。例如，帧类型是指定了一个 IP 数据报，则传递到 IP 层，IP 进行更多的过滤。如果一切依然没有问题，传递到下一层（如 UDP 和 TCP），再进行过滤。（如没有进程在使用目的端口，则数据报被丢弃，生产 ICMP 端口不可达报文；或者校验和错误，被默默丢弃）</li>
+</ul>
+<p>为什么要研究组播过滤、寻址的特征？主要动机之一是为了<strong>避免广播的开销</strong>。考虑一个使用 UDP 广播的应用程序。一个网络（或者 VLAN）一共有 50 台主机，但只有 20 台参与了这个应用。当 UDP 广播被发送的时候，在 30 台没有参与的主机那里，UDP 广播数据报在上升到 UDP 层，因为发现了目的端口没有被使用，才被丢弃。使用组播的目的就是减少对该应用没有兴趣的主机的负担。使用组播，在 NIC 层次的过滤器就可以过滤不相关、不感兴趣的流量。这一机制使得在主机上处理数据报的开销减小，作为代价，就是在组播地址管理、组成员管理方面添加额外的协议。</p>
+<h1 id="互联网组管理协议-和-组播侦听发现协议"><a href="#互联网组管理协议-和-组播侦听发现协议" class="headerlink" title="互联网组管理协议 和 组播侦听发现协议"></a>互联网组管理协议 和 组播侦听发现协议</h1><p>到目前为止，我们从主机角度讨论了组播数据报的传输、过滤、接收。当组播数据报在广域网，或是跨越多个子网中转发是，需要一个或多个<strong>组播路由器</strong>来启动<strong>组播路由</strong>（multicast routing）。组播路由器需要知道哪些主机对什么组播感兴趣。路由器需要知道这些信息，知道哪些组播数据报该转发到哪个接口。</p>
+<p>两个主要协议用于组播路由器了解附近主机感兴趣的组：IPv4 使用的<strong>互联网组管理协议</strong>（Internet Group Management Protocol）和 IPv6 使用的<strong>组播侦听发现协议</strong>（Multicast Listening Discovery Protocol）</p>
+<p>如下图所示，展示了具有组播功能的路由器如何使用 IGMP（MLD）</p>
+<p><img src="" alt=""></p>
+<p>与 ICMP 的类似，IGMP 被认为是 IP 层的一部分，IGMP 报文也是封装在 IPv4 数据报中传输。非常不同的一点是，IGMP 数据报使用一个固定的 TTL = 1 值，所以数据报仅限于本地子网。下图是 IGMP 和 MLD 的封装。</p>
+<p><img src="" alt=""></p>
+<p>简单来说，IGMP 和 MLD 定义的是：</p>
+<ul>
+<li>成员主机（“组成员”）的工作是自发地报告对组播源的兴趣改变，响应定期地查询。可能是被动响应，也可以是主动报告。</li>
+<li>组播路由器发送查询，确定链路上的主机对于任意组播组或者特定组播组是否有兴趣。</li>
+</ul>
+<h2 id="组成员的-IGMP-和-MLD-部分（“组成员部分”）"><a href="#组成员的-IGMP-和-MLD-部分（“组成员部分”）" class="headerlink" title="组成员的 IGMP 和 MLD 部分（“组成员部分”）"></a>组成员的 IGMP 和 MLD 部分（“组成员部分”）</h2><h2 id="组播路由器的-IGMP-和-MLD-部分（“组播路由器部分”）"><a href="#组播路由器的-IGMP-和-MLD-部分（“组播路由器部分”）" class="headerlink" title="组播路由器的 IGMP 和 MLD 部分（“组播路由器部分”）"></a>组播路由器的 IGMP 和 MLD 部分（“组播路由器部分”）</h2><h2 id="IGMP-和-MLD-健壮性"><a href="#IGMP-和-MLD-健壮性" class="headerlink" title="IGMP 和 MLD 健壮性"></a>IGMP 和 MLD 健壮性</h2><h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><h1 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h1>
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/03/08/sicp-5-Building-Abstactions-with-Data/" rel="next" title="计算机程序的构造与解释——构造数据抽象">
+                <i class="fa fa-chevron-left"></i> 计算机程序的构造与解释——构造数据抽象
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="ZC" />
+          <p class="site-author-name" itemprop="name">ZC</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">60</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#引言"><span class="nav-number">1.</span> <span class="nav-text">引言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#广播"><span class="nav-number">2.</span> <span class="nav-text">广播</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#广播地址"><span class="nav-number">2.1.</span> <span class="nav-text">广播地址</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#组播"><span class="nav-number">3.</span> <span class="nav-text">组播</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#将-IP-组播地址转换为-802-MAC／以太网地址"><span class="nav-number">3.1.</span> <span class="nav-text">将 IP 组播地址转换为 802 MAC／以太网地址</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#发送／接收组播数据报"><span class="nav-number">3.2.</span> <span class="nav-text">发送／接收组播数据报</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#主机地址过滤"><span class="nav-number">3.3.</span> <span class="nav-text">主机地址过滤</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#互联网组管理协议-和-组播侦听发现协议"><span class="nav-number">4.</span> <span class="nav-text">互联网组管理协议 和 组播侦听发现协议</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#组成员的-IGMP-和-MLD-部分（“组成员部分”）"><span class="nav-number">4.1.</span> <span class="nav-text">组成员的 IGMP 和 MLD 部分（“组成员部分”）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#组播路由器的-IGMP-和-MLD-部分（“组播路由器部分”）"><span class="nav-number">4.2.</span> <span class="nav-text">组播路由器的 IGMP 和 MLD 部分（“组播路由器部分”）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IGMP-和-MLD-健壮性"><span class="nav-number">4.3.</span> <span class="nav-text">IGMP 和 MLD 健壮性</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">5.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考链接"><span class="nav-number">6.</span> <span class="nav-text">参考链接</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ZC</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("guhO5d3jdrym6QcCp5oIrsMc-gzGzoHsz", "ldFdhqrIxGxOqWs5mgH8pmLT");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+
+  
+
+  
+
+</body>
+</html>
