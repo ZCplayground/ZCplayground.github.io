@@ -1,0 +1,902 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="引言到目前为止，我们使用 IP 地址来研究参与网络的主机。对于大众来说，这些地址太繁琐且难以记忆。为了使用如 TCP 和 IP 等协议，主机名称通过名为名称解析（name resolution）的过程转换成 IP 地址。在互联网中，存在着不同形式的名称解析，其中最普遍、最重要的是域名系统（Domain Name System，DNS）。 DNS 是一种分布式数据库系统，是一种典型的客户端／服务器模">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《TCP&#x2F;IP 详解 卷1：协议》第 11 章：名称解析和域名系统">
+<meta property="og:url" content="http://yoursite.com/2018/03/19/tcpip-11-DNS/index.html">
+<meta property="og:site_name" content="ZCplayground">
+<meta property="og:description" content="引言到目前为止，我们使用 IP 地址来研究参与网络的主机。对于大众来说，这些地址太繁琐且难以记忆。为了使用如 TCP 和 IP 等协议，主机名称通过名为名称解析（name resolution）的过程转换成 IP 地址。在互联网中，存在着不同形式的名称解析，其中最普遍、最重要的是域名系统（Domain Name System，DNS）。 DNS 是一种分布式数据库系统，是一种典型的客户端／服务器模">
+<meta property="og:updated_time" content="2018-03-19T14:47:34.355Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="《TCP&#x2F;IP 详解 卷1：协议》第 11 章：名称解析和域名系统">
+<meta name="twitter:description" content="引言到目前为止，我们使用 IP 地址来研究参与网络的主机。对于大众来说，这些地址太繁琐且难以记忆。为了使用如 TCP 和 IP 等协议，主机名称通过名为名称解析（name resolution）的过程转换成 IP 地址。在互联网中，存在着不同形式的名称解析，其中最普遍、最重要的是域名系统（Domain Name System，DNS）。 DNS 是一种分布式数据库系统，是一种典型的客户端／服务器模">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/03/19/tcpip-11-DNS/"/>
+
+
+
+
+
+  <title>《TCP/IP 详解 卷1：协议》第 11 章：名称解析和域名系统 | ZCplayground</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">ZCplayground</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/19/tcpip-11-DNS/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ZC">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ZCplayground">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">《TCP/IP 详解 卷1：协议》第 11 章：名称解析和域名系统</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-19T22:46:16+08:00">
+                2018-03-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/TCP-IP/" itemprop="url" rel="index">
+                    <span itemprop="name">TCP/IP</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/03/19/tcpip-11-DNS/" class="leancloud_visitors" data-flag-title="《TCP/IP 详解 卷1：协议》第 11 章：名称解析和域名系统">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h1><p>到目前为止，我们使用 IP 地址来研究参与网络的主机。对于大众来说，这些地址太繁琐且难以记忆。为了使用如 TCP 和 IP 等协议，<strong>主机名称</strong>通过名为<strong>名称解析</strong>（name resolution）的过程转换成 IP 地址。在互联网中，存在着不同形式的名称解析，其中最普遍、最重要的是<strong>域名系统</strong>（Domain Name System，DNS）。</p>
+<p>DNS 是一种分布式数据库系统，是一种典型的客户端／服务器模型的网络数据库。TCP／IP 应用程序使用它来完成主机名称和 IP 地址的映射。“分布式”是指在互联网中，没有一个站点可以保存所有的信息，而是有许许多多的站点（学校、公司、部门等等）都维护自己的信息数据库，运行一个服务器程序以供互联网上的其他系统查询。DNS 提供了客户端和服务器之间、服务器和服务器之间通信的协议。</p>
+<p>DNS 作为互联网上的应用程序运行，是一个应用层设计。从别的应用程序的角度看，访问 DNS 是通过一个称为<strong>地址解析器</strong>（resolver）的程序来完成的。而TCP／IP 协议对 DNS 的存在一无所知，它们只对网络地址进行操作。</p>
+<p>为了实现可扩展性，DNS 名称是分层的。我们将了解 DNS 名称空间，地址解析器、服务器如何使用 DNS 协议进行通信，以及 DNS 如何为普通用户所用。</p>
+<h1 id="DNS-名称空间"><a href="#DNS-名称空间" class="headerlink" title="DNS 名称空间"></a>DNS 名称空间</h1><p>DNS 中所有使用的名称构成了 <strong>DNS 名称空间</strong>（name space）。名称空间和计算机系统的文件系统相似，都是划分为层次且大小写不敏感的。DNS 名称空间是一棵<strong>域名树</strong>。</p>
+<ul>
+<li>位于顶部的树根未命名。</li>
+<li>树的最高层是所谓的顶级域名（Top-Level Domain Name，TLD）。包括通用顶级域名（generic，gTLD）、国家代码顶级域名（country code，ccTLD）、国际化国家代码顶级域名（internationalized，IDN ccTLD），基础设施顶级域名（infrastructure TLD）等等。</li>
+<li>国际化域名 IDN 的历史是互联网国际化的一部分，漫长而复杂。</li>
+<li>gTLD 分为几类：通用、通用限制、赞助。通用 gTLD 是开放的，其他两类受限于各种适用类型，以及什么实体可以从域名中分配名称。</li>
+<li>ccTLD 包含 ISO 3166 标准中指定的两个字母的国家代码。</li>
+<li>TLD 管理相关政策一般由 ICANN（互联网名称和号码分配机构）负责</li>
+</ul>
+<h2 id="命名语法"><a href="#命名语法" class="headerlink" title="命名语法"></a>命名语法</h2><p>域名树的 TLD 下面的名称进一步划分，称为<strong>子域名</strong>（subdomain）。</p>
+<p>例如，英国大部分教育站点使用后缀<code>.ac.uk</code>，而大多数盈利机构以后缀<code>.co.uk</code>结尾。美国市政府的站点使用子域名<code>ci.city.state.us</code>，city 是城市的名称，state 是州名的两个字母缩写。例如<code>www.ci.manhatan-beach.ca.us</code>是加州曼哈顿海滩市的站点。</p>
+<p>域名又分为完全限定域名（FQDN）和非限定域名（unqualified domain name）两种。前者书写为带有<strong>后随点</strong>的形式，例如<code>mit.edu.</code>，代表<strong>该名称是完整的</strong>，进行名称解析时，不会再添加额外的信息。</p>
+<p>与此相对的就是非限定域名，域名解析时，会有字符串添加到尾部。例如，当配置系统时，使用 DHCP ，指定一个<strong>默认域名扩展和搜索列表</strong>。例如，默认域名为<code>can.berkeley.edu</code>在伯克利计算机系的系统中配置，这些机器上的用户输入名称<code>vangogh</code>，解析器就会将名称转换为<code>vangogh.cs.berkeley.edu</code>，解析器根据这个来找<code>vangogh</code>的地址。</p>
+<p>一个域名包含一系列<strong>由点分开的标签</strong>（label）。每个标签代表域名树层级中的一个位置。点就是层次结构的分割，按照名称从右到左的顺序<strong>沿树下降</strong>。例如：www.net.in.tum.de.<code>表示包含在一个 4 级深度域名</code>net.in.tum.de<code>的主机名</code>www`。</p>
+<ul>
+<li>TLD 是 de，是德国的 ccTLD。</li>
+<li>tum 是 Technische UNiversitat Munchen 的缩写</li>
+<li>in 是 informatik （德语计算机科学）的缩写</li>
+<li>net 是计算机学科中网络组缩写。</li>
+</ul>
+<p>标签是大小写不敏感的。</p>
+<h1 id="名称服务器和区域"><a href="#名称服务器和区域" class="headerlink" title="名称服务器和区域"></a>名称服务器和区域</h1><p>DNS 命名空间的层次结构运行不同的管理机构管理名称空间的不同部分。例如，创建一个新的 DNS 名称<code>elevator.cs.berkeley.edu</code>只需与<code>cs.berkeley.edu</code>的子域拥有者协商即可。DNS 的这个特点是它<strong>可扩展性</strong>的保证，没有一个单一中心化实体必须管理整个 DNS 名称空间的所有变化。</p>
+<p>部分（也通常是次级） DNS 名称空间的管理责任分配给了组织或个人。这些组织和个人至少安置两台<strong>名称服务器</strong>（name server）或者<strong>DNS 服务器</strong>（DNS server）来存储相关信息，提供给互联网用户查询名称。因为服务器的集合构成了 DNS 服务的核心本身，所以我们说<strong>DNS 是一个分布式系统</strong>。这个分布式系统的主要工作是提供名称到地址的映射，也可以提供额外的广泛信息。</p>
+<p>在 DNS 的语境中，管理授权的单位是<strong>区域</strong>（zone）。</p>
+<p>介绍并区分两个术语：</p>
+<ul>
+<li>所有域名的集合：<code>namespace</code></li>
+<li>管理授权的单位：<code>zone</code></li>
+</ul>
+<p>可以理解为一个区域就是 DNS 命名空间中的一棵<strong>子树</strong>。即使是 TLD 也是在 roo<br>zone 中。每当一条新纪录添加到 zone 中，该 zone 管理员将新建一条新条目，保存名称和 IP 地址的映射，添加到服务器的数据库中。</p>
+<p>一台 DNS 服务器可以提供多个区域的信息。在一个域名的任何层次变化点上，不同的区域和包含的服务器可能被访问，以提供该名称的地址。这称为<strong>授权</strong>（delegation）。例如在 <code>berkeley.edu</code>中可能存在主机<code>www.berkeley.edu</code>,也可能存在其他的域<code>cs.berkeley.edu</code>。每一个区域都有一个负责方或者管理者，拥有管理名称、地址、该区域下属区域的权利。不仅管理区域的内容，也管理区域数据库、各种服务器。</p>
+<p>区域信息最少应存在两个地方，这样做是为了如果有一台服务器不能工作，至少有另一台可以使用。这叫做主服务器和辅助服务器之间的<strong>区域传输</strong>（zone transfer）进程。</p>
+<h1 id="DNS-缓存"><a href="#DNS-缓存" class="headerlink" title="DNS 缓存"></a>DNS 缓存</h1><p>名称服务器包含名称到 IP 地址的映射信息。这些信息可以来自三个途径：</p>
+<ul>
+<li>直接来自于区域数据库。在这种情况下，服务器应该包含该区域的授权信息（authoritative information），服务器可以被称为该区域的授权服务器（authoritative server），这样的服务器能通过区域内的鉴别。</li>
+<li>从一个从属服务器区域传输的结果。</li>
+<li>来自处于解析过程中的另一台服务器。</li>
+</ul>
+<p>大部分名称服务器会<strong>缓存</strong>（cache）它们学习的区域信息，直到一个时间限制（TTL）为止。用缓存的信息来响应查询请求，可以大大减少 DNS 消息流量和响应时间。当应答查询时，服务器指明这条消息是来自缓存、还是区域的授权副本。</p>
+<p>缓存同时适用成功的解析和不成功的解析。（否定缓存，negative caching）如果对一个特定域名的请求无法返回一个记录，则该事实也会被缓存。这样，再次请求同一不存在的域名时，就可以帮助降低互联网流量。</p>
+<h1 id="DNS-协议"><a href="#DNS-协议" class="headerlink" title="DNS 协议"></a>DNS 协议</h1><p>DNS 协议由两个主要部分组成。</p>
+<ul>
+<li>DNS 特定名称的查询／响应报文协议。（最典型的用法）</li>
+<li>名称服务器用于交换数据库的区域传输协议。分为 DNS 通知和动态更新。</li>
+</ul>
+<p>通过每个站点或是 ISP 本地部署服务器和一组特殊的<strong>根服务器</strong>（root server）构成 DNS <strong>分布式基础设施</strong>，通过该基础设施支持 DNS 查询／响应。</p>
+<p>截止 2011 年，共有 13 台由字母 A 到 M 命名的根服务器。13 台 gTLD 服务器，也由 A 到 M 标示。通过联系根服务器和 gTLD 服务器，互联网中任何用 TLD 格式名称的主机、服务器，都可以被发现。</p>
+<h2 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h2><p>todo P368</p>
+<h2 id="DNS-消息格式"><a href="#DNS-消息格式" class="headerlink" title="DNS 消息格式"></a>DNS 消息格式</h2><p>todo </p>
+<h2 id="UDP-和-TCP"><a href="#UDP-和-TCP" class="headerlink" title="UDP 和 TCP"></a>UDP 和 TCP</h2><p>对于 UDP 和 TCP 来说，DNS 的知名端口号是 53。</p>
+<h2 id="问题（查询）和区域区段格式"><a href="#问题（查询）和区域区段格式" class="headerlink" title="问题（查询）和区域区段格式"></a>问题（查询）和区域区段格式</h2><h2 id="回答、授权、额外信息区段格式"><a href="#回答、授权、额外信息区段格式" class="headerlink" title="回答、授权、额外信息区段格式"></a>回答、授权、额外信息区段格式</h2><h2 id="资源记录类型"><a href="#资源记录类型" class="headerlink" title="资源记录类型"></a>资源记录类型</h2><p>虽然 DNS 常用来确定特定的名称对应的 IP 地址，但是它可以用于相反的目的，也经常用来干一些别的事情。由于 DNS 能够拥有很多类型的资源记录，所以甚至可以为非互联网数据提供分布式数据库功能。</p>
+<p>todo ：表格</p>
+<p>资源记录分为三大类：</p>
+<ul>
+<li>数据类型。传达 DNS 中存储的信息。</li>
+<li>查询类型。使用和数据类型相同的值，增加几个额外的值，在问题区段中使用。</li>
+<li>元类型，特定单一 DNS 消息相关联的临时数据。 </li>
+</ul>
+<h2 id="区域传输-和-DNS-通知"><a href="#区域传输-和-DNS-通知" class="headerlink" title="区域传输 和 DNS 通知"></a>区域传输 和 DNS 通知</h2><h2 id="DNS-NOTIFY"><a href="#DNS-NOTIFY" class="headerlink" title="DNS NOTIFY"></a>DNS NOTIFY</h2><h1 id="透明度和扩展性"><a href="#透明度和扩展性" class="headerlink" title="透明度和扩展性"></a>透明度和扩展性</h1><h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>DNS 是互联网的一个重要组成部分，也同时广泛地应用于私有网络中。DNS 名称空间是全世界范围的。应用程序使用解析器联系一个或多个 DNS 服务器，执行域名解析。解析器联系一个本地域名服务器，该服务器可能会递归地联系其他满足该请求的服务器。大多数 DNS 服务器会缓存知道的信息。DNS 协议被用于 DNS 查询、响应，区域交换。DNS 查询、响应由通用的消息格式，包括问题、回答、授权信息、额外信息等。资源记录用来保存大多数 DNS 信息。</p>
+<p>DNS 一直受到众多攻击。</p>
+<ul>
+<li>DOS攻击，使重要的 DNS 过载，不能提供服务。</li>
+<li>改变资源记录的内容，或者伪造成合法的 DNS 地址，但是回复假的资源记录，从而导致主机连接到错误的 IP 地址。也就是域名污染。</li>
+<li>攻击者使用伪造的 IP 源地址产生对于 MX 记录的 DNS 请求。请求是较小的数据分组，但响应流量大（放大攻击，amplification）。响应会定向到请求的源 IP 地址。</li>
+<li>域名污染的另一种形式——缓存中毒（cache poisoning），在这种攻击中，一台 DNS 服务器的缓存内容被错误的、伪造的数据替代。客户端被定向到伪服务器，若由别有用心的人将服务器故意配置成原来的模样，例如伪装成银行的 Web 洁面，用户可能会无意识泄露敏感信息。</li>
+</ul>
+<h1 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h1>
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/03/19/tcpip-10-UDP/" rel="next" title="《TCP/IP 详解 卷1：协议》第 10 章：用户数据报协议">
+                <i class="fa fa-chevron-left"></i> 《TCP/IP 详解 卷1：协议》第 10 章：用户数据报协议
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="ZC" />
+          <p class="site-author-name" itemprop="name">ZC</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">63</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#引言"><span class="nav-number">1.</span> <span class="nav-text">引言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#DNS-名称空间"><span class="nav-number">2.</span> <span class="nav-text">DNS 名称空间</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#命名语法"><span class="nav-number">2.1.</span> <span class="nav-text">命名语法</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#名称服务器和区域"><span class="nav-number">3.</span> <span class="nav-text">名称服务器和区域</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#DNS-缓存"><span class="nav-number">4.</span> <span class="nav-text">DNS 缓存</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#DNS-协议"><span class="nav-number">5.</span> <span class="nav-text">DNS 协议</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#例子"><span class="nav-number">5.1.</span> <span class="nav-text">例子</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DNS-消息格式"><span class="nav-number">5.2.</span> <span class="nav-text">DNS 消息格式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#UDP-和-TCP"><span class="nav-number">5.3.</span> <span class="nav-text">UDP 和 TCP</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#问题（查询）和区域区段格式"><span class="nav-number">5.4.</span> <span class="nav-text">问题（查询）和区域区段格式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#回答、授权、额外信息区段格式"><span class="nav-number">5.5.</span> <span class="nav-text">回答、授权、额外信息区段格式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#资源记录类型"><span class="nav-number">5.6.</span> <span class="nav-text">资源记录类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#区域传输-和-DNS-通知"><span class="nav-number">5.7.</span> <span class="nav-text">区域传输 和 DNS 通知</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DNS-NOTIFY"><span class="nav-number">5.8.</span> <span class="nav-text">DNS NOTIFY</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#透明度和扩展性"><span class="nav-number">6.</span> <span class="nav-text">透明度和扩展性</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">7.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考链接"><span class="nav-number">8.</span> <span class="nav-text">参考链接</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ZC</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("guhO5d3jdrym6QcCp5oIrsMc-gzGzoHsz", "ldFdhqrIxGxOqWs5mgH8pmLT");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+
+  
+
+  
+
+</body>
+</html>

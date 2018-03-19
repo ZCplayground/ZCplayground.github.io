@@ -93,16 +93,16 @@
 
 
 
-<meta name="description" content="引言有 4 种 IP 地址，单播（unicast）、任播（anycast）、组播（multicast）和广播（broadcast）。IPv4 可以使用所有地址，IPv6 可以使用除广播之外的地址。 本章讨论广播和组播的细节，例如：  链路层如何有效地从一台计算机向其他计算机发送广播或组播流量。 互联网组管理协议（IGMP）和组播侦听协议（MLD）如何工作，通知组播路由器子网中哪些组播地址在使用">
+<meta name="description" content="引言有 4 种 IP 地址，单播（unicast）、任播（anycast）、组播（multicast）和广播（broadcast）。IPv4 可以使用所有地址，IPv6 可以使用除广播之外的地址。 本章讨论广播和组播的细节，例如：  链路层如何有效地从一台计算机向其他计算机发送广播或组播流量。  互联网组管理协议（IGMP）和组播侦听协议（MLD）如何工作，通知组播路由器子网中哪些组播地址在使用">
 <meta property="og:type" content="article">
 <meta property="og:title" content="《TCP&#x2F;IP 详解 卷1：协议》第 9 章：广播和本地组播（IGMP 和 MLD）">
 <meta property="og:url" content="http://yoursite.com/2018/03/09/tcpip-9-IGMP/index.html">
 <meta property="og:site_name" content="ZCplayground">
-<meta property="og:description" content="引言有 4 种 IP 地址，单播（unicast）、任播（anycast）、组播（multicast）和广播（broadcast）。IPv4 可以使用所有地址，IPv6 可以使用除广播之外的地址。 本章讨论广播和组播的细节，例如：  链路层如何有效地从一台计算机向其他计算机发送广播或组播流量。 互联网组管理协议（IGMP）和组播侦听协议（MLD）如何工作，通知组播路由器子网中哪些组播地址在使用">
-<meta property="og:updated_time" content="2018-03-09T15:08:19.688Z">
+<meta property="og:description" content="引言有 4 种 IP 地址，单播（unicast）、任播（anycast）、组播（multicast）和广播（broadcast）。IPv4 可以使用所有地址，IPv6 可以使用除广播之外的地址。 本章讨论广播和组播的细节，例如：  链路层如何有效地从一台计算机向其他计算机发送广播或组播流量。  互联网组管理协议（IGMP）和组播侦听协议（MLD）如何工作，通知组播路由器子网中哪些组播地址在使用">
+<meta property="og:updated_time" content="2018-03-19T14:43:06.162Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="《TCP&#x2F;IP 详解 卷1：协议》第 9 章：广播和本地组播（IGMP 和 MLD）">
-<meta name="twitter:description" content="引言有 4 种 IP 地址，单播（unicast）、任播（anycast）、组播（multicast）和广播（broadcast）。IPv4 可以使用所有地址，IPv6 可以使用除广播之外的地址。 本章讨论广播和组播的细节，例如：  链路层如何有效地从一台计算机向其他计算机发送广播或组播流量。 互联网组管理协议（IGMP）和组播侦听协议（MLD）如何工作，通知组播路由器子网中哪些组播地址在使用">
+<meta name="twitter:description" content="引言有 4 种 IP 地址，单播（unicast）、任播（anycast）、组播（multicast）和广播（broadcast）。IPv4 可以使用所有地址，IPv6 可以使用除广播之外的地址。 本章讨论广播和组播的细节，例如：  链路层如何有效地从一台计算机向其他计算机发送广播或组播流量。  互联网组管理协议（IGMP）和组播侦听协议（MLD）如何工作，通知组播路由器子网中哪些组播地址在使用">
 
 
 
@@ -376,16 +376,17 @@
         <h1 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h1><p>有 4 种 IP 地址，单播（unicast）、任播（anycast）、组播（multicast）和广播（broadcast）。IPv4 可以使用所有地址，IPv6 可以使用除广播之外的地址。</p>
 <p>本章讨论广播和组播的细节，例如：</p>
 <ul>
-<li>链路层如何有效地从一台计算机向其他计算机发送广播或组播流量。</li>
-<li>互联网组管理协议（IGMP）和组播侦听协议（MLD）如何工作，通知组播路由器子网中哪些组播地址在使用</li>
+<li><p>链路层如何有效地从一台计算机向其他计算机发送广播或组播流量。</p>
+</li>
+<li><p>互联网组管理协议（IGMP）和组播侦听协议（MLD）如何工作，通知组播路由器子网中哪些组播地址在使用</p>
+</li>
 </ul>
 <p>广播和组播都是为了将数据报交付至多个目的地的技术，也是客户端请求／发现服务器的手段。</p>
 <ul>
 <li>交付至多个目的地。有许多应用程序要将消息交付到多个收件方。若没有广播和做播，采取 TCP 与多个目的地分别建立连接，是非常低效的。</li>
-<li><p>客户端请求／发现服务器。用了广播和组播，客户端／应用程序可以向一个服务器发送请求，而不需要知道特定的服务器 IP 地址。特别是在网络环境的配置信息不完善时，这种功能在配置方面非常有用。（例如 DHCP）</p>
-<p>虽然广播和组播都可以完成上述功能，但组播一般情况下<strong>比广播更可取</strong>，因为组播只涉及到那些支持特定服务或协议的系统（在特定的组播组里），而广播不是。广播请求会影响广播范围内所有能到达的主机，组播只影响那些对该请求感兴趣的主机。<strong>广播更简单，但开销更大；组播改善了效率，但带来更多的复杂性。</strong></p>
-</li>
+<li>客户端请求／发现服务器。用了广播和组播，客户端／应用程序可以向一个服务器发送请求，而不需要知道特定的服务器 IP 地址。特别是在网络环境的配置信息不完善时，这种功能在配置方面非常有用。（例如 DHCP）</li>
 </ul>
+<p>虽然广播和组播都可以完成上述功能，但组播一般情况下<strong>比广播更可取</strong>，因为组播只涉及到那些支持特定服务或协议的系统（在特定的组播组里），而广播不是。广播请求会影响广播范围内所有能到达的主机，组播只影响那些对该请求感兴趣的主机。<strong>广播更简单，但开销更大；组播改善了效率，但带来更多的复杂性。</strong></p>
 <p>一般来说，只用使用 UDP 传输协议的应用程序才利用广播和组播，在 UDP 下，发送单个报文到多个收件方才是有意义的。TCP 是面向连接的协议，使用 TCP 的话意味着两台主机（由IP地址指定）上面的进程（由端口号指定）之间建立了连接。TCP 可以使用单播和任播，但是不能使用广播和组播地址。</p>
 <h1 id="广播"><a href="#广播" class="headerlink" title="广播"></a>广播</h1><p>广播是指将报文发送到网络中所有可能的接收者。原理上很清晰：路由器简单地把它接受到的任意报文，在除了报文到达接口之外的所有借口都发送一个副本。</p>
 <h2 id="广播地址"><a href="#广播地址" class="headerlink" title="广播地址"></a>广播地址</h2><p>回忆一下，每个以太网帧包含源和目的 MAC 地址。使用单播地址时，MAC 地址由ARP 或 IPv6 邻居发现来确定。当一个帧以这种方式发送到单播 IP 地址时，任意两个主机之间的通信不会打扰这个网络上的其他主机。</p>
@@ -433,7 +434,31 @@
 <li>成员主机（“组成员”）的工作是自发地报告对组播源的兴趣改变，响应定期地查询。可能是被动响应，也可以是主动报告。</li>
 <li>组播路由器发送查询，确定链路上的主机对于任意组播组或者特定组播组是否有兴趣。</li>
 </ul>
-<h2 id="组成员的-IGMP-和-MLD-部分（“组成员部分”）"><a href="#组成员的-IGMP-和-MLD-部分（“组成员部分”）" class="headerlink" title="组成员的 IGMP 和 MLD 部分（“组成员部分”）"></a>组成员的 IGMP 和 MLD 部分（“组成员部分”）</h2><h2 id="组播路由器的-IGMP-和-MLD-部分（“组播路由器部分”）"><a href="#组播路由器的-IGMP-和-MLD-部分（“组播路由器部分”）" class="headerlink" title="组播路由器的 IGMP 和 MLD 部分（“组播路由器部分”）"></a>组播路由器的 IGMP 和 MLD 部分（“组播路由器部分”）</h2><h2 id="IGMP-和-MLD-健壮性"><a href="#IGMP-和-MLD-健壮性" class="headerlink" title="IGMP 和 MLD 健壮性"></a>IGMP 和 MLD 健壮性</h2><h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><h1 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h1>
+<h2 id="组成员的-IGMP-和-MLD-部分（“组成员部分”）"><a href="#组成员的-IGMP-和-MLD-部分（“组成员部分”）" class="headerlink" title="组成员的 IGMP 和 MLD 部分（“组成员部分”）"></a>组成员的 IGMP 和 MLD 部分（“组成员部分”）</h2><p>组成员的部分被设计为允许主机指定它们对什么样的组感兴趣（从某一特定源的流量是被接受还是过滤），这是<strong>向</strong>通过一个或多个连接到同一子网的<strong>组播路由器和参与主机</strong>发送报告完成的。报告可以是响应查询后发送，也可以是在兴趣改变（加入或离开）之后自发、主动地发送。</p>
+<p>报告的使用规则：</p>
+<ol>
+<li>第一个进程加入一个组，发送一个报告。若一个主机多个进程加入同一组，只发送一个报告。</li>
+<li>离开一个组，不发送报告。主机只在知道没有成员属于某组后，在随即的IGMP 查询时不再发送报告报文。</li>
+<li>发送报告来相应查询的话，对于至少包含一个进程的组均要报告。 </li>
+</ol>
+<h2 id="组播路由器的-IGMP-和-MLD-部分（“组播路由器部分”）"><a href="#组播路由器的-IGMP-和-MLD-部分（“组播路由器部分”）" class="headerlink" title="组播路由器的 IGMP 和 MLD 部分（“组播路由器部分”）"></a>组播路由器的 IGMP 和 MLD 部分（“组播路由器部分”）</h2><p>组播路由器的工作是为组播组、接口、源列表确定是否至少有一个成员目前感兴趣接收相应的流量。这是通过<strong>发送查询和成员主动发送的报告</strong>来确定的一个软状态（soft state）。软状态意味着如果没有刷新，经过一段时间后，要被删除。</p>
+<p>发送查询：</p>
+<ol>
+<li>一般查询：学习邻居接口的完整组播接收状态（组地址和源地址为 0 ）</li>
+<li>特定组查询：学习邻居对单一特定组播接收状态（源地址为0）</li>
+<li>特定组特定源查询：学习邻居对一个特定源列表发送出的，目的地为某个组地址的接收状态。</li>
+</ol>
+<h2 id="IGMP-和-MLD-健壮性"><a href="#IGMP-和-MLD-健壮性" class="headerlink" title="IGMP 和 MLD 健壮性"></a>IGMP 和 MLD 健壮性</h2><p>健壮性和可靠性体现在IGMP 或 MLD 本身失效时，有两个主要的问题：</p>
+<ol>
+<li>协议报文丢失</li>
+<li>组播路由器的失效。</li>
+</ol>
+<p>可能导致不需要的组播流量分配，或者没有能力交付期望的组播流量。</p>
+<ul>
+<li>通过多个组播路由器在同一链路上运行，可以处理单一组播路由器失效故障。在这样的配置中，最小地址 IP 地址的路由器被选举为“查询器”，查询器负责发送查询。其他（非查询器）路由器监控协议报文，并且在查询器 down 时可以介入。查询器选举是一个类似生成树协议中根网桥选举的过程。</li>
+<li>为了防止协议报文的丢失，有些报文会被重传多次，诸如主动报告间隔这种可配置参数可以合理配置。需要以生成额外的流量负担，增加健壮性。</li>
+</ul>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><h1 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h1>
       
     </div>
 
@@ -553,7 +578,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">61</span>
+                <span class="site-state-item-count">63</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
