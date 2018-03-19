@@ -1,0 +1,914 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="FD.io 社区中国行暨未来网络技术沙龙 南京站，2018 年 3 月 17 日。 开场致辞Ray 介绍了一些有的没的 ⁃    (Future Event)DPDK summit, FD.io summit⁃    Ecosystem⁃    VPP milestone FD.io 101／102 -FD.io 通用数据平面（Intel 倪红军、Ray Kinsella）内容概要：FD.io V">
+<meta property="og:type" content="article">
+<meta property="og:title" content="FD.io 社区中国行暨未来网络技术沙龙 南京站 会议记录">
+<meta property="og:url" content="http://yoursite.com/2018/03/19/2018-3-17-Nanjing-FD-io-DPDK-Conference/index.html">
+<meta property="og:site_name" content="ZCplayground">
+<meta property="og:description" content="FD.io 社区中国行暨未来网络技术沙龙 南京站，2018 年 3 月 17 日。 开场致辞Ray 介绍了一些有的没的 ⁃    (Future Event)DPDK summit, FD.io summit⁃    Ecosystem⁃    VPP milestone FD.io 101／102 -FD.io 通用数据平面（Intel 倪红军、Ray Kinsella）内容概要：FD.io V">
+<meta property="og:updated_time" content="2018-03-19T14:21:27.970Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="FD.io 社区中国行暨未来网络技术沙龙 南京站 会议记录">
+<meta name="twitter:description" content="FD.io 社区中国行暨未来网络技术沙龙 南京站，2018 年 3 月 17 日。 开场致辞Ray 介绍了一些有的没的 ⁃    (Future Event)DPDK summit, FD.io summit⁃    Ecosystem⁃    VPP milestone FD.io 101／102 -FD.io 通用数据平面（Intel 倪红军、Ray Kinsella）内容概要：FD.io V">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/03/19/2018-3-17-Nanjing-FD-io-DPDK-Conference/"/>
+
+
+
+
+
+  <title>FD.io 社区中国行暨未来网络技术沙龙 南京站 会议记录 | ZCplayground</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">ZCplayground</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/19/2018-3-17-Nanjing-FD-io-DPDK-Conference/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ZC">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ZCplayground">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">FD.io 社区中国行暨未来网络技术沙龙 南京站 会议记录</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-19T22:18:47+08:00">
+                2018-03-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Life/" itemprop="url" rel="index">
+                    <span itemprop="name">Life</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/03/19/2018-3-17-Nanjing-FD-io-DPDK-Conference/" class="leancloud_visitors" data-flag-title="FD.io 社区中国行暨未来网络技术沙龙 南京站 会议记录">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>FD.io 社区中国行暨未来网络技术沙龙 南京站，2018 年 3 月 17 日。</p>
+<h1 id="开场致辞"><a href="#开场致辞" class="headerlink" title="开场致辞"></a>开场致辞</h1><p>Ray 介绍了一些有的没的</p>
+<p>⁃    (Future Event)DPDK summit, FD.io summit<br>⁃    Ecosystem<br>⁃    VPP milestone</p>
+<h1 id="FD-io-101／102-FD-io-通用数据平面（Intel-倪红军、Ray-Kinsella）"><a href="#FD-io-101／102-FD-io-通用数据平面（Intel-倪红军、Ray-Kinsella）" class="headerlink" title="FD.io 101／102 -FD.io 通用数据平面（Intel 倪红军、Ray Kinsella）"></a>FD.io 101／102 -FD.io 通用数据平面（Intel 倪红军、Ray Kinsella）</h1><p>内容概要：FD.io VPP 工作机制介绍。</p>
+<h2 id="FD-io-和-VPP-架构图"><a href="#FD-io-和-VPP-架构图" class="headerlink" title="FD.io 和 VPP 架构图"></a>FD.io 和 VPP 架构图</h2><p>图</p>
+<h2 id="适用场景"><a href="#适用场景" class="headerlink" title="适用场景"></a>适用场景</h2><p>⁃    DataPlane<br>⁃    NFV（LB，FW等），OpenStack<br>⁃    CloudNative，云生网络</p>
+<h2 id="介绍-VPP-工作机制"><a href="#介绍-VPP-工作机制" class="headerlink" title="介绍 VPP 工作机制"></a>介绍 VPP 工作机制</h2><p>多提供商的数据报处理技术，引领新一代网络技术转变。（leading transformation）</p>
+<p>（先吹）<br>性能：</p>
+<p>优化：</p>
+<p>实现了如下功能：</p>
+<p>可用性：</p>
+<p>（再讲讲干货）</p>
+<p><strong>GraphNode</strong></p>
+<p><strong>Vector Packet Process</strong></p>
+<p>伪代码</p>
+<h2 id="Related-Project"><a href="#Related-Project" class="headerlink" title="Related Project"></a>Related Project</h2><p>⁃    OPNFV，Fast DataStacks（FDS），集成OpenStack／ODL／FD.io／DPDK的功能性测试平台<br>⁃    CSIT，Continuous System Integration and Testing。也是项目测试平台</p>
+<h2 id="What’s-new-in-FD-io"><a href="#What’s-new-in-FD-io" class="headerlink" title="What’s new in FD.io?"></a>What’s new in FD.io?</h2><p>介绍几个关键技术的时间节点。新版本DPDK 等等。</p>
+<p>优化的 new direction：</p>
+<h2 id="Asymmetrical-Pipeline"><a href="#Asymmetrical-Pipeline" class="headerlink" title="Asymmetrical Pipeline"></a>Asymmetrical Pipeline</h2><p>没听太清楚，需要重听</p>
+<p>一个 path／pipeline到一个core，合理利用 multiple cores</p>
+<h2 id="Container-优化"><a href="#Container-优化" class="headerlink" title="Container 优化"></a>Container 优化</h2><h2 id="TCP-优化加速"><a href="#TCP-优化加速" class="headerlink" title="TCP 优化加速"></a>TCP 优化加速</h2><p>利用 DMM framework（下文华为就是讲这个），Socket API 保持不变，数据平面引入 FD.io和DPDK。使用 DMM 构造抽象，不同网络栈合理管理编排，合理利用。</p>
+<h2 id="IPSEC-优化加速"><a href="#IPSEC-优化加速" class="headerlink" title="IPSEC 优化加速"></a>IPSEC 优化加速</h2><p>Accelerating IPSEC with FD.io/VPP/DPDK, Cryptodev API</p>
+<h2 id="问答环节"><a href="#问答环节" class="headerlink" title="问答环节"></a>问答环节</h2><p>Q1：报文乱序如何处理</p>
+<p>A：无锁队列以及按树层次遍历保证了包按什么顺序进来就怎样出去</p>
+<p>Q2：TCP HOST Stack 的细节？</p>
+<p>A：是一套不像 Kernel的协议栈，for different use cases, less but faster</p>
+<p>Q3：VPP 能否替换 Linux Kernel 的大部分功能？</p>
+<p>A：这是愿景。</p>
+<p>Q4：容器 container 现状？</p>
+<p>A：VPP可以跑在容器内了，容器可以实现router等功能。</p>
+<p>Q5：容器失去了轻量化的特征？</p>
+<p>A：很多机制都是放在容器操作系统内。应用层角度上确实失去一点。</p>
+<h1 id="中兴-FD-io-构建-MEC-和-IoT-的基础网络架构（ZTE-王辉）"><a href="#中兴-FD-io-构建-MEC-和-IoT-的基础网络架构（ZTE-王辉）" class="headerlink" title="中兴 FD.io 构建 MEC 和 IoT 的基础网络架构（ZTE 王辉）"></a>中兴 FD.io 构建 MEC 和 IoT 的基础网络架构（ZTE 王辉）</h1><p>内容概要：MEC IoT的网络架构和一些技术细节，本地流卸载和物联网网关的 use case，中兴技术贡献。</p>
+<p>中兴 FD.io VPP 网络架构</p>
+<p>⁃    MEC IoT 服务框架（Mobile Edge Computing），“边缘很重要”，在移动网络边缘提供服务。<br>⁃    use case1，本地流卸载（Traffic Offload）<br>⁃    use case2，Gateway<br>⁃    ZTE contribution to VPP</p>
+<h2 id="MEC-amp-IoT的使用场景"><a href="#MEC-amp-IoT的使用场景" class="headerlink" title="MEC&amp;IoT的使用场景"></a>MEC&amp;IoT的使用场景</h2><p>⁃    视频流加速<br>⁃    视频流分析<br>⁃    AR<br>⁃    Assistance for intensive compute<br>⁃    企业网配置<br>⁃    互联交通工具（connected vehicle)<br>⁃    IoT gateway</p>
+<p>VPP 技术迎合了他们的需求：</p>
+<p>⁃    高吞吐，低时延（DPDK、VPP）<br>⁃    链接数量大（高性能的hast table）<br>⁃    Services Localized（plugin as a node）database:Redis, 自定义<br>⁃    Services Flexible（VM／Container 灵活部署）<br>⁃    流量卸载（L2／L3 转发高性能）</p>
+<h2 id="ZTE-NOFaas-框架"><a href="#ZTE-NOFaas-框架" class="headerlink" title="ZTE NOFaas 框架"></a>ZTE NOFaas 框架</h2><p>Network Output Forwarding as a service</p>
+<h2 id="use-case1：本底流卸载"><a href="#use-case1：本底流卸载" class="headerlink" title="use case1：本底流卸载"></a>use case1：本底流卸载</h2><p>视频流截取分析，信息分析放在 MEC 侧，减轻主干网负担。传统的方式，在一个节点要处理上行下行、转发流量，是性能瓶颈所在，引入 VPP 性能提高明显。</p>
+<p>（展示了相关topo图和架构图，架构图内详细讲了视频流量、控制信息流量、信号流怎么走的，怎么优化的）</p>
+<h2 id="use-case2：IoT-Gateway"><a href="#use-case2：IoT-Gateway" class="headerlink" title="use case2：IoT Gateway"></a>use case2：IoT Gateway</h2><p>物联网的架构图</p>
+<p>重点介绍网关的实现，这份架构图中网关分布在两个地方。1、MEC侧。2、Service 侧。</p>
+<h2 id="Node-Graph-Rearrange"><a href="#Node-Graph-Rearrange" class="headerlink" title="Node Graph Rearrange"></a>Node Graph Rearrange</h2><p>介绍了 Node Graph Rearrange，讲解如何 plugin node 使用VPP、实现 TLS，TCP 代理，实现报文加解密和传输。实现 LB、NAT。L7的协议也是 plugin 进 VPP 的</p>
+<h2 id="对-VPP-开源社区贡献了："><a href="#对-VPP-开源社区贡献了：" class="headerlink" title="对 VPP 开源社区贡献了："></a>对 VPP 开源社区贡献了：</h2><p>⁃    classfier table<br>⁃    ARP table<br>⁃    IP Fragment／Reassembly - Pseudo Reassembl<br>⁃    Full NAT</p>
+<h2 id="问答环节-1"><a href="#问答环节-1" class="headerlink" title="问答环节"></a>问答环节</h2><p>Q1：中兴的框架中 VNF 解耦了吗？</p>
+<p>A：中兴的 VNF 框架可以独立，粒度是控制／数据解耦。基于中兴开发的隧道，底层走UDP 协议，VPN。</p>
+<p>Q2：port、service 交互的通道是怎么做的，性能量级怎样？是基于packet还是stream？</p>
+<p>A：保密。</p>
+<p>Q3：MEC节点布置的位置考虑。（基站／终端？）<br>A：目前是布置在基站</p>
+<p>Q4：use case 的视频流来自？<br>A：就是路边摄像头，在基站的 MEC 处理。（这位提问者提到一种可以处理视频的高级摄像头，直接在终端处理，减轻基站负担）<br>A：具体最终怎么布置不一定，但这种高性能摄像头带来的开销也显然很大。</p>
+<p>Q5：MEC采用 VPP，是采取一条pipleline，一个核呢，还是Graph Node。。<br>A：采用简单策略（例如简单的查表转发，就是独立、比较complete的机制）</p>
+<h1 id="通过-DMM-使能“协议路由”（Huawei-曹水）"><a href="#通过-DMM-使能“协议路由”（Huawei-曹水）" class="headerlink" title="通过 DMM 使能“协议路由”（Huawei 曹水）"></a>通过 DMM 使能“协议路由”（Huawei 曹水）</h1><p>内容概要：传统 TCP、Linux kernel 的缺点和未来的需求点；华为 DMM 架构介绍：framwork、workflow、usecase、takeaways。</p>
+<h2 id="目前我们面临着什么？"><a href="#目前我们面临着什么？" class="headerlink" title="目前我们面临着什么？"></a>目前我们面临着什么？</h2><p>TCP 的缺点</p>
+<p>⁃    面向丢包设计的协议，对丢包太敏感。<br>⁃    随着网络规模的up，性能是down的。<br>⁃    reliable，但对于 latency 没有<br>⁃    TCP是端到端的，调整相当难。端一侧优化了，但网络路径中间节点相当难进行优化，仍旧性能差。</p>
+<p>Linux Kernel Stack 的缺点</p>
+<p>⁃    用户态、内核态（上下文切换、复制）<br>⁃    紧耦合。<br>⁃    不好定制化，不经济划算。<br>⁃    协议 release 到 kernel 时间很长。</p>
+<p>目前对于 Internet L4 的需求，未来面临的挑战</p>
+<p>⁃    ultimate performance requirement。吞吐+延时=复杂。VR、AR、HD Video。<br>⁃    diversified QoS 。拥塞算法研究的特别多，但对所有人都是统一的，这不好。<br>⁃    complicated network environment。目前各个平台的协同不太好，多环境、多硬件、多协议</p>
+<h2 id="Trend"><a href="#Trend" class="headerlink" title="Trend"></a>Trend</h2><p>⁃    kernel space –&gt; user space 避免上下文切换，进出内核。<br>⁃    Apps have different flavor 不同的服务应该使用不同的协议，多种协议同时跑，存在协议部署，协议选择的问题。<br>⁃    Hardware 协议开发者通常忽略底层硬件，实际上硬件能力不同，应充分发挥其作用。</p>
+<h2 id="华为-DMM-project-Framework"><a href="#华为-DMM-project-Framework" class="headerlink" title="华为 DMM project Framework"></a>华为 DMM project Framework</h2><p>DMM：Dual Mode，双态支持。Multiple protocols pulgin，支持多协议run。Multiple instances , 多实例跑不同的协议。贡献给了开源社区。</p>
+<p>图</p>
+<p>应用层的接口仍是 Posix Socket。有一个 Socket Layer 连接到华为的 DMM 配置。Socket Bridge 支持 Linux kernel 的，也支持用户自己定义的 stack。L2～L4就采用了 DPDK、VPP。</p>
+<p>协议编排机制（orchestrator），资源发现、主机配置、主机协议能力。实现 App 与 stack的映射，stack 选择可以通过 SDN 控制器下发。也可以是bypass。</p>
+<p>华为的业务跨度大，需求广，所以搞了这么一个协议栈框架。</p>
+<h2 id="routing-workflow"><a href="#routing-workflow" class="headerlink" title="routing workflow"></a>routing workflow</h2><p>图</p>
+<p>⁃    Client 和 Server 还是使用 Socket bind、listen 等等。<br>⁃    preload 拦截，进 DMM<br>⁃    系统资源配置<br>⁃    协议mapping达成选择 stack<br>⁃    进行通讯。（多种app，多种实例，多种协议，用户友好，接口标准，编排清晰）</p>
+<h2 id="use-case"><a href="#use-case" class="headerlink" title="use case"></a>use case</h2><p>例如公安局的camara 也有不同的要求。很多业务就是复杂。但协议都是写死的，没有灵活性。DMM就是实现了一个框架，就好像抽屉柜，如果你业务变了，把抽屉抽出来放进新的协议配置就可以了。</p>
+<h2 id="takeaways"><a href="#takeaways" class="headerlink" title="takeaways"></a>takeaways</h2><p>⁃    协议开发者更聚焦xxx<br>⁃    用户态／kernel 二选一<br>⁃    APP自由选择 stack</p>
+<h2 id="问答环节-2"><a href="#问答环节-2" class="headerlink" title="问答环节"></a>问答环节</h2><p>Q1：怎么保障C／S配置一致<br>A：DMM是配置库，有对企业的高级版本。</p>
+<p>Q2：DMM的存在意味着处理过程中增长了交互过程，对于像HTTP这样的通信会带来延迟？<br>A：配置能构成default配置，直接快速走。</p>
+<p>Q3：Google Reserach … they developed their app and stack…balabala…how to 整合？<br>A：DMM就是有同样的愿景，为TCP／IP减冗余。</p>
+<p>Q4：配置复杂？用户并不知道自己的服务该用什么协议。<br>A：DMM适用单个DataCenter，若跨越多个的话比较麻烦，丧失一定灵活性。</p>
+<h1 id="FD-io／VPP下的云原生网络（Cisco-Frank-Brockners）"><a href="#FD-io／VPP下的云原生网络（Cisco-Frank-Brockners）" class="headerlink" title="FD.io／VPP下的云原生网络（Cisco Frank Brockners）"></a>FD.io／VPP下的云原生网络（Cisco Frank Brockners）</h1><p>todo</p>
+<p>可能是英语雅思听力</p>
+<hr>
+<h1 id="SW-算法下的-Hyperscan-及-Turbo-网络安全（Intel-王翔）"><a href="#SW-算法下的-Hyperscan-及-Turbo-网络安全（Intel-王翔）" class="headerlink" title="SW 算法下的 Hyperscan 及 Turbo 网络安全（Intel 王翔）"></a>SW 算法下的 Hyperscan 及 Turbo 网络安全（Intel 王翔）</h1><p>hyperscan：正则表达式匹配库</p>
+<p>内容概要：正则表达式简单介绍；hyperscan内部实现：模式、runtime、一个算法跑的例子、压缩和模糊匹配；性能分析工具Hsbench；正在开发的feature。</p>
+<h1 id="基于DPDK实现高性能L4技术实践（京东-鲍永成）"><a href="#基于DPDK实现高性能L4技术实践（京东-鲍永成）" class="headerlink" title="基于DPDK实现高性能L4技术实践（京东 鲍永成）"></a>基于DPDK实现高性能L4技术实践（京东 鲍永成）</h1><p>内容概要：京东基于 DPDK 的负载均衡实现：背景、目标、功能；集群架构、组网架构；性能分析、问题解决。</p>
+<h1 id="vBRAS的过去、现在和未来（北京派软件CEO孙朝晖）"><a href="#vBRAS的过去、现在和未来（北京派软件CEO孙朝晖）" class="headerlink" title="vBRAS的过去、现在和未来（北京派软件CEO孙朝晖）"></a>vBRAS的过去、现在和未来（北京派软件CEO孙朝晖）</h1><p>内容概要：商业角度介绍SDN、NFV、vBRAS行业。提到了非常多的方面：SDN 和 NFV 的冲突，BRAS的优缺点，Performance 四象限，vBRAS 的未来，SDN 和 NFV 对运营商的影响，SDWAN，Google，中国特色互联网，vBRAS Scheduling Capabilities，DDOS Defense等等。</p>
+<h1 id="NFV中的DPDK应用（新华三赵丽娜）"><a href="#NFV中的DPDK应用（新华三赵丽娜）" class="headerlink" title="NFV中的DPDK应用（新华三赵丽娜）"></a>NFV中的DPDK应用（新华三赵丽娜）</h1><p>内容概要：介绍了下 DPDK 和 NFV ，讲了自己的 DPDK + NFV 架构图，带来的性能提升和优点等。</p>
+<h1 id="圆桌会议和py交易"><a href="#圆桌会议和py交易" class="headerlink" title="圆桌会议和py交易"></a>圆桌会议和py交易</h1><p>··············</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/03/09/tcpip-9-IGMP/" rel="next" title="《TCP/IP 详解 卷1：协议》第 9 章：广播和本地组播（IGMP 和 MLD）">
+                <i class="fa fa-chevron-left"></i> 《TCP/IP 详解 卷1：协议》第 9 章：广播和本地组播（IGMP 和 MLD）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="ZC" />
+          <p class="site-author-name" itemprop="name">ZC</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">61</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#开场致辞"><span class="nav-number">1.</span> <span class="nav-text">开场致辞</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#FD-io-101／102-FD-io-通用数据平面（Intel-倪红军、Ray-Kinsella）"><span class="nav-number">2.</span> <span class="nav-text">FD.io 101／102 -FD.io 通用数据平面（Intel 倪红军、Ray Kinsella）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#FD-io-和-VPP-架构图"><span class="nav-number">2.1.</span> <span class="nav-text">FD.io 和 VPP 架构图</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#适用场景"><span class="nav-number">2.2.</span> <span class="nav-text">适用场景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#介绍-VPP-工作机制"><span class="nav-number">2.3.</span> <span class="nav-text">介绍 VPP 工作机制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Related-Project"><span class="nav-number">2.4.</span> <span class="nav-text">Related Project</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#What’s-new-in-FD-io"><span class="nav-number">2.5.</span> <span class="nav-text">What’s new in FD.io?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Asymmetrical-Pipeline"><span class="nav-number">2.6.</span> <span class="nav-text">Asymmetrical Pipeline</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Container-优化"><span class="nav-number">2.7.</span> <span class="nav-text">Container 优化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TCP-优化加速"><span class="nav-number">2.8.</span> <span class="nav-text">TCP 优化加速</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IPSEC-优化加速"><span class="nav-number">2.9.</span> <span class="nav-text">IPSEC 优化加速</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#问答环节"><span class="nav-number">2.10.</span> <span class="nav-text">问答环节</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#中兴-FD-io-构建-MEC-和-IoT-的基础网络架构（ZTE-王辉）"><span class="nav-number">3.</span> <span class="nav-text">中兴 FD.io 构建 MEC 和 IoT 的基础网络架构（ZTE 王辉）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#MEC-amp-IoT的使用场景"><span class="nav-number">3.1.</span> <span class="nav-text">MEC&IoT的使用场景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ZTE-NOFaas-框架"><span class="nav-number">3.2.</span> <span class="nav-text">ZTE NOFaas 框架</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#use-case1：本底流卸载"><span class="nav-number">3.3.</span> <span class="nav-text">use case1：本底流卸载</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#use-case2：IoT-Gateway"><span class="nav-number">3.4.</span> <span class="nav-text">use case2：IoT Gateway</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Node-Graph-Rearrange"><span class="nav-number">3.5.</span> <span class="nav-text">Node Graph Rearrange</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#对-VPP-开源社区贡献了："><span class="nav-number">3.6.</span> <span class="nav-text">对 VPP 开源社区贡献了：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#问答环节-1"><span class="nav-number">3.7.</span> <span class="nav-text">问答环节</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#通过-DMM-使能“协议路由”（Huawei-曹水）"><span class="nav-number">4.</span> <span class="nav-text">通过 DMM 使能“协议路由”（Huawei 曹水）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#目前我们面临着什么？"><span class="nav-number">4.1.</span> <span class="nav-text">目前我们面临着什么？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Trend"><span class="nav-number">4.2.</span> <span class="nav-text">Trend</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#华为-DMM-project-Framework"><span class="nav-number">4.3.</span> <span class="nav-text">华为 DMM project Framework</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#routing-workflow"><span class="nav-number">4.4.</span> <span class="nav-text">routing workflow</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#use-case"><span class="nav-number">4.5.</span> <span class="nav-text">use case</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#takeaways"><span class="nav-number">4.6.</span> <span class="nav-text">takeaways</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#问答环节-2"><span class="nav-number">4.7.</span> <span class="nav-text">问答环节</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#FD-io／VPP下的云原生网络（Cisco-Frank-Brockners）"><span class="nav-number">5.</span> <span class="nav-text">FD.io／VPP下的云原生网络（Cisco Frank Brockners）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#SW-算法下的-Hyperscan-及-Turbo-网络安全（Intel-王翔）"><span class="nav-number">6.</span> <span class="nav-text">SW 算法下的 Hyperscan 及 Turbo 网络安全（Intel 王翔）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#基于DPDK实现高性能L4技术实践（京东-鲍永成）"><span class="nav-number">7.</span> <span class="nav-text">基于DPDK实现高性能L4技术实践（京东 鲍永成）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#vBRAS的过去、现在和未来（北京派软件CEO孙朝晖）"><span class="nav-number">8.</span> <span class="nav-text">vBRAS的过去、现在和未来（北京派软件CEO孙朝晖）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#NFV中的DPDK应用（新华三赵丽娜）"><span class="nav-number">9.</span> <span class="nav-text">NFV中的DPDK应用（新华三赵丽娜）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#圆桌会议和py交易"><span class="nav-number">10.</span> <span class="nav-text">圆桌会议和py交易</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ZC</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("guhO5d3jdrym6QcCp5oIrsMc-gzGzoHsz", "ldFdhqrIxGxOqWs5mgH8pmLT");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+
+  
+
+  
+
+</body>
+</html>
