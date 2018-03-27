@@ -99,7 +99,7 @@
 <meta property="og:url" content="http://yoursite.com/2018/03/19/2018-3-17-Nanjing-FD-io-DPDK-Conference/index.html">
 <meta property="og:site_name" content="ZCplayground">
 <meta property="og:description" content="FD.io 社区中国行暨未来网络技术沙龙 南京站，2018 年 3 月 17 日。 开场致辞Ray 介绍了一些有的没的 ⁃    (Future Event)DPDK summit, FD.io summit⁃    Ecosystem⁃    VPP milestone FD.io 101／102 -FD.io 通用数据平面（Intel 倪红军、Ray Kinsella）内容概要：FD.io V">
-<meta property="og:updated_time" content="2018-03-19T14:21:27.970Z">
+<meta property="og:updated_time" content="2018-03-21T14:29:50.648Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="FD.io 社区中国行暨未来网络技术沙龙 南京站 会议记录">
 <meta name="twitter:description" content="FD.io 社区中国行暨未来网络技术沙龙 南京站，2018 年 3 月 17 日。 开场致辞Ray 介绍了一些有的没的 ⁃    (Future Event)DPDK summit, FD.io summit⁃    Ecosystem⁃    VPP milestone FD.io 101／102 -FD.io 通用数据平面（Intel 倪红军、Ray Kinsella）内容概要：FD.io V">
@@ -427,7 +427,7 @@
 <p>Q5：MEC采用 VPP，是采取一条pipleline，一个核呢，还是Graph Node。。<br>A：采用简单策略（例如简单的查表转发，就是独立、比较complete的机制）</p>
 <h1 id="通过-DMM-使能“协议路由”（Huawei-曹水）"><a href="#通过-DMM-使能“协议路由”（Huawei-曹水）" class="headerlink" title="通过 DMM 使能“协议路由”（Huawei 曹水）"></a>通过 DMM 使能“协议路由”（Huawei 曹水）</h1><p>内容概要：传统 TCP、Linux kernel 的缺点和未来的需求点；华为 DMM 架构介绍：framwork、workflow、usecase、takeaways。</p>
 <h2 id="目前我们面临着什么？"><a href="#目前我们面临着什么？" class="headerlink" title="目前我们面临着什么？"></a>目前我们面临着什么？</h2><p>TCP 的缺点</p>
-<p>⁃    面向丢包设计的协议，对丢包太敏感。<br>⁃    随着网络规模的up，性能是down的。<br>⁃    reliable，但对于 latency 没有<br>⁃    TCP是端到端的，调整相当难。端一侧优化了，但网络路径中间节点相当难进行优化，仍旧性能差。</p>
+<p>⁃    考虑的不是性能，而是稳定性，因为当时的网络质量是很不好的。面向丢包设计的协议，对丢包太敏感。<br>⁃    随着网络规模的up，性能是down的。（BDP，Bandwidth-Delay Product ，BDP）即链路上的最大比特数。<br>⁃    reliable，但对于 latency 没有<br>⁃    TCP是端到端的，调整相当难。端一侧优化了，但网络路径中间节点相当难进行优化，仍旧性能差。</p>
 <p>Linux Kernel Stack 的缺点</p>
 <p>⁃    用户态、内核态（上下文切换、复制）<br>⁃    紧耦合。<br>⁃    不好定制化，不经济划算。<br>⁃    协议 release 到 kernel 时间很长。</p>
 <p>目前对于 Internet L4 的需求，未来面临的挑战</p>
@@ -437,7 +437,7 @@
 <p>图</p>
 <p>应用层的接口仍是 Posix Socket。有一个 Socket Layer 连接到华为的 DMM 配置。Socket Bridge 支持 Linux kernel 的，也支持用户自己定义的 stack。L2～L4就采用了 DPDK、VPP。</p>
 <p>协议编排机制（orchestrator），资源发现、主机配置、主机协议能力。实现 App 与 stack的映射，stack 选择可以通过 SDN 控制器下发。也可以是bypass。</p>
-<p>华为的业务跨度大，需求广，所以搞了这么一个协议栈框架。</p>
+<p>华为的业务跨度大，需求广，各种不同的应用就要开发各种协议栈，就搞得很烦。所以搞了这么一个协议栈框架，部署方便。</p>
 <h2 id="routing-workflow"><a href="#routing-workflow" class="headerlink" title="routing workflow"></a>routing workflow</h2><p>图</p>
 <p>⁃    Client 和 Server 还是使用 Socket bind、listen 等等。<br>⁃    preload 拦截，进 DMM<br>⁃    系统资源配置<br>⁃    协议mapping达成选择 stack<br>⁃    进行通讯。（多种app，多种实例，多种协议，用户友好，接口标准，编排清晰）</p>
 <h2 id="use-case"><a href="#use-case" class="headerlink" title="use case"></a>use case</h2><p>例如公安局的camara 也有不同的要求。很多业务就是复杂。但协议都是写死的，没有灵活性。DMM就是实现了一个框架，就好像抽屉柜，如果你业务变了，把抽屉抽出来放进新的协议配置就可以了。</p>
@@ -575,7 +575,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">63</span>
+                <span class="site-state-item-count">64</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
