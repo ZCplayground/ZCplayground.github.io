@@ -100,7 +100,9 @@
 <meta property="og:site_name" content="ZCplayground">
 <meta property="og:description" content="树利用 cons 的闭包性，将序对用作 cons 的参数，就可以产生层次性结构（树）。  本身是序对的元素就成了树中的子树。因此，递归是处理树结构的一种很自然的工具。我们可以来看一个例子： 序列中求表长的 length 的方案是：  表 x 的 length 是 (cdr x) 的 length + 1 空表长度为 0  1234(define (length L)  (if (null? L)">
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/cons%20tree.png">
-<meta property="og:updated_time" content="2018-03-29T02:13:42.820Z">
+<meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/length%20and%20countleaves.png">
+<meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/signal-flow%20plans.png">
+<meta property="og:updated_time" content="2018-03-30T03:40:28.990Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="层次性结构（树），以及约定化的接口">
 <meta name="twitter:description" content="树利用 cons 的闭包性，将序对用作 cons 的参数，就可以产生层次性结构（树）。  本身是序对的元素就成了树中的子树。因此，递归是处理树结构的一种很自然的工具。我们可以来看一个例子： 序列中求表长的 length 的方案是：  表 x 的 length 是 (cdr x) 的 length + 1 空表长度为 0  1234(define (length L)  (if (null? L)">
@@ -394,8 +396,47 @@
 </li>
 </ul>
 <p>Scheme 提供基本过程<code>pair?</code>，它检查参数是否为序对。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">(define (count-leaves x)</div><div class="line">  (cond ((null? x) 0)</div><div class="line">        ((not (pair? x)) 1)                 ; x 不是序对则 x 是叶子</div><div class="line">        (else (+ (count-leaves (car x))     ; 左子树</div><div class="line">                 (count-leaves (cdr x)))))) ; 右子树</div></pre></td></tr></table></figure>
-<h2 id="一些函数"><a href="#一些函数" class="headerlink" title="一些函数"></a>一些函数</h2><h2 id="对树的映射"><a href="#对树的映射" class="headerlink" title="对树的映射"></a>对树的映射</h2><h1 id="序列作为一种约定的界面"><a href="#序列作为一种约定的界面" class="headerlink" title="序列作为一种约定的界面"></a>序列作为一种约定的界面</h1><h1 id="嵌套映射"><a href="#嵌套映射" class="headerlink" title="嵌套映射"></a>嵌套映射</h1>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">(define (count-leaves x)</div><div class="line">  (cond ((null? x) 0)                       ; cond 中前两个条件的顺序很重要，因为空表将满足 null? 且同时不是序对</div><div class="line">        ((not (pair? x)) 1)                 ; x 不是序对则 x 是叶子</div><div class="line">        (else (+ (count-leaves (car x))     ; 左子树</div><div class="line">                 (count-leaves (cdr x)))))) ; 右子树</div></pre></td></tr></table></figure>
+<p>查看测试样例：</p>
+<p><img src="http://osax8w13y.bkt.clouddn.com/length%20and%20countleaves.png" alt=""></p>
+<p>可以得知，过程<code>length</code>对于<code>car</code>是序对或者是序列的，也只算 1，cons (list 1 2)(list 3 4) 中(list 1 2)算长度 1，后面的 (list 3 4) 算长度 2。过程<code>count-leaves</code>则注意到了<code>car</code>也需要递归。</p>
+<h2 id="一些函数"><a href="#一些函数" class="headerlink" title="一些函数"></a>一些函数</h2><p>对于序列的<code>reverse</code>过程，写一个<code>deep-reverse</code>过程，以一个表为参数，除了将表中的元素翻转过来之外，把其中的子树也翻转。</p>
+<p>如果将<code>reverse</code>用于树，就是只将树的最外层翻转。类似分析，使用递归，将内层子树一起<code>reverse</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">(define (reverse L)(reverse-iter L nil))</div><div class="line"></div><div class="line">(define (reverse-iter list other)</div><div class="line">  (if (null? list)</div><div class="line">      other</div><div class="line">      (reverse-iter (cdr list)(cons(car list) other))))</div><div class="line"></div><div class="line">(define (deep-reverse tree)</div><div class="line">    (cond ((null? tree)         ; 空树</div><div class="line">            &apos;())                ; Scheme 中 &apos;() 表示空表</div><div class="line">          ((not (pair? tree))   ; 叶子</div><div class="line">            tree)               ; 返回本身</div><div class="line">          (else                 ; 递归地逆序左右子树</div><div class="line">            (reverse (list (deep-reverse (car tree))            </div><div class="line">                           (deep-reverse (cadr tree)))))))</div><div class="line"></div><div class="line">(define x (list (list 1 2) (list 3 4)))</div><div class="line">(reverse x)</div><div class="line">;((3 4) (1 2))</div><div class="line">(deep-reverse x)</div><div class="line">;((4 3) (2 1))</div></pre></td></tr></table></figure>
+<p>写一个过程<code>fringe</code>，以一个树为参数，返回一个表，元素是这棵树的树叶。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">(define (fringe tree)</div><div class="line">  (cond ((null? tree) &apos;())</div><div class="line">        ((not (pair? tree)) (list tree))</div><div class="line">        (else</div><div class="line">         (append (fringe (car tree))</div><div class="line">                 (fringe (cdr tree))))))</div><div class="line"></div><div class="line">(define x (list (list 1 2) (list 3 4)))</div><div class="line">(fringe x)</div><div class="line">;(1 2 3 4)</div></pre></td></tr></table></figure>
+<h2 id="对树的映射"><a href="#对树的映射" class="headerlink" title="对树的映射"></a>对树的映射</h2><p>下面是一个与<code>scale-list</code>相似的过程，用一个因子乘上一棵树上所有的叶子。递归的思路和 <code>count-leaves</code> 是类似的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">(define (scale-tree tree factor)</div><div class="line">  (cond ((null? tree) nil)</div><div class="line">        ((not (pair? tree)) (* tree factor))</div><div class="line">        (else (cons (scale-tree (car tree) factor)</div><div class="line">                    (scale-tree (cdr tree) factor)))))</div></pre></td></tr></table></figure>
+<p>map 是处理序列的强有力抽象。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">(define (map proc items)</div><div class="line">  (if (null? items)</div><div class="line">      nil</div><div class="line">      (cons (proc (car items))</div><div class="line">            (map proc (cdr items)))))</div></pre></td></tr></table></figure>
+<p><strong>map 与递归结合就也是处理树的一种强有力抽象。</strong></p>
+<ul>
+<li>将树看成子树的序列，对它使用 map，依次对各棵子树做 proc 返回结果的表。</li>
+<li>当被处理的树是树叶，直接用因子去乘。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">(define (scale-tree tree factor)</div><div class="line">  (map (lambda (sub-tree)</div><div class="line">         (if (pair? sub-tree)</div><div class="line">             (scale-tree sub-tree factor)</div><div class="line">             (* sub-tree factor)))</div><div class="line">       tree))</div></pre></td></tr></table></figure>
+<h1 id="序列作为一种约定的界面"><a href="#序列作为一种约定的界面" class="headerlink" title="序列作为一种约定的界面"></a>序列作为一种约定的界面</h1><p>讲到数据抽象在工程中的作用。</p>
+<p>借助这种思想，构建一种不会被数据表示的细节纠缠的程序。一种强有力的设计原理——<strong>使用约定的界面</strong>。</p>
+<p>过程1：以一棵树为参数，计算值为奇数的叶子的平方和。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">(define (sum-odd-squares tree)</div><div class="line">  (cond ((null? tree) 0)  </div><div class="line">        ((not (pair? tree))</div><div class="line">         (if (odd? tree) (square tree) 0))</div><div class="line">        (else (+ (sum-odd-squares (car tree))</div><div class="line">                 (sum-odd-squares (cdr tree))))))</div></pre></td></tr></table></figure>
+<ul>
+<li><strong>枚举</strong>出一棵树的树叶</li>
+<li><strong>过滤</strong>它们，选出奇数</li>
+<li><strong>（映射）</strong>求平方</li>
+<li>用 + 来<strong>累积</strong>得到的结果，从 0 开始。</li>
+</ul>
+<p>过程2：k 小于等于某个给定的整数 n，求所有是偶数的斐波那契数Fib(k)的一个表。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">(define (even-fibs n)</div><div class="line">  (define (next k)</div><div class="line">    (if (&gt; k n)</div><div class="line">        nil</div><div class="line">        (let ((f (fib k)))</div><div class="line">          (if (even? f)</div><div class="line">              (cons f (next (+ k 1)))</div><div class="line">              (next (+ k 1))))))</div><div class="line">  (next 0))</div></pre></td></tr></table></figure>
+<ul>
+<li><strong>枚举</strong> k，k是从 0 到 n 的整数</li>
+<li><strong>（映射）</strong>对应每个 k 计算 Fib(k)</li>
+<li><strong>过滤</strong>它们，从中选取相应的偶数</li>
+<li>用 cons 来<strong>累积</strong>得到的结果，从空表开始。</li>
+</ul>
+<p>这种过程可以用一些级联处理步骤的方式来描述：</p>
+<p><img src="http://osax8w13y.bkt.clouddn.com/signal-flow%20plans.png" alt=""></p>
+<p><strong>模块化结构是控制复杂性的一种威力强大的策略。</strong>由一些互相比较独立的组件组合构成的设计，有约定的界面使这些部件都能以比较灵活的方式相互连接，进一步推动人们去做模块化的设计。</p>
+
       
     </div>
 
@@ -559,7 +600,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#树"><span class="nav-number">1.</span> <span class="nav-text">树</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#一些函数"><span class="nav-number">1.1.</span> <span class="nav-text">一些函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#对树的映射"><span class="nav-number">1.2.</span> <span class="nav-text">对树的映射</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#序列作为一种约定的界面"><span class="nav-number">2.</span> <span class="nav-text">序列作为一种约定的界面</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#嵌套映射"><span class="nav-number">3.</span> <span class="nav-text">嵌套映射</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#树"><span class="nav-number">1.</span> <span class="nav-text">树</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#一些函数"><span class="nav-number">1.1.</span> <span class="nav-text">一些函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#对树的映射"><span class="nav-number">1.2.</span> <span class="nav-text">对树的映射</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#序列作为一种约定的界面"><span class="nav-number">2.</span> <span class="nav-text">序列作为一种约定的界面</span></a></li></ol></div>
             
 
           </div>
