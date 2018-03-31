@@ -95,16 +95,17 @@
 
 <meta name="description" content="树利用 cons 的闭包性，将序对用作 cons 的参数，就可以产生层次性结构（树）。  本身是序对的元素就成了树中的子树。因此，递归是处理树结构的一种很自然的工具。我们可以来看一个例子： 序列中求表长的 length 的方案是：  表 x 的 length 是 (cdr x) 的 length + 1 空表长度为 0  1234(define (length L)  (if (null? L)">
 <meta property="og:type" content="article">
-<meta property="og:title" content="层次性结构（树），以及约定化的接口">
+<meta property="og:title" content="SICP——层次性结构（树），以及约定化的接口">
 <meta property="og:url" content="http://yoursite.com/2018/03/29/sicp-6-Hierarchical-Stuctures-and-Conventional-Interfaces/index.html">
 <meta property="og:site_name" content="ZCplayground">
 <meta property="og:description" content="树利用 cons 的闭包性，将序对用作 cons 的参数，就可以产生层次性结构（树）。  本身是序对的元素就成了树中的子树。因此，递归是处理树结构的一种很自然的工具。我们可以来看一个例子： 序列中求表长的 length 的方案是：  表 x 的 length 是 (cdr x) 的 length + 1 空表长度为 0  1234(define (length L)  (if (null? L)">
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/cons%20tree.png">
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/length%20and%20countleaves.png">
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/signal-flow%20plans.png">
-<meta property="og:updated_time" content="2018-03-31T01:24:06.743Z">
+<meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/signal-flow%20plans.png">
+<meta property="og:updated_time" content="2018-03-31T01:47:50.107Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="层次性结构（树），以及约定化的接口">
+<meta name="twitter:title" content="SICP——层次性结构（树），以及约定化的接口">
 <meta name="twitter:description" content="树利用 cons 的闭包性，将序对用作 cons 的参数，就可以产生层次性结构（树）。  本身是序对的元素就成了树中的子树。因此，递归是处理树结构的一种很自然的工具。我们可以来看一个例子： 序列中求表长的 length 的方案是：  表 x 的 length 是 (cdr x) 的 length + 1 空表长度为 0  1234(define (length L)  (if (null? L)">
 <meta name="twitter:image" content="http://osax8w13y.bkt.clouddn.com/cons%20tree.png">
 
@@ -140,7 +141,7 @@
 
 
 
-  <title>层次性结构（树），以及约定化的接口 | ZCplayground</title>
+  <title>SICP——层次性结构（树），以及约定化的接口 | ZCplayground</title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -287,7 +288,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">层次性结构（树），以及约定化的接口</h1>
+          <h1 class="post-title" itemprop="name headline">SICP——层次性结构（树），以及约定化的接口</h1>
         
 
         <div class="post-meta">
@@ -339,7 +340,7 @@
 
           
           
-             <span id="/2018/03/29/sicp-6-Hierarchical-Stuctures-and-Conventional-Interfaces/" class="leancloud_visitors" data-flag-title="层次性结构（树），以及约定化的接口">
+             <span id="/2018/03/29/sicp-6-Hierarchical-Stuctures-and-Conventional-Interfaces/" class="leancloud_visitors" data-flag-title="SICP——层次性结构（树），以及约定化的接口">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -395,7 +396,7 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">(define (reverse L)(reverse-iter L nil))</div><div class="line"></div><div class="line">(define (reverse-iter list other)</div><div class="line">  (if (null? list)</div><div class="line">      other</div><div class="line">      (reverse-iter (cdr list)(cons(car list) other))))</div><div class="line"></div><div class="line">(define (deep-reverse tree)</div><div class="line">    (cond ((null? tree)         ; 空树</div><div class="line">            &apos;())                ; Scheme 中 &apos;() 表示空表</div><div class="line">          ((not (pair? tree))   ; 叶子</div><div class="line">            tree)               ; 返回本身</div><div class="line">          (else                 ; 递归地逆序左右子树</div><div class="line">            (reverse (list (deep-reverse (car tree))            </div><div class="line">                           (deep-reverse (cadr tree)))))))</div><div class="line"></div><div class="line">(define x (list (list 1 2) (list 3 4)))</div><div class="line">(reverse x)</div><div class="line">;((3 4) (1 2))</div><div class="line">(deep-reverse x)</div><div class="line">;((4 3) (2 1))</div></pre></td></tr></table></figure>
 <p>写一个过程<code>fringe</code>，以一个树为参数，返回一个表，元素是这棵树的树叶。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">(define (fringe tree)</div><div class="line">  (cond ((null? tree) &apos;())</div><div class="line">        ((not (pair? tree)) (list tree))</div><div class="line">        (else</div><div class="line">         (append (fringe (car tree))</div><div class="line">                 (fringe (cdr tree))))))</div><div class="line"></div><div class="line">(define x (list (list 1 2) (list 3 4)))</div><div class="line">(fringe x)</div><div class="line">;(1 2 3 4)</div></pre></td></tr></table></figure>
-<h2 id="对树的映射"><a href="#对树的映射" class="headerlink" title="对树的映射"></a>对树的映射</h2><p>下面是一个与<code>scale-list</code>相似的过程，用一个因子乘上一棵树上所有的叶子。递归的思路和 <code>count-leaves</code> 是类似的</p>
+<h2 id="对树的映射-map"><a href="#对树的映射-map" class="headerlink" title="对树的映射 map"></a>对树的映射 map</h2><p>下面是一个与<code>scale-list</code>相似的过程，用一个因子乘上一棵树上所有的叶子。递归的思路和 <code>count-leaves</code> 是类似的</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">(define (scale-tree tree factor)</div><div class="line">  (cond ((null? tree) nil)</div><div class="line">        ((not (pair? tree)) (* tree factor))</div><div class="line">        (else (cons (scale-tree (car tree) factor)</div><div class="line">                    (scale-tree (cdr tree) factor)))))</div></pre></td></tr></table></figure>
 <p>map 是处理序列的强有力抽象。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">(define (map proc items)</div><div class="line">  (if (null? items)</div><div class="line">      nil</div><div class="line">      (cons (proc (car items))</div><div class="line">            (map proc (cdr items)))))</div></pre></td></tr></table></figure>
@@ -426,8 +427,30 @@
 <p>这种过程可以用一些级联处理步骤的方式来描述：</p>
 <p><img src="http://osax8w13y.bkt.clouddn.com/signal-flow%20plans.png" alt=""></p>
 <p><strong>模块化结构是控制复杂性的一种威力强大的策略。</strong>由一些互相比较独立的组件组合构成的设计，有约定的界面使这些部件都能以比较灵活的方式相互连接，进一步推动人们去做模块化的设计。</p>
+<h2 id="映射-map"><a href="#映射-map" class="headerlink" title="映射 map"></a>映射 map</h2><p>前面提过，不再赘述</p>
 <h2 id="过滤器-filter"><a href="#过滤器-filter" class="headerlink" title="过滤器 filter"></a>过滤器 filter</h2><p>过滤一个序列，从中选取满足某个给定的谓词的元素：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">(define (filter predicate sequence)</div><div class="line">  (cond ((null? sequence) nil)</div><div class="line">        ((predicate (car sequence))</div><div class="line">         (cons (car sequence)</div><div class="line">               (filter predicate (cdr sequence))))</div><div class="line">        (else (filter predicate (cdr sequence)))))</div><div class="line"></div><div class="line"></div><div class="line">(filter odd? (list 1 2 3 4 5))</div><div class="line">;(1 3 5)</div></pre></td></tr></table></figure>
+<p>过程 +、<em>、list 可以<strong>取任意个数的实际参数</strong>。定义这种过程的一种方式是采取一种<strong>尾部带点记法</strong>形式的 define。在一个过程定义中，如果在形参表的<strong>最后一个</strong>参数<strong>之前</strong>有一个<strong>点号</strong>，那么表明这一过程实际调用时，前面各个形式参数将以前面的实际参数位值。但最后一个形式参数以<em>*所有剩下的实际参数的表</em></em>为值。</p>
+<p>若我们有如下代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">(define (f x y . z) &lt;body&gt;)</div><div class="line">(f 1 2 3 4 5 6)</div><div class="line"></div><div class="line">(define (g . w) &lt;body&gt;)</div><div class="line">(g 1 2 3 4 5 6)</div></pre></td></tr></table></figure>
+<p>则 x 为 1，y 为 2，z 是表(3 4 5 6)，w 是表（1 2 3 4 5 6)，g 是 0 个或多个参数调用。</p>
+<p>下面写一个过程 same-parity，返回所有与第一个参数有着同样奇偶性质的参数形成的表。</p>
+<ul>
+<li>判断奇偶性质，可以用基本过程<code>even?</code>、<code>odd?</code></li>
+<li>传递给 <code>filter</code> 过程。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">(define (same-parity x . others)</div><div class="line">  (cond ((odd? x) (cons x (filter odd? others)))</div><div class="line">        ((even? x) (cons x (filter even? others)))))</div><div class="line"></div><div class="line">(same-parity 1 2 3 4 5 6 7)</div><div class="line">(1 3 5 7)</div></pre></td></tr></table></figure>
+<h2 id="累加器-accumulator"><a href="#累加器-accumulator" class="headerlink" title="累加器 accumulator"></a>累加器 accumulator</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">(define (accumulate op initial sequence)</div><div class="line">  (if (null? sequence)</div><div class="line">      initial</div><div class="line">      (op (car sequence)</div><div class="line">          (accumulate op initial (cdr sequence)))))</div><div class="line"></div><div class="line">(accumulate + 0 (list 1 2 3 4 5))</div><div class="line">15</div><div class="line"></div><div class="line">(accumulate * 1 (list 1 2 3 4 5))</div><div class="line">120</div><div class="line"></div><div class="line">(accumulate cons nil (list 1 2 3 4 5))</div><div class="line">(1 2 3 4 5)</div></pre></td></tr></table></figure>
+<h2 id="枚举-enumerate"><a href="#枚举-enumerate" class="headerlink" title="枚举 enumerate"></a>枚举 enumerate</h2><p>枚举出一棵树的所有树叶的列表：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">(define (enumerate-tree tree)</div><div class="line">  (cond ((null? tree) nil)</div><div class="line">        ((not (pair? tree)) (list tree))</div><div class="line">        (else (append (enumerate-tree (car tree))</div><div class="line">                      (enumerate-tree (cdr tree))))))</div></pre></td></tr></table></figure>
+<p>枚举一个给定区间的整数序列：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">(define (enumerate-interval low high)</div><div class="line">  (if (&gt; low high)</div><div class="line">      nil</div><div class="line">      (cons low (enumerate-interval (+ low 1) high))))</div></pre></td></tr></table></figure>
+<h2 id="重构"><a href="#重构" class="headerlink" title="重构"></a>重构</h2><p>现在，我们运用信号流图来重构<code>sum-odd-squares</code>与<code>even-fibs</code>。</p>
+<p><img src="http://osax8w13y.bkt.clouddn.com/signal-flow%20plans.png" alt=""></p>
+<p><code>sum-odd-squares</code>：枚举一棵树的树叶/过滤剩下奇数/求每个元素的平方/从0累加</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">(define (sum-odd-squares tree)</div><div class="line">  (accumulate +</div><div class="line">              0</div><div class="line">              (map square</div><div class="line">                   (filter odd?</div><div class="line">                           (enumerate-tree tree)))))</div></pre></td></tr></table></figure>
+<p><code>even-fibs</code>：枚举 0~n 的序列/求 Fib(k)/过滤剩下偶数/ 从 nil 开始 cons 成一个表</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">(define (even-fibs n)</div><div class="line">  (accumulate cons</div><div class="line">              nil</div><div class="line">              (filter even?</div><div class="line">                      (map fib</div><div class="line">                           (enumerate-interval 0 n)))))</div></pre></td></tr></table></figure>
 
       
     </div>
@@ -592,7 +615,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#树"><span class="nav-number">1.</span> <span class="nav-text">树</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#一些函数"><span class="nav-number">1.1.</span> <span class="nav-text">一些函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#对树的映射"><span class="nav-number">1.2.</span> <span class="nav-text">对树的映射</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#序列作为一种约定的界面"><span class="nav-number">2.</span> <span class="nav-text">序列作为一种约定的界面</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#过滤器-filter"><span class="nav-number">2.1.</span> <span class="nav-text">过滤器 filter</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#树"><span class="nav-number">1.</span> <span class="nav-text">树</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#一些函数"><span class="nav-number">1.1.</span> <span class="nav-text">一些函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#对树的映射-map"><span class="nav-number">1.2.</span> <span class="nav-text">对树的映射 map</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#序列作为一种约定的界面"><span class="nav-number">2.</span> <span class="nav-text">序列作为一种约定的界面</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#映射-map"><span class="nav-number">2.1.</span> <span class="nav-text">映射 map</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#过滤器-filter"><span class="nav-number">2.2.</span> <span class="nav-text">过滤器 filter</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#累加器-accumulator"><span class="nav-number">2.3.</span> <span class="nav-text">累加器 accumulator</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#枚举-enumerate"><span class="nav-number">2.4.</span> <span class="nav-text">枚举 enumerate</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#重构"><span class="nav-number">2.5.</span> <span class="nav-text">重构</span></a></li></ol></li></ol></div>
             
 
           </div>
