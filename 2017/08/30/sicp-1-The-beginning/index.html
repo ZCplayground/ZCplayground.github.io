@@ -405,7 +405,7 @@
 </li>
 </ul>
 <p>举例子：下面的表达式就是 Scheme 中最常见的前缀组合式。对 Scheme 解释器输入表达式，解释器就可以返回你结果</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">(+ 137 349)</div></pre></td></tr></table></figure>
+<figure class="highlight clojure"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">(<span class="name"><span class="builtin-name">+</span></span> <span class="number">137</span> <span class="number">349</span>)</div></pre></td></tr></table></figure>
 <p>结果 486</p>
 <p>像加减乘除这种一般性的求值规则，就是前面说到的每个强有力的语言都有的三个机制的第一点：基本表达形式。而 define 就是一种例外，是特殊形式。特殊形式就有自己的求值规则。各种不同类型的<strong>表达式</strong>和与之关联的<strong>求值规则</strong>组成了程序设计语言的<strong>语法形式</strong>。<strong>语法糖</strong>说的是：为完全可以采用统一形式描述的东西给出的另一种表面结构。</p>
 <ul>
@@ -424,9 +424,9 @@
 <li>可以证明：对于可以产生合法值的过程应用，两种方法产出的结果将是一样的。</li>
 </ul>
 <p>Lisp 采用的是应用序求值，是因为正则序可能多次求同样的算式导致重复计算的工作。但下面就给出了一个反例：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">(define (p) (p))</div><div class="line">(define (test x y) </div><div class="line">    (if (= x 0)</div><div class="line">        0</div><div class="line">        y))</div><div class="line"></div><div class="line">(test 0 (p))</div></pre></td></tr></table></figure>
+<figure class="highlight scheme"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">(<span class="name"><span class="builtin-name">define</span></span> (<span class="name">p</span>) (<span class="name">p</span>))</div><div class="line">(<span class="name"><span class="builtin-name">define</span></span> (<span class="name">test</span> x y) </div><div class="line">    (<span class="name"><span class="builtin-name">if</span></span> (<span class="name"><span class="builtin-name">=</span></span> x <span class="number">0</span>)</div><div class="line">        <span class="number">0</span></div><div class="line">        y))</div><div class="line"></div><div class="line">(<span class="name">test</span> <span class="number">0</span> (<span class="name">p</span>))</div></pre></td></tr></table></figure>
 <p>对于正则序，不断展开，展开成</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">(if(= 0 0) 0 (p))</div></pre></td></tr></table></figure>
+<figure class="highlight clojure"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">(<span class="name"><span class="builtin-name">if</span></span>(<span class="name"><span class="builtin-name">=</span></span> <span class="number">0</span> <span class="number">0</span>) <span class="number">0</span> (<span class="name">p</span>))</div></pre></td></tr></table></figure>
 <p>就停住，并得出结果 0。</p>
 <p>但对于应用序，由于参数 <code>(p)</code> 是递归的，会不断地求 <code>(p)</code> 的值，不断调用自身，因此会在这里卡住死循环。每种编程语言的表达式求值，都是这两种中的一个。</p>
 
