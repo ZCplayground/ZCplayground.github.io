@@ -102,7 +102,7 @@
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/closure.png">
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/sequence.png">
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/laozhao1.png">
-<meta property="og:updated_time" content="2018-03-29T02:13:37.627Z">
+<meta property="og:updated_time" content="2018-03-31T00:58:17.477Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="计算机程序的构造与解释——构造数据抽象">
 <meta name="twitter:description" content="进入第二章——构造数据抽象 抽象数据导引什么是数据抽象？ 过程抽象中，构造更复杂的过程，就把一个过程用作其中的元素。比如说 平方和 过程的实现中使用了求平方和加和两个过程，构造更复杂的过程时，元素的实现细节被隐藏了。对平方和来说，这就构造了抽象——这一过程的使用方式，与该过程如何通过更基本的过程实现的具体细节相分离。 针对数据的类似概念就是数据抽象，数据抽象是一种方法学。一个复合数据对象的使用，应">
@@ -238,16 +238,6 @@
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
             归档
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-tags">
-          <a href="/tags" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
-            
-            标签
           </a>
         </li>
       
@@ -440,7 +430,7 @@
 <p><img src="http://osax8w13y.bkt.clouddn.com/laozhao1.png" alt=""></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">如果您理解了上面的代码，其实您已经对函数式编程更细致的抽象能力有所体会了。……目前函数式编程几乎已经成了高级语言的必备特性了，如C#，F#，甚至颇有代替Java语言之势的Scala中也包含了相当的函数式编程能力。事实上，我认为出现这种趋势的一个重要原因，便在于人们之前对面向对象语言的抽象能力寄予过高期望，而这种期望的破灭（或者说“冷静”）使得许多人的注意力又回到了更容易“组合”和“复用”的函数式编程理念上。而且，其实人们从来没有放弃过对小粒度的事物的热爱。例如很多人喜欢C语言的原因，便是因为它没有庞大的架构，可以通过各种方法的组装来编写程序。而Unix编程艺术之一，便是大量小程序的组合复用。</div></pre></td></tr></table></figure>
 <p>for-each 与 map 类似，但它并不返回结果的表，而是把过程应用于各个元素，而得到的值都丢弃不用。返回值是一些其他的东西，例如逻辑值真。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">(define (for-each proc items)</div><div class="line">  (cond ((not (null? items))</div><div class="line">         (proc (car items))             ;仅将过程应用于各个元素</div><div class="line">         (for-each proc (cdr items))))) ;在cond里作为条件判断项，应用 proc 得到的值都丢弃不用 </div><div class="line"></div><div class="line">(for-each (lambda(x) (newline) (display x))</div><div class="line">          (list 1 2 3))</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">(define (for-each proc items)</div><div class="line">  (cond ((not (null? items))</div><div class="line">         (proc (car items))             ;仅将过程应用于各个元素</div><div class="line">         (for-each proc (cdr items))))) ;满足条件就继续应用下一个。应用 proc 得到的值都丢弃不用 </div><div class="line"></div><div class="line">(for-each (lambda(x) (newline) (display x))</div><div class="line">          (list 1 2 3))</div></pre></td></tr></table></figure>
       
     </div>
 

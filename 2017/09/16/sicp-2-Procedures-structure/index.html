@@ -99,7 +99,7 @@
 <meta property="og:url" content="http://yoursite.com/2017/09/16/sicp-2-Procedures-structure/index.html">
 <meta property="og:site_name" content="ZCplayground">
 <meta property="og:description" content="范围第一章 构造过程抽象 1.1.7 ~ 1.1.8 节，P13 - 20 keywords：牛顿法求平方根、局部名、约束/自由变量、作用域、块结构（内部定义过程/过程抽象） 笔记1.1.7 牛顿法求平方根平方根  根号 x 是某个大于等于零的数 y， y^2 = x  这是一个函数，不是一个切实可行的过程  牛顿法  如果 y 是 x 的平方根，y == x/y 要求 x 的平方根 y，从一个假">
-<meta property="og:updated_time" content="2018-03-07T03:10:01.499Z">
+<meta property="og:updated_time" content="2018-03-31T01:15:03.509Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="计算机程序的构造与解释——过程结构">
 <meta name="twitter:description" content="范围第一章 构造过程抽象 1.1.7 ~ 1.1.8 节，P13 - 20 keywords：牛顿法求平方根、局部名、约束/自由变量、作用域、块结构（内部定义过程/过程抽象） 笔记1.1.7 牛顿法求平方根平方根  根号 x 是某个大于等于零的数 y， y^2 = x  这是一个函数，不是一个切实可行的过程  牛顿法  如果 y 是 x 的平方根，y == x/y 要求 x 的平方根 y，从一个假">
@@ -234,16 +234,6 @@
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
             归档
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-tags">
-          <a href="/tags" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
-            
-            标签
           </a>
         </li>
       
@@ -407,6 +397,7 @@
 <li>例如 基于 <code>square</code> 来定义 <code>good-enough?</code>时就将前者看成一个<strong>黑箱</strong>，如何计算平方的细节隐去不谈了，只需要注意它能计算出平方的事实。这里就说<code>square</code>是一个<strong>过程抽象</strong></li>
 <li>用户在使用一个过程时，应该不需要去弄清它究竟是如何实现的。</li>
 </ul>
+<p>可以写出相似的各种谓词，例如判断奇数偶数：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">(define (remainder a b)</div><div class="line">  (if (&lt; a b)</div><div class="line">      a</div><div class="line">      (remainder (- a b) b)))</div><div class="line"></div><div class="line">(define (odd? x)</div><div class="line">  (= (remainder x 2) 1))</div></pre></td></tr></table></figure></p>
 <hr>
 <h2 id="局部名"><a href="#局部名" class="headerlink" title="局部名"></a>局部名</h2><p>下面这两个过程定义应该是无法区分的：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">(define (square x) (* x x))</div><div class="line"></div><div class="line">(define (square y) (* y y))</div></pre></td></tr></table></figure>

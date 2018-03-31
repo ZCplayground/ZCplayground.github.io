@@ -102,7 +102,7 @@
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/cons%20tree.png">
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/length%20and%20countleaves.png">
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/signal-flow%20plans.png">
-<meta property="og:updated_time" content="2018-03-30T03:40:28.990Z">
+<meta property="og:updated_time" content="2018-03-31T01:20:27.219Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="层次性结构（树），以及约定化的接口">
 <meta name="twitter:description" content="树利用 cons 的闭包性，将序对用作 cons 的参数，就可以产生层次性结构（树）。  本身是序对的元素就成了树中的子树。因此，递归是处理树结构的一种很自然的工具。我们可以来看一个例子： 序列中求表长的 length 的方案是：  表 x 的 length 是 (cdr x) 的 length + 1 空表长度为 0  1234(define (length L)  (if (null? L)">
@@ -238,16 +238,6 @@
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
             归档
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-tags">
-          <a href="/tags" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
-            
-            标签
           </a>
         </li>
       
@@ -422,7 +412,7 @@
 <ul>
 <li><strong>枚举</strong>出一棵树的树叶</li>
 <li><strong>过滤</strong>它们，选出奇数</li>
-<li><strong>（映射）</strong>求平方</li>
+<li>求平方 <strong>（映射）</strong></li>
 <li>用 + 来<strong>累积</strong>得到的结果，从 0 开始。</li>
 </ul>
 <p>过程2：k 小于等于某个给定的整数 n，求所有是偶数的斐波那契数Fib(k)的一个表。</p>
@@ -436,6 +426,8 @@
 <p>这种过程可以用一些级联处理步骤的方式来描述：</p>
 <p><img src="http://osax8w13y.bkt.clouddn.com/signal-flow%20plans.png" alt=""></p>
 <p><strong>模块化结构是控制复杂性的一种威力强大的策略。</strong>由一些互相比较独立的组件组合构成的设计，有约定的界面使这些部件都能以比较灵活的方式相互连接，进一步推动人们去做模块化的设计。</p>
+<h2 id="过滤器-filter"><a href="#过滤器-filter" class="headerlink" title="过滤器 filter"></a>过滤器 filter</h2><p>过滤一个序列，从中选取满足某个给定的谓词的元素：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">(define (filter predicate sequence)</div><div class="line">  (cond ((null? sequence) nil)</div><div class="line">        ((predicate (car sequence))</div><div class="line">         (cons (car sequence)</div><div class="line">               (filter predicate (cdr sequence))))</div><div class="line">        (else (filter predicate (cdr sequence)))))</div></pre></td></tr></table></figure>
 
       
     </div>
@@ -600,7 +592,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#树"><span class="nav-number">1.</span> <span class="nav-text">树</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#一些函数"><span class="nav-number">1.1.</span> <span class="nav-text">一些函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#对树的映射"><span class="nav-number">1.2.</span> <span class="nav-text">对树的映射</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#序列作为一种约定的界面"><span class="nav-number">2.</span> <span class="nav-text">序列作为一种约定的界面</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#树"><span class="nav-number">1.</span> <span class="nav-text">树</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#一些函数"><span class="nav-number">1.1.</span> <span class="nav-text">一些函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#对树的映射"><span class="nav-number">1.2.</span> <span class="nav-text">对树的映射</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#序列作为一种约定的界面"><span class="nav-number">2.</span> <span class="nav-text">序列作为一种约定的界面</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#过滤器-filter"><span class="nav-number">2.1.</span> <span class="nav-text">过滤器 filter</span></a></li></ol></li></ol></div>
             
 
           </div>
