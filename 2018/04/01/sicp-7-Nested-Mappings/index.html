@@ -93,16 +93,16 @@
 
 
 
-<meta name="description" content="主要介绍一种方法，将高级语言中多重循环的语句用嵌套映射的计算方式表达。 问题：给定自然数 n ，找出不同的序对 (i, j),  满足：$ 1 ≤ j ≤ i ≤ n $, 且 $ i + j $ 是素数。假定 n 为 6，则结果应该如下：    i j i+j     2 1 3   3 2 5   4 1 5   4 3 7   5 2 7   6 1 7   6 5 11    最自然的解法">
+<meta name="description" content="范围程序： 嵌套映射结构 ；permutation 嵌套映射主要介绍一种方法，将高级语言中多重循环的语句用嵌套映射的计算方式表达。 问题：给定自然数 n ，找出不同的序对 (i, j),  满足：$ 1 ≤ j ≤ i ≤ n $, 且 $ i + j $ 是素数。假定 n 为 6，则结果应该如下：    i j i+j     2 1 3   3 2 5   4 1 5   4 3 7   5">
 <meta property="og:type" content="article">
 <meta property="og:title" content="SICP——嵌套映射">
 <meta property="og:url" content="http://yoursite.com/2018/04/01/sicp-7-Nested-Mappings/index.html">
 <meta property="og:site_name" content="ZCplayground">
-<meta property="og:description" content="主要介绍一种方法，将高级语言中多重循环的语句用嵌套映射的计算方式表达。 问题：给定自然数 n ，找出不同的序对 (i, j),  满足：$ 1 ≤ j ≤ i ≤ n $, 且 $ i + j $ 是素数。假定 n 为 6，则结果应该如下：    i j i+j     2 1 3   3 2 5   4 1 5   4 3 7   5 2 7   6 1 7   6 5 11    最自然的解法">
-<meta property="og:updated_time" content="2018-04-01T09:01:11.896Z">
+<meta property="og:description" content="范围程序： 嵌套映射结构 ；permutation 嵌套映射主要介绍一种方法，将高级语言中多重循环的语句用嵌套映射的计算方式表达。 问题：给定自然数 n ，找出不同的序对 (i, j),  满足：$ 1 ≤ j ≤ i ≤ n $, 且 $ i + j $ 是素数。假定 n 为 6，则结果应该如下：    i j i+j     2 1 3   3 2 5   4 1 5   4 3 7   5">
+<meta property="og:updated_time" content="2018-04-01T09:53:53.054Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="SICP——嵌套映射">
-<meta name="twitter:description" content="主要介绍一种方法，将高级语言中多重循环的语句用嵌套映射的计算方式表达。 问题：给定自然数 n ，找出不同的序对 (i, j),  满足：$ 1 ≤ j ≤ i ≤ n $, 且 $ i + j $ 是素数。假定 n 为 6，则结果应该如下：    i j i+j     2 1 3   3 2 5   4 1 5   4 3 7   5 2 7   6 1 7   6 5 11    最自然的解法">
+<meta name="twitter:description" content="范围程序： 嵌套映射结构 ；permutation 嵌套映射主要介绍一种方法，将高级语言中多重循环的语句用嵌套映射的计算方式表达。 问题：给定自然数 n ，找出不同的序对 (i, j),  满足：$ 1 ≤ j ≤ i ≤ n $, 且 $ i + j $ 是素数。假定 n 为 6，则结果应该如下：    i j i+j     2 1 3   3 2 5   4 1 5   4 3 7   5">
 
 
 
@@ -363,7 +363,8 @@
       
 
       
-        <p>主要介绍一种方法，将高级语言中多重循环的语句用嵌套映射的计算方式表达。</p>
+        <h1 id="范围"><a href="#范围" class="headerlink" title="范围"></a>范围</h1><p><strong>程序</strong>： 嵌套映射结构 ；<code>permutation</code></p>
+<h1 id="嵌套映射"><a href="#嵌套映射" class="headerlink" title="嵌套映射"></a>嵌套映射</h1><p>主要介绍一种方法，将高级语言中多重循环的语句用嵌套映射的计算方式表达。</p>
 <p>问题：给定自然数 n ，找出不同的序对 <code>(i, j)</code>,  满足：$ 1 ≤ j ≤ i ≤ n $, 且 $ i + j $ 是素数。假定 n 为 6，则结果应该如下：</p>
 <table>
 <thead>
@@ -425,7 +426,7 @@
 <figure class="highlight scheme"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">(<span class="name"><span class="builtin-name">define</span></span> (<span class="name">make-pair-sum</span> pair)</div><div class="line">  (<span class="name"><span class="builtin-name">list</span></span> (<span class="name"><span class="builtin-name">car</span></span> pair)(<span class="name"><span class="builtin-name">cdr</span></span> pair)(<span class="name"><span class="builtin-name">+</span></span> (<span class="name"><span class="builtin-name">car</span></span> pair)(<span class="name"><span class="builtin-name">cadr</span></span> pair))))</div></pre></td></tr></table></figure>
 <p>整合起来的过程是：</p>
 <figure class="highlight scheme"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">(<span class="name"><span class="builtin-name">define</span></span> (<span class="name">prime-sum-pairs</span> n)                             <span class="comment">;</span></div><div class="line">  (<span class="name"><span class="builtin-name">map</span></span> make-pair-sum                                    <span class="comment">;对序列(1~n)做映射：生成和为素数的序对的三元组</span></div><div class="line">       (<span class="name">filter</span> prime-sum?                               <span class="comment">;从序对的表中过滤，只挑和为素数的序对</span></div><div class="line">               (<span class="name">flatmap</span>                                 <span class="comment">;faltmap: 映射，并用把结果用 append 积累</span></div><div class="line">                (<span class="name"><span class="builtin-name">lambda</span></span>(i)                              <span class="comment">;这一行的结果会是一个表，交给filter过滤</span></div><div class="line">                  (<span class="name"><span class="builtin-name">map</span></span> (<span class="name"><span class="builtin-name">lambda</span></span>(j) (<span class="name"><span class="builtin-name">list</span></span> i j))           <span class="comment">;嵌套映射的注释见上方</span></div><div class="line">                       (<span class="name">enumerate-interval</span> <span class="number">1</span> (<span class="name"><span class="builtin-name">-</span></span> i <span class="number">1</span>))))</div><div class="line">                (<span class="name">enumerate-interval</span> <span class="number">1</span> n)))))</div><div class="line"></div><div class="line">(<span class="name">prime-sum-pairs</span> <span class="number">6</span>)</div></pre></td></tr></table></figure>
-<p>这个例子讲完了。是不是很神奇呢 ///</p>
+<p>这个例子讲完了。是不是很神奇呢</p>
 <p>下一个例子：全排列：</p>
 <figure class="highlight hy"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">(<span class="name">define</span> (<span class="name"><span class="builtin-name">permutations</span></span> s)</div><div class="line">  (<span class="name"><span class="builtin-name">if</span></span> (<span class="name">null?</span> s)</div><div class="line">      (<span class="name">list</span> <span class="literal">nil</span>)                                    <span class="comment">;如果 s 为空，s的全排列就为空。这也是递归的最终情况。</span></div><div class="line">      (<span class="name">flatmap</span>                                      </div><div class="line">       (<span class="name"><span class="builtin-name">lambda</span></span> (<span class="name">x</span>)                                  <span class="comment">;外层映射是 for x in s，对 x 做一个映射</span></div><div class="line">         (<span class="name"><span class="builtin-name">map</span></span> (<span class="name"><span class="builtin-name">lambda</span></span> (<span class="name">p</span>) (<span class="name"><span class="builtin-name">cons</span></span> x p))               <span class="comment">;内层映射是对 p 生成 cons(x, p)，p 是 s 中除外 x 的全排列</span></div><div class="line">              (<span class="name"><span class="builtin-name">permutations</span></span> (<span class="name"><span class="builtin-name">remove</span></span> x s))))</div><div class="line">       s)))</div><div class="line"></div><div class="line">(<span class="name">define</span> (<span class="name"><span class="builtin-name">remove</span></span> item sequence)                      <span class="comment">; 返回除了指定 item 之外的所有项</span></div><div class="line">  (<span class="name"><span class="builtin-name">filter</span></span> (<span class="name"><span class="builtin-name">lambda</span></span>(<span class="name">x</span>) (<span class="name"><span class="builtin-name">not</span></span> (<span class="name"><span class="builtin-name">=</span></span> x item)))</div><div class="line">          sequence))</div><div class="line"></div><div class="line">(<span class="name"><span class="builtin-name">permutations</span></span> (<span class="name">list</span> <span class="number">1</span> <span class="number">2</span> <span class="number">3</span>))</div></pre></td></tr></table></figure>
 <p>对比一下C语言的全排列：</p>
@@ -520,8 +521,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.png"
@@ -574,6 +584,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#范围"><span class="nav-number">1.</span> <span class="nav-text">范围</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#嵌套映射"><span class="nav-number">2.</span> <span class="nav-text">嵌套映射</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
