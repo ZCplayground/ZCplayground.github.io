@@ -103,7 +103,7 @@
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/length%20and%20countleaves.png">
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/signal-flow%20plans.png">
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/signal-flow%20plans.png">
-<meta property="og:updated_time" content="2018-03-31T01:50:14.327Z">
+<meta property="og:updated_time" content="2018-04-01T08:43:12.948Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="SICP——层次性结构（树），以及约定化的接口">
 <meta name="twitter:description" content="树利用 cons 的闭包性，将序对用作 cons 的参数，就可以产生层次性结构（树）。  本身是序对的元素就成了树中的子树。因此，递归是处理树结构的一种很自然的工具。我们可以来看一个例子： 序列中求表长的 length 的方案是：  表 x 的 length 是 (cdr x) 的 length + 1 空表长度为 0  1234(define (length L)  (if (null? L)">
@@ -398,7 +398,7 @@
 <figure class="highlight scheme"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">(<span class="name"><span class="builtin-name">define</span></span> (<span class="name">fringe</span> tree)</div><div class="line">  (<span class="name"><span class="builtin-name">cond</span></span> ((<span class="name"><span class="builtin-name">null?</span></span> tree) '())</div><div class="line">        ((<span class="name"><span class="builtin-name">not</span></span> (<span class="name"><span class="builtin-name">pair?</span></span> tree)) (<span class="name"><span class="builtin-name">list</span></span> tree))</div><div class="line">        (<span class="name"><span class="builtin-name">else</span></span></div><div class="line">         (<span class="name"><span class="builtin-name">append</span></span> (<span class="name">fringe</span> (<span class="name"><span class="builtin-name">car</span></span> tree))</div><div class="line">                 (<span class="name">fringe</span> (<span class="name"><span class="builtin-name">cdr</span></span> tree))))))</div><div class="line"></div><div class="line">(<span class="name"><span class="builtin-name">define</span></span> x (<span class="name"><span class="builtin-name">list</span></span> (<span class="name"><span class="builtin-name">list</span></span> <span class="number">1</span> <span class="number">2</span>) (<span class="name"><span class="builtin-name">list</span></span> <span class="number">3</span> <span class="number">4</span>)))</div><div class="line">(<span class="name">fringe</span> x)</div><div class="line"><span class="comment">;(1 2 3 4)</span></div></pre></td></tr></table></figure>
 <h2 id="对树的映射-map"><a href="#对树的映射-map" class="headerlink" title="对树的映射 map"></a>对树的映射 map</h2><p>下面是一个与<code>scale-list</code>相似的过程，用一个因子乘上一棵树上所有的叶子。递归的思路和 <code>count-leaves</code> 是类似的</p>
 <figure class="highlight scheme"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">(<span class="name"><span class="builtin-name">define</span></span> (<span class="name">scale-tree</span> tree factor)</div><div class="line">  (<span class="name"><span class="builtin-name">cond</span></span> ((<span class="name"><span class="builtin-name">null?</span></span> tree) nil)</div><div class="line">        ((<span class="name"><span class="builtin-name">not</span></span> (<span class="name"><span class="builtin-name">pair?</span></span> tree)) (<span class="name"><span class="builtin-name">*</span></span> tree factor))</div><div class="line">        (<span class="name"><span class="builtin-name">else</span></span> (<span class="name"><span class="builtin-name">cons</span></span> (<span class="name">scale-tree</span> (<span class="name"><span class="builtin-name">car</span></span> tree) factor)</div><div class="line">                    (<span class="name">scale-tree</span> (<span class="name"><span class="builtin-name">cdr</span></span> tree) factor)))))</div></pre></td></tr></table></figure>
-<p>map 是处理序列的强有力抽象。</p>
+<p><strong>map 是处理序列的强有力抽象。</strong></p>
 <figure class="highlight scheme"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">(<span class="name"><span class="builtin-name">define</span></span> (<span class="name"><span class="builtin-name">map</span></span> proc items)</div><div class="line">  (<span class="name"><span class="builtin-name">if</span></span> (<span class="name"><span class="builtin-name">null?</span></span> items)</div><div class="line">      nil</div><div class="line">      (<span class="name"><span class="builtin-name">cons</span></span> (<span class="name">proc</span> (<span class="name"><span class="builtin-name">car</span></span> items))</div><div class="line">            (<span class="name"><span class="builtin-name">map</span></span> proc (<span class="name"><span class="builtin-name">cdr</span></span> items)))))</div></pre></td></tr></table></figure>
 <p><strong>map 与递归结合就也是处理树的一种强有力抽象。</strong></p>
 <ul>
@@ -498,6 +498,10 @@
 
           <div class="post-nav-prev post-nav-item">
             
+              <a href="/2018/04/01/sicp-7-Nested-Mappings/" rel="prev" title="SICP——嵌套映射">
+                SICP——嵌套映射 <i class="fa fa-chevron-right"></i>
+              </a>
+            
           </div>
         </div>
       
@@ -568,7 +572,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">65</span>
+                <span class="site-state-item-count">66</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>

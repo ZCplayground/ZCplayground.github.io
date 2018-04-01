@@ -1,0 +1,863 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="主要介绍一种方法，将高级语言中多重循环的语句用嵌套映射的计算方式表达。 问题：给定自然数 n ，找出不同的序对 (i, j),  1 ≤ j ≤ i ≤ n, 使得 i + j 是素数。假定 n 为 6，则结果应该如下：    i j i+j     2 1 3   3 2 5   4 1 5   4 3 7   5 2 7   6 1 7   6 5 11    最自然的解法是；生成所有小于等于">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SICP——嵌套映射">
+<meta property="og:url" content="http://yoursite.com/2018/04/01/sicp-7-Nested-Mappings/index.html">
+<meta property="og:site_name" content="ZCplayground">
+<meta property="og:description" content="主要介绍一种方法，将高级语言中多重循环的语句用嵌套映射的计算方式表达。 问题：给定自然数 n ，找出不同的序对 (i, j),  1 ≤ j ≤ i ≤ n, 使得 i + j 是素数。假定 n 为 6，则结果应该如下：    i j i+j     2 1 3   3 2 5   4 1 5   4 3 7   5 2 7   6 1 7   6 5 11    最自然的解法是；生成所有小于等于">
+<meta property="og:updated_time" content="2018-04-01T08:43:08.837Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="SICP——嵌套映射">
+<meta name="twitter:description" content="主要介绍一种方法，将高级语言中多重循环的语句用嵌套映射的计算方式表达。 问题：给定自然数 n ，找出不同的序对 (i, j),  1 ≤ j ≤ i ≤ n, 使得 i + j 是素数。假定 n 为 6，则结果应该如下：    i j i+j     2 1 3   3 2 5   4 1 5   4 3 7   5 2 7   6 1 7   6 5 11    最自然的解法是；生成所有小于等于">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/04/01/sicp-7-Nested-Mappings/"/>
+
+
+
+
+
+  <title>SICP——嵌套映射 | ZCplayground</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">ZCplayground</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/04/01/sicp-7-Nested-Mappings/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ZC">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ZCplayground">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">SICP——嵌套映射</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-01T15:18:07+08:00">
+                2018-04-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/SICP/" itemprop="url" rel="index">
+                    <span itemprop="name">SICP</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/04/01/sicp-7-Nested-Mappings/" class="leancloud_visitors" data-flag-title="SICP——嵌套映射">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>主要介绍一种方法，将高级语言中多重循环的语句用嵌套映射的计算方式表达。</p>
+<p>问题：给定自然数 n ，找出不同的序对 (i, j),  1 ≤ j ≤ i ≤ n, 使得 i + j 是素数。假定 n 为 6，则结果应该如下：</p>
+<table>
+<thead>
+<tr>
+<th>i</th>
+<th>j</th>
+<th>i+j</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2</td>
+<td>1</td>
+<td>3</td>
+</tr>
+<tr>
+<td>3</td>
+<td>2</td>
+<td>5</td>
+</tr>
+<tr>
+<td>4</td>
+<td>1</td>
+<td>5</td>
+</tr>
+<tr>
+<td>4</td>
+<td>3</td>
+<td>7</td>
+</tr>
+<tr>
+<td>5</td>
+<td>2</td>
+<td>7</td>
+</tr>
+<tr>
+<td>6</td>
+<td>1</td>
+<td>7</td>
+</tr>
+<tr>
+<td>6</td>
+<td>5</td>
+<td>11</td>
+</tr>
+</tbody>
+</table>
+<p>最自然的解法是；生成所有小于等于 n 的自然数的全序对，进行过滤，选出和为素数的序对。对通过过滤的序对，产生一个三元组(i, j, i+j)。</p>
+<p>在高级语言中会这样子产生序对：对于 i ≤ n，枚举 j ≤ i。</p>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">for</span>(<span class="built_in">i</span> = <span class="number">1</span>; <span class="built_in">i</span>&lt;= n; <span class="built_in">i</span>++)</div><div class="line">    <span class="keyword">for</span>(<span class="built_in">j</span> = <span class="number">1</span>; <span class="built_in">j</span> &lt; <span class="built_in">i</span>; <span class="built_in">j</span>++)</div></pre></td></tr></table></figure>
+<p>用序列操作、以及映射的方式来讲这个过程，是（高能）：</p>
+<p>对序列 (1~n) 做一次映射：对这个序列里的每个 i，对序列(1 ~ i-1)做映射，生成序对(list i j)。将所有序对用 append 积累起来，得到一个序对序列。</p>
+<figure class="highlight hy"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">(<span class="name"><span class="builtin-name">accumulate</span></span> append                                          <span class="comment">;用 append 积累所有序对列表</span></div><div class="line">            <span class="literal">nil</span></div><div class="line">            (<span class="name"><span class="builtin-name">map</span></span> (<span class="name"><span class="builtin-name">lambda</span></span>(<span class="name">i</span>)                                 <span class="comment">;外层映射是：for(i=1;i&lt;=n;i++) 对 i 做映射</span></div><div class="line">                   (<span class="name"><span class="builtin-name">map</span></span> (<span class="name"><span class="builtin-name">lambda</span></span>(<span class="name">j</span>) (<span class="name">list</span> i j))              <span class="comment">;内层映射是：for(j=1;j&lt;i;j++) 生成list(i, j)</span></div><div class="line">                        (<span class="name">enumerate-interval</span> <span class="number">1</span> (<span class="name">-</span> i <span class="number">1</span>))))    <span class="comment">;外层映射看3、6行，内层映射看4、5行</span></div><div class="line">                 (<span class="name">enumerate-interval</span> <span class="number">1</span> n)))                 <span class="comment">;这里 n 还未定义</span></div></pre></td></tr></table></figure>
+<p>将上面这一个程序（映射并用append做序列的表积累）定义为一个过程：</p>
+<figure class="highlight hy"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">(<span class="name">define</span> (<span class="name">flatmap</span> proc seq)</div><div class="line">  (<span class="name"><span class="builtin-name">accumulate</span></span> append <span class="literal">nil</span> (<span class="name"><span class="builtin-name">map</span></span> proc seq)))</div></pre></td></tr></table></figure>
+<p>过滤找出和为素数的序对：</p>
+<figure class="highlight scheme"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="comment">;判断素数</span></div><div class="line">(<span class="name"><span class="builtin-name">define</span></span> (<span class="name">square</span> x)</div><div class="line">  (<span class="name"><span class="builtin-name">*</span></span> x x))</div><div class="line"></div><div class="line">(<span class="name"><span class="builtin-name">define</span></span> (<span class="name">smallest-divisor</span> n)</div><div class="line">  (<span class="name">find-divisor</span> n <span class="number">2</span>))</div><div class="line">(<span class="name"><span class="builtin-name">define</span></span> (<span class="name">find-divisor</span> n test-divisor)</div><div class="line">  (<span class="name"><span class="builtin-name">cond</span></span> ((<span class="name"><span class="builtin-name">&gt;</span></span> (<span class="name">square</span> test-divisor) n) n)</div><div class="line">        ((<span class="name">divides?</span> test-divisor n) test-divisor)</div><div class="line">        (<span class="name"><span class="builtin-name">else</span></span> (<span class="name">find-divisor</span> n (<span class="name"><span class="builtin-name">+</span></span> test-divisor <span class="number">1</span>)))))</div><div class="line">(<span class="name"><span class="builtin-name">define</span></span> (<span class="name">divides?</span> a b)</div><div class="line">  (<span class="name"><span class="builtin-name">=</span></span> (<span class="name"><span class="builtin-name">remainder</span></span> b a) <span class="number">0</span>))</div><div class="line"></div><div class="line"></div><div class="line">(<span class="name"><span class="builtin-name">define</span></span> (<span class="name">prime?</span> n)</div><div class="line">  (<span class="name"><span class="builtin-name">=</span></span> n (<span class="name">smallest-divisor</span> n)))</div><div class="line"></div><div class="line"><span class="comment">;判断一个序对的和是不是素数</span></div><div class="line"><span class="comment">;由于“序对”是使用 list 形成的表，所以要用 cadr 而不是 cdr</span></div><div class="line">(<span class="name"><span class="builtin-name">define</span></span> (<span class="name">prime-sum?</span> pair)</div><div class="line">  (<span class="name">prime?</span> (<span class="name"><span class="builtin-name">+</span></span> (<span class="name"><span class="builtin-name">car</span></span> pair) (<span class="name"><span class="builtin-name">cadr</span></span> pair))))</div></pre></td></tr></table></figure>
+<p>生成一个三元组：和为素数的序对、和。(i, j, i + j)</p>
+<figure class="highlight scheme"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">(<span class="name"><span class="builtin-name">define</span></span> (<span class="name">make-pair-sum</span> pair)</div><div class="line">  (<span class="name"><span class="builtin-name">list</span></span> (<span class="name"><span class="builtin-name">car</span></span> pair)(<span class="name"><span class="builtin-name">cdr</span></span> pair)(<span class="name"><span class="builtin-name">+</span></span> (<span class="name"><span class="builtin-name">car</span></span> pair)(<span class="name"><span class="builtin-name">cadr</span></span> pair))))</div></pre></td></tr></table></figure>
+<p>整合起来的过程是：</p>
+<figure class="highlight scheme"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">(<span class="name"><span class="builtin-name">define</span></span> (<span class="name">prime-sum-pairs</span> n)                             <span class="comment">;</span></div><div class="line">  (<span class="name"><span class="builtin-name">map</span></span> make-pair-sum                                    <span class="comment">;对序列(1~n)做映射：生成和为素数的序对的三元组</span></div><div class="line">       (<span class="name">filter</span> prime-sum?                               <span class="comment">;从序对的表中过滤，只挑和为素数的序对</span></div><div class="line">               (<span class="name">flatmap</span>                                 <span class="comment">;faltmap: 映射，并用把结果用 append 积累</span></div><div class="line">                (<span class="name"><span class="builtin-name">lambda</span></span>(i)                              <span class="comment">;这一行的结果会是一个表，交给filter过滤</span></div><div class="line">                  (<span class="name"><span class="builtin-name">map</span></span> (<span class="name"><span class="builtin-name">lambda</span></span>(j) (<span class="name"><span class="builtin-name">list</span></span> i j))           <span class="comment">;嵌套映射的注释见上方</span></div><div class="line">                       (<span class="name">enumerate-interval</span> <span class="number">1</span> (<span class="name"><span class="builtin-name">-</span></span> i <span class="number">1</span>))))</div><div class="line">                (<span class="name">enumerate-interval</span> <span class="number">1</span> n)))))</div><div class="line"></div><div class="line">(<span class="name">prime-sum-pairs</span> <span class="number">6</span>)</div></pre></td></tr></table></figure>
+<p>这个例子讲完了。</p>
+<p>下一个例子：全排列：</p>
+<figure class="highlight hy"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">(<span class="name">define</span> (<span class="name"><span class="builtin-name">permutations</span></span> s)</div><div class="line">  (<span class="name"><span class="builtin-name">if</span></span> (<span class="name">null?</span> s)</div><div class="line">      (<span class="name">list</span> <span class="literal">nil</span>)                                    <span class="comment">;如果 s 为空，s的全排列就为空。这也是递归的最终情况。</span></div><div class="line">      (<span class="name">flatmap</span>                                      </div><div class="line">       (<span class="name"><span class="builtin-name">lambda</span></span> (<span class="name">x</span>)                                  <span class="comment">;外层映射是 for x in s，对 x 做一个映射</span></div><div class="line">         (<span class="name"><span class="builtin-name">map</span></span> (<span class="name"><span class="builtin-name">lambda</span></span> (<span class="name">p</span>) (<span class="name"><span class="builtin-name">cons</span></span> x p))               <span class="comment">;内层映射是对 p 生成 cons(x, p)，p 是 s 中除外 x 的全排列</span></div><div class="line">              (<span class="name"><span class="builtin-name">permutations</span></span> (<span class="name"><span class="builtin-name">remove</span></span> x s))))</div><div class="line">       s)))</div><div class="line"></div><div class="line"></div><div class="line">(<span class="name">define</span> (<span class="name"><span class="builtin-name">remove</span></span> item sequence)                      <span class="comment">; 返回除了指定 item 之外的所有项</span></div><div class="line">  (<span class="name"><span class="builtin-name">filter</span></span> (<span class="name"><span class="builtin-name">lambda</span></span>(<span class="name">x</span>) (<span class="name"><span class="builtin-name">not</span></span> (<span class="name"><span class="builtin-name">=</span></span> x item)))</div><div class="line">          sequence))</div><div class="line"></div><div class="line">(<span class="name"><span class="builtin-name">permutations</span></span> (<span class="name">list</span> <span class="number">1</span> <span class="number">2</span> <span class="number">3</span>))</div></pre></td></tr></table></figure>
+<p>对比一下C语言的全排列：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdio.h&gt;</span></span></div><div class="line"></div><div class="line"><span class="keyword">int</span> a[<span class="number">10</span>], book[<span class="number">10</span>], n;<span class="comment">//a数组代表盒子，book数组代表手中的卡的情况</span></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">dfs</span><span class="params">(<span class="keyword">int</span> posi)</span></span></div><div class="line">&#123;</div><div class="line">	<span class="keyword">int</span> i;</div><div class="line"></div><div class="line">	<span class="keyword">if</span> (posi == n + <span class="number">1</span>)<span class="comment">//如果走到了第n+1个盒子（实际上没有n+1个盒子）说明前n个盒子已经都放好扑克牌</span></div><div class="line">	&#123;</div><div class="line">		<span class="comment">//输出一种全排列</span></div><div class="line">		<span class="keyword">for</span> (i = <span class="number">1</span>; i &lt;= n; i++)</div><div class="line">			<span class="built_in">printf</span>(<span class="string">"%d"</span>, a[i]);</div><div class="line">		<span class="built_in">printf</span>(<span class="string">"\n"</span>);</div><div class="line"></div><div class="line">		<span class="keyword">return</span>;<span class="comment">//一定要返回，回到最近一次调用dfs的地方</span></div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="keyword">for</span> (i = <span class="number">1</span>; i &lt;= n; i++)<span class="comment">//每个小盒子都可能放1、2、3、、、n的牌，用for循环</span></div><div class="line">	&#123;</div><div class="line">		<span class="comment">//判断编号为i的扑克牌是否还在手上</span></div><div class="line">		<span class="keyword">if</span> (book[i] == <span class="number">0</span>)<span class="comment">//book[i]==0说明i号扑克牌在手上</span></div><div class="line">		&#123;</div><div class="line">			a[posi] = i;<span class="comment">//丢到这个盒子里</span></div><div class="line">			book[i] = <span class="number">1</span>;<span class="comment">//book[i]置为1，表示i号扑克牌不在手上</span></div><div class="line"></div><div class="line">			dfs(posi + <span class="number">1</span>);<span class="comment">//走到下一个盒子前进行dfs</span></div><div class="line">			book[i] = <span class="number">0</span>;<span class="comment">//非常重要的一步，完成了一次dfs一定要收回这张牌才可以进行下一次尝试</span></div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">return</span>;</div><div class="line">&#125;</div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></div><div class="line">&#123;</div><div class="line">	<span class="built_in">printf</span>(<span class="string">"输入n，输出123……n的全排列："</span>);</div><div class="line">	scanf_s(<span class="string">"%d"</span>, &amp;n);</div><div class="line">	dfs(<span class="number">1</span>);<span class="comment">//从第一个盒子开始dfs</span></div><div class="line">	getchar();</div><div class="line">	<span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/03/29/sicp-6-Hierarchical-Stuctures-and-Conventional-Interfaces/" rel="next" title="SICP——层次性结构（树），以及约定化的接口">
+                <i class="fa fa-chevron-left"></i> SICP——层次性结构（树），以及约定化的接口
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview sidebar-panel sidebar-panel-active">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="ZC" />
+          <p class="site-author-name" itemprop="name">ZC</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">66</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ZC</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("guhO5d3jdrym6QcCp5oIrsMc-gzGzoHsz", "ldFdhqrIxGxOqWs5mgH8pmLT");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+
+  
+
+  
+
+</body>
+</html>
