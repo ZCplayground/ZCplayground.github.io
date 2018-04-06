@@ -1,0 +1,961 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="基于DPDK的高效数据包捕获技术分析与应用本文应用场景网络安全领域的数据包捕获技术,对系统有高性能需求，要在短时间内成功收集、分析、处理大量数据，实时捕获效率低下。 旧有传统数据包处理机制 BPF，伯克利封包处理器，是 Unix Linux 上的链路层的一种原始接口，许多功能以此为基础。 libpcap，linux 下的 C 语言网络数据包捕获函数库，大多数网络包分析软件以此为基础。 pf-rin">
+<meta property="og:type" content="article">
+<meta property="og:title" content="阅读 DPDK 中文论文两则">
+<meta property="og:url" content="http://yoursite.com/2018/04/06/DPDK-papers-reading/index.html">
+<meta property="og:site_name" content="ZCplayground">
+<meta property="og:description" content="基于DPDK的高效数据包捕获技术分析与应用本文应用场景网络安全领域的数据包捕获技术,对系统有高性能需求，要在短时间内成功收集、分析、处理大量数据，实时捕获效率低下。 旧有传统数据包处理机制 BPF，伯克利封包处理器，是 Unix Linux 上的链路层的一种原始接口，许多功能以此为基础。 libpcap，linux 下的 C 语言网络数据包捕获函数库，大多数网络包分析软件以此为基础。 pf-rin">
+<meta property="og:image" content="http://p6rl2gdnw.bkt.clouddn.com/1%20packet%20process1.png">
+<meta property="og:image" content="http://p6rl2gdnw.bkt.clouddn.com/1%20packet%20process2.png">
+<meta property="og:image" content="http://p6rl2gdnw.bkt.clouddn.com/1%20ideal%20topo.png">
+<meta property="og:image" content="http://p6rl2gdnw.bkt.clouddn.com/1%20experiment%20topo.png">
+<meta property="og:image" content="http://p6rl2gdnw.bkt.clouddn.com/2%20RSS%20bottleneck.png">
+<meta property="og:image" content="http://p6rl2gdnw.bkt.clouddn.com/core%20components%20architecture.png">
+<meta property="og:image" content="http://p6rl2gdnw.bkt.clouddn.com/2%20DPDK%20packet%20process%20workflow%20.png">
+<meta property="og:image" content="http://p6rl2gdnw.bkt.clouddn.com/2%20%20architecture.png">
+<meta property="og:updated_time" content="2018-04-06T14:15:22.310Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="阅读 DPDK 中文论文两则">
+<meta name="twitter:description" content="基于DPDK的高效数据包捕获技术分析与应用本文应用场景网络安全领域的数据包捕获技术,对系统有高性能需求，要在短时间内成功收集、分析、处理大量数据，实时捕获效率低下。 旧有传统数据包处理机制 BPF，伯克利封包处理器，是 Unix Linux 上的链路层的一种原始接口，许多功能以此为基础。 libpcap，linux 下的 C 语言网络数据包捕获函数库，大多数网络包分析软件以此为基础。 pf-rin">
+<meta name="twitter:image" content="http://p6rl2gdnw.bkt.clouddn.com/1%20packet%20process1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/04/06/DPDK-papers-reading/"/>
+
+
+
+
+
+  <title>阅读 DPDK 中文论文两则 | ZCplayground</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">ZCplayground</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/04/06/DPDK-papers-reading/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ZC">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ZCplayground">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">阅读 DPDK 中文论文两则</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-06T22:14:13+08:00">
+                2018-04-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/paper-reading/" itemprop="url" rel="index">
+                    <span itemprop="name">paper-reading</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/04/06/DPDK-papers-reading/" class="leancloud_visitors" data-flag-title="阅读 DPDK 中文论文两则">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="基于DPDK的高效数据包捕获技术分析与应用"><a href="#基于DPDK的高效数据包捕获技术分析与应用" class="headerlink" title="基于DPDK的高效数据包捕获技术分析与应用"></a>基于DPDK的高效数据包捕获技术分析与应用</h1><h2 id="本文应用场景"><a href="#本文应用场景" class="headerlink" title="本文应用场景"></a>本文应用场景</h2><p>网络安全领域的数据包捕获技术,对系统有高性能需求，要在短时间内成功收集、分析、处理大量数据，实时捕获效率低下。</p>
+<h2 id="旧有传统数据包处理机制"><a href="#旧有传统数据包处理机制" class="headerlink" title="旧有传统数据包处理机制"></a>旧有传统数据包处理机制</h2><ul>
+<li><code>BPF</code>，伯克利封包处理器，是 Unix Linux 上的链路层的一种原始接口，许多功能以此为基础。</li>
+<li><code>libpcap</code>，linux 下的 C 语言网络数据包捕获函数库，大多数网络包分析软件以此为基础。</li>
+<li><code>pf-ring</code> 是 Luca Deri 发明的一种 API 函数库。</li>
+</ul>
+<p>有所缺陷：</p>
+<ul>
+<li>在 Linux 内核中完成，导致程序要随着 Linux 的各种功能紧密耦合，难以维护，降低可移植性和通用性</li>
+<li>在内核网络协议栈中，涉及系统调用（用户应用程序角度）、中断（网卡驱动角度）、多次内存拷贝操作（内核中、cache 中）</li>
+</ul>
+<h2 id="DPDK"><a href="#DPDK" class="headerlink" title="DPDK"></a>DPDK</h2><p>DPDK 是数据包转发处理套件。</p>
+<ul>
+<li>允许用户空间的进程通过 DPDK 的库直接访问网卡，无需经过内核（也就是所谓 <strong>bypass kernel</strong>，或<strong>user space stack</strong>）。</li>
+<li>首先明确一个概念，它不是协议栈，和 TCP/IP 不是对等的概念。不提供二层、三层转发功能、防火墙、ACL 等功能，但通过 DPDK 可以开发出上述功能。</li>
+<li>其次，它是一套强大的 user space driver，用户空间库和驱动程序。DPDK 总体来讲是一个二层应用。原本是网卡设备驱动、driver、kernel space、user space 的功能，移到 user space 来做了。当然，DPDK 也提供了很多三层 API，例如转发、LPM 等等。DPDK 的功能相当于 Linux 的<strong>设备无关接口层</strong>，处于 socket 之下，driver 之上。</li>
+</ul>
+<p>主要有四个技术点：</p>
+<ul>
+<li><strong>大内存页</strong>提高内存使用效率。</li>
+<li>在 <em>*user space</em> 实现绝大部分功能。</li>
+<li><strong>cpu affinity</strong> 实现将控制面线程以及各个数据面线程绑定到不同的 CPU 来避免反复调度、进出内核切换带来的性能消耗。</li>
+<li>实现从 driver -&gt; kernal -&gt; user space 过程中的 <strong>Zero copy</strong>。它直接从网卡驱动抓取数据，把一系列的工作放到用户态，使得 CPU 将更多的资源放在数据处理上，大大加快数据包处理速度。</li>
+</ul>
+<p>主要部件：</p>
+<ul>
+<li><code>rte_eal + libc</code> 内存统一组织管理者</li>
+<li><code>librte_ring</code>  无锁队列</li>
+<li><code>librte_mempool</code> 提供内存池功能</li>
+<li><code>librte_mbuf</code> 提供缓冲区功能</li>
+<li><code>librte_malloc</code> 对外提供分配释放内存的API</li>
+<li><code>librte_timer</code> 主要用于各种服务间的同步</li>
+</ul>
+<p>主要函数</p>
+<ul>
+<li><code>rte_eal_init()</code></li>
+<li><code>init_mbuf_pools()</code></li>
+<li><code>init_ports(ports-&gt;id[i])</code></li>
+<li><code>rte_eth_rx_brust(port_num, 0, buf, PACKET_READ_SIZE)</code></li>
+</ul>
+<p>实验的 workflow 也比较清晰：</p>
+<p><code>rte_eal_init()</code>、<code>init_port()</code>、<code>init_mbuf_pools()</code> 进行 DPDK 、端口、内存池、队列初始化。利用<code>rte_eth_rx_brust()</code> 轮询各端口接收数据包。自定义函数<code>process_packets()</code>来对数据包进行一个初步处理。</p>
+<p><img src="http://p6rl2gdnw.bkt.clouddn.com/1%20packet%20process1.png" alt=""></p>
+<p><img src="http://p6rl2gdnw.bkt.clouddn.com/1%20packet%20process2.png" alt=""></p>
+<p>接下面两张图是实验 topo：</p>
+<p><img src="http://p6rl2gdnw.bkt.clouddn.com/1%20ideal%20topo.png" alt=""></p>
+<p><img src="http://p6rl2gdnw.bkt.clouddn.com/1%20experiment%20topo.png" alt=""></p>
+<hr>
+<h1 id="基于多核平台的高速网络流量实时捕获方法"><a href="#基于多核平台的高速网络流量实时捕获方法" class="headerlink" title="基于多核平台的高速网络流量实时捕获方法"></a>基于多核平台的高速网络流量实时捕获方法</h1><h2 id="本文应用场景-1"><a href="#本文应用场景-1" class="headerlink" title="本文应用场景"></a>本文应用场景</h2><p>网络数据包的实时采集和分析。</p>
+<h2 id="旧有解决方案"><a href="#旧有解决方案" class="headerlink" title="旧有解决方案"></a>旧有解决方案</h2><ul>
+<li>基于专用定制化硬件，性能较好，成本较高，模块固定，扩展性差。</li>
+<li>基于软件，成本低。</li>
+</ul>
+<h2 id="传统的报文处理"><a href="#传统的报文处理" class="headerlink" title="传统的报文处理"></a>传统的报文处理</h2><ul>
+<li>Linux 网络协议栈的报文处理是典型的软件系统。</li>
+</ul>
+<p>简述工作原理：</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">        interrupt                           <span class="built_in"> system </span>call</div><div class="line">driver ----------&gt; kernel (protocol stack)  &lt;-----------<span class="built_in"> user </span>space(application)</div><div class="line">       &lt;----------                          -----------&gt;</div><div class="line">           copy       context switch        copy(<span class="keyword">or</span> sleep)</div></pre></td></tr></table></figure>
+<p>性能瓶颈分析：</p>
+<ul>
+<li>流量串行访问带来的性能瓶颈。涉及到现代 NIC 的接收端扩展（receiver-side scaling，RSS），使用这种技术，<strong>分组的捕获过程</strong>可以并行化，<strong>然而上层</strong>协议栈和用户程序对此<strong>没有很好的利用</strong>。</li>
+</ul>
+<p>图：RSS bottleneck</p>
+<p><img src="http://p6rl2gdnw.bkt.clouddn.com/2%20RSS%20bottleneck.png" alt=""></p>
+<ul>
+<li>driver ~ kernel ~ user space 的的过程中，至少包含 2 次<strong>数据拷贝</strong>。一次复制消耗 500~2000 个 CPU 周期。</li>
+<li>内核态用户态的<strong>上下文切换</strong>，在每个包上面执行的系统调用产生的上下文切换消耗近 1000 个 CPU 周期。</li>
+<li>缺少内存本地化，在内存 copy 时，由于逐字拷贝导致 cache 一直被替换，cache 命中率低下。<strong>cache miss</strong> 导致额外 13.8% 的 CPU 周期。</li>
+</ul>
+<p><strong>可以看出，协议栈处理数据包时的拷贝操作是性能瓶颈。</strong>旧有方案不能很好地克服这些困难。</p>
+<p>改进方向：</p>
+<ul>
+<li><strong>预分配、重用内存资源。</strong>（大页表、内存池）</li>
+<li><strong>CPU 亲和</strong>（CPU affinity）是一种技术，允许进程或线程在制定的处理器核心上运行。在本地核心中，cache 更容易命中，减少 cache miss。</li>
+<li>内存映射。应用程序的内存区域可以映射到内核态的内存区域，应用程序可以在没有中间副本的情况下进行读写，用这种方式使得应用直接访问网卡的 DMA 内存区域，这种技术叫<strong>零拷贝</strong>。也可以理解为 <strong>zero copy</strong>。</li>
+</ul>
+<p>这三点是同上一篇论文一样的，下面两点是这篇论文额外所涉及：</p>
+<ul>
+<li>数据包采用<strong>并行直接通道传递</strong>（特定 RSS 队列、特定 CPU 核心、特定用户程序）（这个特性在某一篇教程中有运用到，设置了多个虚拟网卡。）</li>
+<li>数据包<strong>批处理</strong>。以某种策略将数据包划分为组，主要是为了减少系统调用和上下文切换的次数，减少<strong>平摊</strong>处理和复制每个数据包的消耗。</li>
+</ul>
+<p>这些中没有明确拿<strong>轮询</strong>出来提。轮询主要是避免 system call 引起的 context switch 的技术。</p>
+<blockquote>
+<p>NAPI（new API) 是 Linux 2.6.0 内核之后采用的一种提高数据包处理性能的新技术，其核心就是使用中断和轮询组合收包</p>
+<p>其假设场景是，一旦网卡开始接收到数据包，数据包就会以高频率到达，换言之，就是针对一直有数据包到达的网络环境做了优化，：网卡在接收到第 1 个数据包时将触发硬件中断，中断处理函数会将该网卡加入到设备轮询表中，同时，为了防止后续到达的数据包触发频繁的硬件中断，需要用一条指令设置该中断使之不再接收中断请求；随后，操作系统会触发一个软中断，软中断的处理函数将对轮询表上的设备进行轮询，检查是否有数据包到达并处理；直到本次处理的 cpu 时间片用尽或者数据包的处理过程结束，网卡才重新设置中断屏蔽位开中断接收中断请求．</p>
+</blockquote>
+<p>不过，上述技术还是有缺陷的，频繁的<strong>软中断</strong>在更高要求的网络环境下也无力了。所谓软中断就是还是有进出内核的操作，不是完全 user space 不是完全 zero copy。</p>
+<h2 id="DPDK-数据平面开发套件"><a href="#DPDK-数据平面开发套件" class="headerlink" title="DPDK 数据平面开发套件"></a>DPDK 数据平面开发套件</h2><p>队列管理<code>rte_ring</code> <strong>无锁队列</strong>，环形，大小固定，先进先出，支持无锁，单/多生产者/消费者的排队场景，存储对象的指针。各个 P C 有指针来访问控制。相较于普通的用长度不限的双链表实现的队列，有两个好处：</p>
+<ul>
+<li>无锁机制</li>
+<li>减少了由于突发操作和大量数据传输导致的 cache miss</li>
+</ul>
+<p>环境抽象层<code>EAL</code>是 DPDK 的一个核心。建立物理内存的映射，是在 DPDK 库之上构建应用时使用的内存的基本单元。每个 CPU 核心对 rte 内存池保有一个本地 cache，这也是为什么要 cpu affinity 和采用批处理的原因。</p>
+<p>缓存管理<code>rte_mbuf</code> 用来访问某一个 mempool。</p>
+<p>关于核心组件，打算之后要深入看源码，先贴上关于这一部分的一个缩略图。</p>
+<p><img src="http://p6rl2gdnw.bkt.clouddn.com/core%20components%20architecture.png" alt=""></p>
+<p>参考链接：<a href="http://www.dpdk.org/doc/guides/prog_guide/overview.html#core-components" target="_blank" rel="external">here</a></p>
+<h2 id="网络流捕获系统设计"><a href="#网络流捕获系统设计" class="headerlink" title="网络流捕获系统设计"></a>网络流捕获系统设计</h2><p>系统总体设计</p>
+<p>可维护、可靠、灵活、可重用</p>
+<ul>
+<li>数据包接收、处理模块</li>
+</ul>
+<p>收包 workflow</p>
+<p><img src="http://p6rl2gdnw.bkt.clouddn.com/2%20DPDK%20packet%20process%20workflow%20.png" alt=""></p>
+<p>采用轮询替代中断和系统调用来收包，所以收包模式是：程序主动调用<code>rte_eth_rx_burst()</code>接口去接受一定数量的数据包，需要对其进行封装，接收到一个包作为一个事件，触发一系列挂载在上面的回调函数对数据包进行处理。</p>
+<p>多线程：一个<code>local_main()</code>不断在每个核心上运行，循环地接受包，在收到包的时候调用<code>rte_eth_rx_burst()</code>处理每个包，根据每个包的包头再调用不同的函数进行处理（parser）</p>
+<p>而后的数据包处理模块，每一种报文解析的应用就是一种数据包处理模块，例如解析 http 协议的 http 模块、处理 DNS 的 DNS 模块等，各种不同的模块需要有统一设计和接口，内部解析逻辑各有区别</p>
+<ul>
+<li>内存管理模块</li>
+</ul>
+<p>设计两个全局大页内存池，分别是 TCP 流报文池和普通报文池。报文存储在内存池，在队列中存储报文的地址。</p>
+<ul>
+<li>改进 hash 算法</li>
+</ul>
+<p>RSS 机制现有一个问题就是会将同一个 TCP 连接的数据包映射到不同的网卡队列。本文改进了一种 hash 算法，将同一 TCP 连接的数据包映射到同一个网卡 RSS 队列。</p>
+<ul>
+<li>实验框架</li>
+</ul>
+<p><img src="http://p6rl2gdnw.bkt.clouddn.com/2%20%20architecture.png" alt=""></p>
+<h1 id="实验分析"><a href="#实验分析" class="headerlink" title="实验分析"></a>实验分析</h1><p>新系统无论在 cpu 使用率和系统吞吐率还是在丢包率上相比传统数据包捕获系统都有很大优势。</p>
+<p>第二篇论文中提到了 DPDK 的系统在试验中相较于 Linux 的内核有 10 倍以上的吞吐量提升。</p>
+<h1 id="本次收获"><a href="#本次收获" class="headerlink" title="本次收获"></a>本次收获</h1><p>更加了解了 DPDK 的创新点和工作原理，对于如何用 DPDK 做出基本的网络流量捕获有一个大概的了解。</p>
+<p>如下的操作系统知识非常重要，列出以供参考：</p>
+<figure class="highlight mathematica"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">I</span>/<span class="keyword">O</span> 驱动</div><div class="line">中断</div><div class="line">系统调用</div><div class="line">内核空间、用户空间</div><div class="line">cache</div><div class="line">进程、线程</div><div class="line">上下文切换</div><div class="line">单/多生产者消费者、读者写者等经典信号量同步问题</div></pre></td></tr></table></figure>
+<hr>
+<p>文献：</p>
+<ul>
+<li>[1] 李　丹, 谢淑翠, 基于DPDK的高效数据包捕获技术分析与应用 [J].计算机工程与科学, 2016, 38(11): 2209-2215.</li>
+<li>[2] 令瑞林　李峻峰　李　丹, 基于多核平台的高速网络流量实时捕获方法 [J].计算机研究与发展, 2017, 54(6): 1300-1313.</li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/04/04/How-to-make-outstanding-research-in-undergraduate/" rel="next" title="How to make outstanding research in undergraduate">
+                <i class="fa fa-chevron-left"></i> How to make outstanding research in undergraduate
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="ZC" />
+          <p class="site-author-name" itemprop="name">ZC</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">68</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#基于DPDK的高效数据包捕获技术分析与应用"><span class="nav-number">1.</span> <span class="nav-text">基于DPDK的高效数据包捕获技术分析与应用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#本文应用场景"><span class="nav-number">1.1.</span> <span class="nav-text">本文应用场景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#旧有传统数据包处理机制"><span class="nav-number">1.2.</span> <span class="nav-text">旧有传统数据包处理机制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DPDK"><span class="nav-number">1.3.</span> <span class="nav-text">DPDK</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#基于多核平台的高速网络流量实时捕获方法"><span class="nav-number">2.</span> <span class="nav-text">基于多核平台的高速网络流量实时捕获方法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#本文应用场景-1"><span class="nav-number">2.1.</span> <span class="nav-text">本文应用场景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#旧有解决方案"><span class="nav-number">2.2.</span> <span class="nav-text">旧有解决方案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#传统的报文处理"><span class="nav-number">2.3.</span> <span class="nav-text">传统的报文处理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DPDK-数据平面开发套件"><span class="nav-number">2.4.</span> <span class="nav-text">DPDK 数据平面开发套件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#网络流捕获系统设计"><span class="nav-number">2.5.</span> <span class="nav-text">网络流捕获系统设计</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#实验分析"><span class="nav-number">3.</span> <span class="nav-text">实验分析</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#本次收获"><span class="nav-number">4.</span> <span class="nav-text">本次收获</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ZC</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("guhO5d3jdrym6QcCp5oIrsMc-gzGzoHsz", "ldFdhqrIxGxOqWs5mgH8pmLT");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+
+  
+
+  
+
+</body>
+</html>
