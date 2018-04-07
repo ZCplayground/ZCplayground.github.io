@@ -107,7 +107,7 @@
 <meta property="og:image" content="http://p6rl2gdnw.bkt.clouddn.com/core%20components%20architecture.png">
 <meta property="og:image" content="http://p6rl2gdnw.bkt.clouddn.com/2%20DPDK%20packet%20process%20workflow%20.png">
 <meta property="og:image" content="http://p6rl2gdnw.bkt.clouddn.com/2%20%20architecture.png">
-<meta property="og:updated_time" content="2018-04-06T14:15:22.310Z">
+<meta property="og:updated_time" content="2018-04-07T00:24:52.419Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="阅读 DPDK 中文论文两则">
 <meta name="twitter:description" content="基于DPDK的高效数据包捕获技术分析与应用本文应用场景网络安全领域的数据包捕获技术,对系统有高性能需求，要在短时间内成功收集、分析、处理大量数据，实时捕获效率低下。 旧有传统数据包处理机制 BPF，伯克利封包处理器，是 Unix Linux 上的链路层的一种原始接口，许多功能以此为基础。 libpcap，linux 下的 C 语言网络数据包捕获函数库，大多数网络包分析软件以此为基础。 pf-rin">
@@ -392,7 +392,7 @@
 <p>主要有四个技术点：</p>
 <ul>
 <li><strong>大内存页</strong>提高内存使用效率。</li>
-<li>在 <em>*user space</em> 实现绝大部分功能。</li>
+<li>在 <strong>user space</strong> 实现绝大部分功能。</li>
 <li><strong>cpu affinity</strong> 实现将控制面线程以及各个数据面线程绑定到不同的 CPU 来避免反复调度、进出内核切换带来的性能消耗。</li>
 <li>实现从 driver -&gt; kernal -&gt; user space 过程中的 <strong>Zero copy</strong>。它直接从网卡驱动抓取数据，把一系列的工作放到用户态，使得 CPU 将更多的资源放在数据处理上，大大加快数据包处理速度。</li>
 </ul>
@@ -442,8 +442,7 @@
 <li>缺少内存本地化，在内存 copy 时，由于逐字拷贝导致 cache 一直被替换，cache 命中率低下。<strong>cache miss</strong> 导致额外 13.8% 的 CPU 周期。</li>
 </ul>
 <p><strong>可以看出，协议栈处理数据包时的拷贝操作是性能瓶颈。</strong>旧有方案不能很好地克服这些困难。</p>
-<p>改进方向：</p>
-<ul>
+<h2 id="思考对传统模式的改进方向"><a href="#思考对传统模式的改进方向" class="headerlink" title="思考对传统模式的改进方向"></a>思考对传统模式的改进方向</h2><ul>
 <li><strong>预分配、重用内存资源。</strong>（大页表、内存池）</li>
 <li><strong>CPU 亲和</strong>（CPU affinity）是一种技术，允许进程或线程在制定的处理器核心上运行。在本地核心中，cache 更容易命中，减少 cache miss。</li>
 <li>内存映射。应用程序的内存区域可以映射到内核态的内存区域，应用程序可以在没有中间副本的情况下进行读写，用这种方式使得应用直接访问网卡的 DMA 内存区域，这种技术叫<strong>零拷贝</strong>。也可以理解为 <strong>zero copy</strong>。</li>
@@ -464,19 +463,18 @@
 <li>无锁机制</li>
 <li>减少了由于突发操作和大量数据传输导致的 cache miss</li>
 </ul>
-<p>环境抽象层<code>EAL</code>是 DPDK 的一个核心。建立物理内存的映射，是在 DPDK 库之上构建应用时使用的内存的基本单元。每个 CPU 核心对 rte 内存池保有一个本地 cache，这也是为什么要 cpu affinity 和采用批处理的原因。</p>
-<p>缓存管理<code>rte_mbuf</code> 用来访问某一个 mempool。</p>
+<p><strong>环境抽象层</strong><code>EAL</code>是 DPDK 的一个核心。建立物理内存的映射，是在 DPDK 库之上构建应用时使用的内存的基本单元。每个 CPU 核心对 rte 内存池保有一个本地 cache，这也是为什么要 cpu affinity 和采用批处理的原因。</p>
+<p><strong>缓存管理</strong><code>rte_mbuf</code> 用来访问某一个 mempool。</p>
 <p>关于核心组件，打算之后要深入看源码，先贴上关于这一部分的一个缩略图。</p>
 <p><img src="http://p6rl2gdnw.bkt.clouddn.com/core%20components%20architecture.png" alt=""></p>
 <p>参考链接：<a href="http://www.dpdk.org/doc/guides/prog_guide/overview.html#core-components" target="_blank" rel="external">here</a></p>
-<h2 id="网络流捕获系统设计"><a href="#网络流捕获系统设计" class="headerlink" title="网络流捕获系统设计"></a>网络流捕获系统设计</h2><p>系统总体设计</p>
-<p>可维护、可靠、灵活、可重用</p>
+<h2 id="网络流捕获系统设计"><a href="#网络流捕获系统设计" class="headerlink" title="网络流捕获系统设计"></a>网络流捕获系统设计</h2><p><strong>系统总体设计</strong>：可维护、可靠、灵活、可重用</p>
 <ul>
 <li>数据包接收、处理模块</li>
 </ul>
 <p>收包 workflow</p>
 <p><img src="http://p6rl2gdnw.bkt.clouddn.com/2%20DPDK%20packet%20process%20workflow%20.png" alt=""></p>
-<p>采用轮询替代中断和系统调用来收包，所以收包模式是：程序主动调用<code>rte_eth_rx_burst()</code>接口去接受一定数量的数据包，需要对其进行封装，接收到一个包作为一个事件，触发一系列挂载在上面的回调函数对数据包进行处理。</p>
+<p>采用<strong>轮询替代中断和系统调用</strong>来收包，所以收包模式是：程序主动调用<code>rte_eth_rx_burst()</code>接口去接受一定数量的数据包，需要对其进行封装，接收到一个包作为一个事件，触发一系列挂载在上面的回调函数对数据包进行处理。</p>
 <p>多线程：一个<code>local_main()</code>不断在每个核心上运行，循环地接受包，在收到包的时候调用<code>rte_eth_rx_burst()</code>处理每个包，根据每个包的包头再调用不同的函数进行处理（parser）</p>
 <p>而后的数据包处理模块，每一种报文解析的应用就是一种数据包处理模块，例如解析 http 协议的 http 模块、处理 DNS 的 DNS 模块等，各种不同的模块需要有统一设计和接口，内部解析逻辑各有区别</p>
 <ul>
@@ -494,11 +492,10 @@
 <h1 id="实验分析"><a href="#实验分析" class="headerlink" title="实验分析"></a>实验分析</h1><p>新系统无论在 cpu 使用率和系统吞吐率还是在丢包率上相比传统数据包捕获系统都有很大优势。</p>
 <p>第二篇论文中提到了 DPDK 的系统在试验中相较于 Linux 的内核有 10 倍以上的吞吐量提升。</p>
 <h1 id="本次收获"><a href="#本次收获" class="headerlink" title="本次收获"></a>本次收获</h1><p>更加了解了 DPDK 的创新点和工作原理，对于如何用 DPDK 做出基本的网络流量捕获有一个大概的了解。</p>
-<p>如下的操作系统知识非常重要，列出以供参考：</p>
-<figure class="highlight mathematica"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">I</span>/<span class="keyword">O</span> 驱动</div><div class="line">中断</div><div class="line">系统调用</div><div class="line">内核空间、用户空间</div><div class="line">cache</div><div class="line">进程、线程</div><div class="line">上下文切换</div><div class="line">单/多生产者消费者、读者写者等经典信号量同步问题</div></pre></td></tr></table></figure>
+<p>深刻理解一定的操作系统知识对于理解 DPDK 的创新点非常必要且重要，列出以供参考：</p>
+<figure class="highlight mathematica"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">I</span>/<span class="keyword">O</span> 驱动</div><div class="line">中断</div><div class="line">系统调用</div><div class="line">内核空间、用户空间</div><div class="line">cache</div><div class="line">进程、线程</div><div class="line">虚拟内存、页表</div><div class="line">上下文切换</div><div class="line">单/多生产者消费者、读者写者等经典信号量同步问题</div></pre></td></tr></table></figure>
 <hr>
-<p>文献：</p>
-<ul>
+<h1 id="文献："><a href="#文献：" class="headerlink" title="文献："></a>文献：</h1><ul>
 <li>[1] 李　丹, 谢淑翠, 基于DPDK的高效数据包捕获技术分析与应用 [J].计算机工程与科学, 2016, 38(11): 2209-2215.</li>
 <li>[2] 令瑞林　李峻峰　李　丹, 基于多核平台的高速网络流量实时捕获方法 [J].计算机研究与发展, 2017, 54(6): 1300-1313.</li>
 </ul>
@@ -666,7 +663,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#基于DPDK的高效数据包捕获技术分析与应用"><span class="nav-number">1.</span> <span class="nav-text">基于DPDK的高效数据包捕获技术分析与应用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#本文应用场景"><span class="nav-number">1.1.</span> <span class="nav-text">本文应用场景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#旧有传统数据包处理机制"><span class="nav-number">1.2.</span> <span class="nav-text">旧有传统数据包处理机制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DPDK"><span class="nav-number">1.3.</span> <span class="nav-text">DPDK</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#基于多核平台的高速网络流量实时捕获方法"><span class="nav-number">2.</span> <span class="nav-text">基于多核平台的高速网络流量实时捕获方法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#本文应用场景-1"><span class="nav-number">2.1.</span> <span class="nav-text">本文应用场景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#旧有解决方案"><span class="nav-number">2.2.</span> <span class="nav-text">旧有解决方案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#传统的报文处理"><span class="nav-number">2.3.</span> <span class="nav-text">传统的报文处理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DPDK-数据平面开发套件"><span class="nav-number">2.4.</span> <span class="nav-text">DPDK 数据平面开发套件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#网络流捕获系统设计"><span class="nav-number">2.5.</span> <span class="nav-text">网络流捕获系统设计</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#实验分析"><span class="nav-number">3.</span> <span class="nav-text">实验分析</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#本次收获"><span class="nav-number">4.</span> <span class="nav-text">本次收获</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#基于DPDK的高效数据包捕获技术分析与应用"><span class="nav-number">1.</span> <span class="nav-text">基于DPDK的高效数据包捕获技术分析与应用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#本文应用场景"><span class="nav-number">1.1.</span> <span class="nav-text">本文应用场景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#旧有传统数据包处理机制"><span class="nav-number">1.2.</span> <span class="nav-text">旧有传统数据包处理机制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DPDK"><span class="nav-number">1.3.</span> <span class="nav-text">DPDK</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#基于多核平台的高速网络流量实时捕获方法"><span class="nav-number">2.</span> <span class="nav-text">基于多核平台的高速网络流量实时捕获方法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#本文应用场景-1"><span class="nav-number">2.1.</span> <span class="nav-text">本文应用场景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#旧有解决方案"><span class="nav-number">2.2.</span> <span class="nav-text">旧有解决方案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#传统的报文处理"><span class="nav-number">2.3.</span> <span class="nav-text">传统的报文处理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#思考对传统模式的改进方向"><span class="nav-number">2.4.</span> <span class="nav-text">思考对传统模式的改进方向</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DPDK-数据平面开发套件"><span class="nav-number">2.5.</span> <span class="nav-text">DPDK 数据平面开发套件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#网络流捕获系统设计"><span class="nav-number">2.6.</span> <span class="nav-text">网络流捕获系统设计</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#实验分析"><span class="nav-number">3.</span> <span class="nav-text">实验分析</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#本次收获"><span class="nav-number">4.</span> <span class="nav-text">本次收获</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#文献："><span class="nav-number">5.</span> <span class="nav-text">文献：</span></a></li></ol></div>
             
 
           </div>
