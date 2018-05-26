@@ -99,10 +99,18 @@
 <meta property="og:url" content="http://yoursite.com/2018/03/19/tcpip-11-DNS/index.html">
 <meta property="og:site_name" content="ZCplayground">
 <meta property="og:description" content="引言到目前为止，我们使用 IP 地址来研究参与网络的主机。对于大众来说，这些地址太繁琐且难以记忆。为了使用如 TCP 和 IP 等协议，主机名称通过名为名称解析（name resolution）的过程转换成 IP 地址。在互联网中，存在着不同形式的名称解析，其中最普遍、最重要的是域名系统（Domain Name System，DNS）。 DNS 是一种分布式数据库系统，是一种典型的客户端／服务器模">
-<meta property="og:updated_time" content="2018-03-19T14:47:34.356Z">
+<meta property="og:image" content="http://p6rl2gdnw.bkt.clouddn.com/02DNS%20query%20example.png">
+<meta property="og:image" content="http://p6rl2gdnw.bkt.clouddn.com/DNS%20message%20format.png">
+<meta property="og:image" content="http://p6rl2gdnw.bkt.clouddn.com/03%20question%20section.png">
+<meta property="og:image" content="http://p6rl2gdnw.bkt.clouddn.com/04%20data%20labels.png">
+<meta property="og:image" content="http://p6rl2gdnw.bkt.clouddn.com/07%20compression%20label.png">
+<meta property="og:image" content="http://p6rl2gdnw.bkt.clouddn.com/05%20DNS%20RR%20record.png">
+<meta property="og:image" content="http://p6rl2gdnw.bkt.clouddn.com/06%20RR%20types.png">
+<meta property="og:updated_time" content="2018-05-26T11:44:01.370Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="《TCP&#x2F;IP 详解 卷1：协议》第 11 章：名称解析和域名系统">
 <meta name="twitter:description" content="引言到目前为止，我们使用 IP 地址来研究参与网络的主机。对于大众来说，这些地址太繁琐且难以记忆。为了使用如 TCP 和 IP 等协议，主机名称通过名为名称解析（name resolution）的过程转换成 IP 地址。在互联网中，存在着不同形式的名称解析，其中最普遍、最重要的是域名系统（Domain Name System，DNS）。 DNS 是一种分布式数据库系统，是一种典型的客户端／服务器模">
+<meta name="twitter:image" content="http://p6rl2gdnw.bkt.clouddn.com/02DNS%20query%20example.png">
 
 
 
@@ -370,7 +378,7 @@
 <h1 id="DNS-名称空间"><a href="#DNS-名称空间" class="headerlink" title="DNS 名称空间"></a>DNS 名称空间</h1><p>DNS 中所有使用的名称构成了 <strong>DNS 名称空间</strong>（name space）。名称空间和计算机系统的文件系统相似，都是划分为层次且大小写不敏感的。DNS 名称空间是一棵<strong>域名树</strong>。</p>
 <ul>
 <li>位于顶部的树根未命名。</li>
-<li>树的最高层是所谓的顶级域名（Top-Level Domain Name，TLD）。包括通用顶级域名（generic，gTLD）、国家代码顶级域名（country code，ccTLD）、国际化国家代码顶级域名（internationalized，IDN ccTLD），基础设施顶级域名（infrastructure TLD）等等。</li>
+<li>树的最高层是所谓的顶级域名（Top-Level Domain Name，<code>TLD</code>）。包括通用顶级域名（generic，<code>gTLD</code>）、国家代码顶级域名（country code，<code>ccTLD</code>）、国际化国家代码顶级域名（internationalized，IDN ccTLD），基础设施顶级域名（infrastructure TLD）等等。</li>
 <li>国际化域名 IDN 的历史是互联网国际化的一部分，漫长而复杂。</li>
 <li>gTLD 分为几类：通用、通用限制、赞助。通用 gTLD 是开放的，其他两类受限于各种适用类型，以及什么实体可以从域名中分配名称。</li>
 <li>ccTLD 包含 ISO 3166 标准中指定的两个字母的国家代码。</li>
@@ -414,26 +422,159 @@
 </ul>
 <p>通过每个站点或是 ISP 本地部署服务器和一组特殊的<strong>根服务器</strong>（root server）构成 DNS <strong>分布式基础设施</strong>，通过该基础设施支持 DNS 查询／响应。</p>
 <p>截止 2011 年，共有 13 台由字母 A 到 M 命名的根服务器。13 台 gTLD 服务器，也由 A 到 M 标示。通过联系根服务器和 gTLD 服务器，互联网中任何用 TLD 格式名称的主机、服务器，都可以被发现。</p>
-<h2 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h2><p>todo P368</p>
-<h2 id="DNS-消息格式"><a href="#DNS-消息格式" class="headerlink" title="DNS 消息格式"></a>DNS 消息格式</h2><p>todo </p>
-<h2 id="UDP-和-TCP"><a href="#UDP-和-TCP" class="headerlink" title="UDP 和 TCP"></a>UDP 和 TCP</h2><p>对于 UDP 和 TCP 来说，DNS 的知名端口号是 53。</p>
-<h2 id="问题（查询）和区域区段格式"><a href="#问题（查询）和区域区段格式" class="headerlink" title="问题（查询）和区域区段格式"></a>问题（查询）和区域区段格式</h2><h2 id="回答、授权、额外信息区段格式"><a href="#回答、授权、额外信息区段格式" class="headerlink" title="回答、授权、额外信息区段格式"></a>回答、授权、额外信息区段格式</h2><h2 id="资源记录类型"><a href="#资源记录类型" class="headerlink" title="资源记录类型"></a>资源记录类型</h2><p>虽然 DNS 常用来确定特定的名称对应的 IP 地址，但是它可以用于相反的目的，也经常用来干一些别的事情。由于 DNS 能够拥有很多类型的资源记录，所以甚至可以为非互联网数据提供分布式数据库功能。</p>
-<p>todo ：表格</p>
+<p>对于 UDP 和 TCP 来说，DNS 的知名端口号是 53。</p>
+<h2 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h2><p><img src="http://p6rl2gdnw.bkt.clouddn.com/02DNS%20query%20example.png" alt=""></p>
+<p>下列序号是图中的箭头上的消息序号：</p>
+<ol>
+<li>当笔记本电脑 A.HOME 需要进行域名解析时，电脑上的解析器先朝最接近的本地名称服务器发送请求。也就是（消息1）。</li>
+<li>如果本地的域名服务器不清楚此域名对应的 IP，它就会将查询转发至另一个服务器（也就是<strong>递归</strong>）。（消息2）前往 ISP 提供的 DNS 服务器。</li>
+<li>ISP DNS 服务器也不清楚的话，就联系根服务器中的一台。</li>
+<li><strong>根服务器不是递归的</strong>，它们不会再进一步朝别的服务器请求，而是<strong>返回需要联系的正确的服务器的信息。</strong></li>
+<li>根据这些信息，ISP DNS 联系一个 gTLD 服务器。</li>
+<li>这个 gTLD 服务器发现了对应的名称服务器的 IP 地址，通过消息6返回。</li>
+<li>基于消息6，ISP DNS 联系适当的服务器。</li>
+<li>该服务器回复请求的 IP地址</li>
+<li>ISP DNS 返回给本地名称服务器。</li>
+<li>本地名称服务器返回给笔记本电脑。</li>
+</ol>
+<h2 id="DNS-消息格式"><a href="#DNS-消息格式" class="headerlink" title="DNS 消息格式"></a>DNS 消息格式</h2><p><img src="http://p6rl2gdnw.bkt.clouddn.com/DNS%20message%20format.png" alt=""></p>
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>长度(bits)</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>事务ID</td>
+<td>16</td>
+<td>由客户端设置，服务器来返回，用来匹配响应和查询</td>
+</tr>
+<tr>
+<td>QR</td>
+<td>1</td>
+<td>QR = 0表示查询，QR = 1表示响应</td>
+</tr>
+<tr>
+<td>OpCode</td>
+<td>4</td>
+<td>有三种值，0:标准查询，4:通知（NOTIFY），5:更新（UPDATE）</td>
+</tr>
+<tr>
+<td>Flag</td>
+<td>7</td>
+<td>查看下文</td>
+</tr>
+<tr>
+<td>RCODE</td>
+<td>4</td>
+<td>是一个响应码，常用的值有0:没有差错；3:不存在域名 等</td>
+</tr>
+<tr>
+<td>查询数、区域数</td>
+<td>16</td>
+<td>这接下来4条的字段都是16bits，表示DNS消息中各个区段（问题、回答、授权、额外信息）的条目数量。</td>
+</tr>
+<tr>
+<td>回答数、先决条件数</td>
+<td>16</td>
+<td>查看下文</td>
+</tr>
+<tr>
+<td>授权记录数</td>
+<td>16</td>
+<td>查看下文</td>
+</tr>
+<tr>
+<td>额外信息数</td>
+<td>16</td>
+<td>查看下文</td>
+</tr>
+<tr>
+<td>区段</td>
+<td>可变长度</td>
+<td>DNS消息最后的部分。第一个区段指示类型，后续的区段都可以包含资源记录（resource record，RR）。RR可以被缓存，而问题则不可以。</td>
+</tr>
+</tbody>
+</table>
+<h2 id="标志"><a href="#标志" class="headerlink" title="标志"></a>标志</h2><p>一共7个标志，每一个 1bit。</p>
+<table>
+<thead>
+<tr>
+<th>标志名</th>
+<th>意义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AA</td>
+<td>Authoritative answer，指示希望的是授权信息，还是缓存里的信息也可以。</td>
+</tr>
+<tr>
+<td>TC</td>
+<td>Truncated，截断信息，表示当应答超过512字节时，只发送前512字节</td>
+</tr>
+<tr>
+<td>RD</td>
+<td>Recursion desired，告诉服务器希望执行递归查询</td>
+</tr>
+<tr>
+<td>RA</td>
+<td>Recursion availabe，服务器表明自己是可以递归查询的。根服务器就不是递归的</td>
+</tr>
+<tr>
+<td>Z</td>
+<td>0</td>
+</tr>
+<tr>
+<td>AD</td>
+<td>如果包含信息是授权信息，设置这一位</td>
+</tr>
+<tr>
+<td>CD</td>
+<td>禁止校验</td>
+</tr>
+</tbody>
+</table>
+<h2 id="区段"><a href="#区段" class="headerlink" title="区段"></a>区段</h2><p>接下来先讲标准查询。</p>
+<p>区段是DNS消息最后的部分，有问题、回答、授权、额外信息四个种类。问题是 query 包里的，其余三个是 response 包的。在区段的前面四个16bits的字段就是对应这四个区段的条目数。对于 query 包来说，查询数就是1，其余三个的数量就是0。对于 response 包来说，回答数至少为 1，有可能包含其他信息。</p>
+<h3 id="问题区段格式"><a href="#问题区段格式" class="headerlink" title="问题区段格式"></a>问题区段格式</h3><p>问题区段有名称、类型、类，见下图。</p>
+<p><img src="http://p6rl2gdnw.bkt.clouddn.com/03%20question%20section.png" alt=""></p>
+<p>字段|长度(bits)|含义<br>查询名称|可变，但需要填充字节|需要被查询的域名，使用一种<strong>标签编码</strong>，见下文<br>查询类型(Types)|16|查询哪种类型的资源记录，见下文“资源记录类型”<br>查询类(Class)|16|1:互联网类，254:没有类，255:所有类</p>
+<p>下图是 DNS 系统中表示一个域名的编码——标签。一个标签就是一个完整的域名。对于一个标签来说，首先是用标签长度来指示后面跟了几个字符。0 表示一个标签的结束。每个标签的长度是 0 到 63。</p>
+<p><img src="http://p6rl2gdnw.bkt.clouddn.com/04%20data%20labels.png" alt=""></p>
+<p>如果使用普通的数据标签，如果在一次查询中出现了相同的名称，DNS 消息中的相同字符会重复。例如在一次查询中需要查询<code>usc.edu</code>和<code>ucla.edu</code>，如果使用上面的普通编码方式，<code>edu</code>这个字符会重复出现在消息内容中。下图是<strong>压缩标签</strong>，通过引用其他标签从而节省空间。普通的数据标签的开头是用一个字节的数字来表示后续的字符数量的。而压缩标签的用法是：开头用两个字节，共16bits，头两个bits置1，然后后续的14个bit形成一个偏移量指针，偏移量指示的是距离此消息开头的字节数。在查询<code>usc.edu</code>和<code>ucla.edu</code>时，后面的<code>edu</code>用偏移量 4 表示，就可以省下空间，见下图：</p>
+<p><img src="http://p6rl2gdnw.bkt.clouddn.com/07%20compression%20label.png" alt=""></p>
+<h3 id="回答、授权、额外信息区段格式"><a href="#回答、授权、额外信息区段格式" class="headerlink" title="回答、授权、额外信息区段格式"></a>回答、授权、额外信息区段格式</h3><p>除了问题区段，其他的区段包含零个或多个<strong>资源记录，RR</strong>。RR有固定的格式，见下图。</p>
+<p><img src="http://p6rl2gdnw.bkt.clouddn.com/05%20DNS%20RR%20record.png" alt=""></p>
+<p>字段|长度(bits)|含义<br>名称|可变，需要填充|就是域名<br>查询类型Type|16|见下文“资源记录类型”<br>查询类Class|16|同问题的区段。1:互联网类，254:没有类，255:所有类<br>TTL|16|缓存时间（秒）<br>RDLENGTH|16|资源数据长度（bytes）<br>RDATA|16|资源数据，根据查询类型的不同这里回放不同的东西</p>
+<h2 id="资源记录类型"><a href="#资源记录类型" class="headerlink" title="资源记录类型"></a>资源记录类型</h2><p>虽然 DNS 常用来确定特定的名称对应的 IP 地址，但是它可以用于相反的目的（根据IP查域名），也经常用来查一些别的。这是由于 DNS 能够拥有很多类型的资源记录，DNS 甚至可以为非互联网数据提供分布式数据库功能。</p>
 <p>资源记录分为三大类：</p>
 <ul>
 <li>数据类型。传达 DNS 中存储的信息。</li>
 <li>查询类型。使用和数据类型相同的值，增加几个额外的值，在问题区段中使用。</li>
 <li>元类型，特定单一 DNS 消息相关联的临时数据。 </li>
 </ul>
-<h2 id="区域传输-和-DNS-通知"><a href="#区域传输-和-DNS-通知" class="headerlink" title="区域传输 和 DNS 通知"></a>区域传输 和 DNS 通知</h2><h2 id="DNS-NOTIFY"><a href="#DNS-NOTIFY" class="headerlink" title="DNS NOTIFY"></a>DNS NOTIFY</h2><h1 id="透明度和扩展性"><a href="#透明度和扩展性" class="headerlink" title="透明度和扩展性"></a>透明度和扩展性</h1><h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>DNS 是互联网的一个重要组成部分，也同时广泛地应用于私有网络中。DNS 名称空间是全世界范围的。应用程序使用解析器联系一个或多个 DNS 服务器，执行域名解析。解析器联系一个本地域名服务器，该服务器可能会递归地联系其他满足该请求的服务器。大多数 DNS 服务器会缓存知道的信息。DNS 协议被用于 DNS 查询、响应，区域交换。DNS 查询、响应由通用的消息格式，包括问题、回答、授权信息、额外信息等。资源记录用来保存大多数 DNS 信息。</p>
-<p>DNS 一直受到众多攻击。</p>
+<p><img src="http://p6rl2gdnw.bkt.clouddn.com/06%20RR%20types.png" alt=""></p>
+<p>上图黄色标出了常用的资源记录类型。例如，一个 query 包里的问题区段的查询类型Type字段的值是 <code>A</code>，意味着需要查询一个对应域名的 IPv4 地址。</p>
+<ul>
+<li><code>A</code>：IPv4 地址</li>
+<li><code>NS</code>：区域授权服务器的名称，以供查询使用</li>
+<li><code>CNAME</code>：规范名称，也就是提供别名</li>
+<li><code>AAAA</code>：IPv6 地址</li>
+</ul>
+<h2 id="区域传输-和-DNS-通知"><a href="#区域传输-和-DNS-通知" class="headerlink" title="区域传输 和 DNS 通知"></a>区域传输 和 DNS 通知</h2><p>区域传输是用于从一个服务器复制另一区域的一组 RR 的，通常是主服务器复制到从服务器。这个功能的目的是为了保持多台服务器的内容同步。如果一台服务器失效了，这个功能也能让其他服务器帮助它恢复。与这个功能有关的字段是<code>OpCode</code>中的<code>DNS NOTIFY</code>值。由于数据量很大，这会使用TCP协议。</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>DNS 是互联网的一个重要组成部分，也同时广泛地应用于私有网络中。DNS 名称空间是全世界范围的。应用程序使用解析器联系一个或多个 DNS 服务器，执行域名解析。解析器联系一个本地域名服务器，该服务器可能会递归地联系其他满足该请求的服务器。大多数 DNS 服务器会缓存知道的信息。DNS 协议被用于 DNS 查询、响应，区域交换。DNS 查询、响应由通用的消息格式，包括问题、回答、授权信息、额外信息等。资源记录用来保存大多数 DNS 信息。</p>
+<p>DNS 一直受到众多攻击。例如伟光正的域名污染。</p>
 <ul>
 <li>DOS攻击，使重要的 DNS 过载，不能提供服务。</li>
 <li>改变资源记录的内容，或者伪造成合法的 DNS 地址，但是回复假的资源记录，从而导致主机连接到错误的 IP 地址。也就是域名污染。</li>
 <li>攻击者使用伪造的 IP 源地址产生对于 MX 记录的 DNS 请求。请求是较小的数据分组，但响应流量大（放大攻击，amplification）。响应会定向到请求的源 IP 地址。</li>
 <li>域名污染的另一种形式——缓存中毒（cache poisoning），在这种攻击中，一台 DNS 服务器的缓存内容被错误的、伪造的数据替代。客户端被定向到伪服务器，若由别有用心的人将服务器故意配置成原来的模样，例如伪装成银行的 Web 洁面，用户可能会无意识泄露敏感信息。</li>
 </ul>
-<h1 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h1>
+
       
     </div>
 
@@ -601,7 +742,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#引言"><span class="nav-number">1.</span> <span class="nav-text">引言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#DNS-名称空间"><span class="nav-number">2.</span> <span class="nav-text">DNS 名称空间</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#命名语法"><span class="nav-number">2.1.</span> <span class="nav-text">命名语法</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#名称服务器和区域"><span class="nav-number">3.</span> <span class="nav-text">名称服务器和区域</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#DNS-缓存"><span class="nav-number">4.</span> <span class="nav-text">DNS 缓存</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#DNS-协议"><span class="nav-number">5.</span> <span class="nav-text">DNS 协议</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#例子"><span class="nav-number">5.1.</span> <span class="nav-text">例子</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DNS-消息格式"><span class="nav-number">5.2.</span> <span class="nav-text">DNS 消息格式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#UDP-和-TCP"><span class="nav-number">5.3.</span> <span class="nav-text">UDP 和 TCP</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#问题（查询）和区域区段格式"><span class="nav-number">5.4.</span> <span class="nav-text">问题（查询）和区域区段格式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#回答、授权、额外信息区段格式"><span class="nav-number">5.5.</span> <span class="nav-text">回答、授权、额外信息区段格式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#资源记录类型"><span class="nav-number">5.6.</span> <span class="nav-text">资源记录类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#区域传输-和-DNS-通知"><span class="nav-number">5.7.</span> <span class="nav-text">区域传输 和 DNS 通知</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DNS-NOTIFY"><span class="nav-number">5.8.</span> <span class="nav-text">DNS NOTIFY</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#透明度和扩展性"><span class="nav-number">6.</span> <span class="nav-text">透明度和扩展性</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">7.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考链接"><span class="nav-number">8.</span> <span class="nav-text">参考链接</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#引言"><span class="nav-number">1.</span> <span class="nav-text">引言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#DNS-名称空间"><span class="nav-number">2.</span> <span class="nav-text">DNS 名称空间</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#命名语法"><span class="nav-number">2.1.</span> <span class="nav-text">命名语法</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#名称服务器和区域"><span class="nav-number">3.</span> <span class="nav-text">名称服务器和区域</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#DNS-缓存"><span class="nav-number">4.</span> <span class="nav-text">DNS 缓存</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#DNS-协议"><span class="nav-number">5.</span> <span class="nav-text">DNS 协议</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#例子"><span class="nav-number">5.1.</span> <span class="nav-text">例子</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DNS-消息格式"><span class="nav-number">5.2.</span> <span class="nav-text">DNS 消息格式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#标志"><span class="nav-number">5.3.</span> <span class="nav-text">标志</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#区段"><span class="nav-number">5.4.</span> <span class="nav-text">区段</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#问题区段格式"><span class="nav-number">5.4.1.</span> <span class="nav-text">问题区段格式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#回答、授权、额外信息区段格式"><span class="nav-number">5.4.2.</span> <span class="nav-text">回答、授权、额外信息区段格式</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#资源记录类型"><span class="nav-number">5.5.</span> <span class="nav-text">资源记录类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#区域传输-和-DNS-通知"><span class="nav-number">5.6.</span> <span class="nav-text">区域传输 和 DNS 通知</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">6.</span> <span class="nav-text">总结</span></a></li></ol></div>
             
 
           </div>

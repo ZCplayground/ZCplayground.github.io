@@ -99,7 +99,7 @@
 <meta property="og:url" content="http://yoursite.com/2018/03/19/tcpip-10-UDP/index.html">
 <meta property="og:site_name" content="ZCplayground">
 <meta property="og:description" content="引言 UDP 稍微扩展了IP协议，使得包可以在进程间传送，而不仅仅是在主机件。——《CSAPP》 IP 数据报是指 IP 层端到端的传输单元。分组（packet）是 IP 层和链路层的传输单元。一个分组可以是一个完整的数据报，也可以是一个分片。——《TCP／IP协议详解卷一 第一版》  UDP 是一种保留消息边界的简单的面相数据报的传输层协议。它不提供差错纠正、队列管理、重复消除、流量控制、拥塞控">
-<meta property="og:updated_time" content="2018-03-19T14:46:02.388Z">
+<meta property="og:updated_time" content="2018-05-26T09:26:41.506Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="《TCP&#x2F;IP 详解 卷1：协议》第 10 章：用户数据报协议">
 <meta name="twitter:description" content="引言 UDP 稍微扩展了IP协议，使得包可以在进程间传送，而不仅仅是在主机件。——《CSAPP》 IP 数据报是指 IP 层端到端的传输单元。分组（packet）是 IP 层和链路层的传输单元。一个分组可以是一个完整的数据报，也可以是一个分片。——《TCP／IP协议详解卷一 第一版》  UDP 是一种保留消息边界的简单的面相数据报的传输层协议。它不提供差错纠正、队列管理、重复消除、流量控制、拥塞控">
@@ -412,14 +412,11 @@
 <li>对比只覆盖头部的 IPv4 检验和，经过每一跳路由器都要修改。传输层协议检验和覆盖传输层协议头部和数据。</li>
 <li>“UDP 伪头部”是指UDP数据报长度可以是奇数长字节，而检验和算法只相加 16 位字（偶数字节），因此对于奇数字节长度的数据报，UDP 会在末尾添加一个都为 0 的填充。仅为了计算校验和，不会被传递出去。</li>
 </ul>
-<h2 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h2><p>todo</p>
 <h1 id="UDP-和-IP-分片"><a href="#UDP-和-IP-分片" class="headerlink" title="UDP 和 IP 分片"></a>UDP 和 IP 分片</h1><p>在链路层中有介绍，链路层对可传输帧长度有一个最大上限。IP 引入分片和重组。IP 转发时，做出的判断，不仅根据路由表，也根据要求的 MTU 是多少。如果数据报太大则进行分片。</p>
 <ul>
 <li>分片可以在发送方到目的地上的端到端路径上<strong>任何中间路由器</strong>进行。</li>
 <li>重组直到它到达最终目的地才会被重组。原因有二：一、网络中不进行重组减轻路由器的负担。二、不同分片可能经过不同路径到达目的地，这样的话路由器没有能力来重组。</li>
 </ul>
-<h2 id="例子-1"><a href="#例子-1" class="headerlink" title="例子"></a>例子</h2><p>todo</p>
-<h1 id="采用-UDP-的路径-MTU-发现"><a href="#采用-UDP-的路径-MTU-发现" class="headerlink" title="采用 UDP 的路径 MTU 发现"></a>采用 UDP 的路径 MTU 发现</h1><p>例子 todo </p>
 <h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>UDP 是一个简单的协议。它给 IP层之上的用户进程提供了端口号和检验和机制。没有流量控制、拥塞控制、差错纠正。有差错检测和消息边界保留。</p>
 <p>我们看到了 UDP 用于IP 分片、路径 MTU 发现。当出现如下情况，最常用的就是 UDP 了：</p>
 <ul>
@@ -428,7 +425,7 @@
 <li>不需要 TCP 相对笨重的可靠 </li>
 </ul>
 <p>UDP 的主要用途之一是 DNS（域名系统）。UDP 占据了观察到的互联网流量的 10% - 40%，随着点对点应用数量的增加，UDP 的使用仍在上升，虽然 TCP 在稳定性方面占据了统治地位。网络分片流量大多数 UDP 的，尽管总体流量中只有极少数是分片。分片中的流量类型主要有基于 UDP 的多媒体流量、VPN 隧道中封装的隧道流量。</p>
-<h1 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h1>
+
       
     </div>
 
@@ -596,7 +593,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#引言"><span class="nav-number">1.</span> <span class="nav-text">引言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#UDP-header"><span class="nav-number">2.</span> <span class="nav-text">UDP header</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#端口号"><span class="nav-number">2.1.</span> <span class="nav-text">端口号</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#UDP-检验和"><span class="nav-number">2.2.</span> <span class="nav-text">UDP 检验和</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#例子"><span class="nav-number">2.3.</span> <span class="nav-text">例子</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#UDP-和-IP-分片"><span class="nav-number">3.</span> <span class="nav-text">UDP 和 IP 分片</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#例子-1"><span class="nav-number">3.1.</span> <span class="nav-text">例子</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#采用-UDP-的路径-MTU-发现"><span class="nav-number">4.</span> <span class="nav-text">采用 UDP 的路径 MTU 发现</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">5.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考链接"><span class="nav-number">6.</span> <span class="nav-text">参考链接</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#引言"><span class="nav-number">1.</span> <span class="nav-text">引言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#UDP-header"><span class="nav-number">2.</span> <span class="nav-text">UDP header</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#端口号"><span class="nav-number">2.1.</span> <span class="nav-text">端口号</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#UDP-检验和"><span class="nav-number">2.2.</span> <span class="nav-text">UDP 检验和</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#UDP-和-IP-分片"><span class="nav-number">3.</span> <span class="nav-text">UDP 和 IP 分片</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li></ol></div>
             
 
           </div>

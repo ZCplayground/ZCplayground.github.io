@@ -93,16 +93,26 @@
 
 
 
-<meta name="description" content="引言有 4 种 IP 地址，单播（unicast）、任播（anycast）、组播（multicast）和广播（broadcast）。IPv4 可以使用所有地址，IPv6 可以使用除广播之外的地址。 本章讨论广播和组播的细节，例如：  链路层如何有效地从一台计算机向其他计算机发送广播或组播流量。  互联网组管理协议（IGMP）和组播侦听协议（MLD）如何工作，通知组播路由器子网中哪些组播地址在使用">
+<meta name="description" content="广播和本地组播（IGMP 和 MLD） 引言有 4 种 IP 地址，单播（unicast）、任播（anycast）、组播（multicast）和广播（broadcast）。IPv4 可以使用所有地址，IPv6 可以使用除广播之外的地址。 本章讨论广播和组播的细节，例如：  链路层如何有效地从一台计算机向其他计算机发送广播或组播流量。 互联网组管理协议（IGMP）和组播侦听协议（MLD）如何工作，通">
 <meta property="og:type" content="article">
 <meta property="og:title" content="《TCP&#x2F;IP 详解 卷1：协议》第 9 章：广播和本地组播（IGMP 和 MLD）">
 <meta property="og:url" content="http://yoursite.com/2018/03/09/tcpip-9-IGMP/index.html">
 <meta property="og:site_name" content="ZCplayground">
-<meta property="og:description" content="引言有 4 种 IP 地址，单播（unicast）、任播（anycast）、组播（multicast）和广播（broadcast）。IPv4 可以使用所有地址，IPv6 可以使用除广播之外的地址。 本章讨论广播和组播的细节，例如：  链路层如何有效地从一台计算机向其他计算机发送广播或组播流量。  互联网组管理协议（IGMP）和组播侦听协议（MLD）如何工作，通知组播路由器子网中哪些组播地址在使用">
-<meta property="og:updated_time" content="2018-03-19T14:43:06.163Z">
+<meta property="og:description" content="广播和本地组播（IGMP 和 MLD） 引言有 4 种 IP 地址，单播（unicast）、任播（anycast）、组播（multicast）和广播（broadcast）。IPv4 可以使用所有地址，IPv6 可以使用除广播之外的地址。 本章讨论广播和组播的细节，例如：  链路层如何有效地从一台计算机向其他计算机发送广播或组播流量。 互联网组管理协议（IGMP）和组播侦听协议（MLD）如何工作，通">
+<meta property="og:image" content="http://p6rl2gdnw.bkt.clouddn.com/D%20address.png">
+<meta property="og:image" content="http://p6rl2gdnw.bkt.clouddn.com/map%20of%20IPv4.png">
+<meta property="og:image" content="http://p6rl2gdnw.bkt.clouddn.com/filter%20on%20group%20message.png">
+<meta property="og:image" content="http://p6rl2gdnw.bkt.clouddn.com/IGMP%20query%20and%20report.png">
+<meta property="og:image" content="http://p6rl2gdnw.bkt.clouddn.com/IGMP%20IPv6%20header.png">
+<meta property="og:image" content="http://p6rl2gdnw.bkt.clouddn.com/membership%20report.png">
+<meta property="og:image" content="http://p6rl2gdnw.bkt.clouddn.com/group%20record.png">
+<meta property="og:image" content="http://p6rl2gdnw.bkt.clouddn.com/IGMP%20filtering%20mode.png">
+<meta property="og:image" content="http://p6rl2gdnw.bkt.clouddn.com/IGMP%20query.png">
+<meta property="og:updated_time" content="2018-05-26T09:11:35.575Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="《TCP&#x2F;IP 详解 卷1：协议》第 9 章：广播和本地组播（IGMP 和 MLD）">
-<meta name="twitter:description" content="引言有 4 种 IP 地址，单播（unicast）、任播（anycast）、组播（multicast）和广播（broadcast）。IPv4 可以使用所有地址，IPv6 可以使用除广播之外的地址。 本章讨论广播和组播的细节，例如：  链路层如何有效地从一台计算机向其他计算机发送广播或组播流量。  互联网组管理协议（IGMP）和组播侦听协议（MLD）如何工作，通知组播路由器子网中哪些组播地址在使用">
+<meta name="twitter:description" content="广播和本地组播（IGMP 和 MLD） 引言有 4 种 IP 地址，单播（unicast）、任播（anycast）、组播（multicast）和广播（broadcast）。IPv4 可以使用所有地址，IPv6 可以使用除广播之外的地址。 本章讨论广播和组播的细节，例如：  链路层如何有效地从一台计算机向其他计算机发送广播或组播流量。 互联网组管理协议（IGMP）和组播侦听协议（MLD）如何工作，通">
+<meta name="twitter:image" content="http://p6rl2gdnw.bkt.clouddn.com/D%20address.png">
 
 
 
@@ -363,74 +373,80 @@
       
 
       
-        <h1 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h1><p>有 4 种 IP 地址，单播（unicast）、任播（anycast）、组播（multicast）和广播（broadcast）。IPv4 可以使用所有地址，IPv6 可以使用除广播之外的地址。</p>
+        <p>广播和本地组播（IGMP 和 MLD）</p>
+<h1 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h1><p>有 4 种 IP 地址，<strong>单播</strong>（unicast）、<strong>任播</strong>（anycast）、<strong>组播</strong>（multicast）和<strong>广播</strong>（broadcast）。IPv4 可以使用所有地址，IPv6 可以使用除广播之外的地址。</p>
 <p>本章讨论广播和组播的细节，例如：</p>
 <ul>
-<li><p>链路层如何有效地从一台计算机向其他计算机发送广播或组播流量。</p>
-</li>
-<li><p>互联网组管理协议（IGMP）和组播侦听协议（MLD）如何工作，通知组播路由器子网中哪些组播地址在使用</p>
-</li>
+<li>链路层如何有效地从一台计算机向其他计算机发送广播或组播流量。</li>
+<li>互联网组管理协议（IGMP）和组播侦听协议（MLD）如何工作，通知组播路由器子网中哪些组播地址在使用。</li>
 </ul>
-<p>广播和组播都是为了将数据报交付至多个目的地的技术，也是客户端请求／发现服务器的手段。</p>
+<p>广播和组播都是为了<strong>将数据报交付至多个目的地的技术</strong>，也是客户端请求／发现服务器的手段。</p>
 <ul>
-<li>交付至多个目的地。有许多应用程序要将消息交付到多个收件方。若没有广播和做播，采取 TCP 与多个目的地分别建立连接，是非常低效的。</li>
-<li>客户端请求／发现服务器。用了广播和组播，客户端／应用程序可以向一个服务器发送请求，而不需要知道特定的服务器 IP 地址。特别是在网络环境的配置信息不完善时，这种功能在配置方面非常有用。（例如 DHCP）</li>
+<li>交付至多个目的地。有许多应用程序要将消息交付到多个收件方。若没有广播和组播，采取 TCP 与多个目的地分别建立连接，是非常低效的。</li>
+<li>客户端请求／发现服务器。用了广播和组播，客户端／应用程序<strong>可以向一个服务器发送请求，而不需要知道特定的服务器 IP 地址</strong>。特别是在网络环境的配置信息不完善时，这种功能在配置方面非常有用。（例如 DHCP）</li>
 </ul>
-<p>虽然广播和组播都可以完成上述功能，但组播一般情况下<strong>比广播更可取</strong>，因为组播只涉及到那些支持特定服务或协议的系统（在特定的组播组里），而广播不是。广播请求会影响广播范围内所有能到达的主机，组播只影响那些对该请求感兴趣的主机。<strong>广播更简单，但开销更大；组播改善了效率，但带来更多的复杂性。</strong></p>
-<p>一般来说，只用使用 UDP 传输协议的应用程序才利用广播和组播，在 UDP 下，发送单个报文到多个收件方才是有意义的。TCP 是面向连接的协议，使用 TCP 的话意味着两台主机（由IP地址指定）上面的进程（由端口号指定）之间建立了连接。TCP 可以使用单播和任播，但是不能使用广播和组播地址。</p>
-<h1 id="广播"><a href="#广播" class="headerlink" title="广播"></a>广播</h1><p>广播是指将报文发送到网络中所有可能的接收者。原理上很清晰：路由器简单地把它接受到的任意报文，在除了报文到达接口之外的所有借口都发送一个副本。</p>
-<h2 id="广播地址"><a href="#广播地址" class="headerlink" title="广播地址"></a>广播地址</h2><p>回忆一下，每个以太网帧包含源和目的 MAC 地址。使用单播地址时，MAC 地址由ARP 或 IPv6 邻居发现来确定。当一个帧以这种方式发送到单播 IP 地址时，任意两个主机之间的通信不会打扰这个网络上的其他主机。</p>
-<p>诸如以太网这种链路层支持<strong>链路层广播</strong>。</p>
-<p>组播的 MAC 地址以十六进制表示看起来像</p>
-<p>每个 IPv4 子网都有一个本子网广播地址，就是地址中的主机部分全置 1 形成的。特殊地址：255.255.255.255 被称为本地广播地址（也称为“有限广播”）。该地址我们在 DHCP 中见过。由于主机在未配置网络环境时，自身没有 IP 地址，也没有关于子网掩码等信息。适用本地广播地址，路由器是不会转发的，有限广播地址仅出现在本地网络。</p>
-<p>看一个例子：</p>
-<p>todo</p>
-<h1 id="组播"><a href="#组播" class="headerlink" title="组播"></a>组播</h1><p>为了减少在广播中涉及的开销，可以只向那些<strong>对该流量感兴趣的接收方</strong>发送流量。这被称为组播（multicasting）。实现组播就要比广播更具复杂性，因为要实现组播就要维持一个组播状态信息（multicast state），主机和路由器维持状态信息来说明哪些接收方对哪类流量感兴趣。除此之外，该状态应该是软状态（soft state），应该定期更新或者是超时删除。</p>
+<p>虽然广播和组播都可以完成上述功能，但组播一般情况下<strong>比广播更可取</strong>，因为组播只涉及到那些支持特定服务或协议的系统（在特定的组播组里），而广播不是。广播请求会影响广播范围内所有能到达的主机，<strong>组播只影响那些对该请求感兴趣的主机。**</strong>广播更简单，但开销更大；组播改善了效率，但带来更多的复杂性。**</p>
+<p><strong>一般来说，只用使用 UDP 传输协议的应用程序才利用广播和组播</strong>，在 UDP 下，发送单个报文到多个收件方才是有意义的。TCP 是面向连接的协议，使用 TCP 的话意味着两台主机（由IP地址指定）上面的进程（由端口号指定）之间建立了连接。TCP 可以使用单播和任播，但是不能使用广播和组播地址。</p>
+<h1 id="广播"><a href="#广播" class="headerlink" title="广播"></a>广播</h1><p>广播是指将报文发送到网络中所有可能的接收者。原理上很清晰：路由器<strong>简单地把它接受到的任意报文，在除了报文到达接口之外的所有接口都发送一个副本。</strong></p>
+<h2 id="广播地址"><a href="#广播地址" class="headerlink" title="广播地址"></a>广播地址</h2><p>回忆一下，每个以太网帧包含源和目的 MAC 地址。使用单播地址时，MAC 地址由ARP 或 IPv6 邻居发现来确定。当一个帧以这种方式发送到单播 IP 地址时，任意两个主机之间的通信不会打扰这个网络上的其他主机。诸如以太网这种链路层支持<strong>链路层广播</strong>。</p>
+<p>组播的 MAC 地址，高字节位是低位有效字节，也就是 CSAPP 里面讲的<a href="http://www.cnblogs.com/ZCplayground/p/6485364.html" target="_blank" rel="external">小端法</a>。以太网的广播地址是<code>ff:ff:ff:ff:ff:ff</code>。</p>
+<p>每个 IPv4 子网都有一个<strong>本子网广播地址，就是地址中的主机部分全置 1 形成的</strong>。特殊地址：<code>255.255.255.255</code> 被称为<strong>本地广播地址</strong>（也称为“有限广播”）。该地址我们在 DHCP 中见过。由于主机在未配置网络环境时，自身没有 IP 地址，也没有关于子网掩码等信息。适用本地广播地址，路由器是不会转发的，有限广播地址仅出现在本地网络。</p>
+<h1 id="组播"><a href="#组播" class="headerlink" title="组播"></a>组播</h1><p>为了减少在广播中涉及的开销，可以只向那些<strong>对该流量感兴趣的接收方</strong>发送流量。这被称为组播（multicasting）。实现组播就要比广播更具复杂性，因为要实现组播就要维持一个组播<strong>状态信息</strong>（multicast state），主机和路由器维持状态信息来说明哪些接收方对哪类流量感兴趣。除此之外，该状态应该是软状态（soft state），应该定期更新或者是超时删除。</p>
 <p>组播在企业和本地网络中的使用超过在广域网中的使用。在这种环境下广播的低效就体现的比较严重。</p>
 <p>为了使组播工作，就要设计一种机制来使得主机发布其对某些流量的意愿（说白了就是加入某个组播组）的协议，路由器也要知道如何转发组播流量。</p>
 <h2 id="将-IP-组播地址转换为-802-MAC／以太网地址"><a href="#将-IP-组播地址转换为-802-MAC／以太网地址" class="headerlink" title="将 IP 组播地址转换为 802 MAC／以太网地址"></a>将 IP 组播地址转换为 802 MAC／以太网地址</h2><p>下面研究 IP 组播流量是如何使用 MAC 层组播地址的。</p>
-<p>当我们要发送组播流量时，链路层帧（我们专注考虑 IEEE 802，以太网和 Wi-Fi）中要存放什么样的目的 MAC 地址呢？这里的技术就是简单的将一个IP组播地址直接映射到一些对应的MAC地址。</p>
-<p>IANA 拥有 IEEE 组织唯一标识符（简称 OUI，以太网地址前缀）00:00:5e，</p>
+<p>当我们要发送组播流量时，链路层帧（我们专注考虑 IEEE 802，以太网和 Wi-Fi）中要存放什么样的目的 MAC 地址呢？（广播帧目的地址就是<code>ff:ff:ff:ff:ff:ff</code>）这里的技术就是简单的<strong>将一个IP组播地址直接映射到一些对应的MAC地址</strong>。</p>
+<p>IANA 拥有 IEEE 组织唯一标识符（简称 OUI，以太网地址前缀）<code>00:00:5e</code>和<code>01:00:5e</code>，用前者来表示单播地址，用后者用于映射成组播地址。因为这个前缀占了 24 位，所以剩余的组播地址范围是：<code>01:00:5e:00:00:00</code> ~ <code>01:00:5e:ff:ff:ff</code>。IANA 只分配<strong>一半</strong>用于识别 IEEE 802 LAN 上的 IPv4 组播地址，范围是：<code>01:00:5e:00:00:00</code> ~ <code>01:00:5e:7f:ff:ff</code>。下图是一个 D 类地址<code>224.0.1.17</code> 映射成组播地址的例子：</p>
+<p><img src="http://p6rl2gdnw.bkt.clouddn.com/D%20address.png" alt=""></p>
+<p><img src="http://p6rl2gdnw.bkt.clouddn.com/map%20of%20IPv4.png" alt=""></p>
+<p>D 类地址的开头是固定的<code>1110</code>，所以有 28 位用来编码整个地址空间。即有 2^28 个组播地址。然而 INAN 只分配了 2^23 个链路层地址空间，因此，<strong>映射是非唯一的</strong>。则驱动和 IP 层需要进行过滤，因为有可能出现类似 hash 冲突的情况——主机不想接受的帧仍被发到了这个 MAC 地址。</p>
 <h2 id="发送／接收组播数据报"><a href="#发送／接收组播数据报" class="headerlink" title="发送／接收组播数据报"></a>发送／接收组播数据报</h2><p>组播的基本概念是主机给定的接口上进程<strong>加入</strong>（joining）或<strong>离开</strong>（leaving）一个或多个组播组的概念。</p>
 <p>能接受一个特定组播组数据的主机集合叫主机组。主机组可以跨越多个网络，成员资格是动态的，意思是主机成员可随时加入 or 离开主机组。一些组播地址被 IANA 确定为知名地址。</p>
 <p>组成员资格是与接口相关的，一个进程可以在多个接口上加入同一组，也可以加入同一接口上的多个组。一个主机接收到一个组播数据报，向属于这个组播组的每个进程传递数据报的复制。</p>
 <h2 id="主机地址过滤"><a href="#主机地址过滤" class="headerlink" title="主机地址过滤"></a>主机地址过滤</h2><p>为了了解操作系统进程如何为程序已加入的组播组接收组播数据报，我们需要了解<strong>过滤</strong>（filtering）操作。过滤在主机的网络接口卡（NIC）上发生。如图所示：</p>
-<p><img src="" alt=""></p>
+<p><img src="http://p6rl2gdnw.bkt.clouddn.com/filter%20on%20group%20message.png" alt=""></p>
 <p>在典型的交换式以太网环境中，广播和组播帧是沿着生成树在 VLAN 的所有段上被复制。简单来说，帧被交付至每台主机的 NIC 上，然后检查帧的完整性（CRC），决定是否接受该帧。若接收，就将其交付给设备驱动程序和网络协议栈。目的地址是接口的硬件地址的帧，以及广播帧，就按照上述过程处理了。但组播帧的情况更复杂一点。</p>
 <p>NIC 处理组播帧一般有两类：</p>
 <ul>
-<li>基于组播硬件地址的散列值过滤。</li>
-<li>基于侦听组播地址的一张有限表。</li>
+<li>基于<strong>组播硬件地址的散列值</strong>过滤。</li>
+<li>基于<strong>侦听组播地址的一张有限表</strong>。</li>
 </ul>
 <ol>
-<li>散列表的方法就意味着会出现冲突，意味着一些不需要的帧会误以为可以通过。这不是一个致命的问题，因为协议栈的较高层次依然会有检测。</li>
-<li>有限表的方法，如果长厂超过限制，就会导致所有的组播流量将交给主机软件。尽管存在不完美的硬件过滤，组播仍然比广播更高效。</li>
+<li>散列表的方法就意味着会出现<strong>冲突</strong>，意味着一些<strong>不需要的帧会误以为可以通过</strong>。这不是一个致命的问题，因为协议栈的较高层次依然会有检测。</li>
+<li>侦听一张有限表上的组播地址的方法，如果长度超过限制，就会导致所有的组播流量将交给主机软件。尽管存在不完美的硬件过滤，组播仍然比广播更高效。</li>
 </ol>
-<p>一旦 NIC 确定一个帧可以接收（CRC 正确、VLAN 标签匹配、MAC 地址和 NIC 地址表的条目相匹配或散列值匹配），该帧被传递到设备驱动程序，在此执行另外的过滤。</p>
+<p>一旦 NIC 确定一个帧可以接收（CRC 正确、VLAN 标签匹配、MAC 地址和 NIC 地址表的条目相匹配或散列值匹配），该帧被传递到设备<strong>驱动</strong>程序（driver），在此执行另外的过滤。</p>
 <ul>
-<li>首先，指定一种特定的协议（例如 IPv4、ARP 等等）</li>
-<li>过滤以检查主机是否属于被寻址的组播组。</li>
-<li>然后，设备驱动程序将该帧传递到下一层。例如，帧类型是指定了一个 IP 数据报，则传递到 IP 层，IP 进行更多的过滤。如果一切依然没有问题，传递到下一层（如 UDP 和 TCP），再进行过滤。（如没有进程在使用目的端口，则数据报被丢弃，生产 ICMP 端口不可达报文；或者校验和错误，被默默丢弃）</li>
+<li>首先，指定一种特定的<strong>协议</strong>（例如 IPv4、ARP 等等）</li>
+<li>过滤以检查主机<strong>是否属于被寻址的组播组</strong>。</li>
 </ul>
+<p>然后，设备驱动程序将该帧传递到下一层。例如，帧类型是指定了一个 IP 数据报，则传递到 IP 层，IP 进行更多的过滤。如果一切依然没有问题，传递到下一层（如 UDP 和 TCP），再进行过滤。（如没有进程在使用目的端口，则数据报被丢弃，生产 ICMP 端口不可达报文；或者校验和错误，被默默丢弃）</p>
 <p>为什么要研究组播过滤、寻址的特征？主要动机之一是为了<strong>避免广播的开销</strong>。考虑一个使用 UDP 广播的应用程序。一个网络（或者 VLAN）一共有 50 台主机，但只有 20 台参与了这个应用。当 UDP 广播被发送的时候，在 30 台没有参与的主机那里，UDP 广播数据报在上升到 UDP 层，因为发现了目的端口没有被使用，才被丢弃。使用组播的目的就是减少对该应用没有兴趣的主机的负担。使用组播，在 NIC 层次的过滤器就可以过滤不相关、不感兴趣的流量。这一机制使得在主机上处理数据报的开销减小，作为代价，就是在组播地址管理、组成员管理方面添加额外的协议。</p>
-<h1 id="互联网组管理协议-和-组播侦听发现协议"><a href="#互联网组管理协议-和-组播侦听发现协议" class="headerlink" title="互联网组管理协议 和 组播侦听发现协议"></a>互联网组管理协议 和 组播侦听发现协议</h1><p>到目前为止，我们从主机角度讨论了组播数据报的传输、过滤、接收。当组播数据报在广域网，或是跨越多个子网中转发是，需要一个或多个<strong>组播路由器</strong>来启动<strong>组播路由</strong>（multicast routing）。组播路由器需要知道哪些主机对什么组播感兴趣。路由器需要知道这些信息，知道哪些组播数据报该转发到哪个接口。</p>
+<h1 id="互联网组管理协议-和-组播侦听发现协议"><a href="#互联网组管理协议-和-组播侦听发现协议" class="headerlink" title="互联网组管理协议 和 组播侦听发现协议"></a>互联网组管理协议 和 组播侦听发现协议</h1><p>到目前为止，我们从主机角度讨论了组播数据报的传输、过滤、接收。当组播数据报在广域网，或是<strong>跨越多个子网</strong>中转发时，需要一个或多个<strong>组播路由器</strong>来启动<strong>组播路由</strong>（multicast routing）。组播路由器需要知道<strong>哪些主机对什么组播感兴趣</strong>。路由器需要知道这些信息，知道<strong>哪些组播数据报该转发到哪个接口</strong>。</p>
 <p>两个主要协议用于组播路由器了解附近主机感兴趣的组：IPv4 使用的<strong>互联网组管理协议</strong>（Internet Group Management Protocol）和 IPv6 使用的<strong>组播侦听发现协议</strong>（Multicast Listening Discovery Protocol）</p>
-<p>如下图所示，展示了具有组播功能的路由器如何使用 IGMP（MLD）</p>
-<p><img src="" alt=""></p>
+<p>如下图所示，展示了具有组播功能的路由器如何使用 IGMP（MLD）。组播路由器沿着实线发送查询来了解各个主机的情况和兴趣，而虚线是主机向组播路由器发送报告。</p>
+<p><img src="http://p6rl2gdnw.bkt.clouddn.com/IGMP%20query%20and%20report.png" alt=""></p>
+<p>组播路由器定时向每个子网发送 IGMP（MLD）请求，以确定哪些组和源对连接的主机感兴趣。主机报告相应，说明感兴趣哪些组和源。如果成员资格发送变化，还能主动报告。</p>
 <p>与 ICMP 的类似，IGMP 被认为是 IP 层的一部分，IGMP 报文也是封装在 IPv4 数据报中传输。非常不同的一点是，IGMP 数据报使用一个固定的 TTL = 1 值，所以数据报仅限于本地子网。下图是 IGMP 和 MLD 的封装。</p>
-<p><img src="" alt=""></p>
+<p><img src="http://p6rl2gdnw.bkt.clouddn.com/IGMP%20IPv6%20header.png" alt=""></p>
 <p>简单来说，IGMP 和 MLD 定义的是：</p>
 <ul>
 <li>成员主机（“组成员”）的工作是自发地报告对组播源的兴趣改变，响应定期地查询。可能是被动响应，也可以是主动报告。</li>
 <li>组播路由器发送查询，确定链路上的主机对于任意组播组或者特定组播组是否有兴趣。</li>
 </ul>
-<h2 id="组成员的-IGMP-和-MLD-部分（“组成员部分”）"><a href="#组成员的-IGMP-和-MLD-部分（“组成员部分”）" class="headerlink" title="组成员的 IGMP 和 MLD 部分（“组成员部分”）"></a>组成员的 IGMP 和 MLD 部分（“组成员部分”）</h2><p>组成员的部分被设计为允许主机指定它们对什么样的组感兴趣（从某一特定源的流量是被接受还是过滤），这是<strong>向</strong>通过一个或多个连接到同一子网的<strong>组播路由器和参与主机</strong>发送报告完成的。报告可以是响应查询后发送，也可以是在兴趣改变（加入或离开）之后自发、主动地发送。</p>
-<p>报告的使用规则：</p>
+<h2 id="组成员的-IGMP-和-MLD-部分（“组成员部分”）"><a href="#组成员的-IGMP-和-MLD-部分（“组成员部分”）" class="headerlink" title="组成员的 IGMP 和 MLD 部分（“组成员部分”）"></a>组成员的 IGMP 和 MLD 部分（“组成员部分”）</h2><p>组成员的部分被设计为允许主机指定它们对什么样的组感兴趣（从某一特定源的流量是被接受还是过滤），这是<strong>向</strong>通过一个或多个连接到同一子网的<strong>组播路由器和参与主机</strong>发送报告完成的。</p>
+<p>报告可以是响应查询后发送，也可以是在兴趣改变（加入或离开）之后自发、主动地发送。</p>
+<p>报告分为成员资格记录（membership）组记录（group）。成员资格用于主机表达他们对什么组感兴趣。下图是成员资格记录的报文：</p>
+<p><img src="http://p6rl2gdnw.bkt.clouddn.com/membership%20report.png" alt=""></p>
+<p>成员资格报告的使用规则：</p>
 <ol>
 <li>第一个进程加入一个组，发送一个报告。若一个主机多个进程加入同一组，只发送一个报告。</li>
 <li>离开一个组，不发送报告。主机只在知道没有成员属于某组后，在随即的IGMP 查询时不再发送报告报文。</li>
 <li>发送报告来相应查询的话，对于至少包含一个进程的组均要报告。 </li>
 </ol>
+<p>组记录用于报告一个组播地址对来自于一个或多个源的流量是允许接受还是过滤掉。组记录用类型值来指定不同的模式，如下表。</p>
+<p><img src="http://p6rl2gdnw.bkt.clouddn.com/group%20record.png" alt=""></p>
+<p><img src="http://p6rl2gdnw.bkt.clouddn.com/IGMP%20filtering%20mode.png" alt=""></p>
 <h2 id="组播路由器的-IGMP-和-MLD-部分（“组播路由器部分”）"><a href="#组播路由器的-IGMP-和-MLD-部分（“组播路由器部分”）" class="headerlink" title="组播路由器的 IGMP 和 MLD 部分（“组播路由器部分”）"></a>组播路由器的 IGMP 和 MLD 部分（“组播路由器部分”）</h2><p>组播路由器的工作是为组播组、接口、源列表确定是否至少有一个成员目前感兴趣接收相应的流量。这是通过<strong>发送查询和成员主动发送的报告</strong>来确定的一个软状态（soft state）。软状态意味着如果没有刷新，经过一段时间后，要被删除。</p>
 <p>发送查询：</p>
 <ol>
@@ -438,6 +454,7 @@
 <li>特定组查询：学习邻居对单一特定组播接收状态（源地址为0）</li>
 <li>特定组特定源查询：学习邻居对一个特定源列表发送出的，目的地为某个组地址的接收状态。</li>
 </ol>
+<p><img src="http://p6rl2gdnw.bkt.clouddn.com/IGMP%20query.png" alt=""></p>
 <h2 id="IGMP-和-MLD-健壮性"><a href="#IGMP-和-MLD-健壮性" class="headerlink" title="IGMP 和 MLD 健壮性"></a>IGMP 和 MLD 健壮性</h2><p>健壮性和可靠性体现在IGMP 或 MLD 本身失效时，有两个主要的问题：</p>
 <ol>
 <li>协议报文丢失</li>
@@ -448,7 +465,7 @@
 <li>通过多个组播路由器在同一链路上运行，可以处理单一组播路由器失效故障。在这样的配置中，最小地址 IP 地址的路由器被选举为“查询器”，查询器负责发送查询。其他（非查询器）路由器监控协议报文，并且在查询器 down 时可以介入。查询器选举是一个类似生成树协议中根网桥选举的过程。</li>
 <li>为了防止协议报文的丢失，有些报文会被重传多次，诸如主动报告间隔这种可配置参数可以合理配置。需要以生成额外的流量负担，增加健壮性。</li>
 </ul>
-<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><h1 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h1>
+
       
     </div>
 
@@ -616,7 +633,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#引言"><span class="nav-number">1.</span> <span class="nav-text">引言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#广播"><span class="nav-number">2.</span> <span class="nav-text">广播</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#广播地址"><span class="nav-number">2.1.</span> <span class="nav-text">广播地址</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#组播"><span class="nav-number">3.</span> <span class="nav-text">组播</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#将-IP-组播地址转换为-802-MAC／以太网地址"><span class="nav-number">3.1.</span> <span class="nav-text">将 IP 组播地址转换为 802 MAC／以太网地址</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#发送／接收组播数据报"><span class="nav-number">3.2.</span> <span class="nav-text">发送／接收组播数据报</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#主机地址过滤"><span class="nav-number">3.3.</span> <span class="nav-text">主机地址过滤</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#互联网组管理协议-和-组播侦听发现协议"><span class="nav-number">4.</span> <span class="nav-text">互联网组管理协议 和 组播侦听发现协议</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#组成员的-IGMP-和-MLD-部分（“组成员部分”）"><span class="nav-number">4.1.</span> <span class="nav-text">组成员的 IGMP 和 MLD 部分（“组成员部分”）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#组播路由器的-IGMP-和-MLD-部分（“组播路由器部分”）"><span class="nav-number">4.2.</span> <span class="nav-text">组播路由器的 IGMP 和 MLD 部分（“组播路由器部分”）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IGMP-和-MLD-健壮性"><span class="nav-number">4.3.</span> <span class="nav-text">IGMP 和 MLD 健壮性</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">5.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考链接"><span class="nav-number">6.</span> <span class="nav-text">参考链接</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#引言"><span class="nav-number">1.</span> <span class="nav-text">引言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#广播"><span class="nav-number">2.</span> <span class="nav-text">广播</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#广播地址"><span class="nav-number">2.1.</span> <span class="nav-text">广播地址</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#组播"><span class="nav-number">3.</span> <span class="nav-text">组播</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#将-IP-组播地址转换为-802-MAC／以太网地址"><span class="nav-number">3.1.</span> <span class="nav-text">将 IP 组播地址转换为 802 MAC／以太网地址</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#发送／接收组播数据报"><span class="nav-number">3.2.</span> <span class="nav-text">发送／接收组播数据报</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#主机地址过滤"><span class="nav-number">3.3.</span> <span class="nav-text">主机地址过滤</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#互联网组管理协议-和-组播侦听发现协议"><span class="nav-number">4.</span> <span class="nav-text">互联网组管理协议 和 组播侦听发现协议</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#组成员的-IGMP-和-MLD-部分（“组成员部分”）"><span class="nav-number">4.1.</span> <span class="nav-text">组成员的 IGMP 和 MLD 部分（“组成员部分”）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#组播路由器的-IGMP-和-MLD-部分（“组播路由器部分”）"><span class="nav-number">4.2.</span> <span class="nav-text">组播路由器的 IGMP 和 MLD 部分（“组播路由器部分”）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IGMP-和-MLD-健壮性"><span class="nav-number">4.3.</span> <span class="nav-text">IGMP 和 MLD 健壮性</span></a></li></ol></li></ol></div>
             
 
           </div>
