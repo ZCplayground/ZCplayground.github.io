@@ -99,7 +99,7 @@
 <meta property="og:url" content="http://yoursite.com/2018/07/31/Qos-in-computer-networks/index.html">
 <meta property="og:site_name" content="ZCplayground">
 <meta property="og:description" content="QoS入门，为了进一步学习DPDK上的QoS 《计算机网络的服务质量(QoS)》 林闯，单志广，任丰原 著 BackgroundInternet的传统分组交换网络是面向非实时数据通信而设计的，典型应用例如FTP和Email。IP协议是典型的Best-effort，尽力而为的服务，TCP这类可靠的传输层协议被设计出来是为了缓解严重的网络拥塞，优化网络的数据吞吐量，最重要的是保证数据通信的可靠性。随着">
-<meta property="og:updated_time" content="2018-07-31T10:02:11.638Z">
+<meta property="og:updated_time" content="2018-07-31T10:04:29.924Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="计算机网络的服务质量(QoS)">
 <meta name="twitter:description" content="QoS入门，为了进一步学习DPDK上的QoS 《计算机网络的服务质量(QoS)》 林闯，单志广，任丰原 著 BackgroundInternet的传统分组交换网络是面向非实时数据通信而设计的，典型应用例如FTP和Email。IP协议是典型的Best-effort，尽力而为的服务，TCP这类可靠的传输层协议被设计出来是为了缓解严重的网络拥塞，优化网络的数据吞吐量，最重要的是保证数据通信的可靠性。随着">
@@ -394,7 +394,37 @@
 <li>信息流的性能要求、同步要求。如吞吐量、延迟、抖动、丢包率的各种要求。</li>
 <li>服务层次。例如想要可控负载型服务、保证性服务、还是尽力而为服务。</li>
 </ul>
-<p>当用户与网络系统达成QoS约定之后，网络系统就要提供基于QoS信息的流量实时控制了。包括几个重要的术语：<br>—|—<br>Terminology|Explanation<br>整型 meter | 调节流量速率，例如令牌桶算法。数学上证明了如果在网络边缘进行整型，在网络中采取适当的调度策略，可以为应用提供非常好的QoS[1]<br>调度 schedule | 每个网络元素对packet进行排队时要根据QoS要求所赋予的相应优先级，调度网络资源（带宽、缓存、CPU、队列、线程等）来执行<br>监控 monitor | 监视是否提供了预先约定的QoS，当无法提供时，提醒用户，协商降低QoS级别<br>控制 Control | 开环和闭环两种模式。开环：只要开始QoS控制后，允许发送方一直按照一个速率发送数据。闭环：发送方还是要根据反馈信息调整发送速率。<br>同步 Synchronize | 控制事件顺序和应用交互行为的精确时间先后顺序定义</p>
+<p>当用户与网络系统达成QoS约定之后，网络系统就要提供基于QoS信息的流量实时控制了。包括几个重要的术语：</p>
+<table>
+<thead>
+<tr>
+<th>Terminology</th>
+<th>Explanation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>整型 meter</td>
+<td>调节流量速率，例如令牌桶算法。数学上证明了如果在网络边缘进行整型，在网络中采取适当的调度策略，可以为应用提供非常好的QoS[1]</td>
+</tr>
+<tr>
+<td>调度 schedule</td>
+<td>每个网络元素对packet进行排队时要根据QoS要求所赋予的相应优先级，调度网络资源（带宽、缓存、CPU、队列、线程等）来执行</td>
+</tr>
+<tr>
+<td>监控 monitor</td>
+<td>监视是否提供了预先约定的QoS，当无法提供时，提醒用户，协商降低QoS级别</td>
+</tr>
+<tr>
+<td>控制 Control</td>
+<td>开环和闭环两种模式。开环：只要开始QoS控制后，允许发送方一直按照一个速率发送数据。闭环：发送方还是要根据反馈信息调整发送速率。</td>
+</tr>
+<tr>
+<td>同步 Synchronize</td>
+<td>控制事件顺序和应用交互行为的精确时间先后顺序定义</td>
+</tr>
+</tbody>
+</table>
 <h1 id="IntServ"><a href="#IntServ" class="headerlink" title="IntServ"></a>IntServ</h1><p>IETF先后提出两种QoS体系结构，集成服务IntServ是第一种。特点是：需要所有的路由器在控制路径上处理每个流的消息，维护每个流的路径状态和资源预留状态，在路径上执行基于流的分类、调度、管理。技术上，基于资源预留协议RSVP；逐节点建立或拆除流的状态和资源预留状态；判断资源是否满足用户需求；根据流的状态进行QoS路由，传输控制等措施。IntServ的基石就是：资源预分配、全局流状态、传输控制。</p>
 <h1 id="DiffServ"><a href="#DiffServ" class="headerlink" title="DiffServ"></a>DiffServ</h1><p>看了上面那段话也知道IntServ想在网络层建立太过复杂的逻辑而失败。于是DiffServ应运而生了。</p>
 <ul>
