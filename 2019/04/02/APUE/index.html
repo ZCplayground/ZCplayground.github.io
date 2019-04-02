@@ -93,16 +93,16 @@
 
 
 
-<meta name="description" content="引言 UDP 稍微扩展了IP协议，使得包可以在进程间传送，而不仅仅是在主机件。——《CSAPP》 IP 数据报是指 IP 层端到端的传输单元。分组（packet）是 IP 层和链路层的传输单元。一个分组可以是一个完整的数据报，也可以是一个分片。——《TCP／IP协议详解卷一 第一版》  UDP 是一种保留消息边界的简单的面相数据报的传输层协议。它不提供差错纠正、队列管理、重复消除、流量控制、拥塞控">
+<meta name="description" content="图书馆里借了一本《UNIX环境高级编程》花了约一周时间粗读完，通篇都是极其精确的定义和讲解，不愧圣经之名。下面对一些学习过程中比较觉得有心得的地方进行记录 文件I/O &amp;amp; 标准I/O库文件描述符（file descriptor）与文件指针（FILE *）有什么区别？// chapter 1.5，3.2，5 文件描述符（file descriptor）通常是一个小的非负整数，内核用其来标识一">
 <meta property="og:type" content="article">
-<meta property="og:title" content="《TCP&#x2F;IP 详解 卷1：协议》第 10 章：用户数据报协议">
-<meta property="og:url" content="http://yoursite.com/2018/03/19/tcpip-10-UDP/index.html">
+<meta property="og:title" content="APUE摘抄">
+<meta property="og:url" content="http://yoursite.com/2019/04/02/APUE/index.html">
 <meta property="og:site_name" content="ZCplayground">
-<meta property="og:description" content="引言 UDP 稍微扩展了IP协议，使得包可以在进程间传送，而不仅仅是在主机件。——《CSAPP》 IP 数据报是指 IP 层端到端的传输单元。分组（packet）是 IP 层和链路层的传输单元。一个分组可以是一个完整的数据报，也可以是一个分片。——《TCP／IP协议详解卷一 第一版》  UDP 是一种保留消息边界的简单的面相数据报的传输层协议。它不提供差错纠正、队列管理、重复消除、流量控制、拥塞控">
-<meta property="og:updated_time" content="2018-05-26T09:26:42.000Z">
+<meta property="og:description" content="图书馆里借了一本《UNIX环境高级编程》花了约一周时间粗读完，通篇都是极其精确的定义和讲解，不愧圣经之名。下面对一些学习过程中比较觉得有心得的地方进行记录 文件I/O &amp;amp; 标准I/O库文件描述符（file descriptor）与文件指针（FILE *）有什么区别？// chapter 1.5，3.2，5 文件描述符（file descriptor）通常是一个小的非负整数，内核用其来标识一">
+<meta property="og:updated_time" content="2019-04-02T02:26:36.867Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="《TCP&#x2F;IP 详解 卷1：协议》第 10 章：用户数据报协议">
-<meta name="twitter:description" content="引言 UDP 稍微扩展了IP协议，使得包可以在进程间传送，而不仅仅是在主机件。——《CSAPP》 IP 数据报是指 IP 层端到端的传输单元。分组（packet）是 IP 层和链路层的传输单元。一个分组可以是一个完整的数据报，也可以是一个分片。——《TCP／IP协议详解卷一 第一版》  UDP 是一种保留消息边界的简单的面相数据报的传输层协议。它不提供差错纠正、队列管理、重复消除、流量控制、拥塞控">
+<meta name="twitter:title" content="APUE摘抄">
+<meta name="twitter:description" content="图书馆里借了一本《UNIX环境高级编程》花了约一周时间粗读完，通篇都是极其精确的定义和讲解，不愧圣经之名。下面对一些学习过程中比较觉得有心得的地方进行记录 文件I/O &amp;amp; 标准I/O库文件描述符（file descriptor）与文件指针（FILE *）有什么区别？// chapter 1.5，3.2，5 文件描述符（file descriptor）通常是一个小的非负整数，内核用其来标识一">
 
 
 
@@ -130,13 +130,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/03/19/tcpip-10-UDP/"/>
+  <link rel="canonical" href="http://yoursite.com/2019/04/02/APUE/"/>
 
 
 
 
 
-  <title>《TCP/IP 详解 卷1：协议》第 10 章：用户数据报协议 | ZCplayground</title>
+  <title>APUE摘抄 | ZCplayground</title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -266,7 +266,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/19/tcpip-10-UDP/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/02/APUE/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="ZC">
@@ -283,7 +283,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">《TCP/IP 详解 卷1：协议》第 10 章：用户数据报协议</h1>
+          <h1 class="post-title" itemprop="name headline">APUE摘抄</h1>
         
 
         <div class="post-meta">
@@ -295,8 +295,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-19T22:44:43+08:00">
-                2018-03-19
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-02T10:25:58+08:00">
+                2019-04-02
               </time>
             
 
@@ -306,28 +306,6 @@
           </span>
 
           
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/TCP-IP/" itemprop="url" rel="index">
-                    <span itemprop="name">TCP/IP</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
 
           
             
@@ -335,7 +313,7 @@
 
           
           
-             <span id="/2018/03/19/tcpip-10-UDP/" class="leancloud_visitors" data-flag-title="《TCP/IP 详解 卷1：协议》第 10 章：用户数据报协议">
+             <span id="/2019/04/02/APUE/" class="leancloud_visitors" data-flag-title="APUE摘抄">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -363,68 +341,48 @@
       
 
       
-        <h1 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h1><blockquote>
-<p>UDP 稍微扩展了IP协议，使得包可以在进程间传送，而不仅仅是在主机件。——《CSAPP》</p>
-<p>IP 数据报是指 IP 层端到端的传输单元。分组（packet）是 IP 层和链路层的传输单元。一个分组可以是一个完整的数据报，也可以是一个分片。——《TCP／IP协议详解卷一 第一版》</p>
-</blockquote>
-<p>UDP 是一种保留消息边界的简单的面相数据报的传输层协议。它不提供差错纠正、队列管理、重复消除、流量控制、拥塞控制。它提供端到端差错检测，也就是传输层端到端校验和，也不保证报文一定能到达目的地。一般来说，每个被应用程序请求的 UDP 输出操作只产生一个 UDP 数据报，从而发送一个 IP 数据报，这一点不同于 TCP 面相数据流的特征。</p>
-<p>UDP 本身是提供最小功能的传输层协议：它把应用程序传给 IP 层的数据发送出去。【RFC0768】是 UDP 30 多年来未改变的标准。虽然可靠性和保护性有所缺失，但 UDP 不是一无是处的。因为它的简单，因为它的无连接性，UDP 比其他的传输层协议的开销要小得多。另外，组播和广播操作更多使用 UDP 这样无连接的传输。 </p>
-<h1 id="UDP-header"><a href="#UDP-header" class="headerlink" title="UDP header"></a>UDP header</h1><table>
-<thead>
-<tr>
-<th>字段</th>
-<th>长度(bytes)</th>
-<th>含义</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>源端口号</td>
-<td>2</td>
-<td>见下文“端口号”</td>
-</tr>
-<tr>
-<td>目的端口号</td>
-<td>2</td>
-<td>见下文“端口号”</td>
-</tr>
-<tr>
-<td>长度</td>
-<td>2</td>
-<td>UDP头部和数据的总长度，以字节为单位</td>
-</tr>
-<tr>
-<td>检验和</td>
-<td>2</td>
-<td>见下文“UDP检验和”</td>
-</tr>
-</tbody>
-</table>
-<h2 id="端口号"><a href="#端口号" class="headerlink" title="端口号"></a>端口号</h2><ul>
-<li>端口号相当于电话号码之后的扩展码，帮助协议辨认<strong>进程</strong>。</li>
-<li>它们是抽象的，即不与任何主机、任何物理实体相关。</li>
-<li>在 UDP 中，端口号是 16 位的特殊数字（0～65535）。</li>
-<li>源端口号是可选择的，如果发送者不要求回复的话，可以设置源端口号为 0.</li>
-<li>IP 层根据协议字段或 IPv6头部中的下一个头部字段分离到特定的传输协议，这意味着端口号在不同的传输层协议之间是独立的。TCP 端口号只能被 TCP 使用，UDP 亦然。（尽管如此，但如果某个众所周知的服务同时由 TCP 和 UDP 提供，那么这两个端口号通常被分配成一样的）</li>
-</ul>
-<h2 id="UDP-检验和"><a href="#UDP-检验和" class="headerlink" title="UDP 检验和"></a>UDP 检验和</h2><ul>
-<li>UDP 校验和是我们遇到的第一个<strong>传输层端到端检验和</strong>（ICMP 是网络层第一个端到端校验和）。UDP 校验和覆盖 UDP 头部、UDP 数据和 UDP 伪头部。端到端是指由发送方计算得到，由最终的接收方检验，途中不会被修改（除非是通过 NAT）。</li>
-<li>对比只覆盖头部的 IPv4 检验和，经过每一跳路由器都要修改。传输层协议检验和覆盖传输层协议头部和数据。</li>
-<li>“UDP 伪头部”是指UDP数据报长度可以是奇数长字节，而检验和算法只相加 16 位字（偶数字节），因此对于奇数字节长度的数据报，UDP 会在末尾添加一个都为 0 的填充。仅为了计算校验和，不会被传递出去。</li>
-</ul>
-<h1 id="UDP-和-IP-分片"><a href="#UDP-和-IP-分片" class="headerlink" title="UDP 和 IP 分片"></a>UDP 和 IP 分片</h1><p>在链路层中有介绍，链路层对可传输帧长度有一个最大上限。IP 引入分片和重组。IP 转发时，做出的判断，不仅根据路由表，也根据要求的 MTU 是多少。如果数据报太大则进行分片。</p>
-<ul>
-<li>分片可以在发送方到目的地上的端到端路径上<strong>任何中间路由器</strong>进行。</li>
-<li>重组直到它到达最终目的地才会被重组。原因有二：一、网络中不进行重组减轻路由器的负担。二、不同分片可能经过不同路径到达目的地，这样的话路由器没有能力来重组。</li>
-</ul>
-<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>UDP 是一个简单的协议。它给 IP层之上的用户进程提供了端口号和检验和机制。没有流量控制、拥塞控制、差错纠正。有差错检测和消息边界保留。</p>
-<p>我们看到了 UDP 用于IP 分片、路径 MTU 发现。当出现如下情况，最常用的就是 UDP 了：</p>
-<ul>
-<li>要避免建立连接的开销。</li>
-<li>多端点传送（组播、广播）</li>
-<li>不需要 TCP 相对笨重的可靠 </li>
-</ul>
-<p>UDP 的主要用途之一是 DNS（域名系统）。UDP 占据了观察到的互联网流量的 10% - 40%，随着点对点应用数量的增加，UDP 的使用仍在上升，虽然 TCP 在稳定性方面占据了统治地位。网络分片流量大多数 UDP 的，尽管总体流量中只有极少数是分片。分片中的流量类型主要有基于 UDP 的多媒体流量、VPN 隧道中封装的隧道流量。</p>
+        <p>图书馆里借了一本《UNIX环境高级编程》花了约一周时间粗读完，通篇都是极其精确的定义和讲解，不愧圣经之名。下面对一些学习过程中比较觉得有心得的地方进行记录</p>
+<h1 id="文件I-O-amp-标准I-O库"><a href="#文件I-O-amp-标准I-O库" class="headerlink" title="文件I/O &amp; 标准I/O库"></a>文件I/O &amp; 标准I/O库</h1><h2 id="文件描述符（file-descriptor）与文件指针（FILE-）有什么区别？"><a href="#文件描述符（file-descriptor）与文件指针（FILE-）有什么区别？" class="headerlink" title="文件描述符（file descriptor）与文件指针（FILE *）有什么区别？"></a>文件描述符（file descriptor）与文件指针（FILE *）有什么区别？</h2><p>// chapter 1.5，3.2，5</p>
+<p><strong>文件描述符（file descriptor）</strong>通常是一个小的非负整数，内核用其来<strong>标识一个特定进程正在访问的文件。</strong> </p>
+<p>当打开一个现有文件或者创建一个新文件时（open），内核向进程返回这个文件描述符。</p>
+<p>对于每一个新运行的程序，所有shell都会为其打开三个文件描述符：标准输入、标准输出、标准错误（stdin、stdout、stderr）。其对应的file descriptor分别是0、1、2。</p>
+<p>// chapter 3，5</p>
+<p>第三章中的I/O接口，如open、write、read、lseek都是针对文件描述符进行的。</p>
+<p>对于标准I/O库，其操作是针对<strong>流（stream）</strong>来进行的。用标准I/O库打开一个文件，是使一个流和一个文件相关联，即打开一个流，fopen 返回一个 <code>FILE *</code>，该对象使一个结构，包含标准I/O库为了管理流所需要的所有信息，<strong>包括：实际I/O文件的文件描述符</strong>，缓冲区指针、长度、字符数，出错标志等。</p>
+<h2 id="标准I-O库缓冲"><a href="#标准I-O库缓冲" class="headerlink" title="标准I/O库缓冲"></a>标准I/O库缓冲</h2><p>在一个流上执行第一次I/O操作时，通常会调用malloc来获得缓冲区。</p>
+<ol>
+<li>全缓冲：<strong>填满缓冲区后</strong>才实际进行I/O操作。例如对于写到磁盘上的文件通常使用全缓冲。术语flush（清洗）在标准I/O库中意味着将缓冲区的内容写到磁盘上。</li>
+<li>行缓冲：<strong>输入和输出遇到换行符时</strong>执行实际I/O操作。由于每一行缓冲区长度固定有限，只要填满了缓冲区，即使还没有换行符，也会执行I/O（类似全缓冲）</li>
+<li>不带缓冲。标准I/O库也有不带缓冲的流。例如，如果使用标准I/O函数<code>fputs</code>写15个字符到不带缓冲的流上，很可能就是直接用<code>write</code>系统调用立即写入。</li>
+</ol>
+<p>ISO C有如下要求：</p>
+<ol>
+<li>当且仅当标准输入和标准输出<strong>不涉及交互式设备时，才是全缓冲</strong>的。（若涉及<strong>终端</strong>设备，则他们是<strong>行缓冲</strong>的，否则是全缓冲的。）</li>
+<li>标准出错绝不是全缓冲的。（<strong>出错信息不带缓冲</strong>）</li>
+</ol>
+<h2 id="标准I-O库与I-O函数有什么区别？"><a href="#标准I-O库与I-O函数有什么区别？" class="headerlink" title="标准I/O库与I/O函数有什么区别？"></a>标准I/O库与I/O函数有什么区别？</h2><p>使用标准I/O库的一个优点是无需考虑缓冲和最佳bufsize的选择。</p>
+<p>标准I/O库与直接调用read和write函数相比并不慢很多。</p>
+<h1 id="标准文件I-O函数的效率与bufsize的关系"><a href="#标准文件I-O函数的效率与bufsize的关系" class="headerlink" title="标准文件I/O函数的效率与bufsize的关系"></a>标准文件I/O函数的效率与bufsize的关系</h1><p>// chapter 3.9</p>
+<p>选取bufsize值会影响读文件操作的时间。如下图所示。</p>
+<p>可以看到，如果缓冲区太小会严重影响效率。当bufsize达到4096 bytes时CPU时间就约达到最小值，继续增加bufsize不会有太多改善。</p>
+<h1 id="内核表示文件的数据结构-amp-文件的共享结构"><a href="#内核表示文件的数据结构-amp-文件的共享结构" class="headerlink" title="内核表示文件的数据结构 &amp; 文件的共享结构"></a>内核表示文件的数据结构 &amp; 文件的共享结构</h1><p>两个图，讲解的很清晰</p>
+<h1 id="原子操作"><a href="#原子操作" class="headerlink" title="原子操作"></a>原子操作</h1><p>// chapter 3.11</p>
+<p>用一段历史问题来说明这个概念。</p>
+<p>早期的UNIX不支持open的append选项，所以要用如下代码来append：</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="title">lseek</span><span class="params">(fd, <span class="number">0</span>, <span class="number">2</span>)</span></span> <span class="comment">// 第二个参数是offset，第三个参数为2代表的意思是将当前文件偏移量设置为 offset+文件长度</span></div><div class="line"><span class="function"><span class="title">write</span><span class="params">(fd, buf, <span class="number">100</span>)</span></span></div></pre></td></tr></table></figure>
+<p>对于单个进程而言这段程序是没问题的。但假设有两个进程A和B对同一文件（长度1500 bytes）进行这种操作，假定进程A调用了lssek，A的当前文件偏移量设置到了1500 bytes。假设此时内核调度B开始执行，B也执行了lseek把B进程的文件偏移量设置到了1500 bytes。然后B继续调用write写入100字节，这时文件总长度变为1600 bytes。然后内核又切换到进程A开始运行，A调用write时，就会写覆盖B写的数据。</p>
+<p>问题就在于“定位到文件尾端，然后写”这个操作的两个步骤分成了两个函数。结局问题的方法就是<strong>让这两个操作成为一个原子操作</strong>。也就是O_APPEND标志。或者pread和pwrite函数。</p>
+<p>原子操作（atomic operation）就是由多步组成的操作，要么全部都执行，要么一步都不执行。</p>
+<h1 id="文件类型-amp-所谓“一切皆文件”"><a href="#文件类型-amp-所谓“一切皆文件”" class="headerlink" title="文件类型 &amp; 所谓“一切皆文件”"></a>文件类型 &amp; 所谓“一切皆文件”</h1><ol>
+<li>普通文件（regular file）</li>
+<li>目录文件（directory file）。“目录”也是文件！！这种文件里保持<strong>其他文件（也就是“该目录下的文件”）</strong>的名字和指向这些文件的指针。</li>
+<li>块文件（block special file），提供对块设备<strong>带缓冲</strong>的访问。例如磁盘</li>
+<li>字符文件（character special file），提供对设备<strong>不带缓冲</strong>的访问。例如终端。系统中的所有<strong>设备</strong>要么是块文件要么是字符文件。</li>
+<li>FIFO，命名管道</li>
+<li>socket</li>
+<li>符号链接（symbolic link）</li>
+</ol>
+<h1 id="进程"><a href="#进程" class="headerlink" title="进程"></a>进程</h1><p>to be done</p>
 
       
     </div>
@@ -461,8 +419,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/03/19/2018-3-17-Nanjing-FD-io-DPDK-Conference/" rel="next" title="FD.io 社区中国行暨未来网络技术沙龙 南京站 会议记录">
-                <i class="fa fa-chevron-left"></i> FD.io 社区中国行暨未来网络技术沙龙 南京站 会议记录
+              <a href="/2019/03/19/Xiaobo-Wang-Essays/" rel="next" title="王小波杂文阅读">
+                <i class="fa fa-chevron-left"></i> 王小波杂文阅读
               </a>
             
           </div>
@@ -470,10 +428,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/03/19/tcpip-11-DNS/" rel="prev" title="《TCP/IP 详解 卷1：协议》第 11 章：名称解析和域名系统">
-                《TCP/IP 详解 卷1：协议》第 11 章：名称解析和域名系统 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -593,7 +547,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#引言"><span class="nav-number">1.</span> <span class="nav-text">引言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#UDP-header"><span class="nav-number">2.</span> <span class="nav-text">UDP header</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#端口号"><span class="nav-number">2.1.</span> <span class="nav-text">端口号</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#UDP-检验和"><span class="nav-number">2.2.</span> <span class="nav-text">UDP 检验和</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#UDP-和-IP-分片"><span class="nav-number">3.</span> <span class="nav-text">UDP 和 IP 分片</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#文件I-O-amp-标准I-O库"><span class="nav-number">1.</span> <span class="nav-text">文件I/O & 标准I/O库</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#文件描述符（file-descriptor）与文件指针（FILE-）有什么区别？"><span class="nav-number">1.1.</span> <span class="nav-text">文件描述符（file descriptor）与文件指针（FILE *）有什么区别？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#标准I-O库缓冲"><span class="nav-number">1.2.</span> <span class="nav-text">标准I/O库缓冲</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#标准I-O库与I-O函数有什么区别？"><span class="nav-number">1.3.</span> <span class="nav-text">标准I/O库与I/O函数有什么区别？</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#标准文件I-O函数的效率与bufsize的关系"><span class="nav-number">2.</span> <span class="nav-text">标准文件I/O函数的效率与bufsize的关系</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#内核表示文件的数据结构-amp-文件的共享结构"><span class="nav-number">3.</span> <span class="nav-text">内核表示文件的数据结构 & 文件的共享结构</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#原子操作"><span class="nav-number">4.</span> <span class="nav-text">原子操作</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#文件类型-amp-所谓“一切皆文件”"><span class="nav-number">5.</span> <span class="nav-text">文件类型 & 所谓“一切皆文件”</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#进程"><span class="nav-number">6.</span> <span class="nav-text">进程</span></a></li></ol></div>
             
 
           </div>
