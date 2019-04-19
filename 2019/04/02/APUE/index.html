@@ -93,16 +93,16 @@
 
 
 
-<meta name="description" content="图书馆里借了一本《UNIX环境高级编程》花了约一周时间粗读完，通篇都是极其精确的定义和讲解，不愧圣经之名。下面对一些学习过程中比较觉得有心得的地方进行记录 文件I/O &amp;amp; 标准I/O库文件描述符（file descriptor）与文件指针（FILE *）有什么区别？// chapter 1.5，3.2，5 文件描述符（file descriptor）通常是一个小的非负整数，内核用其来标识一">
+<meta name="description" content="图书馆里借了一本《UNIX环境高级编程》花了约一周时间粗读完，通篇都是极其精确的定义和讲解，不愧圣经之名。下面对一些学习过程中比较觉得有心得的地方进行记录。 文件I/O &amp;amp; 标准I/O库文件描述符（file descriptor）与文件指针（FILE *）有什么区别？// chapter 1.5，3.2，5 文件描述符（file descriptor）通常是一个小的非负整数，内核用其来标识">
 <meta property="og:type" content="article">
 <meta property="og:title" content="APUE摘抄">
 <meta property="og:url" content="http://yoursite.com/2019/04/02/APUE/index.html">
 <meta property="og:site_name" content="ZCplayground">
-<meta property="og:description" content="图书馆里借了一本《UNIX环境高级编程》花了约一周时间粗读完，通篇都是极其精确的定义和讲解，不愧圣经之名。下面对一些学习过程中比较觉得有心得的地方进行记录 文件I/O &amp;amp; 标准I/O库文件描述符（file descriptor）与文件指针（FILE *）有什么区别？// chapter 1.5，3.2，5 文件描述符（file descriptor）通常是一个小的非负整数，内核用其来标识一">
-<meta property="og:updated_time" content="2019-04-02T02:26:36.867Z">
+<meta property="og:description" content="图书馆里借了一本《UNIX环境高级编程》花了约一周时间粗读完，通篇都是极其精确的定义和讲解，不愧圣经之名。下面对一些学习过程中比较觉得有心得的地方进行记录。 文件I/O &amp;amp; 标准I/O库文件描述符（file descriptor）与文件指针（FILE *）有什么区别？// chapter 1.5，3.2，5 文件描述符（file descriptor）通常是一个小的非负整数，内核用其来标识">
+<meta property="og:updated_time" content="2019-04-19T06:05:22.117Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="APUE摘抄">
-<meta name="twitter:description" content="图书馆里借了一本《UNIX环境高级编程》花了约一周时间粗读完，通篇都是极其精确的定义和讲解，不愧圣经之名。下面对一些学习过程中比较觉得有心得的地方进行记录 文件I/O &amp;amp; 标准I/O库文件描述符（file descriptor）与文件指针（FILE *）有什么区别？// chapter 1.5，3.2，5 文件描述符（file descriptor）通常是一个小的非负整数，内核用其来标识一">
+<meta name="twitter:description" content="图书馆里借了一本《UNIX环境高级编程》花了约一周时间粗读完，通篇都是极其精确的定义和讲解，不愧圣经之名。下面对一些学习过程中比较觉得有心得的地方进行记录。 文件I/O &amp;amp; 标准I/O库文件描述符（file descriptor）与文件指针（FILE *）有什么区别？// chapter 1.5，3.2，5 文件描述符（file descriptor）通常是一个小的非负整数，内核用其来标识">
 
 
 
@@ -341,7 +341,7 @@
       
 
       
-        <p>图书馆里借了一本《UNIX环境高级编程》花了约一周时间粗读完，通篇都是极其精确的定义和讲解，不愧圣经之名。下面对一些学习过程中比较觉得有心得的地方进行记录</p>
+        <p>图书馆里借了一本《UNIX环境高级编程》花了约一周时间粗读完，通篇都是极其精确的定义和讲解，不愧圣经之名。下面对一些学习过程中比较觉得有心得的地方进行记录。</p>
 <h1 id="文件I-O-amp-标准I-O库"><a href="#文件I-O-amp-标准I-O库" class="headerlink" title="文件I/O &amp; 标准I/O库"></a>文件I/O &amp; 标准I/O库</h1><h2 id="文件描述符（file-descriptor）与文件指针（FILE-）有什么区别？"><a href="#文件描述符（file-descriptor）与文件指针（FILE-）有什么区别？" class="headerlink" title="文件描述符（file descriptor）与文件指针（FILE *）有什么区别？"></a>文件描述符（file descriptor）与文件指针（FILE *）有什么区别？</h2><p>// chapter 1.5，3.2，5</p>
 <p><strong>文件描述符（file descriptor）</strong>通常是一个小的非负整数，内核用其来<strong>标识一个特定进程正在访问的文件。</strong> </p>
 <p>当打开一个现有文件或者创建一个新文件时（open），内核向进程返回这个文件描述符。</p>
@@ -382,8 +382,72 @@
 <li>socket</li>
 <li>符号链接（symbolic link）</li>
 </ol>
-<h1 id="进程"><a href="#进程" class="headerlink" title="进程"></a>进程</h1><p>to be done</p>
-
+<h1 id="进程"><a href="#进程" class="headerlink" title="进程"></a>进程</h1><p>// chapter 1.6 P10</p>
+<p>程序（program）是存放在磁盘上，处于某个目录中的一个可执行文件。使用6个exec函数之一，由内核读入存储器，执行。</p>
+<p>程序的执行实例被称为进程（process）。</p>
+<h2 id="PID"><a href="#PID" class="headerlink" title="PID"></a>PID</h2><p>// chapter 8</p>
+<ul>
+<li>每个进程都有一个非负整形表示的唯一进程ID。</li>
+<li>PID是唯一的，但可以复用（已经终止的PID会赋给新的进程）。大多数UNIX系统有延迟重用算法，让新进程的PID不同于最近终止的PID。这是为了防止将新进程误认为是同一个PID的先前已经终止的那个进程。</li>
+</ul>
+<h2 id="Fork"><a href="#Fork" class="headerlink" title="Fork"></a>Fork</h2><ul>
+<li>fork 创建一个新进程，是父进程（调用进程）的复制品。</li>
+<li><strong>调用一次，返回两次。</strong> 子进程的返回值是0，父进程的返回值是子进程的PID。</li>
+<li>子进程和父进程继续执行fork之后的指令。</li>
+<li><strong>子进程是父进程的副本</strong>。例如，子进程获得父进程数据空间、堆、栈的<strong>副本</strong>。注意：是<strong>副本</strong>，而不是共享这些存储空间部分。</li>
+<li><strong>写时复制技术（copy-on-write）</strong>，fork时并不执行一个实际的父进程数据段、堆、栈完全复制，而是由内核执行写时复制，先让这些区域由父子进程共享。如果父子进程有一个试图修改这些区域，内核为那个要被修改的区域（页）制作一个副本。</li>
+<li>一般来说<strong>fork之后先执行父进程还是先执行子进程是不确定的</strong>。</li>
+</ul>
+<p>文件共享：</p>
+<ul>
+<li>fork的一个特性是父进程的所有打开的文件描述符都复制到子进程中。所以父子进程会对同一个文件使用相同的文件偏移量。</li>
+<li><strong>如果父子进程写到同一文件描述符，但没有任何形式的同步。那么他们的输出会互相混合</strong>。所以常用的处理方式有如下两种：<ul>
+<li>父进程等待子进程完成。这种情况下，父进程无需对描述符做处理。子进程终止后，子进程读写的文件描述符的偏移量是更新的。</li>
+<li>父子进程执行不同的程序段。在这种情况下，<strong>fork之后父子进程应各自关闭他们不需要的文件描述符，这样就不会干扰对方使用的文件描述符</strong>，这是网络通信中常见的。</li>
+</ul>
+</li>
+</ul>
+<p>fork的用法：</p>
+<ol>
+<li><strong>一个父进程希望复制自己，然后父子进程同时执行不同的代码段。</strong>例如：网络服务进程——父进程等待客户端的连接请求，当请求到达，调用fork建立一个子进程来处理这个请求，父进程则继续等待下一个连接的到达。</li>
+<li><strong>一个进程要执行一个不同的程序。</strong>例如：shell。这种情况下，是<strong>fork一个子进程，子进程执行exec</strong>。</li>
+</ol>
+<h2 id="exit"><a href="#exit" class="headerlink" title="exit"></a>exit</h2><p>进程有如下五种正常的终止方式：</p>
+<ol>
+<li>main函数中执行return语句。等于调用exit。</li>
+<li>调用exit函数。</li>
+<li>调用_exit或_Exit</li>
+<li>进程的最后一个线程在其启动例程中执行返回语句。</li>
+<li>进程的最后一个线程调用pthread_exit</li>
+</ol>
+<p>有如下三种异常终止方式：</p>
+<ol>
+<li>调用abort。产生SIGABRT信号，异常终止。</li>
+<li>当进程接收到某些信号时。</li>
+<li>最后一个线程对“取消”（cancellation）请求做出响应。</li>
+</ol>
+<p>不管进程如何终止，都会执行内核中的同一段代码，关闭所有打开的描述符，释放所占用的存储器等。</p>
+<p><strong>我们都希望终止进程能够通知其父进程它是如何终止的。</strong>所以对于终止函数exit，有一个<strong>退出状态（exit status）会作为参数传递给函数。</strong>内核为每个终止的子进程保存了一定量的信息，<strong>父进程可以使用wait或waitpid函数取得这些信息</strong>，至少有PID、终止状态、该进程使用的CPU时间总量等。</p>
+<p>在UNIX术语中，一个已经终止但未被父进程善后（获取有关信息，释放所占用资源）的进程称为<strong>僵死进程（zombie）</strong></p>
+<h2 id="wait"><a href="#wait" class="headerlink" title="wait"></a>wait</h2><p>当一个进程正常终止或异常终止时，内核都会向其父进程发SIGCHLD信号。因为子进程的终止是<strong>异步事件（asynchronous</strong>，指在父进程运行中，任何时侯都可能发生），信号就是异步通知。父进程可以选择忽略，也可以提供一个该信号出现时要调用的函数（术语叫做信号处理程序，<strong>handler</strong>）。</p>
+<p>调用wait或waitpid的进程可能会发生什么情况：</p>
+<ul>
+<li>如果其子进程还在运行，则阻塞。</li>
+<li>如果一个子进程已经终止，则取得该子进程的终止状态并立即返回。</li>
+<li>如果没有任何子进程，出错返回。</li>
+</ul>
+<p>wait和waitpid的区别如下：</p>
+<ul>
+<li>在一个子进程终止前，wait会让调用者阻塞，waitpid有一个选项可以让调用者不阻塞。例如：有时候用户希望取得一个子进程的状态但不想阻塞或等待子进程结束。</li>
+<li>wait是等待调用后第一个终止子进程。waitpid有若干选项，可以控制它等待的进程。</li>
+<li>waitpid可以等待一个特定的进程，而wait时返回任一终止的子进程的状态。</li>
+</ul>
+<h2 id="exec"><a href="#exec" class="headerlink" title="exec"></a>exec</h2><ul>
+<li>当进程调用一种exec函数时，<strong>该进程的程序完全替换为新程序</strong>，新程序从其main函数开始执行。</li>
+<li>调用exec不创建新进程，所以<strong>前后PID不会改变</strong>。<strong>exec只是用一个全新的程序替换了当前进程的正文、数据段、堆栈。</strong></li>
+</ul>
+<h1 id="信号"><a href="#信号" class="headerlink" title="信号"></a>信号</h1><p>to be done</p>
+<h1 id="线程"><a href="#线程" class="headerlink" title="线程"></a>线程</h1><h1 id="高级I-O"><a href="#高级I-O" class="headerlink" title="高级I/O"></a>高级I/O</h1><h1 id="IPC"><a href="#IPC" class="headerlink" title="IPC"></a>IPC</h1>
       
     </div>
 
@@ -547,7 +611,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#文件I-O-amp-标准I-O库"><span class="nav-number">1.</span> <span class="nav-text">文件I/O & 标准I/O库</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#文件描述符（file-descriptor）与文件指针（FILE-）有什么区别？"><span class="nav-number">1.1.</span> <span class="nav-text">文件描述符（file descriptor）与文件指针（FILE *）有什么区别？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#标准I-O库缓冲"><span class="nav-number">1.2.</span> <span class="nav-text">标准I/O库缓冲</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#标准I-O库与I-O函数有什么区别？"><span class="nav-number">1.3.</span> <span class="nav-text">标准I/O库与I/O函数有什么区别？</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#标准文件I-O函数的效率与bufsize的关系"><span class="nav-number">2.</span> <span class="nav-text">标准文件I/O函数的效率与bufsize的关系</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#内核表示文件的数据结构-amp-文件的共享结构"><span class="nav-number">3.</span> <span class="nav-text">内核表示文件的数据结构 & 文件的共享结构</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#原子操作"><span class="nav-number">4.</span> <span class="nav-text">原子操作</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#文件类型-amp-所谓“一切皆文件”"><span class="nav-number">5.</span> <span class="nav-text">文件类型 & 所谓“一切皆文件”</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#进程"><span class="nav-number">6.</span> <span class="nav-text">进程</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#文件I-O-amp-标准I-O库"><span class="nav-number">1.</span> <span class="nav-text">文件I/O & 标准I/O库</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#文件描述符（file-descriptor）与文件指针（FILE-）有什么区别？"><span class="nav-number">1.1.</span> <span class="nav-text">文件描述符（file descriptor）与文件指针（FILE *）有什么区别？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#标准I-O库缓冲"><span class="nav-number">1.2.</span> <span class="nav-text">标准I/O库缓冲</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#标准I-O库与I-O函数有什么区别？"><span class="nav-number">1.3.</span> <span class="nav-text">标准I/O库与I/O函数有什么区别？</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#标准文件I-O函数的效率与bufsize的关系"><span class="nav-number">2.</span> <span class="nav-text">标准文件I/O函数的效率与bufsize的关系</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#内核表示文件的数据结构-amp-文件的共享结构"><span class="nav-number">3.</span> <span class="nav-text">内核表示文件的数据结构 & 文件的共享结构</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#原子操作"><span class="nav-number">4.</span> <span class="nav-text">原子操作</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#文件类型-amp-所谓“一切皆文件”"><span class="nav-number">5.</span> <span class="nav-text">文件类型 & 所谓“一切皆文件”</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#进程"><span class="nav-number">6.</span> <span class="nav-text">进程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#PID"><span class="nav-number">6.1.</span> <span class="nav-text">PID</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Fork"><span class="nav-number">6.2.</span> <span class="nav-text">Fork</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#exit"><span class="nav-number">6.3.</span> <span class="nav-text">exit</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#wait"><span class="nav-number">6.4.</span> <span class="nav-text">wait</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#exec"><span class="nav-number">6.5.</span> <span class="nav-text">exec</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#信号"><span class="nav-number">7.</span> <span class="nav-text">信号</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#线程"><span class="nav-number">8.</span> <span class="nav-text">线程</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#高级I-O"><span class="nav-number">9.</span> <span class="nav-text">高级I/O</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#IPC"><span class="nav-number">10.</span> <span class="nav-text">IPC</span></a></li></ol></div>
             
 
           </div>
