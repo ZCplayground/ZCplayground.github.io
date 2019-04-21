@@ -93,16 +93,16 @@
 
 
 
-<meta name="description" content="在图书馆发现乐一本《网络多人游戏架构与编程》—— Joshua Glazer, Sanjay Madhav 著。书挺新的，17年出版的，内容很有趣，翻一翻可以学到不少在《计算机网络》上不会讲到的内容，故做此纪录。 前几章，第一章简单介绍了网络游戏的历史和发展，第二章讲了how Internet works, 第三章讲的是 Berkeley Socket，就略过了。 对象序列化序列化：是指把内存中的">
+<meta name="description" content="在图书馆发现一本《网络多人游戏架构与编程》—— Joshua Glazer, Sanjay Madhav 著。书挺新的，17年出版的，内容很有趣，翻一翻可以学到不少在《计算机网络》上不会讲到的内容，故做此纪录。 前几章，第一章简单介绍了网络游戏的历史和发展，第二章讲了how Internet works, 第三章讲的是 Berkeley Socket，就略过了。 对象序列化序列化：是指把内存中的内">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Multiplayer-Network-Game-architecture-and-programming">
 <meta property="og:url" content="http://yoursite.com/2019/04/21/Multiplayer-Network-Game-architecture-and-programming/index.html">
 <meta property="og:site_name" content="ZCplayground">
-<meta property="og:description" content="在图书馆发现乐一本《网络多人游戏架构与编程》—— Joshua Glazer, Sanjay Madhav 著。书挺新的，17年出版的，内容很有趣，翻一翻可以学到不少在《计算机网络》上不会讲到的内容，故做此纪录。 前几章，第一章简单介绍了网络游戏的历史和发展，第二章讲了how Internet works, 第三章讲的是 Berkeley Socket，就略过了。 对象序列化序列化：是指把内存中的">
-<meta property="og:updated_time" content="2019-04-21T14:03:43.922Z">
+<meta property="og:description" content="在图书馆发现一本《网络多人游戏架构与编程》—— Joshua Glazer, Sanjay Madhav 著。书挺新的，17年出版的，内容很有趣，翻一翻可以学到不少在《计算机网络》上不会讲到的内容，故做此纪录。 前几章，第一章简单介绍了网络游戏的历史和发展，第二章讲了how Internet works, 第三章讲的是 Berkeley Socket，就略过了。 对象序列化序列化：是指把内存中的内">
+<meta property="og:updated_time" content="2019-04-21T16:51:20.949Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Multiplayer-Network-Game-architecture-and-programming">
-<meta name="twitter:description" content="在图书馆发现乐一本《网络多人游戏架构与编程》—— Joshua Glazer, Sanjay Madhav 著。书挺新的，17年出版的，内容很有趣，翻一翻可以学到不少在《计算机网络》上不会讲到的内容，故做此纪录。 前几章，第一章简单介绍了网络游戏的历史和发展，第二章讲了how Internet works, 第三章讲的是 Berkeley Socket，就略过了。 对象序列化序列化：是指把内存中的">
+<meta name="twitter:description" content="在图书馆发现一本《网络多人游戏架构与编程》—— Joshua Glazer, Sanjay Madhav 著。书挺新的，17年出版的，内容很有趣，翻一翻可以学到不少在《计算机网络》上不会讲到的内容，故做此纪录。 前几章，第一章简单介绍了网络游戏的历史和发展，第二章讲了how Internet works, 第三章讲的是 Berkeley Socket，就略过了。 对象序列化序列化：是指把内存中的内">
 
 
 
@@ -341,7 +341,7 @@
       
 
       
-        <p>在图书馆发现乐一本《网络多人游戏架构与编程》—— Joshua Glazer, Sanjay Madhav 著。书挺新的，17年出版的，内容很有趣，翻一翻可以学到不少在《计算机网络》上不会讲到的内容，故做此纪录。</p>
+        <p>在图书馆发现一本《网络多人游戏架构与编程》—— Joshua Glazer, Sanjay Madhav 著。书挺新的，17年出版的，内容很有趣，翻一翻可以学到不少在《计算机网络》上不会讲到的内容，故做此纪录。</p>
 <p>前几章，第一章简单介绍了网络游戏的历史和发展，第二章讲了how Internet works, 第三章讲的是 Berkeley Socket，就略过了。</p>
 <h1 id="对象序列化"><a href="#对象序列化" class="headerlink" title="对象序列化"></a>对象序列化</h1><p>序列化：是指把内存中的内容转化为比特流的形式。比特流是通过网络传输的形式，在主机和服务器上还可以恢复为原始格式。</p>
 <p>可能不是很好理解，书中举一个例子来说，如果有一个 RoboCat 对象要传输，代码如下：</p>
@@ -365,9 +365,43 @@
 <figure class="highlight gradle"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">void</span> OutputMemoryBitStream::<span class="keyword">Write</span>(const Vector3 &amp; mPosition)</div><div class="line">&#123;</div><div class="line">    <span class="keyword">Write</span>(mPosition.mX);</div><div class="line">    <span class="keyword">Write</span>(mPosition.mY);</div><div class="line">    <span class="keyword">Write</span>(mPosition.mZ);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>那么每次发送一个位置都要用 3*4=12 bytes。下面采纳一个简单的事实：猫常见的情况都是在地面上的，也就是大多数情况下Y都是0，所以我们可以用一个单独的比特来标识猫是在地上还是在天上。如果是在天上，再用4个bytes去存储它在天上的位置。</p>
 <figure class="highlight gradle"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">void</span> OutputMemoryBitStream::<span class="keyword">Write</span>(const Vector3 &amp; mPosition)</div><div class="line">&#123;</div><div class="line">    <span class="keyword">Write</span>(mPosition.mX);</div><div class="line">    <span class="keyword">Write</span>(mPosition.mZ);</div><div class="line"></div><div class="line">    <span class="keyword">if</span>(mPosition.mY == <span class="number">0</span>)</div><div class="line">    &#123;</div><div class="line">        <span class="keyword">Write</span>(<span class="keyword">true</span>); <span class="comment">// true 是一个bit？学到了。。。</span></div><div class="line">    &#125;</div><div class="line">    <span class="keyword">else</span></div><div class="line">    &#123;</div><div class="line">        <span class="keyword">Write</span>(<span class="keyword">false</span>);</div><div class="line">        <span class="keyword">Write</span>(mPosition.mY);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>假设玩家的猫90%的时间在地面上，那么本来是一直要用32 bits，现在变为 0.9 <em> 1 + 0.1 </em> 33 = 4.2 bits，每次传输位置都节省了3个多字节。</p>
+<p>假设玩家的猫90%的时间在地面上，那么本来是一直要用32 bits，现在变为 $ 0.9 <em> 1 + 0.1 </em> 33 = 4.2 bits $ ，每次传输位置都节省了3个多字节。</p>
 <p>当然，过分关注带宽效率可能会导致丑陋的代码，所以有的时候为了软件工程方面的考量，需要牺牲一点点效率来换取代码的可读性、可维护性，总之都是tradeoff。</p>
-<h1 id="世界状态"><a href="#世界状态" class="headerlink" title="世界状态"></a>世界状态</h1><h1 id="延迟、抖动、数据包丢失"><a href="#延迟、抖动、数据包丢失" class="headerlink" title="延迟、抖动、数据包丢失"></a>延迟、抖动、数据包丢失</h1><h1 id="高级的延迟处理技术"><a href="#高级的延迟处理技术" class="headerlink" title="高级的延迟处理技术"></a>高级的延迟处理技术</h1><h1 id="安全性"><a href="#安全性" class="headerlink" title="安全性"></a>安全性</h1><h1 id="引擎"><a href="#引擎" class="headerlink" title="引擎"></a>引擎</h1><h1 id="玩家服务"><a href="#玩家服务" class="headerlink" title="玩家服务"></a>玩家服务</h1><h1 id="云"><a href="#云" class="headerlink" title="云"></a>云</h1>
+<h1 id="世界状态"><a href="#世界状态" class="headerlink" title="世界状态"></a>世界状态</h1><p>很好理解，比如你在Minecraft开了个门，那么所有在同一个世界（一定范围内的）玩家必须都看到门打开了。所以<strong>世界状态（world state）</strong>就是那个世界中所有游戏对象的状态，所以同步世界状态就是传输每个对象的状态。</p>
+<p>这涉及到<strong>对象的复制</strong>。为了成功复制一个游戏对象，一般有三步：</p>
+<ol>
+<li>标记数据包是包含对象状态的数据包。</li>
+<li>唯一标识复制对象。</li>
+<li>指明被复制对象的类型。</li>
+</ol>
+<h2 id="利用MTU"><a href="#利用MTU" class="headerlink" title="利用MTU"></a>利用MTU</h2><p><strong>发送大小与MTU尽可能接近的数据包</strong>是高效的，所以在一个数据包中发送多个对象可以提升效率的。</p>
+<h2 id="优化"><a href="#优化" class="headerlink" title="优化"></a>优化</h2><p>每台主机其实都保存了一份世界状态的副本，所以其实没必要在一个数据包中复制整个世界状态。发送方只需要发送那些有发生改变的部分就可以了，用一个状态来表示下面三种复制行为的一种：</p>
+<ol>
+<li>创建游戏对象</li>
+<li>更新游戏对象</li>
+<li>销毁游戏对象</li>
+</ol>
+<p>书中有一个世界状态管理器的实例。</p>
+<h1 id="拓扑和同步"><a href="#拓扑和同步" class="headerlink" title="拓扑和同步"></a>拓扑和同步</h1><h2 id="不同的拓扑，适应不同的游戏"><a href="#不同的拓扑，适应不同的游戏" class="headerlink" title="不同的拓扑，适应不同的游戏"></a>不同的拓扑，适应不同的游戏</h2><p>考虑一下网络拓扑。一般有两种主要的拓扑结构需要考虑：C-S和对等网络。</p>
+<p><strong>客户端服务器（client-server）拓扑结构</strong>，大部分游戏有一台<strong>权威（authoritative）服务器</strong>，我们认为：<strong>只有服务器上的游戏模拟是正确的</strong>（这很好理解，吧，为了防作弊）。如果客户端发现自己的游戏状态和服务器中的不一致，需要根据服务器发过来的信息更新自己的状态。采用相信权威服务器的策略，就意味着客户端的行为一定会有一定的滞后或延迟。这延迟有很多原因，实际情况中游戏需要使用各种技术来降低（或者隐藏）延迟。</p>
+<p><strong>对等网络</strong>，也就是P2P那样的，每个参与者（对等体）都和其他所有参与者都有连接，客户端之间大量数据来回传输。这样的系统比较难实现，这种模式<strong>常见于RTS游戏（real time strategic，即时战略）</strong>。常见的做法是<strong>输入共享模式</strong>，所有的对等体的<strong>互相发送所有动作</strong>，比如《帝国时代》（Age of Empires），游戏以200ms一轮，一轮中的所有命令放到队列中，200ms结束，把这队列中的所有命令都发送到所有对等体中（即时战略一场游戏的玩家数量有限，一般不会超过十多个），然后在每个玩家的电脑上模拟这个游戏。这种<strong>同步</strong>的方式虽然概念上很简单，但实际实现是非常复杂的。其中最重要的是要保证游戏的实现需要非常确定，一组给定的输入必须始终得到同样的输出，为此需要使用例如<strong>校验和</strong>这样的手段来检验对等体之间游戏状态的一致性。对于这种游戏，如果要加入新玩家，一个新的对等体要加入进来，如何让其和每个对等体都建立关系？实际上，可以有一个玩家被选定为所谓的<strong>主机（房主）</strong>，新玩家先与主机建立练习。对于对等网络，由于没有中心服务器，所以不存在由于服务器断网而整个游戏失去连接的情况，有哪位玩家通信中断，其余玩家可以提议暂停游戏或者过一段时间断开这个玩家与主机的连接。</p>
+<p>第六章有C-S网络管理器、输入共享模式的命令队列的实现、对等网络的实现。</p>
+<h2 id="保持同步"><a href="#保持同步" class="headerlink" title="保持同步"></a>保持同步</h2><p>设计对等体网络游戏，比如即时战略游戏，挑战之一是保存<strong>所有实例的同步</strong>。要做到这一点经常会使用<strong>伪随机数生成器</strong>。有必要保证每隔一段时间（或者每一回合/轮/游戏设计者自行规定的一段指定时间间隔），任意两个对等体总是从一个随机数生成器中输出相同的结果。所以</p>
+<ol>
+<li>每个对等体的随机数生成器的种子要相同。</li>
+<li>每一轮调用相同次数的伪随机数生成，顺序相同，代码位置也相同。</li>
+</ol>
+<p>书中提出，C语言的<code>rand</code>和<code>srand</code>不是特别适合，<strong>原因是因为这东西不是在C标准中有指定的</strong>，所以不同平台、不同编译器会使用不同的随机数生成算法，因此就算保证了种子相同，也不一定意味着随机数相同。好消息是C++11引入了标准化的生成器，代码在书中有体现。</p>
+<p>同步的过程如下：</p>
+<ol>
+<li>主对等体（主机）生成一个随机数，用作种子，发给所有其他对等体，使得所有对等体的随机数生成器种子相同。</li>
+<li>每轮结束时，每个对等体生成一个随机数。作为轮数据包（每一轮结束的时候发一个包）中的一部分数据被发送。</li>
+</ol>
+<p>另外还有一种方法就是使用<strong>校验和（checksum）</strong>，每一轮结束时，计算游戏状态的校验和。这个过程可以用公开的实现，比如<strong>CRC32</strong>这样的比较知名的算法。校验和放入轮数据包中被发送，若有发现校验和错误的对等体，处理方式可以是将其剔出游戏（反作弊）</p>
+<h1 id="延迟、抖动、数据包丢失"><a href="#延迟、抖动、数据包丢失" class="headerlink" title="延迟、抖动、数据包丢失"></a>延迟、抖动、数据包丢失</h1><p><strong>延迟是不可避免的。</strong>（玩过游戏的都知道），网络在物理传输上肯定是存在延迟的。<strong>但不同游戏类型对与延迟的容忍程度是不同的</strong>（可能不仔细想还真不知道）。例如，VR游戏对延迟是最敏感的，比如，人的头动了一下，我们眼睛就期望看到不同的画面，这个延时需要少于20ms。格斗游戏、射击游戏和其他动作（频繁）游戏是延迟第二敏感的，一般要100ms以内。RTS游戏是对延迟容忍度最高的，可以高达500ms而不影响用户体验。毫无疑问，降低延迟可以提升用户体验，作为学计算机的人，首先要理解延迟来自哪些方面。</p>
+<h2 id="非网络延迟"><a href="#非网络延迟" class="headerlink" title="非网络延迟"></a>非网络延迟</h2><p>一般我们玩游戏觉得延迟都会觉得网络是主要的问题，<strong>但其实这是一种误解</strong>，网络延迟绝对不是唯一的延迟来源。</p>
+<h2 id="网络延迟"><a href="#网络延迟" class="headerlink" title="网络延迟"></a>网络延迟</h2><p>to be done</p>
+<h2 id="抖动"><a href="#抖动" class="headerlink" title="抖动"></a>抖动</h2><h2 id="⭐可靠性：TCP还是UDP"><a href="#⭐可靠性：TCP还是UDP" class="headerlink" title="⭐可靠性：TCP还是UDP"></a>⭐可靠性：TCP还是UDP</h2><h2 id="软件工程的测试"><a href="#软件工程的测试" class="headerlink" title="软件工程的测试"></a>软件工程的测试</h2><h1 id="高级的延迟处理技术"><a href="#高级的延迟处理技术" class="headerlink" title="高级的延迟处理技术"></a>高级的延迟处理技术</h1><h2 id="客户端插值法"><a href="#客户端插值法" class="headerlink" title="客户端插值法"></a>客户端插值法</h2><h2 id="客户端预测法"><a href="#客户端预测法" class="headerlink" title="客户端预测法"></a>客户端预测法</h2><h2 id="服务器回退法"><a href="#服务器回退法" class="headerlink" title="服务器回退法"></a>服务器回退法</h2><h1 id="安全性"><a href="#安全性" class="headerlink" title="安全性"></a>安全性</h1><h2 id="sniff-amp-man-in-the-middle-attack"><a href="#sniff-amp-man-in-the-middle-attack" class="headerlink" title="sniff &amp; man-in-the-middle attack"></a>sniff &amp; man-in-the-middle attack</h2><h2 id="input-validation"><a href="#input-validation" class="headerlink" title="input validation"></a>input validation</h2><h2 id="VAC-amp-Warden"><a href="#VAC-amp-Warden" class="headerlink" title="VAC &amp; Warden"></a>VAC &amp; Warden</h2><h2 id="服务器防御"><a href="#服务器防御" class="headerlink" title="服务器防御"></a>服务器防御</h2><h1 id="引擎"><a href="#引擎" class="headerlink" title="引擎"></a>引擎</h1><h1 id="玩家服务"><a href="#玩家服务" class="headerlink" title="玩家服务"></a>玩家服务</h1><h1 id="云"><a href="#云" class="headerlink" title="云"></a>云</h1>
       
     </div>
 
@@ -531,7 +565,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#对象序列化"><span class="nav-number">1.</span> <span class="nav-text">对象序列化</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#流"><span class="nav-number">1.1.</span> <span class="nav-text">流</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#压缩"><span class="nav-number">1.2.</span> <span class="nav-text">压缩</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#熵编码"><span class="nav-number">1.2.1.</span> <span class="nav-text">熵编码</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#世界状态"><span class="nav-number">2.</span> <span class="nav-text">世界状态</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#延迟、抖动、数据包丢失"><span class="nav-number">3.</span> <span class="nav-text">延迟、抖动、数据包丢失</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#高级的延迟处理技术"><span class="nav-number">4.</span> <span class="nav-text">高级的延迟处理技术</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#安全性"><span class="nav-number">5.</span> <span class="nav-text">安全性</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#引擎"><span class="nav-number">6.</span> <span class="nav-text">引擎</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#玩家服务"><span class="nav-number">7.</span> <span class="nav-text">玩家服务</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#云"><span class="nav-number">8.</span> <span class="nav-text">云</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#对象序列化"><span class="nav-number">1.</span> <span class="nav-text">对象序列化</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#流"><span class="nav-number">1.1.</span> <span class="nav-text">流</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#压缩"><span class="nav-number">1.2.</span> <span class="nav-text">压缩</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#熵编码"><span class="nav-number">1.2.1.</span> <span class="nav-text">熵编码</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#世界状态"><span class="nav-number">2.</span> <span class="nav-text">世界状态</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#利用MTU"><span class="nav-number">2.1.</span> <span class="nav-text">利用MTU</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#优化"><span class="nav-number">2.2.</span> <span class="nav-text">优化</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#拓扑和同步"><span class="nav-number">3.</span> <span class="nav-text">拓扑和同步</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#不同的拓扑，适应不同的游戏"><span class="nav-number">3.1.</span> <span class="nav-text">不同的拓扑，适应不同的游戏</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#保持同步"><span class="nav-number">3.2.</span> <span class="nav-text">保持同步</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#延迟、抖动、数据包丢失"><span class="nav-number">4.</span> <span class="nav-text">延迟、抖动、数据包丢失</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#非网络延迟"><span class="nav-number">4.1.</span> <span class="nav-text">非网络延迟</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#网络延迟"><span class="nav-number">4.2.</span> <span class="nav-text">网络延迟</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#抖动"><span class="nav-number">4.3.</span> <span class="nav-text">抖动</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#⭐可靠性：TCP还是UDP"><span class="nav-number">4.4.</span> <span class="nav-text">⭐可靠性：TCP还是UDP</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#软件工程的测试"><span class="nav-number">4.5.</span> <span class="nav-text">软件工程的测试</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#高级的延迟处理技术"><span class="nav-number">5.</span> <span class="nav-text">高级的延迟处理技术</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#客户端插值法"><span class="nav-number">5.1.</span> <span class="nav-text">客户端插值法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#客户端预测法"><span class="nav-number">5.2.</span> <span class="nav-text">客户端预测法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#服务器回退法"><span class="nav-number">5.3.</span> <span class="nav-text">服务器回退法</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#安全性"><span class="nav-number">6.</span> <span class="nav-text">安全性</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#sniff-amp-man-in-the-middle-attack"><span class="nav-number">6.1.</span> <span class="nav-text">sniff & man-in-the-middle attack</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#input-validation"><span class="nav-number">6.2.</span> <span class="nav-text">input validation</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#VAC-amp-Warden"><span class="nav-number">6.3.</span> <span class="nav-text">VAC & Warden</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#服务器防御"><span class="nav-number">6.4.</span> <span class="nav-text">服务器防御</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#引擎"><span class="nav-number">7.</span> <span class="nav-text">引擎</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#玩家服务"><span class="nav-number">8.</span> <span class="nav-text">玩家服务</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#云"><span class="nav-number">9.</span> <span class="nav-text">云</span></a></li></ol></div>
             
 
           </div>
@@ -815,6 +849,26 @@
   
 
   
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
   
 
 
