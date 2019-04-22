@@ -99,7 +99,7 @@
 <meta property="og:url" content="http://yoursite.com/2019/04/21/Multiplayer-Network-Game-architecture-and-programming/index.html">
 <meta property="og:site_name" content="ZCplayground">
 <meta property="og:description" content="在图书馆发现一本《网络多人游戏架构与编程》—— Joshua Glazer, Sanjay Madhav 著。书挺新的，17年出版的，内容很有趣，翻一翻可以学到不少在《计算机网络》上不会讲到的内容，故做此纪录。 前几章，第一章简单介绍了网络游戏的历史和发展，第二章讲了how Internet works, 第三章讲的是 Berkeley Socket，就略过了。 对象序列化序列化：是指把内存中的内">
-<meta property="og:updated_time" content="2019-04-21T16:51:20.949Z">
+<meta property="og:updated_time" content="2019-04-22T10:08:10.358Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Multiplayer-Network-Game-architecture-and-programming">
 <meta name="twitter:description" content="在图书馆发现一本《网络多人游戏架构与编程》—— Joshua Glazer, Sanjay Madhav 著。书挺新的，17年出版的，内容很有趣，翻一翻可以学到不少在《计算机网络》上不会讲到的内容，故做此纪录。 前几章，第一章简单介绍了网络游戏的历史和发展，第二章讲了how Internet works, 第三章讲的是 Berkeley Socket，就略过了。 对象序列化序列化：是指把内存中的内">
@@ -400,8 +400,82 @@
 <p>另外还有一种方法就是使用<strong>校验和（checksum）</strong>，每一轮结束时，计算游戏状态的校验和。这个过程可以用公开的实现，比如<strong>CRC32</strong>这样的比较知名的算法。校验和放入轮数据包中被发送，若有发现校验和错误的对等体，处理方式可以是将其剔出游戏（反作弊）</p>
 <h1 id="延迟、抖动、数据包丢失"><a href="#延迟、抖动、数据包丢失" class="headerlink" title="延迟、抖动、数据包丢失"></a>延迟、抖动、数据包丢失</h1><p><strong>延迟是不可避免的。</strong>（玩过游戏的都知道），网络在物理传输上肯定是存在延迟的。<strong>但不同游戏类型对与延迟的容忍程度是不同的</strong>（可能不仔细想还真不知道）。例如，VR游戏对延迟是最敏感的，比如，人的头动了一下，我们眼睛就期望看到不同的画面，这个延时需要少于20ms。格斗游戏、射击游戏和其他动作（频繁）游戏是延迟第二敏感的，一般要100ms以内。RTS游戏是对延迟容忍度最高的，可以高达500ms而不影响用户体验。毫无疑问，降低延迟可以提升用户体验，作为学计算机的人，首先要理解延迟来自哪些方面。</p>
 <h2 id="非网络延迟"><a href="#非网络延迟" class="headerlink" title="非网络延迟"></a>非网络延迟</h2><p>一般我们玩游戏觉得延迟都会觉得网络是主要的问题，<strong>但其实这是一种误解</strong>，网络延迟绝对不是唯一的延迟来源。</p>
-<h2 id="网络延迟"><a href="#网络延迟" class="headerlink" title="网络延迟"></a>网络延迟</h2><p>to be done</p>
-<h2 id="抖动"><a href="#抖动" class="headerlink" title="抖动"></a>抖动</h2><h2 id="⭐可靠性：TCP还是UDP"><a href="#⭐可靠性：TCP还是UDP" class="headerlink" title="⭐可靠性：TCP还是UDP"></a>⭐可靠性：TCP还是UDP</h2><h2 id="软件工程的测试"><a href="#软件工程的测试" class="headerlink" title="软件工程的测试"></a>软件工程的测试</h2><h1 id="高级的延迟处理技术"><a href="#高级的延迟处理技术" class="headerlink" title="高级的延迟处理技术"></a>高级的延迟处理技术</h1><h2 id="客户端插值法"><a href="#客户端插值法" class="headerlink" title="客户端插值法"></a>客户端插值法</h2><h2 id="客户端预测法"><a href="#客户端预测法" class="headerlink" title="客户端预测法"></a>客户端预测法</h2><h2 id="服务器回退法"><a href="#服务器回退法" class="headerlink" title="服务器回退法"></a>服务器回退法</h2><h1 id="安全性"><a href="#安全性" class="headerlink" title="安全性"></a>安全性</h1><h2 id="sniff-amp-man-in-the-middle-attack"><a href="#sniff-amp-man-in-the-middle-attack" class="headerlink" title="sniff &amp; man-in-the-middle attack"></a>sniff &amp; man-in-the-middle attack</h2><h2 id="input-validation"><a href="#input-validation" class="headerlink" title="input validation"></a>input validation</h2><h2 id="VAC-amp-Warden"><a href="#VAC-amp-Warden" class="headerlink" title="VAC &amp; Warden"></a>VAC &amp; Warden</h2><h2 id="服务器防御"><a href="#服务器防御" class="headerlink" title="服务器防御"></a>服务器防御</h2><h1 id="引擎"><a href="#引擎" class="headerlink" title="引擎"></a>引擎</h1><h1 id="玩家服务"><a href="#玩家服务" class="headerlink" title="玩家服务"></a>玩家服务</h1><h1 id="云"><a href="#云" class="headerlink" title="云"></a>云</h1>
+<ol>
+<li>输入采样延迟（input sampling latency），简单来说就是<strong>用户按下鼠标、按下键盘到被游戏检测到这个动作输入的时间</strong>可以很长很长。考虑一个游戏以1s60帧运行，1帧大约就是17ms，若用户在某一个完整的帧运行完后2ms后才按下跳远按钮，那么到下一次采样的时间就必然有15ms的延迟。按照平均情况，就是每一个操作都有半帧延迟。</li>
+<li>渲染延迟（render），学过图形学，对render这个词也比较眼熟了。<strong>GPU不是CPU一发布命令就开始渲染</strong>，图形驱动程序是把这些命令放入缓冲区，GPU在以后某个时刻再执行这些命令。</li>
+<li>垂直同步（VSync）为了避免画面撕裂的手段，做法是仅在显示器的垂直消隐间隙改变图像。怎么理解？显示器上的所有图像都是一线一线的扫描上去的，无论是隔行扫描还是逐行扫描，显示器，都有2种同步参数——水平同步和垂直同步。水平同步信号决定了CRT画出一条横越屏幕线的时间，垂直同步信号决定了CRT从屏幕顶部画到底部，再返回原始位置的时间。<strong>垂直同步代表着显示器的刷新率水平</strong>。主如果我们选择“等待垂直同步信号”（也就是我们平时所说的“垂直同步打开”），那么在游戏中，或许强劲的显卡迅速的绘制完一屏的图像，但是<strong>没有垂直同步信号的到达，显卡无法绘制下一屏</strong>，只有等下一次绘制的信号到达，才可以绘制。例如那些高速运行的游戏，比如实况，FPS游戏，打开垂直同步后能防止游戏画面高速移动时画面撕裂现象，当然打开后如果你的游戏画面FPS数能达到或超过你显示器的刷新率，这时你的游戏画面FPS数被限制为你显示器的刷新率。你会觉得原来移动时的游戏画面是如此舒服，如果达不到会出现不同程度的跳帧现象。显示器就不会同时显示这一阵的部分图像和下一帧的部分图像。垂直同步会造成延迟的原因和渲染延迟类似，如果错过了一次绘制轮次就要等待下一次，也就是额外的一个延迟。</li>
+<li>显示延迟（display），显示器在真正显示图像前都会处理输入，这个处理时有时间代价的，比如图像效果处理、视频缩放、降噪、自适应亮度、过滤等</li>
+<li>像素相应时间（pixel response），显示屏的像素亮度的改变需要时间，在几毫秒级别。</li>
+</ol>
+<h2 id="网络延迟"><a href="#网络延迟" class="headerlink" title="网络延迟"></a>网络延迟</h2><p>这部分《计算机网络》上有讲过，当作复习</p>
+<ol>
+<li>处理延迟（processing delay），router处理数据包检查源地址、确定路由所必要的时间</li>
+<li>传输延迟（transmission），指<strong>向物理介质写比特流所必须要花费的写入时间</strong>。我们都知道，物理介质上平均速率的固有限制，例如1MB的以太网连接大约1秒可以写100万bits，若写一个1500bytes的字节的数据包需要12.5ms的时间。</li>
+<li>排队延迟（queuing），如果数据包到达的速度比路由器的处理速度快，那么就要进入队列排队。</li>
+<li>传播延迟（propagation）无论是什么物理介质，信息传播的速度再怎么样也不会比光快，也就是说<strong>物理上的传输肯定有延迟</strong>，理想状态下（光速），发送数据包的延迟时0.3ns/m乘以数据包传输的空间距离，例如一个数据包横跨美国至少需要12ms。</li>
+</ol>
+<h2 id="抖动"><a href="#抖动" class="headerlink" title="抖动"></a>抖动</h2><p>主机到服务器的RTT是可以估计的，必须留意RTT不是一个常数，而是会围绕某一个值进行变化，如果RTT与期望值偏差，这个偏差就被称为抖动（jitter）。作为游戏服务器，要做到：</p>
+<ol>
+<li>发送尽可能少的数据包保持低流量</li>
+<li>把服务器布置在玩家附近来降低出现严重抖动的可能性。</li>
+</ol>
+<h2 id="数据包丢失"><a href="#数据包丢失" class="headerlink" title="数据包丢失"></a>数据包丢失</h2><ol>
+<li>不可靠的物理介质。从根本上说，数据包传输是电磁能量的传输（比如光纤，光是一种电磁波（我们就先忽略波粒二象性：））。宏观的物理问题，如连接松动了，旁边有一台微波炉在工作，都可能导致信号的损坏</li>
+<li>链路层和网络层是不可靠的，例如，当链路层信道侦测到冲突的时候，要丢弃正在发送的帧来退避（链路层），路由器队列满了，就只能丢包（网络层）。</li>
+</ol>
+<h2 id="⭐可靠性：TCP还是UDP"><a href="#⭐可靠性：TCP还是UDP" class="headerlink" title="⭐可靠性：TCP还是UDP"></a>⭐可靠性：TCP还是UDP</h2><p>这是非常有意思的一个章节，学《计算机网络》我们最关注的都是TCP比UDP好在哪里，有那些措施等。但，网络游戏的实际情况下的工程是远远超过教科书上面的那些内容的。</p>
+<p>几乎每一个游戏的开发早期都需要面临一个抉择就是使用TCP还是UDP。使用TCP的好处就是，它提供了一个经得起考验的、鲁棒的、稳定的可靠连接实现。保证了所有数据都能到达，而且还能按序到达，还提供了复杂的拥塞控制功能。但是，这<strong>优点其实也是缺点：所有的东西都可靠发生切按序处理</strong>，在瞬息万变的游戏世界中，可能会造成如下的问题：</p>
+<ol>
+<li><strong>低优先级的数据干扰高优先级数据的接受</strong>。例如客户端A的玩家和客户端B的玩家在互相攻击，突然，有一个远处的火箭爆炸，服务器给A发送了这个爆炸的声音。过了一会，B突然跳到A的面前射击，服务器发送一个包含此事件的数据包给玩家A。若此时因为网络问题，内容是火箭爆炸的这个数据包丢失了，<strong>因为TCP按序处理数据包的机制，就算A先收到了B攻击A的数据，但TCP也不会先发送给游戏</strong>。而实际情况是，对于玩家A来说，敌人射击了他是一个优先级更高的事件，甚至这个爆炸其实比较无关紧要。如果使用TCP，那么就要等到服务器重传这个低优先级的火箭爆炸数据包之后，才允许应用层处理高优先级的第二个数据包，毫无疑问这会导致玩家A的体验极差。</li>
+<li>多个可考的有序数据流相互干扰。就算不是因为优先级的限制，若所有的数据都需要可靠传输，TCP有时也会造成问题。例如游戏中有聊天室，聊天信息应该是需要按序处理的，因为无序的聊天记录会让人看不懂。但是，<strong>聊天信息只需要相对其他聊天信息是有序的就可以了</strong>，如果聊天数据包的丢失影响到了爆头数据包的处理，这肯定不是玩家所希望的。如果使用TCP，可能就会造成这种问题。</li>
+<li><strong>过时的重传</strong>。举前面的世界状态为例子，假设玩家B和玩家A在玩吃鸡游戏，B开始的时候在位置x=0，随后的5秒中，B跑到了x=100，假设服务器每一秒都发送一个数据包给A包含B的最新位置。如果用的是TCP，那么这些数据包中的任何一个丢失了，那么都会重传。这意味着，当玩家在x=100的时候，<strong>服务器还可能在重传过时的状态信息</strong>，这会导致A那边计算B的位置是过时的，比如会出现A还没有觉得B接近了自己，而自己缺被打死了，这是非常糟糕的。</li>
+<li><strong>强制拥塞控制</strong>。尽管拥塞控制算法有利于防止丢包，但有时可能<strong>会导致发送数据包的速度过慢</strong>（Nagle算法）。</li>
+</ol>
+<p>说完TCP，我们再来说UDP。UDP虽然没有TCP提供的可靠性和流量控制，但是，它实际上就是一张<strong>空白画布</strong>。你可以根据你所设计的游戏的需要来设计一个任何模样的自定义可靠系统。</p>
+<ol>
+<li>允许发送可靠和不可靠的信息，用某种自定义的手段去标记需要可靠发送的数据包，并让接收端返回确认。</li>
+<li>分离可靠有序数据流的交错。</li>
+<li>丢失数据包的时候只发送最新的信息而不是重传丢失的数据。</li>
+<li>自己管理内存，对数据如何组成数据包进行细粒度的控制。</li>
+</ol>
+<p>以上都增加了开发和测试的时间，可以使用一些第三方UDP网络库来减少一定这方面的工作量和风险。如RakNet和Photon。</p>
+<p>总结，选择哪个传输层协议需要考虑如下问题：</p>
+<ol>
+<li>游戏发送的每一个数据都必须要被接受吗？</li>
+<li>需要以完全有序的方式处理吗？</li>
+</ol>
+<p>如果两个问题的答案是肯定的，那么确实应该考虑TCP，在回合制游戏中往往是这样的。如果TCP不是绝对完美适合，那么应该使用UDP，这对大多数游戏都是这种情况。</p>
+<h2 id="软件工程的测试"><a href="#软件工程的测试" class="headerlink" title="软件工程的测试"></a>软件工程的测试</h2><p>实现这么一个系统的过程中，创造一个模拟抖动、延迟、丢包的测试环境是非常重要的，看看你的系统是否可以经受得住这些考验。</p>
+<ol>
+<li>当数据包来到，用随机数来决定是否丢弃这个数据包。</li>
+<li>延迟和抖动，就是将数据包到达后，不是直接处理，而是将其插入到数据包的有序队列之中的某一个位置。</li>
+</ol>
+<h1 id="高级的延迟处理技术"><a href="#高级的延迟处理技术" class="headerlink" title="高级的延迟处理技术"></a>高级的延迟处理技术</h1><p>前面我们提到，权威服务器的概念。<strong>服务器是唯一拥有真实和正确游戏状态的主机，服务器是唯一运行最重要模拟的主机。</strong>因此，玩家产生一个动作，到玩家观察到这个动作导致的真实游戏状态，总是有一些延迟。例如：玩家按下跳跃按钮，假设 RTT 是 100ms，且假设往返时间大致是一半一半，服务器是在 50ms 时收到玩家主机发来的数据包，则服务器开始执行对该跳跃动作的模拟，并把新的状态发送回玩家，该数据包就也需要 50ms 才能达到客户端，所以按下跳跃按钮的 100ms 后，玩家才能看到人物跳跃的结果。由于数据包传递是需要时间的，所以运行在服务器的真实模拟总是比玩家能在他们主机上感受到的模拟早半个RTT，这个也比较好理解。</p>
+<p>这种客户端被称为<strong>沉默终端（dumb terminal），它们不对游戏的模拟代码有任何了解</strong>，dumb terminal 只是发送输入，接收服务器发来的结果然后渲染给用户看。这种方式叫做<strong>保守算法（conservative algorithm）</strong>，代价是时延，但至少保守算法是绝对正确的。</p>
+<h2 id="客户端插值法"><a href="#客户端插值法" class="headerlink" title="客户端插值法"></a>客户端插值法</h2><p>沉默终端存在一个问题，就是不平滑。举一个例子：</p>
+<ul>
+<li>由于现在的显卡都叼炸天，假设客户端 A 能够以每秒 60 帧的速度运行。</li>
+<li>但是，由于服务器和客户端的网络带宽限制，服务器只能以每秒更新 15 次的频率跟客户端通讯。</li>
+<li>假设玩家跳跃，是向上移动 60 个单位，那么也就是每 1 帧向上移动 1 个单位，如果显卡可以这样渲染，在玩家眼里看起来就是非常平滑的。但是，由于服务器只能以每秒 15 次，也就是每 4 帧才能给客户端发送一个状态，客户端 A 接受到这个状态是 4 帧后的状态。例如，按下跳跃前坐标状态 Y=0，收到的包是 Y=4，按照这个状态去渲染，就是玩家直接感觉到自己的任务跳到了 Y=4，而不是 Y=1,2,3,4 这样平滑地上去的。GPU的性能虽然很高，但是由于网络的限制，她只能得到每秒15帧的体验，这让玩家很不愉快。</li>
+</ul>
+<p><strong>插值法</strong>（interpolation）学过数值分析，看到名字就大概懂了。使用这种方法，<strong>客户端不是自动将对象移动到服务器发来的数据包指示的位置，而是根据时间平滑地插值到这个位置</strong>。</p>
+<p>人为规定一个较小的<strong>差值周期IP（interpolation period）</strong>，即从一个状态插值到另一个状态所需要的时间。<strong>PP代表数据包周期</strong>，即服务器相邻的两个数据包之间的时间。根据定义，数据包到达客户端后的IP时间内完成插值。显然，若IP小于PP，则插值完毕后仍没有拿到新的数据包，则玩家仍然会感觉到卡顿，所以应设置 IP ≥ PP。</p>
+<p>人为规定一个IP，收到Y=4这个包后，在随后的IP时间内让人物平滑地从Y=0移动到Y=4，这个技术虽然引入了额外的延迟IP，但游戏看起来更平滑了，让玩家体验更好，这个代价就是值得的。</p>
+<h2 id="客户端预测法"><a href="#客户端预测法" class="headerlink" title="客户端预测法"></a>客户端预测法</h2><p>虽然插值法可以让体验更加顺滑，但仍然不能让客户端的状态更加接近服务器上的状态。一种更为<strong>主动的想法是从插值转为推测</strong>。<strong>客户端根据接收到的略旧的状态，显示一个推测的状态给玩家。（client prediction）</strong></p>
+<p>如果是这样的客户端，就<strong>不是 dumb terminal 了</strong>，因为<strong>客户端上也得有一份与服务器相同的模拟代码</strong>了。预测是这么预测的：</p>
+<ul>
+<li>根据先前的分析，客户端收到的状态更新是 1/2 RTT 之前的，所以要去估计RTT。估计 RTT 方法很简单，就是发一个带有时间戳的回显包，服务器收到之后立刻返回，客户端收到的时间和这个时间戳一比较就可以得到近似的RTT。</li>
+<li>然后，<strong>收到一个状态数据包，客户端自行运行 1/2 RTT 这么多时间的模拟，显示给玩家这个结果</strong>。</li>
+</ul>
+<h2 id="服务器回退法"><a href="#服务器回退法" class="headerlink" title="服务器回退法"></a>服务器回退法</h2><p>有一种常见的游戏动作是客户端预测法不好处理的：长距离即时射击，假设你是一名配备狙击步枪的反恐精英，你希望你瞄准到一名玩家扣下扳机后，立刻就有完美的命中（比如敌人应声暴毙，右上角出现你击杀成功的信息）。这个问题有一个解决方案，是 Valve 的起源引擎中推广开来的，被《Counter-Strike》游戏采用，其核心是：<strong>当开火时，让服务器状态回退到玩家扣下扳机时感受到的状态</strong>。那么，如果玩家感觉她瞄的很准，那么久可以百发百中。</p>
+<ol>
+<li>客户端使用客户端插值法，且<strong>IP精确等于PP</strong>，便于服务器的回退。</li>
+<li>服务器需要准确地知道客户端玩家在每个时刻看到什么。方法是<strong>发送给服务器的每个移动数据包都保持客户端视角</strong>。例如：客户端在每个发送的数据包中都记录客户端<strong>当前插值的两个帧的ID</strong>，以及<strong>插值进度百分比</strong>。这样就给服务器一个玩家当且所感受到的世界的精确度量。</li>
+<li>在服务器端，当传入的客户端输入数据包中包含射击时，查找射击时刻插值的两帧，使用数据包中的插值进度百分比将所有对象<strong>回退到客户端中扣动扳机的那一刻</strong>。然后从客户端的位置采用光线投射法<strong>确定是否击中</strong>。</li>
+<li>这一机制保证了<strong>如果客户端精准命中了，那么在服务器端就一定会被命中</strong>。所以这给射击玩家带来了很好的体验。但也有可能让被击杀的人有一些不愉快的体验，例如在网络延迟很大的情况下，玩家B已经觉得自己避开了A的射击躲到了障碍物后面，但过一小会还是被判定被击毙了。其实这是一个tradeoff，需要根据你的游戏的特性来决定是否使用这些技术。</li>
+</ol>
+<h1 id="安全性"><a href="#安全性" class="headerlink" title="安全性"></a>安全性</h1><p>to be done</p>
+<h2 id="sniff-amp-man-in-the-middle-attack"><a href="#sniff-amp-man-in-the-middle-attack" class="headerlink" title="sniff &amp; man-in-the-middle attack"></a>sniff &amp; man-in-the-middle attack</h2><h2 id="input-validation"><a href="#input-validation" class="headerlink" title="input validation"></a>input validation</h2><h2 id="VAC-amp-Warden"><a href="#VAC-amp-Warden" class="headerlink" title="VAC &amp; Warden"></a>VAC &amp; Warden</h2><h2 id="服务器防御"><a href="#服务器防御" class="headerlink" title="服务器防御"></a>服务器防御</h2>
       
     </div>
 
@@ -565,7 +639,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#对象序列化"><span class="nav-number">1.</span> <span class="nav-text">对象序列化</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#流"><span class="nav-number">1.1.</span> <span class="nav-text">流</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#压缩"><span class="nav-number">1.2.</span> <span class="nav-text">压缩</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#熵编码"><span class="nav-number">1.2.1.</span> <span class="nav-text">熵编码</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#世界状态"><span class="nav-number">2.</span> <span class="nav-text">世界状态</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#利用MTU"><span class="nav-number">2.1.</span> <span class="nav-text">利用MTU</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#优化"><span class="nav-number">2.2.</span> <span class="nav-text">优化</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#拓扑和同步"><span class="nav-number">3.</span> <span class="nav-text">拓扑和同步</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#不同的拓扑，适应不同的游戏"><span class="nav-number">3.1.</span> <span class="nav-text">不同的拓扑，适应不同的游戏</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#保持同步"><span class="nav-number">3.2.</span> <span class="nav-text">保持同步</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#延迟、抖动、数据包丢失"><span class="nav-number">4.</span> <span class="nav-text">延迟、抖动、数据包丢失</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#非网络延迟"><span class="nav-number">4.1.</span> <span class="nav-text">非网络延迟</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#网络延迟"><span class="nav-number">4.2.</span> <span class="nav-text">网络延迟</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#抖动"><span class="nav-number">4.3.</span> <span class="nav-text">抖动</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#⭐可靠性：TCP还是UDP"><span class="nav-number">4.4.</span> <span class="nav-text">⭐可靠性：TCP还是UDP</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#软件工程的测试"><span class="nav-number">4.5.</span> <span class="nav-text">软件工程的测试</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#高级的延迟处理技术"><span class="nav-number">5.</span> <span class="nav-text">高级的延迟处理技术</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#客户端插值法"><span class="nav-number">5.1.</span> <span class="nav-text">客户端插值法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#客户端预测法"><span class="nav-number">5.2.</span> <span class="nav-text">客户端预测法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#服务器回退法"><span class="nav-number">5.3.</span> <span class="nav-text">服务器回退法</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#安全性"><span class="nav-number">6.</span> <span class="nav-text">安全性</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#sniff-amp-man-in-the-middle-attack"><span class="nav-number">6.1.</span> <span class="nav-text">sniff & man-in-the-middle attack</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#input-validation"><span class="nav-number">6.2.</span> <span class="nav-text">input validation</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#VAC-amp-Warden"><span class="nav-number">6.3.</span> <span class="nav-text">VAC & Warden</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#服务器防御"><span class="nav-number">6.4.</span> <span class="nav-text">服务器防御</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#引擎"><span class="nav-number">7.</span> <span class="nav-text">引擎</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#玩家服务"><span class="nav-number">8.</span> <span class="nav-text">玩家服务</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#云"><span class="nav-number">9.</span> <span class="nav-text">云</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#对象序列化"><span class="nav-number">1.</span> <span class="nav-text">对象序列化</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#流"><span class="nav-number">1.1.</span> <span class="nav-text">流</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#压缩"><span class="nav-number">1.2.</span> <span class="nav-text">压缩</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#熵编码"><span class="nav-number">1.2.1.</span> <span class="nav-text">熵编码</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#世界状态"><span class="nav-number">2.</span> <span class="nav-text">世界状态</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#利用MTU"><span class="nav-number">2.1.</span> <span class="nav-text">利用MTU</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#优化"><span class="nav-number">2.2.</span> <span class="nav-text">优化</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#拓扑和同步"><span class="nav-number">3.</span> <span class="nav-text">拓扑和同步</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#不同的拓扑，适应不同的游戏"><span class="nav-number">3.1.</span> <span class="nav-text">不同的拓扑，适应不同的游戏</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#保持同步"><span class="nav-number">3.2.</span> <span class="nav-text">保持同步</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#延迟、抖动、数据包丢失"><span class="nav-number">4.</span> <span class="nav-text">延迟、抖动、数据包丢失</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#非网络延迟"><span class="nav-number">4.1.</span> <span class="nav-text">非网络延迟</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#网络延迟"><span class="nav-number">4.2.</span> <span class="nav-text">网络延迟</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#抖动"><span class="nav-number">4.3.</span> <span class="nav-text">抖动</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据包丢失"><span class="nav-number">4.4.</span> <span class="nav-text">数据包丢失</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#⭐可靠性：TCP还是UDP"><span class="nav-number">4.5.</span> <span class="nav-text">⭐可靠性：TCP还是UDP</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#软件工程的测试"><span class="nav-number">4.6.</span> <span class="nav-text">软件工程的测试</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#高级的延迟处理技术"><span class="nav-number">5.</span> <span class="nav-text">高级的延迟处理技术</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#客户端插值法"><span class="nav-number">5.1.</span> <span class="nav-text">客户端插值法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#客户端预测法"><span class="nav-number">5.2.</span> <span class="nav-text">客户端预测法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#服务器回退法"><span class="nav-number">5.3.</span> <span class="nav-text">服务器回退法</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#安全性"><span class="nav-number">6.</span> <span class="nav-text">安全性</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#sniff-amp-man-in-the-middle-attack"><span class="nav-number">6.1.</span> <span class="nav-text">sniff & man-in-the-middle attack</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#input-validation"><span class="nav-number">6.2.</span> <span class="nav-text">input validation</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#VAC-amp-Warden"><span class="nav-number">6.3.</span> <span class="nav-text">VAC & Warden</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#服务器防御"><span class="nav-number">6.4.</span> <span class="nav-text">服务器防御</span></a></li></ol></li></ol></div>
             
 
           </div>
