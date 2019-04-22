@@ -99,7 +99,7 @@
 <meta property="og:url" content="http://yoursite.com/2019/04/21/Multiplayer-Network-Game-architecture-and-programming/index.html">
 <meta property="og:site_name" content="ZCplayground">
 <meta property="og:description" content="在图书馆发现一本《网络多人游戏架构与编程》—— Joshua Glazer, Sanjay Madhav 著。书挺新的，17年出版的，内容很有趣，翻一翻可以学到不少在《计算机网络》上不会讲到的内容，故做此纪录。 前几章，第一章简单介绍了网络游戏的历史和发展，第二章讲了how Internet works, 第三章讲的是 Berkeley Socket，就略过了。 对象序列化序列化：是指把内存中的内">
-<meta property="og:updated_time" content="2019-04-22T13:39:35.519Z">
+<meta property="og:updated_time" content="2019-04-22T13:49:41.418Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Multiplayer-Network-Game-architecture-and-programming">
 <meta name="twitter:description" content="在图书馆发现一本《网络多人游戏架构与编程》—— Joshua Glazer, Sanjay Madhav 著。书挺新的，17年出版的，内容很有趣，翻一翻可以学到不少在《计算机网络》上不会讲到的内容，故做此纪录。 前几章，第一章简单介绍了网络游戏的历史和发展，第二章讲了how Internet works, 第三章讲的是 Berkeley Socket，就略过了。 对象序列化序列化：是指把内存中的内">
@@ -350,14 +350,14 @@
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">SendRoboCat</span><span class="params">(<span class="keyword">int</span> inSocket, <span class="keyword">const</span> RoboCat * inRoboCat)</span></span></div><div class="line">&#123;</div><div class="line">    send(inSocket,</div><div class="line">        <span class="keyword">reinterpret_cast</span>&lt;<span class="keyword">const</span> <span class="keyword">char</span> *&gt;(inRoboCat),</div><div class="line">        <span class="keyword">sizeof</span>(RoboCat), <span class="number">0</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>乍一看好像是没有什么问题对不对？服务器那端用 recv 函数把这个对象接住就可以。问题在哪呢？比如看这一行：</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">Update</span><span class="params">()</span></span>;</div></pre></td></tr></table></figure>
-<p>假设在32位系统上，<strong>这个对象开始的 4 bytes 是一个虚函数表指针</strong>。因为 <code>Update</code> 方法是虚的，每个对象实例都会存储一个指向虚方法实现位置的表指针。如果直接发送这个对象，会导致一个问题，那就是<strong>每个不同进程中那张表的位置其实是不一样的</strong>。这段代码，会导致服务器上写入目标的那个 RoboCat 对象的虚函数表指针直接写成一个错的指针。</p>
+<p>假设在32位系统上，<strong>这个对象开始的 4 bytes 是一个虚函数表指针</strong>。因为 <code>Update</code> 方法是虚的，每个对象实例都会存储一个指向虚方法实现位置的表指针（如果看不懂自行搜索虚函数的实现方法）。如果直接发送这个对象，会导致一个问题，那就是<strong>每个不同进程中那张表的位置其实是不一样的</strong>。这段代码，会导致服务器上写入目标的那个 RoboCat 对象的虚函数表指针直接写成一个错的指针。</p>
 <p>当然这个例子中还包含别的指针，比如 <code>GameObject * mHomeBase</code>，结合上面的例子很容易就想通：在客户端上一个进程的某一个指针位置，直接发给服务器肯定是荒谬的（一个进程复制一个指针到另一个进程，肯定不能期望对这个指针解引用后还能得到正确的数据）。解决方案其实很容易就能想到，就是<strong>必须对相关的数据进行复制，而不是发送直接的二进制地址。</strong></p>
 <p>第二个问题就是对于<code>char name[128];</code>这个对象，如果直接发送整个对象，很明显的一个问题就是这个128字节的数组大多数情况下包含的数据很少，因为这是一个以<code>\0</code>结尾的C字符串，后面的字符都没有意义，<strong>我们应该仅发送那部分有意义的字符来节省网络的带宽。</strong></p>
-<p>最后一个问题出现在对于STL中的<code>vector</code>直接复制这样的结构，因为不清除直接复制内存中的一个<code>vector</code>的内部字段到另一个进程是否安全（十有八九是不安全的）。<strong>事实上，你应该假定使用任何黑匣子数据结构时复制都会失败，按二进制位复制是不安全的。</strong></p>
+<p>最后一个问题出现在对于STL中的<code>vector</code>直接复制这样的结构，因为里面一般来说都是会有一些什么指针啊乱七八糟的，所以不清楚直接复制内存中的一个<code>vector</code>的内部字段到另一个进程是否安全（十有八九是不安全的）。<strong>事实上，你应该假定使用任何黑匣子数据结构时复制都会失败，按二进制位复制是不安全的。</strong></p>
 <h2 id="流"><a href="#流" class="headerlink" title="流"></a>流</h2><p>解决这个问题的原则是序列化。<strong>序列化是一种将对象从内存中的随机访问格式转化为比特流格式的行为。</strong>也就是收集所有的相关数据到一个缓冲区，然后发送该缓冲区，作为对对象的代表。为此，要引入流的概念。</p>
 <p>流在计算机科学中很常见，代表一种数据结构，封装有序的数据元素。</p>
-<p>输出流，作为用户数据的输出槽，用户可以顺序插入元素，但不能从中读取。输入流就是可以允许用户提取元素但不允许输入。输入输出流就是即是输入流也是输出流。</p>
-<p>序列化，用到内存流，封装内存的缓冲区。核心是用动态分配的缓冲区，把数据顺序写入缓冲区，再同时提供对缓冲区本身的访问。用户将数据写入这种对象，再用<code>send</code>发送给另一个系统，就可以解决上述的问题。为什么能够解决呢？使用源对象的各个<strong>值</strong>（而不是地址）来填充缓冲区，给远程主机<strong>发送这个缓冲区</strong>，<strong>顺序提取数据</strong>，再把这些数据<strong>插入到远程主机的进程中一个对象的合适字段里</strong>。规避像虚函数表指针这样的问题，很简单，<strong>不要发送不应该被改变的东西就好了</strong>。</p>
+<p>输出流，作为用户数据的输出槽，用户可以顺序插入元素，但不能从中读取。输入流就是可以允许用户提取元素但不允许输入。输入输出流就是既是输入流也是输出流。</p>
+<p>序列化，就是用到内存流，封装内存的缓冲区。核心是用动态分配的缓冲区，把数据顺序写入缓冲区，再同时提供对缓冲区本身的访问。用户将数据写入这种对象，再用<code>send</code>发送给另一个系统，就可以解决上述的问题。为什么能够解决呢？使用源对象的各个<strong>值</strong>（而不是地址）来填充缓冲区，给远程主机<strong>发送这个缓冲区</strong>，<strong>顺序提取数据</strong>，再把这些数据<strong>插入到远程主机的进程中一个对象的合适字段里</strong>。规避像虚函数表指针这样的问题，很简单，<strong>不要发送不应该被改变的东西就好了</strong>。</p>
 <h2 id="压缩"><a href="#压缩" class="headerlink" title="压缩"></a>压缩</h2><p>工程师要尽可能关注如何高效地使用带宽。能发送更少的字节和比特表示信息，我们就要发送更少。</p>
 <p>举例，<code>char name[128];</code> 直接上代码：</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">void</span> RoboCat::Write(OutputMemoryStream &amp; inStream) <span class="keyword">const</span></div><div class="line">&#123;</div><div class="line">    <span class="comment">// ... other code here</span></div><div class="line"></div><div class="line">    <span class="keyword">uint8_t</span> nameLength = <span class="keyword">static_cast</span>&lt;<span class="keyword">uint8_t</span>&gt;(<span class="built_in">strlen</span>(mName));</div><div class="line">    inStream.Write(nameLength);</div><div class="line">    inStream.Write(mName, nameLength);</div><div class="line"></div><div class="line">    <span class="comment">// ... other code here</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
@@ -483,7 +483,7 @@
 <p>加密数据其实是一种威慑，而不是万无一失的措施。原因：</p>
 <ol>
 <li>虽然标准计算机上面没有多项式时间内的整数因子分解算法，但如果目标的价值足够高还是可以引起足够的注意，投入足够多的资源，用足够长的时间去破解。</li>
-<li>量子计算机的 shor’s algorithm 是一种可以在量子多项式时间内进行整数因子分解的算法。虽然本书写成时世界上最强的量子计算机也仅仅只能把 21 分解成 3 和 7，但<strong>大多数的密码学家相信 RSA 是由一天会被破解的</strong>，这也是为什么密码学家在积极研究即使是量子计算机也无法在多项式时间内破解的密码系统。</li>
+<li>量子计算机的 shor’s algorithm 是一种可以在量子多项式时间内进行整数因子分解的算法。虽然本书写成时世界上最强的量子计算机也仅仅只能把 21 分解成 3 和 7，但<strong>大多数的密码学家相信 RSA 是有一天会被破解的</strong>，这也是为什么密码学家在积极研究即使是量子计算机也无法在多项式时间内破解的密码系统。</li>
 <li>任何平台上的游戏可执行文件都可以破解，<strong>可执行文件中一定有一段代码是加密和解密游戏数据，一旦有人学习到了如何解密数据，那么其实数据就是没有加密一样</strong>。所以，可能需要定期变更密钥或者进行内存的位置布局，或者定期更改网络数据包的格式和顺序，这样为那些不怀好意的人提供一些障碍。</li>
 </ol>
 <p>无论如何，你都必须接受一个事实，就是你永远无法阻止别有用心的人在主机上 sniffing。</p>
