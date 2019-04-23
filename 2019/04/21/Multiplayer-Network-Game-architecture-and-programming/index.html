@@ -99,7 +99,7 @@
 <meta property="og:url" content="http://yoursite.com/2019/04/21/Multiplayer-Network-Game-architecture-and-programming/index.html">
 <meta property="og:site_name" content="ZCplayground">
 <meta property="og:description" content="在图书馆发现一本《网络多人游戏架构与编程》—— Joshua Glazer, Sanjay Madhav 著。书挺新的，17年出版的，内容很有趣，翻一翻可以学到不少在《计算机网络》上不会讲到的内容，故做此纪录。 前几章，第一章简单介绍了网络游戏的历史和发展，第二章讲了how Internet works, 第三章讲的是 Berkeley Socket，就略过了。 对象序列化序列化：是指把内存中的内">
-<meta property="og:updated_time" content="2019-04-22T13:49:41.418Z">
+<meta property="og:updated_time" content="2019-04-22T13:56:01.722Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Multiplayer-Network-Game-architecture-and-programming">
 <meta name="twitter:description" content="在图书馆发现一本《网络多人游戏架构与编程》—— Joshua Glazer, Sanjay Madhav 著。书挺新的，17年出版的，内容很有趣，翻一翻可以学到不少在《计算机网络》上不会讲到的内容，故做此纪录。 前几章，第一章简单介绍了网络游戏的历史和发展，第二章讲了how Internet works, 第三章讲的是 Berkeley Socket，就略过了。 对象序列化序列化：是指把内存中的内">
@@ -350,7 +350,7 @@
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">SendRoboCat</span><span class="params">(<span class="keyword">int</span> inSocket, <span class="keyword">const</span> RoboCat * inRoboCat)</span></span></div><div class="line">&#123;</div><div class="line">    send(inSocket,</div><div class="line">        <span class="keyword">reinterpret_cast</span>&lt;<span class="keyword">const</span> <span class="keyword">char</span> *&gt;(inRoboCat),</div><div class="line">        <span class="keyword">sizeof</span>(RoboCat), <span class="number">0</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>乍一看好像是没有什么问题对不对？服务器那端用 recv 函数把这个对象接住就可以。问题在哪呢？比如看这一行：</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">Update</span><span class="params">()</span></span>;</div></pre></td></tr></table></figure>
-<p>假设在32位系统上，<strong>这个对象开始的 4 bytes 是一个虚函数表指针</strong>。因为 <code>Update</code> 方法是虚的，每个对象实例都会存储一个指向虚方法实现位置的表指针（如果看不懂自行搜索虚函数的实现方法）。如果直接发送这个对象，会导致一个问题，那就是<strong>每个不同进程中那张表的位置其实是不一样的</strong>。这段代码，会导致服务器上写入目标的那个 RoboCat 对象的虚函数表指针直接写成一个错的指针。</p>
+<p>问题就在于，你发送的不是比特流而是<strong>直接发送这个对象</strong>。假设在32位系统上，<strong>这个对象开始的 4 bytes 是一个虚函数表指针</strong>。因为 <code>Update</code> 方法是虚的，每个对象实例都会存储一个指向虚方法实现位置的表指针（如果看不懂自行搜索虚函数的实现方法）。如果直接发送这个对象，会导致一个问题，那就是<strong>每个不同进程中那张表的位置其实是不一样的</strong>。这段代码，会导致服务器上写入目标的那个 RoboCat 对象的虚函数表指针直接写成一个错的指针。</p>
 <p>当然这个例子中还包含别的指针，比如 <code>GameObject * mHomeBase</code>，结合上面的例子很容易就想通：在客户端上一个进程的某一个指针位置，直接发给服务器肯定是荒谬的（一个进程复制一个指针到另一个进程，肯定不能期望对这个指针解引用后还能得到正确的数据）。解决方案其实很容易就能想到，就是<strong>必须对相关的数据进行复制，而不是发送直接的二进制地址。</strong></p>
 <p>第二个问题就是对于<code>char name[128];</code>这个对象，如果直接发送整个对象，很明显的一个问题就是这个128字节的数组大多数情况下包含的数据很少，因为这是一个以<code>\0</code>结尾的C字符串，后面的字符都没有意义，<strong>我们应该仅发送那部分有意义的字符来节省网络的带宽。</strong></p>
 <p>最后一个问题出现在对于STL中的<code>vector</code>直接复制这样的结构，因为里面一般来说都是会有一些什么指针啊乱七八糟的，所以不清楚直接复制内存中的一个<code>vector</code>的内部字段到另一个进程是否安全（十有八九是不安全的）。<strong>事实上，你应该假定使用任何黑匣子数据结构时复制都会失败，按二进制位复制是不安全的。</strong></p>

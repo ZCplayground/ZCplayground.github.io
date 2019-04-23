@@ -99,7 +99,7 @@
 <meta property="og:url" content="http://yoursite.com/2019/04/02/APUE/index.html">
 <meta property="og:site_name" content="ZCplayground">
 <meta property="og:description" content="图书馆里借了一本《UNIX环境高级编程》花了约一周时间粗读完，通篇都是极其精确的定义和讲解，不愧圣经之名。下面对一些学习过程中比较觉得有心得的地方进行记录。 文件I/O &amp;amp; 标准I/O库文件描述符（file descriptor）与文件指针（FILE *）有什么区别？// chapter 1.5，3.2，5 文件描述符（file descriptor）通常是一个小的非负整数，内核用其来标识">
-<meta property="og:updated_time" content="2019-04-19T06:05:22.117Z">
+<meta property="og:updated_time" content="2019-04-23T13:06:22.501Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="APUE摘抄">
 <meta name="twitter:description" content="图书馆里借了一本《UNIX环境高级编程》花了约一周时间粗读完，通篇都是极其精确的定义和讲解，不愧圣经之名。下面对一些学习过程中比较觉得有心得的地方进行记录。 文件I/O &amp;amp; 标准I/O库文件描述符（file descriptor）与文件指针（FILE *）有什么区别？// chapter 1.5，3.2，5 文件描述符（file descriptor）通常是一个小的非负整数，内核用其来标识">
@@ -347,9 +347,9 @@
 <p>当打开一个现有文件或者创建一个新文件时（open），内核向进程返回这个文件描述符。</p>
 <p>对于每一个新运行的程序，所有shell都会为其打开三个文件描述符：标准输入、标准输出、标准错误（stdin、stdout、stderr）。其对应的file descriptor分别是0、1、2。</p>
 <p>// chapter 3，5</p>
-<p>第三章中的I/O接口，如open、write、read、lseek都是针对文件描述符进行的。</p>
+<p>第三章中的I/O接口，如<code>open</code>、<code>write</code>、<code>read</code>、<code>lseek</code>都是针对文件描述符进行的。</p>
 <p>对于标准I/O库，其操作是针对<strong>流（stream）</strong>来进行的。用标准I/O库打开一个文件，是使一个流和一个文件相关联，即打开一个流，fopen 返回一个 <code>FILE *</code>，该对象使一个结构，包含标准I/O库为了管理流所需要的所有信息，<strong>包括：实际I/O文件的文件描述符</strong>，缓冲区指针、长度、字符数，出错标志等。</p>
-<h2 id="标准I-O库缓冲"><a href="#标准I-O库缓冲" class="headerlink" title="标准I/O库缓冲"></a>标准I/O库缓冲</h2><p>在一个流上执行第一次I/O操作时，通常会调用malloc来获得缓冲区。</p>
+<h2 id="标准I-O库缓冲"><a href="#标准I-O库缓冲" class="headerlink" title="标准I/O库缓冲"></a>标准I/O库缓冲</h2><p>在一个流上执行第一次I/O操作时，通常会调用<code>malloc</code>来获得缓冲区。</p>
 <ol>
 <li>全缓冲：<strong>填满缓冲区后</strong>才实际进行I/O操作。例如对于写到磁盘上的文件通常使用全缓冲。术语flush（清洗）在标准I/O库中意味着将缓冲区的内容写到磁盘上。</li>
 <li>行缓冲：<strong>输入和输出遇到换行符时</strong>执行实际I/O操作。由于每一行缓冲区长度固定有限，只要填满了缓冲区，即使还没有换行符，也会执行I/O（类似全缓冲）</li>
@@ -361,17 +361,17 @@
 <li>标准出错绝不是全缓冲的。（<strong>出错信息不带缓冲</strong>）</li>
 </ol>
 <h2 id="标准I-O库与I-O函数有什么区别？"><a href="#标准I-O库与I-O函数有什么区别？" class="headerlink" title="标准I/O库与I/O函数有什么区别？"></a>标准I/O库与I/O函数有什么区别？</h2><p>使用标准I/O库的一个优点是无需考虑缓冲和最佳bufsize的选择。</p>
-<p>标准I/O库与直接调用read和write函数相比并不慢很多。</p>
+<p>标准I/O库与直接调用<code>read</code>和<code>write</code>函数相比并不慢很多。</p>
 <h1 id="标准文件I-O函数的效率与bufsize的关系"><a href="#标准文件I-O函数的效率与bufsize的关系" class="headerlink" title="标准文件I/O函数的效率与bufsize的关系"></a>标准文件I/O函数的效率与bufsize的关系</h1><p>// chapter 3.9</p>
-<p>选取bufsize值会影响读文件操作的时间。如下图所示。</p>
-<p>可以看到，如果缓冲区太小会严重影响效率。当bufsize达到4096 bytes时CPU时间就约达到最小值，继续增加bufsize不会有太多改善。</p>
+<p>选取bufsize值会影响读文件操作的时间。</p>
+<p>从书中看到，如果缓冲区太小会严重影响效率。当bufsize达到4096 bytes时CPU时间就约达到最小值，继续增加bufsize不会有太多改善。</p>
 <h1 id="内核表示文件的数据结构-amp-文件的共享结构"><a href="#内核表示文件的数据结构-amp-文件的共享结构" class="headerlink" title="内核表示文件的数据结构 &amp; 文件的共享结构"></a>内核表示文件的数据结构 &amp; 文件的共享结构</h1><p>两个图，讲解的很清晰</p>
 <h1 id="原子操作"><a href="#原子操作" class="headerlink" title="原子操作"></a>原子操作</h1><p>// chapter 3.11</p>
 <p>用一段历史问题来说明这个概念。</p>
 <p>早期的UNIX不支持open的append选项，所以要用如下代码来append：</p>
 <figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="title">lseek</span><span class="params">(fd, <span class="number">0</span>, <span class="number">2</span>)</span></span> <span class="comment">// 第二个参数是offset，第三个参数为2代表的意思是将当前文件偏移量设置为 offset+文件长度</span></div><div class="line"><span class="function"><span class="title">write</span><span class="params">(fd, buf, <span class="number">100</span>)</span></span></div></pre></td></tr></table></figure>
-<p>对于单个进程而言这段程序是没问题的。但假设有两个进程A和B对同一文件（长度1500 bytes）进行这种操作，假定进程A调用了lssek，A的当前文件偏移量设置到了1500 bytes。假设此时内核调度B开始执行，B也执行了lseek把B进程的文件偏移量设置到了1500 bytes。然后B继续调用write写入100字节，这时文件总长度变为1600 bytes。然后内核又切换到进程A开始运行，A调用write时，就会写覆盖B写的数据。</p>
-<p>问题就在于“定位到文件尾端，然后写”这个操作的两个步骤分成了两个函数。结局问题的方法就是<strong>让这两个操作成为一个原子操作</strong>。也就是O_APPEND标志。或者pread和pwrite函数。</p>
+<p>对于单个进程而言这段程序是没问题的。但假设有两个进程A和B对同一文件（长度1500 bytes）进行这种操作，假定进程A调用了<code>lssek</code>，A的当前文件偏移量设置到了1500 bytes。假设此时内核调度B开始执行，B也执行了<code>lseek</code>把B进程的文件偏移量设置到了1500 bytes。然后B继续调用<code>write</code>写入100字节，这时文件总长度变为1600 bytes。然后内核又切换到进程A开始运行，A调用<code>write</code>时，就会写覆盖B写的数据。</p>
+<p>问题就在于“定位到文件尾端，然后写”这个操作的两个步骤分成了两个函数。结局问题的方法就是<strong>让这两个操作成为一个原子操作</strong>。也就是O_APPEND标志。或者<code>pread</code>和<code>pwrite</code>函数。</p>
 <p>原子操作（atomic operation）就是由多步组成的操作，要么全部都执行，要么一步都不执行。</p>
 <h1 id="文件类型-amp-所谓“一切皆文件”"><a href="#文件类型-amp-所谓“一切皆文件”" class="headerlink" title="文件类型 &amp; 所谓“一切皆文件”"></a>文件类型 &amp; 所谓“一切皆文件”</h1><ol>
 <li>普通文件（regular file）</li>
@@ -383,12 +383,12 @@
 <li>符号链接（symbolic link）</li>
 </ol>
 <h1 id="进程"><a href="#进程" class="headerlink" title="进程"></a>进程</h1><p>// chapter 1.6 P10</p>
-<p>程序（program）是存放在磁盘上，处于某个目录中的一个可执行文件。使用6个exec函数之一，由内核读入存储器，执行。</p>
-<p>程序的执行实例被称为进程（process）。</p>
+<p><strong>程序（program）是存放在磁盘上，处于某个目录中的一个可执行文件</strong>。使用6个exec函数之一，由内核读入存储器，执行。</p>
+<p><strong>程序的执行实例被称为进程（process）</strong>。</p>
 <h2 id="PID"><a href="#PID" class="headerlink" title="PID"></a>PID</h2><p>// chapter 8</p>
 <ul>
 <li>每个进程都有一个非负整形表示的唯一进程ID。</li>
-<li>PID是唯一的，但可以复用（已经终止的PID会赋给新的进程）。大多数UNIX系统有延迟重用算法，让新进程的PID不同于最近终止的PID。这是为了防止将新进程误认为是同一个PID的先前已经终止的那个进程。</li>
+<li>PID是唯一的，但可以复用（已经终止的PID会赋给新的进程）。大多数UNIX系统有<strong>延迟重用算法</strong>，让新进程的PID不同于最近终止的PID。这是为了防止将新进程误认为是同一个PID的先前已经终止的那个进程。</li>
 </ul>
 <h2 id="Fork"><a href="#Fork" class="headerlink" title="Fork"></a>Fork</h2><ul>
 <li>fork 创建一个新进程，是父进程（调用进程）的复制品。</li>
@@ -414,15 +414,15 @@
 </ol>
 <h2 id="exit"><a href="#exit" class="headerlink" title="exit"></a>exit</h2><p>进程有如下五种正常的终止方式：</p>
 <ol>
-<li>main函数中执行return语句。等于调用exit。</li>
-<li>调用exit函数。</li>
+<li>main函数中执行<code>return</code>语句。等于调用<code>exit</code>。</li>
+<li>调用<code>exit</code>函数。</li>
 <li>调用_exit或_Exit</li>
 <li>进程的最后一个线程在其启动例程中执行返回语句。</li>
-<li>进程的最后一个线程调用pthread_exit</li>
+<li>进程的最后一个线程调用<code>pthread_exit</code></li>
 </ol>
 <p>有如下三种异常终止方式：</p>
 <ol>
-<li>调用abort。产生SIGABRT信号，异常终止。</li>
+<li>调用<code>abort()</code>。产生SIGABRT信号，异常终止。</li>
 <li>当进程接收到某些信号时。</li>
 <li>最后一个线程对“取消”（cancellation）请求做出响应。</li>
 </ol>
@@ -430,24 +430,94 @@
 <p><strong>我们都希望终止进程能够通知其父进程它是如何终止的。</strong>所以对于终止函数exit，有一个<strong>退出状态（exit status）会作为参数传递给函数。</strong>内核为每个终止的子进程保存了一定量的信息，<strong>父进程可以使用wait或waitpid函数取得这些信息</strong>，至少有PID、终止状态、该进程使用的CPU时间总量等。</p>
 <p>在UNIX术语中，一个已经终止但未被父进程善后（获取有关信息，释放所占用资源）的进程称为<strong>僵死进程（zombie）</strong></p>
 <h2 id="wait"><a href="#wait" class="headerlink" title="wait"></a>wait</h2><p>当一个进程正常终止或异常终止时，内核都会向其父进程发SIGCHLD信号。因为子进程的终止是<strong>异步事件（asynchronous</strong>，指在父进程运行中，任何时侯都可能发生），信号就是异步通知。父进程可以选择忽略，也可以提供一个该信号出现时要调用的函数（术语叫做信号处理程序，<strong>handler</strong>）。</p>
-<p>调用wait或waitpid的进程可能会发生什么情况：</p>
+<p>调用<code>wait</code>或<code>waitpid</code>的进程可能会发生什么情况：</p>
 <ul>
 <li>如果其子进程还在运行，则阻塞。</li>
 <li>如果一个子进程已经终止，则取得该子进程的终止状态并立即返回。</li>
 <li>如果没有任何子进程，出错返回。</li>
 </ul>
-<p>wait和waitpid的区别如下：</p>
+<p><code>wait</code>和<code>waitpid</code>的区别如下：</p>
 <ul>
-<li>在一个子进程终止前，wait会让调用者阻塞，waitpid有一个选项可以让调用者不阻塞。例如：有时候用户希望取得一个子进程的状态但不想阻塞或等待子进程结束。</li>
-<li>wait是等待调用后第一个终止子进程。waitpid有若干选项，可以控制它等待的进程。</li>
-<li>waitpid可以等待一个特定的进程，而wait时返回任一终止的子进程的状态。</li>
+<li>在一个子进程终止前，<code>wait</code>会让调用者阻塞，<code>waitpid</code>有一个选项可以让调用者不阻塞。例如：有时候用户希望取得一个子进程的状态但不想阻塞或等待子进程结束。</li>
+<li><code>wait</code>是等待调用后第一个终止子进程。<code>waitpid</code>有若干选项，可以控制它等待的进程。</li>
+<li><code>waitpid</code>可以等待一个特定的进程，而<code>wait</code>时返回任一终止的子进程的状态。</li>
 </ul>
 <h2 id="exec"><a href="#exec" class="headerlink" title="exec"></a>exec</h2><ul>
-<li>当进程调用一种exec函数时，<strong>该进程的程序完全替换为新程序</strong>，新程序从其main函数开始执行。</li>
-<li>调用exec不创建新进程，所以<strong>前后PID不会改变</strong>。<strong>exec只是用一个全新的程序替换了当前进程的正文、数据段、堆栈。</strong></li>
+<li>当进程调用一种<code>exec</code>函数时，<strong>该进程的程序完全替换为新程序</strong>，新程序从其main函数开始执行。</li>
+<li>调用<code>exec</code>不创建新进程，所以<strong>前后PID不会改变</strong>。<strong>exec只是用一个全新的程序替换了当前进程的正文、数据段、堆栈。</strong></li>
 </ul>
-<h1 id="信号"><a href="#信号" class="headerlink" title="信号"></a>信号</h1><p>to be done</p>
-<h1 id="线程"><a href="#线程" class="headerlink" title="线程"></a>线程</h1><h1 id="高级I-O"><a href="#高级I-O" class="headerlink" title="高级I/O"></a>高级I/O</h1><h1 id="IPC"><a href="#IPC" class="headerlink" title="IPC"></a>IPC</h1>
+<h1 id="信号"><a href="#信号" class="headerlink" title="信号"></a>信号</h1><p>信号是<strong>软件中断</strong>，提供<strong>一种处理异步事件的方法</strong>。</p>
+<p>信号都有名字，以SIG开头。</p>
+<p>很多条件可以触发信号：</p>
+<ul>
+<li>用户按某些终端按键时</li>
+<li>硬件异常产生信号，例如除数为0</li>
+<li>进程调用<code>kill(2)</code>函数可以将信号发送给另一个进程或进程组。</li>
+<li>用户可以用<code>kill(1)</code>命令发送信号给其他进程。常用此命令来禁止一个失效的后台进程。</li>
+</ul>
+<p>信号是<strong>异步事件的经典实例</strong>，产生信号的事件是随机出现的，进程不能简单地测试一个变量来判断是否出现了一个信号，而是必须<strong>告诉内核“若该信号出现，则执行下列操作”</strong>。某个信号出现的时候按照下列方式之一处理：</p>
+<ol>
+<li><strong>忽略</strong>此信号。有两种信号是不能被忽略的，是SIGKILL和SIGSTOP，这两个信号向超级用户提供了终止进程的可靠方法。</li>
+<li><strong>捕捉信号</strong>。为了做到这一点，要实现通知内核在某种信号出现时，调用一个用户函数。注意，不能捕捉SIGKILL和SIGSTOP</li>
+<li>执行系统的<strong>默认动作</strong>。大多数的信号系统默认动作时终止进程。</li>
+</ol>
+<h2 id="一些典型的信号"><a href="#一些典型的信号" class="headerlink" title="一些典型的信号"></a>一些典型的信号</h2><table>
+<thead>
+<tr>
+<th>信号</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SIGINT</td>
+<td>当用户按下中断键（一般是Ctrl+C），终端驱动程序产生此信号被送至前台进程组的每一个进程。常用此信号来终止一个运行不正常，或者正在屏幕上产生大量不必要的输出的进程。</td>
+</tr>
+<tr>
+<td>SIGKILL</td>
+<td>两个不能被捕捉或忽略的信号之一。</td>
+</tr>
+</tbody>
+</table>
+<h2 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h2><h3 id="signal"><a href="#signal" class="headerlink" title="signal"></a>signal</h3><p>用于指定忽略某信号，或对某信号执行系统默认动作，或注册收到某个信号后调用什么函数。这个函数称为信号处理程序（signal handler）。</p>
+<h3 id="kill-raise"><a href="#kill-raise" class="headerlink" title="kill / raise"></a>kill / raise</h3><p><code>kill</code> 函数发送信号给进程或进程组，<code>raise</code> 函数允许进程向自身发送信号。</p>
+<h3 id="alarm-pause"><a href="#alarm-pause" class="headerlink" title="alarm / pause"></a>alarm / pause</h3><p>使用 <code>alarm</code>函数可以设置一个计时器，在未来某个指定时间该计算器会超时，产生SIGALRM信号，如果不忽略或不设置handler，默认动作时终止调用 <code>alarm</code>  函数的进程。</p>
+<p>pause 函数时调用进程挂起，直到捕捉到一个信号。</p>
+<h3 id="abort"><a href="#abort" class="headerlink" title="abort"></a>abort</h3><p>让程序异常终止。</p>
+<h3 id="sleep"><a href="#sleep" class="headerlink" title="sleep"></a>sleep</h3><p>让调用进程挂起，直到满足下列条件之一：</p>
+<ol>
+<li>经过了指定的秒数</li>
+<li>捕捉到一个信号并从信号处理程序中返回。</li>
+</ol>
+<h1 id="线程"><a href="#线程" class="headerlink" title="线程"></a>线程</h1><p><strong>进程可以看作只有一个控制线程</strong>：一个进程在同一时刻只做一件事情。有了多个控制线程后，在程序设计时，可以把进程设计成在同一个时刻做不止一件事。这种方式有很多好处：</p>
+<ol>
+<li><strong>简化异步事件的代码</strong>，每个线程对于独自要处理的事件可以采用同步编程模式，比异步编程模式简单得多。</li>
+<li>不同的进程必须使用操作系统提供的复杂机制才可以实现内存和文件描述符的共享。而<strong>多个线程可以自动共享相同的地址空间和文件描述符。</strong></li>
+<li>可以<strong>改善整个程序的吞吐量</strong>。有了多个控制线程，独立的任务处理可以交叉运行。</li>
+<li>即使运行在单处理器上，也可以获得多线程编程模式的好处，<strong>处理器的数量并不影响程序结构</strong>。</li>
+</ol>
+<h2 id="线程标识"><a href="#线程标识" class="headerlink" title="线程标识"></a>线程标识</h2><p>像进程有PID一样，进程也有一个线程I。PID在整个系统中是唯一的，线程ID不是，<strong>线程ID只在其所在的进程环境内有效</strong>。</p>
+<h2 id="线程创建"><a href="#线程创建" class="headerlink" title="线程创建"></a>线程创建</h2><p>传统的进程模型中，每个进程只有一个控制线程。这其实与基于线程的模型中每个进程只包含一个线程是相同的。程序开始运行时，它就是以单进程中单个控制线程启动的。在创建线程以前，程序和传统的进程没什么区别。创建线程通过调用pthread_create函数。这个函数的参数可以指定线程ID，指定线程的属性，指定线程要执行的函数的函数指针和参数列表。</p>
+<p>线程的创建并不能保证哪一个线程会先运行，是新创建的线程还是调用线程，不能保证。</p>
+<h2 id="线程终止"><a href="#线程终止" class="headerlink" title="线程终止"></a>线程终止</h2><p>单个线程可以通过以下三种方式之一退出，在不终止整个进程的情况下停止该线程的控制流：</p>
+<ol>
+<li><strong>该线程从启动例程中返回，返回值是退出码。</strong></li>
+<li>线程可以<strong>被同一进程的其他线程取消</strong>。函数是 <code>pthread_cancel</code>。</li>
+<li>线程调用<code>pthread_exit</code>。</li>
+</ol>
+<p>线程中的其他线程可以调用 <code>pthread_join</code> ，作用是：调用线程会一直阻塞，直到指定的线程调用<code>pthread_exit</code>或从启动例程中返回或被取消。</p>
+<h2 id="线程同步"><a href="#线程同步" class="headerlink" title="线程同步"></a>线程同步</h2><p>如果每个线程使用的变量都是其他线程不会读写的，那么久不存在不一致问题，否则需要对线程进行同步设计，确保它们在访问时不会访问到无效的内容。为了解决这个问题，线程不得不使用锁，使得同一时间只允许一个线程访问某变量。</p>
+<p>函数是 <code>pthread_mutex_init/destroy/lock/trylock/unlock</code></p>
+<h2 id="重入"><a href="#重入" class="headerlink" title="重入"></a>重入</h2><p>如果<strong>一个函数可以在同一时刻被多个线程安全地调用，就可以说该函数是线程安全</strong>的。</p>
+<h2 id="线程私有数据"><a href="#线程私有数据" class="headerlink" title="线程私有数据"></a>线程私有数据</h2><p>线程特定数据，是存储和查询与某个线程相关的数据的一种机制。常见于，希望每个线程可以独立访问数据的副本而不用担心同步问题。</p>
+<p>进程中的所有线程可以访问整个进程的整个地址空间。线程没有办法阻止其他线程访问它的数据，即使是私有数据也不例外。虽然底层实现并不能阻止这一切，但依然可以通过这种方法引入一定的数据独立性。</p>
+<p>在分配私有数据前，需要创建一个与该数据关联的key，用这个key获得对私有数据的访问权。<code>pthread_key_create</code>，创建键之后，调用<code>pthread_setspecific</code>函数可以把键和私有数据关联起来，通过<code>pthread_getspecific</code>可以获得私有数据的地址。</p>
+<h2 id="线程与信号"><a href="#线程与信号" class="headerlink" title="线程与信号"></a>线程与信号</h2><p>信号的处理是进程中所有线程共享的。一个线程修改了对某个信号的处理方式后，所有的线程都必须共享这个行为的改变。</p>
+<p>进程的信号是被传递到单个线程的。</p>
+<p>要把信号发送到线程，用<code>pthread_kill</code></p>
+<h2 id="线程I-O"><a href="#线程I-O" class="headerlink" title="线程I/O"></a>线程I/O</h2><p>用<code>pread</code>函数和<code>pwrite</code>函数。</p>
+<h1 id="高级I-O"><a href="#高级I-O" class="headerlink" title="高级I/O"></a>高级I/O</h1><p>to be done</p>
+<h1 id="IPC"><a href="#IPC" class="headerlink" title="IPC"></a>IPC</h1>
       
     </div>
 
@@ -615,7 +685,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#文件I-O-amp-标准I-O库"><span class="nav-number">1.</span> <span class="nav-text">文件I/O & 标准I/O库</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#文件描述符（file-descriptor）与文件指针（FILE-）有什么区别？"><span class="nav-number">1.1.</span> <span class="nav-text">文件描述符（file descriptor）与文件指针（FILE *）有什么区别？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#标准I-O库缓冲"><span class="nav-number">1.2.</span> <span class="nav-text">标准I/O库缓冲</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#标准I-O库与I-O函数有什么区别？"><span class="nav-number">1.3.</span> <span class="nav-text">标准I/O库与I/O函数有什么区别？</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#标准文件I-O函数的效率与bufsize的关系"><span class="nav-number">2.</span> <span class="nav-text">标准文件I/O函数的效率与bufsize的关系</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#内核表示文件的数据结构-amp-文件的共享结构"><span class="nav-number">3.</span> <span class="nav-text">内核表示文件的数据结构 & 文件的共享结构</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#原子操作"><span class="nav-number">4.</span> <span class="nav-text">原子操作</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#文件类型-amp-所谓“一切皆文件”"><span class="nav-number">5.</span> <span class="nav-text">文件类型 & 所谓“一切皆文件”</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#进程"><span class="nav-number">6.</span> <span class="nav-text">进程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#PID"><span class="nav-number">6.1.</span> <span class="nav-text">PID</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Fork"><span class="nav-number">6.2.</span> <span class="nav-text">Fork</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#exit"><span class="nav-number">6.3.</span> <span class="nav-text">exit</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#wait"><span class="nav-number">6.4.</span> <span class="nav-text">wait</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#exec"><span class="nav-number">6.5.</span> <span class="nav-text">exec</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#信号"><span class="nav-number">7.</span> <span class="nav-text">信号</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#线程"><span class="nav-number">8.</span> <span class="nav-text">线程</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#高级I-O"><span class="nav-number">9.</span> <span class="nav-text">高级I/O</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#IPC"><span class="nav-number">10.</span> <span class="nav-text">IPC</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#文件I-O-amp-标准I-O库"><span class="nav-number">1.</span> <span class="nav-text">文件I/O & 标准I/O库</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#文件描述符（file-descriptor）与文件指针（FILE-）有什么区别？"><span class="nav-number">1.1.</span> <span class="nav-text">文件描述符（file descriptor）与文件指针（FILE *）有什么区别？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#标准I-O库缓冲"><span class="nav-number">1.2.</span> <span class="nav-text">标准I/O库缓冲</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#标准I-O库与I-O函数有什么区别？"><span class="nav-number">1.3.</span> <span class="nav-text">标准I/O库与I/O函数有什么区别？</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#标准文件I-O函数的效率与bufsize的关系"><span class="nav-number">2.</span> <span class="nav-text">标准文件I/O函数的效率与bufsize的关系</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#内核表示文件的数据结构-amp-文件的共享结构"><span class="nav-number">3.</span> <span class="nav-text">内核表示文件的数据结构 & 文件的共享结构</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#原子操作"><span class="nav-number">4.</span> <span class="nav-text">原子操作</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#文件类型-amp-所谓“一切皆文件”"><span class="nav-number">5.</span> <span class="nav-text">文件类型 & 所谓“一切皆文件”</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#进程"><span class="nav-number">6.</span> <span class="nav-text">进程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#PID"><span class="nav-number">6.1.</span> <span class="nav-text">PID</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Fork"><span class="nav-number">6.2.</span> <span class="nav-text">Fork</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#exit"><span class="nav-number">6.3.</span> <span class="nav-text">exit</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#wait"><span class="nav-number">6.4.</span> <span class="nav-text">wait</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#exec"><span class="nav-number">6.5.</span> <span class="nav-text">exec</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#信号"><span class="nav-number">7.</span> <span class="nav-text">信号</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#一些典型的信号"><span class="nav-number">7.1.</span> <span class="nav-text">一些典型的信号</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#函数"><span class="nav-number">7.2.</span> <span class="nav-text">函数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#signal"><span class="nav-number">7.2.1.</span> <span class="nav-text">signal</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#kill-raise"><span class="nav-number">7.2.2.</span> <span class="nav-text">kill / raise</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#alarm-pause"><span class="nav-number">7.2.3.</span> <span class="nav-text">alarm / pause</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#abort"><span class="nav-number">7.2.4.</span> <span class="nav-text">abort</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#sleep"><span class="nav-number">7.2.5.</span> <span class="nav-text">sleep</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#线程"><span class="nav-number">8.</span> <span class="nav-text">线程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#线程标识"><span class="nav-number">8.1.</span> <span class="nav-text">线程标识</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#线程创建"><span class="nav-number">8.2.</span> <span class="nav-text">线程创建</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#线程终止"><span class="nav-number">8.3.</span> <span class="nav-text">线程终止</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#线程同步"><span class="nav-number">8.4.</span> <span class="nav-text">线程同步</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#重入"><span class="nav-number">8.5.</span> <span class="nav-text">重入</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#线程私有数据"><span class="nav-number">8.6.</span> <span class="nav-text">线程私有数据</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#线程与信号"><span class="nav-number">8.7.</span> <span class="nav-text">线程与信号</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#线程I-O"><span class="nav-number">8.8.</span> <span class="nav-text">线程I/O</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#高级I-O"><span class="nav-number">9.</span> <span class="nav-text">高级I/O</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#IPC"><span class="nav-number">10.</span> <span class="nav-text">IPC</span></a></li></ol></div>
             
 
           </div>
