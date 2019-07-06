@@ -93,16 +93,16 @@
 
 
 
-<meta name="description" content="当编写成员函数或独立函数返回对象时，通常有这几种选择：返回指向对象的引用、返回指向对象的const引用、返回对象、返回const对象。下面进行讨论。 返回指向const对象的引用使用const引用的常见原因是提高效率。是因为能返回对象的引用的函数，也可以返回对象来实现。返回对象会导致调用复制构造函数，而返回引用就不会。因此，返回引用做的工作更少，效率更高。 返回指向对象的引用有一个要求，就是指向的">
+<meta name="description" content="在某东方学习了两个月的托福（4月到五月底），6月15日首考成绩是101（R29+L25+S22+W25）。分数不是特别高，但是对我来说也已经够用了，而且最好的事情就是不用一直一直去考（考一次也是要两千多大洋的啊！） 我个人的情况是大一四级530分，大二六级557分。总体感受下来，托福的确是一个测试你 overall English skills 的考试，而不是一个单纯靠练习和堆砌考试技巧就可以通过">
 <meta property="og:type" content="article">
-<meta property="og:title" content="C++学习之传递和返回对象">
-<meta property="og:url" content="http://yoursite.com/2017/06/07/Passing-and-Returing-Objects/index.html">
+<meta property="og:title" content="两个月学习一个月备考托福101分攻略">
+<meta property="og:url" content="http://yoursite.com/2019/07/06/TOEFL/index.html">
 <meta property="og:site_name" content="ZCplayground">
-<meta property="og:description" content="当编写成员函数或独立函数返回对象时，通常有这几种选择：返回指向对象的引用、返回指向对象的const引用、返回对象、返回const对象。下面进行讨论。 返回指向const对象的引用使用const引用的常见原因是提高效率。是因为能返回对象的引用的函数，也可以返回对象来实现。返回对象会导致调用复制构造函数，而返回引用就不会。因此，返回引用做的工作更少，效率更高。 返回指向对象的引用有一个要求，就是指向的">
-<meta property="og:updated_time" content="2017-06-07T11:17:12.000Z">
+<meta property="og:description" content="在某东方学习了两个月的托福（4月到五月底），6月15日首考成绩是101（R29+L25+S22+W25）。分数不是特别高，但是对我来说也已经够用了，而且最好的事情就是不用一直一直去考（考一次也是要两千多大洋的啊！） 我个人的情况是大一四级530分，大二六级557分。总体感受下来，托福的确是一个测试你 overall English skills 的考试，而不是一个单纯靠练习和堆砌考试技巧就可以通过">
+<meta property="og:updated_time" content="2019-07-06T15:00:51.911Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="C++学习之传递和返回对象">
-<meta name="twitter:description" content="当编写成员函数或独立函数返回对象时，通常有这几种选择：返回指向对象的引用、返回指向对象的const引用、返回对象、返回const对象。下面进行讨论。 返回指向const对象的引用使用const引用的常见原因是提高效率。是因为能返回对象的引用的函数，也可以返回对象来实现。返回对象会导致调用复制构造函数，而返回引用就不会。因此，返回引用做的工作更少，效率更高。 返回指向对象的引用有一个要求，就是指向的">
+<meta name="twitter:title" content="两个月学习一个月备考托福101分攻略">
+<meta name="twitter:description" content="在某东方学习了两个月的托福（4月到五月底），6月15日首考成绩是101（R29+L25+S22+W25）。分数不是特别高，但是对我来说也已经够用了，而且最好的事情就是不用一直一直去考（考一次也是要两千多大洋的啊！） 我个人的情况是大一四级530分，大二六级557分。总体感受下来，托福的确是一个测试你 overall English skills 的考试，而不是一个单纯靠练习和堆砌考试技巧就可以通过">
 
 
 
@@ -130,13 +130,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/06/07/Passing-and-Returing-Objects/"/>
+  <link rel="canonical" href="http://yoursite.com/2019/07/06/TOEFL/"/>
 
 
 
 
 
-  <title>C++学习之传递和返回对象 | ZCplayground</title>
+  <title>两个月学习一个月备考托福101分攻略 | ZCplayground</title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -266,7 +266,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/07/Passing-and-Returing-Objects/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/06/TOEFL/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="ZC">
@@ -283,7 +283,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">C++学习之传递和返回对象</h1>
+          <h1 class="post-title" itemprop="name headline">两个月学习一个月备考托福101分攻略</h1>
         
 
         <div class="post-meta">
@@ -295,8 +295,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-07T19:14:11+08:00">
-                2017-06-07
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-06T22:26:31+08:00">
+                2019-07-06
               </time>
             
 
@@ -306,28 +306,6 @@
           </span>
 
           
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Cpp/" itemprop="url" rel="index">
-                    <span itemprop="name">Cpp</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
 
           
             
@@ -335,7 +313,7 @@
 
           
           
-             <span id="/2017/06/07/Passing-and-Returing-Objects/" class="leancloud_visitors" data-flag-title="C++学习之传递和返回对象">
+             <span id="/2019/07/06/TOEFL/" class="leancloud_visitors" data-flag-title="两个月学习一个月备考托福101分攻略">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -363,21 +341,44 @@
       
 
       
-        <p>当编写成员函数或独立函数返回对象时，通常有这几种选择：返回指向对象的引用、返回指向对象的const引用、返回对象、返回const对象。下面进行讨论。</p>
-<h1 id="返回指向const对象的引用"><a href="#返回指向const对象的引用" class="headerlink" title="返回指向const对象的引用"></a>返回指向const对象的引用</h1><p>使用const引用的常见原因是提高效率。是因为能返回对象的引用的函数，也可以返回对象来实现。返回对象会导致调用复制构造函数，而返回引用就不会。因此，返回引用做的工作更少，效率更高。</p>
-<p>返回指向对象的引用有一个要求，就是指向的对象应该在函数执行期间存在。例如对Vector类编写一个函数Max()，返回两个Vector对象中比较大的一个。则下面两种方法都可行，但第二个版本比较好。<br><figure class="highlight julia"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">Vector</span> Max(<span class="keyword">const</span> <span class="built_in">Vector</span> &amp; v1, <span class="keyword">const</span> <span class="built_in">Vector</span> &amp; v2)</div><div class="line">&#123;</div><div class="line">	<span class="keyword">if</span>(v1.magval() &gt; v2.magval())</div><div class="line">		<span class="keyword">return</span> v1;</div><div class="line">	<span class="keyword">else</span></div><div class="line">		<span class="keyword">return</span> v2;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<figure class="highlight julia"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">//better</div><div class="line"><span class="keyword">const</span> <span class="built_in">Vector</span> &amp; Max(<span class="keyword">const</span> <span class="built_in">Vector</span> &amp; v1, <span class="keyword">const</span> <span class="built_in">Vector</span> &amp; v2)</div><div class="line">&#123;</div><div class="line">	<span class="keyword">if</span>(v1.magval() &gt; v2.magval())</div><div class="line">		<span class="keyword">return</span> v1;</div><div class="line">	<span class="keyword">else</span></div><div class="line">		<span class="keyword">return</span> v2;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h1 id="按值传递or按引用传递？"><a href="#按值传递or按引用传递？" class="headerlink" title="按值传递or按引用传递？"></a>按值传递or按引用传递？</h1><p>编写使用对象作为参数的函数时，应按引用而不是按值来传递对象。</p>
-<p>原因之一是提高效率，跟返回同样的，如果按值传递对象会涉及到生成临时拷贝、调用复制构造函数、析构函数的步骤，如果按引用传递会使时间的花费少很多。如果函数不修改对象，则应声明参数为const对象引用。</p>
-<p>另外一个原因是如果定义为接受基类引用参数的函数，还能接受派生类引用。</p>
-<h1 id="返回指向非const对象的引用"><a href="#返回指向非const对象的引用" class="headerlink" title="返回指向非const对象的引用"></a>返回指向非const对象的引用</h1><p>两种常见的情形：重载赋值运算符、重载与<code>cout</code>一起使用的<code>&lt;&lt;</code>运算符。前者这样做旨在提高效率，后者则必须这样做。</p>
-<p><code>operator=()</code>的返回值用于连续赋值的话，则返回对象和返回引用都是可行的。但和上面的例子一样，如果返回引用可以免去调用复制构造函数的工作。</p>
-<p><code>operator&lt;&lt;()</code>的返回值用于串接输出，因此返回值必须是一个<code>ostream</code>对象。所以返回值必须是<code>ostream &amp;</code>。如果返回值是<code>ostream</code>，则会要求调用<code>ostream</code>类的复制构造函数，但<code>ostream</code>没有共有的复制构造函数。</p>
-<h1 id="返回对象"><a href="#返回对象" class="headerlink" title="返回对象"></a>返回对象</h1><p>如果返回的对象是被调用函数中的<strong>局部变量</strong>，则<strong>不应按引用方式返回它</strong>，因为被调用函数执行完毕后，局部对象会调用析构函数，控制权回到调用函数时，引用指向的对象将不复存在。通常，被重载的算术运算符属于这种情况。</p>
-<p>Vector类加法：<br><figure class="highlight julia"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">Vector</span> <span class="built_in">Vector</span>::operator+(<span class="keyword">const</span> <span class="built_in">Vector</span> &amp; b)<span class="keyword">const</span></div><div class="line">&#123;</div><div class="line">	<span class="keyword">return</span> <span class="built_in">Vector</span>(x + b.x, y + b.y);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="built_in">Vector</span> force1(<span class="number">50</span>,<span class="number">60</span>);</div><div class="line"><span class="built_in">Vector</span> force2(<span class="number">10</span>,<span class="number">70</span>);</div><div class="line"><span class="built_in">Vector</span> force3;</div><div class="line">force3 = force1 + force2;</div></pre></td></tr></table></figure></p>
-<p>这里返回的不是<code>force1</code>和<code>force2</code>，因为<code>force1</code>和<code>force2</code>在相加的过程中应该本身保持不变，而是返回两个对象的和。函数中应设置一个局部变量来存储计算结果，所以不应该返回指向该临时对象的引用，应该返回对象。</p>
-<h1 id="返回const对象"><a href="#返回const对象" class="headerlink" title="返回const对象"></a>返回const对象</h1><p>可以把<code>Vector::operator+()</code>的返回类型声明为<code>const Vector</code>。这样可以防止错误的使用。比如下面三条错误的写法：<br><figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">force1 + force2 = force3;</div><div class="line">cout&lt;&lt;<span class="params">(force1 + <span class="attr">force2</span> = force3)</span><span class="string">.magval</span><span class="params">()</span> &lt;&lt; endl;</div><div class="line"><span class="keyword">if</span><span class="params">(force1 + <span class="attr">force2</span> = force3)</span></div></pre></td></tr></table></figure></p>
-<h1 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h1><p>• 通常，编写使用对象作为参数的函数，应按照引用传递。<br>• 如果方法或函数需要返回局部对象，则应返回对象<br>• 如果方法或函数需要返回一个没有公有复制构造函数的类（如ostream），则必须返回指向对象的引用<br>• 有些方法和函数既可以返回对象，也可以返回引用，则出于效率方面的考虑应首选返回引用。</p>
+        <p>在某东方学习了两个月的托福（4月到五月底），6月15日首考成绩是101（R29+L25+S22+W25）。分数不是特别高，但是对我来说也已经够用了，而且最好的事情就是不用一直一直去考（考一次也是要两千多大洋的啊！）</p>
+<p>我个人的情况是大一四级530分，大二六级557分。总体感受下来，托福的确是一个测试你 overall English skills 的考试，而不是一个单纯靠练习和堆砌考试技巧就可以通过的考试，所以准备托福的同学们要切实关注提高自己的总体的英语水平。</p>
+<p>写这一篇总结，是因为我有一个基友虽然不考托福，但是他把学习英语的目标设置成了“能达到托福100水平”……实话实说我觉得是一个好目标，因为按照学习托福的方法去学习是可以提高综合英语水平的，而且听说读写技能的锻炼不会只是像在高中、大学的之前几个阶段的英语学习那样，只是为了应试，而是在实际工作中有用的。</p>
+<h1 id="Basis"><a href="#Basis" class="headerlink" title="Basis"></a>Basis</h1><p>一是 vocabulary，托福要比六级还要多两三千个单词，我用百词斩背过一遍之后，又买了某东方的绿宝书完整地过了一遍词汇。听力词汇方面，某东方的老师整理了各个学科的词汇，我看了起码四五遍以上。词汇是很重要的，词汇量上去了，你再去刷听力和阅读的题目，对于做题的技巧，才会有锻炼的效果。托福刷题都是到网站上刷 TPO（TOEFL Practice Online），这是一整套托福考试的模拟题，一共有几十套，都是免费的（中国特色网络模式）。</p>
+<p>对于口语，我练习的方法是参加FZU里开设的由外教教授的英语课，在课堂上多开口。还有就是平时自己也多使用英语进行表达（比如说一件今天发生的事情，或者表达一种观点等），考前再自己看点题目积累一些素材。考前研究题型就是看某一本书《托福口语看这本就够了_张涵》。</p>
+<p>作文我没怎么准备……（逃）作文最重要的是需要理解考试要求的文章的格式和逻辑结构，这些可以通过看官方的 Offical Guideline 或者各种免费的托福网课来了解。这其实不仅仅是应试，而是去习惯西方的逻辑思维和推理的一套，我觉得这是最重要也很有用的。我考前分给作文的时间不多，自己就写过三篇。考试的时候运气很好罢了。作文和口语主要是overall English skill 的体现，需要长期的积累。</p>
+<h1 id="运气也是实力的一部分"><a href="#运气也是实力的一部分" class="headerlink" title="运气也是实力的一部分"></a>运气也是实力的一部分</h1><p><del>根据考场协议不可以泄露题目，希望大家都做有契约精神的人</del></p>
+<p>我一次能上百，运气也是十分好的：</p>
+<ol>
+<li>4篇阅读有一篇自我感觉做的非常差，做的最差的那篇阅读应该是加试的了，加试不算分。</li>
+<li>口语的生活话题问的是“？？？？？？？？？？”，恰好的是，我刚经历过？？？？？。</li>
+<li>作文题目是，？？？？？？？？？？？。刚好作为？？？？的我非常有话讲，比如？？？？？之类的随便提一提，随随便便就写了500+words。</li>
+</ol>
+<p>有朋友问我，如果没有这些运气，能考多少？</p>
+<ul>
+<li>这一篇阅读不是加试，那假设我阅读只能考 26</li>
+<li>口语的话，其实三个 fair 还是不难达到的，应该还是 22</li>
+<li>作文如果没有素材熟悉度的加成，算一个 23 分吧。</li>
+</ul>
+<p>那我还是可以考 101 - 3 - 2 = 96 分。所以还是我刚刚说的那样，托福确实还是能反应你的 overall English skills 的。虽然首战上百有运气成分，但不是完全靠运气，你的实力也是要在线才可以的。</p>
+<h1 id="工时估计"><a href="#工时估计" class="headerlink" title="工时估计"></a>工时估计</h1><h2 id="vocabulary"><a href="#vocabulary" class="headerlink" title="vocabulary"></a>vocabulary</h2><p>背单词阶段一天要两个小时，时间因各人背单词的方法而异。如果你词汇量没有达到要求，投入词汇量的时间要雷打不动的。</p>
+<h2 id="听说读写练习"><a href="#听说读写练习" class="headerlink" title="听说读写练习"></a>听说读写练习</h2><ul>
+<li>刷一套听力是需要两个小时的（练习 + 精听，精听很花时间，但是对于提升听力水平很有用），所以一开始的时候不要一次性做一整套TPO做6题，可以半套半套做。我考前听力一共做了10套左右。一大早起来头脑最清醒，做一套听力。我从不在早上之外的时间做听力，因为效果很差。</li>
+<li>刷阅读要一个半小时（三篇刚好一小时），剩下半小时查单词 + 看错题。考前5天有专门做某东方整理的词汇题。（就他们什么都给你整理好这一点我还是推荐去某东方的，不算特别贵，虽然我考后觉得托福完全可以自己找攻略学是完全没问题的）我阅读一共做了5套TPO。可以在下午或者晚上找一个半小时做一套阅读。</li>
+<li>作文：【读范文，学表达，仿写一篇作文】算是一个完整的流程，需要一个半小时左右。我考前写了三篇。</li>
+<li>口语的练习，我考前就做过两套。是用微信录音录下来的，主要是习惯对于电子设备讲话的考试形式。</li>
+</ul>
+<h2 id="stategy"><a href="#stategy" class="headerlink" title="stategy"></a>stategy</h2><p><strong>我考前听说读写的时间投入是6比0.25比3比0.75</strong></p>
+<p>你可以看到在应考的时候，有一定的策略是很重要的，就好像TPO也不是一套从头听说读写刷到尾，而你能看到我每一个部分投入的时间、做的训练量是不同的。听力是最重要的，因为托福考试除了阅读之外的部分都有涉及听力，比如说写作的综合写作，口语的除了前两题之外的题目如果说你听力好基本上都是送分。虽然听力只有25，但是你练习听力会提高你口语和写作的分数。导致你只要花三成的时间去做阅读你就可以阅读29，同时不怎么要花时间口语和写作分数就可以凑合。这就是分清楚整个考试的轻重缓急。虽说，托福100的分型是（R28/L25/S22/W25）也可以算是中国人传统艺能了，是最经典的分布，但是这是很符合国情的。像我这种时间安排，在这么紧张的时间内，怎么练口语更高到25？不现实的事情。所以对于考试的策略也是很重要的一方面，弄明白目标，想清楚任务的优先级，这样才能有比较高的效率，而不是单纯的堆时间，这样可以让你在有限的时间内达到最好的效果。而且如果你到什么留学论坛之类的地方看托福经验帖，大部分人都不是会花大块的时间去弄这个的，这也是比较合理的。</p>
+<p>考前3个月和考前1个月和考前两周要做的事情的重点是不同的：</p>
+<ul>
+<li>考前3个月你好好背单词就是了</li>
+<li>考前1个月要有计划的刷听力和阅读提高硬实力</li>
+<li>考前两周你就别临时抱佛脚了，熟悉熟悉题型好好休息等着考试吧。说实话考前一周我做的题目总量加起来没有一整套完整的TPO</li>
+<li>我在一天之内【背单词、一套或半套听力、一套阅读】三件事最多做到其中两件。都做是真的很累的……以前我曾经幻想说什么“一天一套TPO”后来发现根本不现实，而且没必要~</li>
+</ul>
+<p>最后总结一下，在我看来，主要是三点：时间+练习+态度。一，规划好时间，最好留出考前一个月的时间，就要开始有意识地整套刷 TPO。二、最重要的是多加练习，阅读的话就一次连续练三篇，注意时间的把控；听力的话就是要不断地精听，练习听力的能力，积累学科词汇。三，就是托福是测试一个人英语总体水平的考试，临时抱佛脚是不可行的，所以态度要端正。最后，平常心非常重要。到最后关头，到了考场上，紧张，心跳加速，是必然的（这让我想到了恋恋的无意识能力）。你越是紧张，你就越容易失误（比如听力和口语环节）。保持平常心，相信你所付出的努力，相信你的身体能把你调整到最完美的状态，你一定会成功的。</p>
+<p>有需要应考资料的都可以直接联系我。</p>
 
       
     </div>
@@ -414,8 +415,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/06/07/Dynamic-memory-allocation/" rel="next" title="C++学习之类与动态内存分配">
-                <i class="fa fa-chevron-left"></i> C++学习之类与动态内存分配
+              <a href="/2019/07/05/Rolling-in-the-Deep/" rel="next" title="“我们本可以拥有一切，如今却只能在深渊里挣扎”">
+                <i class="fa fa-chevron-left"></i> “我们本可以拥有一切，如今却只能在深渊里挣扎”
               </a>
             
           </div>
@@ -423,10 +424,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/06/07/Simple-Public-Inheritance/" rel="prev" title="C++学习之简单的公有继承">
-                C++学习之简单的公有继承 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -546,7 +543,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#返回指向const对象的引用"><span class="nav-number">1.</span> <span class="nav-text">返回指向const对象的引用</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#按值传递or按引用传递？"><span class="nav-number">2.</span> <span class="nav-text">按值传递or按引用传递？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#返回指向非const对象的引用"><span class="nav-number">3.</span> <span class="nav-text">返回指向非const对象的引用</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#返回对象"><span class="nav-number">4.</span> <span class="nav-text">返回对象</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#返回const对象"><span class="nav-number">5.</span> <span class="nav-text">返回const对象</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结："><span class="nav-number">6.</span> <span class="nav-text">总结：</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Basis"><span class="nav-number">1.</span> <span class="nav-text">Basis</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#运气也是实力的一部分"><span class="nav-number">2.</span> <span class="nav-text">运气也是实力的一部分</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#工时估计"><span class="nav-number">3.</span> <span class="nav-text">工时估计</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#vocabulary"><span class="nav-number">3.1.</span> <span class="nav-text">vocabulary</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#听说读写练习"><span class="nav-number">3.2.</span> <span class="nav-text">听说读写练习</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#stategy"><span class="nav-number">3.3.</span> <span class="nav-text">stategy</span></a></li></ol></li></ol></div>
             
 
           </div>
