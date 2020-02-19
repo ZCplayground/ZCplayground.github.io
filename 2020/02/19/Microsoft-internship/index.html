@@ -1,0 +1,812 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="这篇文章很早就该写，而拖了很久了。 2019 年 6 月 19 日至 2019 年 9 月 12 日，大三暑假，我在北京微软进行了暑期实习。我在这篇文章中不想说太多关于实习项目内容本身——代码、程序、技术——虽然在微软这里的技术水平当然也非常好，但我更想着墨于另外的几件“小事”。 某天，我记得那天是星期四，早上在开会的时候，组里的老大对我们说，某人昨天为了赶一个 release 忙到了一点多才回家">
+<meta property="og:type" content="article">
+<meta property="og:title" content="微软感受">
+<meta property="og:url" content="https://chaz.cc/2020/02/19/Microsoft-internship/index.html">
+<meta property="og:site_name" content="chaz">
+<meta property="og:description" content="这篇文章很早就该写，而拖了很久了。 2019 年 6 月 19 日至 2019 年 9 月 12 日，大三暑假，我在北京微软进行了暑期实习。我在这篇文章中不想说太多关于实习项目内容本身——代码、程序、技术——虽然在微软这里的技术水平当然也非常好，但我更想着墨于另外的几件“小事”。 某天，我记得那天是星期四，早上在开会的时候，组里的老大对我们说，某人昨天为了赶一个 release 忙到了一点多才回家">
+<meta property="og:updated_time" content="2020-02-19T11:49:32.600Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="微软感受">
+<meta name="twitter:description" content="这篇文章很早就该写，而拖了很久了。 2019 年 6 月 19 日至 2019 年 9 月 12 日，大三暑假，我在北京微软进行了暑期实习。我在这篇文章中不想说太多关于实习项目内容本身——代码、程序、技术——虽然在微软这里的技术水平当然也非常好，但我更想着墨于另外的几件“小事”。 某天，我记得那天是星期四，早上在开会的时候，组里的老大对我们说，某人昨天为了赶一个 release 忙到了一点多才回家">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://chaz.cc/2020/02/19/Microsoft-internship/"/>
+
+
+
+
+
+  <title>微软感受 | chaz</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">chaz</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://chaz.cc/2020/02/19/Microsoft-internship/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="chaz">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="chaz">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">微软感受</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-02-19T17:07:42+08:00">
+                2020-02-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Thinkings/" itemprop="url" rel="index">
+                    <span itemprop="name">Thinkings</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2020/02/19/Microsoft-internship/" class="leancloud_visitors" data-flag-title="微软感受">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>这篇文章很早就该写，而拖了很久了。</p>
+<p>2019 年 6 月 19 日至 2019 年 9 月 12 日，大三暑假，我在北京微软进行了暑期实习。我在这篇文章中不想说太多关于实习项目内容本身——代码、程序、技术——虽然在微软这里的技术水平当然也非常好，但我更想着墨于另外的几件“小事”。</p>
+<p>某天，我记得那天是星期四，早上在开会的时候，组里的老大对我们说，某人昨天为了赶一个 release 忙到了一点多才回家，所以上完周四这天班就让他星期五六日连休三天。这件事情给我这个刚来公司没几天的实习生留下了很深刻的印象。</p>
+<p>过了几天，六月份底是当年财年的结束，我和组里的其他人第一次一起聚餐。当我们下了班在外面聚餐的时候，没有任何一个人在谈论工作上的事情，例如项目进展或者代码等，这挺让我震惊。我们也有微信群，但是我在上面只看到过请假，或诸如“堵车了，今天会议要迟到一下，不好意思”之类的信息。我在那个时候意识到，在我下班回到家后，我可以不用再打开邮箱，也不会有任何通信软件的触角伸进我下班后的生活。</p>
+<p>七月初，有一封邮件发进了我的邮箱，是微软有一个软件（这个软件叫做 Microsoft MyAnalytics）可以通过你使用邮件的情况、使用通讯软件的时间，来判断下班之后有多少时间被打扰。这封邮件列出一个月的日期中，你有多少天在下班时间之后还处理邮件或开会，占比是多少。这个软件会提供给你下列建议：有足够休息的人压力少、幸福感高、更有可能取得成功；你需要在该休息的时候抛开工作，放松休息；在下班后关掉软件的推送消息通知；为同事考虑，尊重同事的私人时间等。这个软件还有另一项我觉得不错的功能，统计你的开会时间。若你开会时间占比过多，多于一天两个小时，这个软件就会提示你，不要开一个接一个无休止的会议，因为这会分散你的注意力，妨碍你研究具有挑战性的工作。如果你作为召开会议的人，你需要经常检查某些会议是否有召开的必要。（注1：本段我描述的软件细节都是公开资料）（注2：我最近看了斯诺登的自传，懂得了收集元数据的恐怖之处，所以我的意见变得有所保留。但是这个软件符合GDPR的要求，而且是为了保护个人，所以要点个赞。我还是选择忠实地记录下我当时的感想）</p>
+<p>这些事让我懂得了真正尊重员工，尊重劳动法的公司是什么样子的。</p>
+<p>一般来说，男厕所的小便池上方都会贴一些标语，但无非就是什么“靠近一小步，文明一大步”、“瞄准之后再发射”之类的在我看来挺烂俗的东西。不过，微软公司里的男厕所小便池上方贴的东西是这样的：你的尿液颜色和你身体缺水情况的对比图——白色透明代表饮水过多，淡黄透明表示饮水充足，蜜色代表你需要立刻补充水分……</p>
+<p>我在公司餐厅吃自助餐的时候注意到了一个小细节，每道菜旁边都有一个小牌子，上面标注着卡路里、蛋白质、脂肪等营养信息。此外，还有一个颜色标识，分为红黄绿三种。比如炸鸡块这道菜，就会被标上红色，意思是希望这道菜你少吃点，若是青菜，就会标上绿色鼓励你多吃。公司几乎各个地方随处可见各种健康常识提示，我看到的包括但不限于：如何保持健康饮食、在疲劳的时候休息、少喝含糖饮料多喝水、如何进行运动锻炼等。</p>
+<p>以上这两件事，让我感受到了以人为本的关怀。</p>
+<p>公司网络里有一些 SharePoint 文档，里面有许多公司的政策，有的时候会收到邮件要求你去看，但更多时候我受到好奇心的驱使而如饥似渴地翻阅这些文件。在这些文档中，我接触到了这些关键字：<strong>多元化</strong>（Diversity）、<strong>包容性</strong>（Inclusive）、<strong>平等就业机会</strong>（Equal employment）。我回想到，我经常在公司看到有拄着拐杖的残疾员工。我还在食堂看见了穿着女式凉鞋、短裙、留着披肩长发的女装男子（她也有可能是MtF，跨性别女性）。虽然我们只是萍水相逢，但我真的打心底为她能够自由地成为自己而感到高兴。</p>
+<p>在北京微软，任何一个有男女厕所的地方，都搭配着第三个厕所，“全性别厕所”。这是一个小的独立的卫生间，里面有一个坐便器、洗手台和镜子。这解决了跨性别者选择厕所的窘境，这在我之前二十多年的人生中，是从来没有这样想过的。但这还不是最让我震惊的。微软大楼的一楼是向公众开放的，在一楼的全性别厕所门口上，有一行字写着：“全性别厕所，所有人都可以使用的厕所”，最让我震惊的是，在这行字的下面竟然搭配了盲文！就是那种凸点、靠触觉感知的文字！此刻我的内心除了赞叹之外没有别的感情了，这家公司竟然可以为了少数人的方便做到如此极致的地步！我没有在别的公司工作过，不过我在想，在全中国有几家公司可以做到这样呢？</p>
+<p>我曾经听说过一个“文明阶段论”，这个理论是用来考察一个国家的文明程度的。这个理论大致是这样，要看一个国家够不够文明，第一步，看这个国家的广场上面有没有鸽子——如果在一个极度贫困的地方，人们的眼里就看不到鸽子，而只会看到蛋白质，自然也没有文明可言。第二步，看这个国家的公共厕所里面有没有手纸——我想到了各种大爷大妈进公厕顺走所有手纸的事情。后面的几个阶段我记不清了，但大概就是这样的理论。联系到上面的经历，我突然想到，这个文明阶段论里，就应该有这么一个阶段：一个国家的文明程度，就看这个国家对于少数人的权益有没有尽可能地提供保护。</p>
+<p>在这里我想说一个“无知之幕”的理论。这是个思想实验，是一种判断特定道德问题的方法。想象一下，有一块“无知之幕”挡在你面前，你在出生之前，不清楚自己会出生在怎样的家庭、不清楚自己是否富有、也不知道自己的智商水平、能力、社会地位、阶层、拥有的资源等，不清楚的东西还甚至包括自己的性取向。请在无知之幕之后，让你来选择这个社会是怎样的社会，你会怎么选？你是要一个弱肉强食、少数必须强迫服从多数、社会达尔文主义的社会，还是一个能够尽最大可能为各种少数、弱势群体的基本权益提供最起码、最基础的保护的社会？</p>
+<p>现在经常看见有的人说，西方的政治正确无处不在，不可以骂黑人骂同性恋，不可以问别人年龄、收入、宗教信仰、政治派别，还说什么言论自由？言论自由都是虚假的！不过，这些人分不清楚，过度的 political correctness(PC) 造成逆向歧视，和到底有没有 freedom of speech，是两码事。适当的 PC 体现了一种对于弱势或少数群体的保护和尊重，过度的 PC 才会产生各种问题，而我不觉得我们现在已经对特定边缘群体已经采取了不歧视的态度。我宁可承受一些 PC 带来的些许不便，也不想看到有人以此为借口忽悠别人心安理得地接受失去 freedom of speech 的现实。</p>
+<p>这篇文章很早就该写，而拖了很久了。我终于在今天写下这篇文章，代表我对生命和生活应该是什么样子有了更加深刻的认识和思考。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/12/28/On-Liberty/" rel="next" title="约翰·密尔《论自由》读书笔记">
+                <i class="fa fa-chevron-left"></i> 约翰·密尔《论自由》读书笔记
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview sidebar-panel sidebar-panel-active">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="chaz" />
+          <p class="site-author-name" itemprop="name">chaz</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">91</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">chaz</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("guhO5d3jdrym6QcCp5oIrsMc-gzGzoHsz", "ldFdhqrIxGxOqWs5mgH8pmLT");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+
+  
+
+  
+
+</body>
+</html>
