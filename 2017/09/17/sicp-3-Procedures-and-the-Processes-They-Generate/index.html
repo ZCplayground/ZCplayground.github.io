@@ -97,15 +97,16 @@
 <meta property="og:type" content="article">
 <meta property="og:title" content="SICP——过程的“形状”">
 <meta property="og:url" content="https://zcplayground.github.io/2017/09/17/sicp-3-Procedures-and-the-Processes-They-Generate/index.html">
-<meta property="og:site_name" content="chaz">
+<meta property="og:site_name" content="Chang&#39;s Note">
 <meta property="og:description" content="范围第一章 构造过程抽象 1.2 节，过程和它们所产生的计算。考察计算过程的局部演化方式，研究计算过程消耗资源（时间和空间资源）的速率。P20 - 37 keywords：线性递归、迭代、树形递归、增长的阶、概率算法 算法：斐波那契数列、利用三倍角公式求正弦、分治法求幂、辗转相除法求GCD、费马小定理检查测质数 笔记在上一节，我们已经考虑了程序设计的基本要素：  基本算术操作 组合这些基本操作定义">
+<meta property="og:locale">
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/Linear%20recursion.png">
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/Linear%20iteration.png">
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/Tree%20recursion.png">
-<meta property="og:updated_time" content="2018-04-01T09:08:26.000Z">
+<meta property="article:published_time" content="2017-09-17T00:45:27.000Z">
+<meta property="article:modified_time" content="2018-04-01T09:08:26.000Z">
+<meta property="article:author" content="Chang">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="SICP——过程的“形状”">
-<meta name="twitter:description" content="范围第一章 构造过程抽象 1.2 节，过程和它们所产生的计算。考察计算过程的局部演化方式，研究计算过程消耗资源（时间和空间资源）的速率。P20 - 37 keywords：线性递归、迭代、树形递归、增长的阶、概率算法 算法：斐波那契数列、利用三倍角公式求正弦、分治法求幂、辗转相除法求GCD、费马小定理检查测质数 笔记在上一节，我们已经考虑了程序设计的基本要素：  基本算术操作 组合这些基本操作定义">
 <meta name="twitter:image" content="http://osax8w13y.bkt.clouddn.com/Linear%20recursion.png">
 
 
@@ -113,7 +114,7 @@
 <script type="text/javascript" id="hexo.configurations">
   var NexT = window.NexT || {};
   var CONFIG = {
-    root: '/',
+    root: '',
     scheme: 'Mist',
     sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
     fancybox: true,
@@ -140,8 +141,8 @@
 
 
 
-  <title>SICP——过程的“形状” | chaz</title>
-</head>
+  <title>SICP——过程的“形状” | Chang's Note</title>
+<meta name="generator" content="Hexo 5.4.2"></head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
 
@@ -177,7 +178,7 @@
     <div class="custom-logo-site-title">
       <a href="/"  class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
-        <span class="site-title">chaz</span>
+        <span class="site-title">Chang's Note</span>
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
@@ -241,6 +242,16 @@
           </a>
         </li>
       
+        
+        <li class="menu-item menu-item-quotations">
+          <a href="/quotations/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-quote-right"></i> <br />
+            
+            语录
+          </a>
+        </li>
+      
 
       
     </ul>
@@ -273,13 +284,13 @@
     <link itemprop="mainEntityOfPage" href="https://zcplayground.github.io/2017/09/17/sicp-3-Procedures-and-the-Processes-They-Generate/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="chaz">
+      <meta itemprop="name" content="">
       <meta itemprop="description" content="">
       <meta itemprop="image" content="/images/avatar.png">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="chaz">
+      <meta itemprop="name" content="Chang's Note">
     </span>
 
     
@@ -372,9 +383,9 @@
 <p>“如果有程序员用递归写阶乘，我直接把他开除。” —— 好像是在某人代码大全读书笔记上看到的片段</p>
 </blockquote>
 <p>递归计算阶乘：</p>
-<figure class="highlight scheme"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">(<span class="name"><span class="builtin-name">define</span></span> (<span class="name">factorial</span> n)</div><div class="line">  (<span class="name"><span class="builtin-name">if</span></span> (<span class="name"><span class="builtin-name">=</span></span> n <span class="number">1</span>)</div><div class="line">      <span class="number">1</span></div><div class="line">      (<span class="name"><span class="builtin-name">*</span></span> n (<span class="name">factorial</span> (<span class="name"><span class="builtin-name">-</span></span> n <span class="number">1</span>)))))</div><div class="line"></div><div class="line">(<span class="name">factorial</span> <span class="number">6</span>)</div><div class="line"><span class="comment">;Value: 720</span></div></pre></td></tr></table></figure>
+<figure class="highlight scheme"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">(<span class="name"><span class="built_in">define</span></span> (<span class="name">factorial</span> n)</span><br><span class="line">  (<span class="name"><span class="built_in">if</span></span> (<span class="name"><span class="built_in">=</span></span> n <span class="number">1</span>)</span><br><span class="line">      <span class="number">1</span></span><br><span class="line">      (<span class="name"><span class="built_in">*</span></span> n (<span class="name">factorial</span> (<span class="name"><span class="built_in">-</span></span> n <span class="number">1</span>)))))</span><br><span class="line"></span><br><span class="line">(<span class="name">factorial</span> <span class="number">6</span>)</span><br><span class="line"><span class="comment">;Value: 720</span></span><br></pre></td></tr></table></figure>
 <p>线性迭代计算阶乘：</p>
-<figure class="highlight scheme"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">(<span class="name"><span class="builtin-name">define</span></span> (<span class="name">factorial</span> n)</div><div class="line">  (<span class="name">fact-iter</span> <span class="number">1</span> <span class="number">1</span> n)) </div><div class="line"></div><div class="line">(<span class="name"><span class="builtin-name">define</span></span> (<span class="name">fact-iter</span> product counter max-count)</div><div class="line">  (<span class="name"><span class="builtin-name">if</span></span> (<span class="name"><span class="builtin-name">&gt;</span></span> counter max-count)</div><div class="line">      product</div><div class="line">      (<span class="name">fact-iter</span> (<span class="name"><span class="builtin-name">*</span></span> counter product)</div><div class="line">		 (<span class="name"><span class="builtin-name">+</span></span> counter <span class="number">1</span>)</div><div class="line">		 max-count))) </div><div class="line"></div><div class="line">(<span class="name">factorial</span> <span class="number">6</span>)</div><div class="line"><span class="comment">;Value: 720</span></div></pre></td></tr></table></figure>
+<figure class="highlight scheme"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">(<span class="name"><span class="built_in">define</span></span> (<span class="name">factorial</span> n)</span><br><span class="line">  (<span class="name">fact-iter</span> <span class="number">1</span> <span class="number">1</span> n)) </span><br><span class="line"></span><br><span class="line">(<span class="name"><span class="built_in">define</span></span> (<span class="name">fact-iter</span> product counter max-count)</span><br><span class="line">  (<span class="name"><span class="built_in">if</span></span> (<span class="name"><span class="built_in">&gt;</span></span> counter max-count)</span><br><span class="line">      product</span><br><span class="line">      (<span class="name">fact-iter</span> (<span class="name"><span class="built_in">*</span></span> counter product)</span><br><span class="line">		 (<span class="name"><span class="built_in">+</span></span> counter <span class="number">1</span>)</span><br><span class="line">		 max-count))) </span><br><span class="line"></span><br><span class="line">(<span class="name">factorial</span> <span class="number">6</span>)</span><br><span class="line"><span class="comment">;Value: 720</span></span><br></pre></td></tr></table></figure>
 <p>对两个计算过程做一个比较，考虑两个计算过程的<strong>“形状”</strong>，会发现有很大的不同。</p>
 <p><img src="http://osax8w13y.bkt.clouddn.com/Linear%20recursion.png" alt=""></p>
 <p><img src="http://osax8w13y.bkt.clouddn.com/Linear%20iteration.png" alt=""></p>
@@ -398,14 +409,14 @@
 </ul>
 <hr>
 <h2 id="1-2-2-树形递归"><a href="#1-2-2-树形递归" class="headerlink" title="1.2.2 树形递归"></a>1.2.2 树形递归</h2><p>求斐波那契数列<code>Fib(n)</code>，如果采用最基础的定义翻译过来的递归过程：</p>
-<figure class="highlight scheme"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">(<span class="name"><span class="builtin-name">define</span></span> (<span class="name">fib</span> n)</div><div class="line">  (<span class="name"><span class="builtin-name">cond</span></span> ((<span class="name"><span class="builtin-name">=</span></span> n <span class="number">0</span>) <span class="number">0</span>)</div><div class="line">	((<span class="name"><span class="builtin-name">=</span></span> n <span class="number">1</span>) <span class="number">1</span>)</div><div class="line">	(<span class="name"><span class="builtin-name">else</span></span> (<span class="name"><span class="builtin-name">+</span></span> (<span class="name">fib</span> (<span class="name"><span class="builtin-name">-</span></span> n <span class="number">1</span>))</div><div class="line">		 (<span class="name">fib</span> (<span class="name"><span class="builtin-name">-</span></span> n <span class="number">2</span>))))))</div><div class="line"><span class="comment">;Value: fib</span></div><div class="line"></div><div class="line">(<span class="name">fib</span> <span class="number">5</span>)</div><div class="line"><span class="comment">;Value: 5</span></div></pre></td></tr></table></figure>
+<figure class="highlight scheme"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">(<span class="name"><span class="built_in">define</span></span> (<span class="name">fib</span> n)</span><br><span class="line">  (<span class="name"><span class="built_in">cond</span></span> ((<span class="name"><span class="built_in">=</span></span> n <span class="number">0</span>) <span class="number">0</span>)</span><br><span class="line">	((<span class="name"><span class="built_in">=</span></span> n <span class="number">1</span>) <span class="number">1</span>)</span><br><span class="line">	(<span class="name"><span class="built_in">else</span></span> (<span class="name"><span class="built_in">+</span></span> (<span class="name">fib</span> (<span class="name"><span class="built_in">-</span></span> n <span class="number">1</span>))</span><br><span class="line">		 (<span class="name">fib</span> (<span class="name"><span class="built_in">-</span></span> n <span class="number">2</span>))))))</span><br><span class="line"><span class="comment">;Value: fib</span></span><br><span class="line"></span><br><span class="line">(<span class="name">fib</span> <span class="number">5</span>)</span><br><span class="line"><span class="comment">;Value: 5</span></span><br></pre></td></tr></table></figure>
 <p>会产生<strong>树形递归</strong>，每个调用中两次递归调用了自身。这是一种很糟糕的方式，因为做了过多的冗余计算。</p>
 <p><img src="http://osax8w13y.bkt.clouddn.com/Tree%20recursion.png" alt=""></p>
 <p>不难证明，这一过程中，计算 <code>(fib 1)</code> 和 <code>(fib 0)</code> 的次数（也就是上面递归树的叶子个数）正好是 <code>Fib(n+1)</code>。而<code>Fib(n)</code> 的增长对于 n 来说是指数级的：Fib(n) 就是最接近黄金分割率的 n 次方除以根号 5 的整数，其中黄金分割率为：</p>
 <p>$$ \phi = (1 + \sqrt {5} / 2 $$</p>
 <p>简单来说，树形递归的计算步骤将随着输入的增长而指数性增长。</p>
 <p>因此，需要规划出一个线性迭代过程。用 a 和 b 表示 <code>Fib(1) = 1</code> 和 <code>Fib(0) = 0</code>，然后反复使用这两条规则：<code>a = a + b</code>/<code>b = a</code>。不难证明，经过 n 次变换， a 和 b 分别等于 <code>Fib(n + 1)</code> 和 <code>Fib(n)</code></p>
-<figure class="highlight scheme"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">(<span class="name"><span class="builtin-name">define</span></span> (<span class="name">fib</span> n)</div><div class="line">  (<span class="name">fib-iter</span> <span class="number">1</span> <span class="number">0</span> n)) </div><div class="line"></div><div class="line">(<span class="name"><span class="builtin-name">define</span></span> (<span class="name">fib-iter</span> a b count)</div><div class="line">  (<span class="name"><span class="builtin-name">if</span></span> (<span class="name"><span class="builtin-name">=</span></span> count <span class="number">0</span>)</div><div class="line">      b</div><div class="line">      (<span class="name">fib-iter</span> (<span class="name"><span class="builtin-name">+</span></span> a b) a (<span class="name"><span class="builtin-name">-</span></span> count <span class="number">1</span>))))</div><div class="line"></div><div class="line">(<span class="name">fib</span> <span class="number">5</span>)</div><div class="line"><span class="comment">;Value: 5</span></div></pre></td></tr></table></figure>
+<figure class="highlight scheme"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">(<span class="name"><span class="built_in">define</span></span> (<span class="name">fib</span> n)</span><br><span class="line">  (<span class="name">fib-iter</span> <span class="number">1</span> <span class="number">0</span> n)) </span><br><span class="line"></span><br><span class="line">(<span class="name"><span class="built_in">define</span></span> (<span class="name">fib-iter</span> a b count)</span><br><span class="line">  (<span class="name"><span class="built_in">if</span></span> (<span class="name"><span class="built_in">=</span></span> count <span class="number">0</span>)</span><br><span class="line">      b</span><br><span class="line">      (<span class="name">fib-iter</span> (<span class="name"><span class="built_in">+</span></span> a b) a (<span class="name"><span class="built_in">-</span></span> count <span class="number">1</span>))))</span><br><span class="line"></span><br><span class="line">(<span class="name">fib</span> <span class="number">5</span>)</span><br><span class="line"><span class="comment">;Value: 5</span></span><br></pre></td></tr></table></figure>
 <hr>
 <ul>
 <li><p>1.2.3 增长的阶</p>
@@ -415,12 +426,12 @@
 </ul>
 <hr>
 <h2 id="1-2-4-分治法求幂"><a href="#1-2-4-分治法求幂" class="headerlink" title="1.2.4 分治法求幂"></a>1.2.4 分治法求幂</h2><p>求 b 的 n 次方。如果将 n 个 b 连乘，复杂度是 θ(n)，但有更少步数求幂的方法。</p>
-<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">b^n </span>= <span class="keyword">b^(n/2) </span>* <span class="keyword">b^(n/2) </span>  <span class="comment"># n 是偶数</span></div><div class="line"><span class="keyword">b^n </span>= <span class="keyword">b </span>* <span class="keyword">b^(n-1) </span>        <span class="comment"># n 是奇数</span></div><div class="line"><span class="keyword">b^n </span>= <span class="number">1</span>                   <span class="comment"># n == 0</span></div></pre></td></tr></table></figure>
+<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">b^n </span>= <span class="keyword">b^(n/2) </span>* <span class="keyword">b^(n/2) </span>  <span class="comment"># n 是偶数</span></span><br><span class="line"><span class="keyword">b^n </span>= <span class="keyword">b </span>* <span class="keyword">b^(n-1) </span>        <span class="comment"># n 是奇数</span></span><br><span class="line"><span class="keyword">b^n </span>= <span class="number">1</span>                   <span class="comment"># n == 0</span></span><br></pre></td></tr></table></figure>
 <p>可以把复杂度从 θ(n) 降到  θ(log n)</p>
 <hr>
 <h2 id="1-2-5-最大公约数-Greatest-Common-Divisor"><a href="#1-2-5-最大公约数-Greatest-Common-Divisor" class="headerlink" title="1.2.5 最大公约数 Greatest Common Divisor"></a>1.2.5 最大公约数 Greatest Common Divisor</h2><p>r 如果是 a 除以 b 的余数，那么 a 与 b 的公约数正好也是 b 与 r 的公约数。</p>
 <p>GCD(a, b) = GCD(b, r)</p>
-<figure class="highlight scheme"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">(<span class="name"><span class="builtin-name">define</span></span> (<span class="name"><span class="builtin-name">gcd</span></span> a b)</div><div class="line">  (<span class="name"><span class="builtin-name">if</span></span> (<span class="name"><span class="builtin-name">=</span></span> b <span class="number">0</span>)</div><div class="line">      a</div><div class="line">      (<span class="name"><span class="builtin-name">gcd</span></span> b (<span class="name"><span class="builtin-name">remainder</span></span> a b)))) </div><div class="line"></div><div class="line">(<span class="name"><span class="builtin-name">gcd</span></span> <span class="number">16</span> <span class="number">28</span>)</div><div class="line"><span class="comment">;Value: 4</span></div></pre></td></tr></table></figure>
+<figure class="highlight scheme"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">(<span class="name"><span class="built_in">define</span></span> (<span class="name"><span class="built_in">gcd</span></span> a b)</span><br><span class="line">  (<span class="name"><span class="built_in">if</span></span> (<span class="name"><span class="built_in">=</span></span> b <span class="number">0</span>)</span><br><span class="line">      a</span><br><span class="line">      (<span class="name"><span class="built_in">gcd</span></span> b (<span class="name"><span class="built_in">remainder</span></span> a b)))) </span><br><span class="line"></span><br><span class="line">(<span class="name"><span class="built_in">gcd</span></span> <span class="number">16</span> <span class="number">28</span>)</span><br><span class="line"><span class="comment">;Value: 4</span></span><br></pre></td></tr></table></figure>
 <p><code>remainder</code> 是基础过程，求余。</p>
 <p>欧几里得算法是一个高效的算法，这里有一条神奇的 Lame 定理：</p>
 <blockquote>
@@ -431,13 +442,13 @@
 <hr>
 <h2 id="1-2-6-用费马检查来进行质数检测"><a href="#1-2-6-用费马检查来进行质数检测" class="headerlink" title="1.2.6 用费马检查来进行质数检测"></a>1.2.6 用费马检查来进行质数检测</h2><p>基本方法：检测 n 是不是质数，从 1 到 根号 n 之间检查因子。需要 θ(根号n) 的复杂度。但有比此更快的 θ(log n) 的方法。是基于数论中著名的<strong>费马小定理</strong>的结果。</p>
 <p>假如 a 是整数，n 是质数，且 a,n 互质（即两者只有一个公约数1），那么a的(n-1)次方除以n的余数恒等于1。<code>a^(n-1) mod n == 1</code></p>
-<figure class="highlight lsl"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">例如，<span class="number">5</span>是质数，费马检查的过程是：</div><div class="line"></div><div class="line">取一个与 n = <span class="number">5</span> 互质的整数，例如 a = <span class="number">3</span></div><div class="line"></div><div class="line"><span class="number">3</span> 的 <span class="number">4</span> 次方为 <span class="number">81</span> ，除以 n 的余数为 <span class="number">1</span>。</div><div class="line">再取 a = <span class="number">2</span>, <span class="number">2</span> 的 <span class="number">4</span> 次方为 <span class="number">16</span>，除以 n 的余数依然为 <span class="number">1</span>。</div><div class="line">…………</div></pre></td></tr></table></figure>
+<figure class="highlight tap"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">例如，5是质数，费马检查的过程是：</span><br><span class="line"></span><br><span class="line">取一个与 n =<span class="number"> 5 </span>互质的整数，例如 a = 3</span><br><span class="line"></span><br><span class="line">3 的<span class="number"> 4 </span>次方为<span class="number"> 81 </span>，除以 n 的余数为 1。</span><br><span class="line">再取 a = 2,<span class="number"> 2 </span>的<span class="number"> 4 </span>次方为 16，除以 n 的余数依然为 1。</span><br><span class="line">…………</span><br></pre></td></tr></table></figure>
 <p>我们要验证一个数 n 是不是质数，取<strong>任意整数（注意这里的a不用取互质的）</strong> a &lt; n 计算 <code>a^(n-1) mod n</code> 如果不等于 1，那么 n 就肯定不是质数。如果等于 1，就对 n 是质数有了信心，再通过检查更多的 a 值，我们就可以不断确信 n 是一个质数。这个方法叫做<strong>费马检查</strong>，是有名的<strong>概率算法</strong>。概率算法的意思是，例如一个数通过了多轮的费马检查，但不能给出百分百确定这个数就是素数的结果，但是能给出一个概率上有信心的结果。而不是素数的数，用此方法很快就能检测出其非素性。</p>
 <p>虽然说有一些能够骗过费马检查的整数，被称为 Carmichael 数，例如 561、1105、1729、2465。由于这些数很罕见，“撞上能够欺骗费马检查的值的机会比宇宙射线导致计算机执行出错的机会还要小”，因此费马检查还是很可靠的。</p>
 <ul>
 <li>最惊人的应用是在密码学中，对于 200 位长度的因数分解在计算上还是不现实的，但费马检查可以在很短的时间内判断这个数的素性。</li>
 </ul>
-<figure class="highlight scheme"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="comment">;费马素数检查</span></div><div class="line"></div><div class="line">(<span class="name"><span class="builtin-name">define</span></span> (<span class="name">expmod</span> base exp m)</div><div class="line">  (<span class="name"><span class="builtin-name">cond</span></span> ((<span class="name"><span class="builtin-name">=</span></span> exp <span class="number">0</span>) <span class="number">1</span>)</div><div class="line">        ((<span class="name"><span class="builtin-name">even?</span></span> exp)</div><div class="line">         (<span class="name"><span class="builtin-name">remainder</span></span> (<span class="name">square</span> (<span class="name">expmod</span> base (<span class="name"><span class="builtin-name">/</span></span> exp <span class="number">2</span>) m))</div><div class="line">                    m))</div><div class="line">        (<span class="name"><span class="builtin-name">else</span></span></div><div class="line">         (<span class="name"><span class="builtin-name">remainder</span></span> (<span class="name"><span class="builtin-name">*</span></span> base (<span class="name">expmod</span> base (<span class="name"><span class="builtin-name">-</span></span> exp <span class="number">1</span>) m))</div><div class="line">                    m))))</div><div class="line"></div><div class="line">(<span class="name"><span class="builtin-name">define</span></span> (<span class="name">fermat-test</span> n)</div><div class="line">  (<span class="name"><span class="builtin-name">define</span></span> (<span class="name">try-it</span> a)</div><div class="line">    (<span class="name"><span class="builtin-name">=</span></span> (<span class="name">expmod</span> a n n) a))</div><div class="line">  (<span class="name">try-it</span> (<span class="name"><span class="builtin-name">+</span></span> <span class="number">1</span> (<span class="name">random</span> (<span class="name"><span class="builtin-name">-</span></span> n <span class="number">1</span>)))))</div><div class="line"></div><div class="line">(<span class="name"><span class="builtin-name">define</span></span> (<span class="name">prime?</span> n times)</div><div class="line">  (<span class="name"><span class="builtin-name">cond</span></span> ((<span class="name"><span class="builtin-name">=</span></span> times <span class="number">0</span>) true)</div><div class="line">        ((<span class="name">fermat-test</span> n) (<span class="name">fast-prime?</span> n (<span class="name"><span class="builtin-name">-</span></span> times <span class="number">1</span>)))</div><div class="line">        (<span class="name"><span class="builtin-name">else</span></span> false)))</div><div class="line"></div><div class="line">(<span class="name">prime?</span> <span class="number">3</span> <span class="number">10</span>)</div></pre></td></tr></table></figure>
+<figure class="highlight scheme"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">;费马素数检查</span></span><br><span class="line"></span><br><span class="line">(<span class="name"><span class="built_in">define</span></span> (<span class="name">expmod</span> base exp m)</span><br><span class="line">  (<span class="name"><span class="built_in">cond</span></span> ((<span class="name"><span class="built_in">=</span></span> exp <span class="number">0</span>) <span class="number">1</span>)</span><br><span class="line">        ((<span class="name"><span class="built_in">even?</span></span> exp)</span><br><span class="line">         (<span class="name"><span class="built_in">remainder</span></span> (<span class="name">square</span> (<span class="name">expmod</span> base (<span class="name"><span class="built_in">/</span></span> exp <span class="number">2</span>) m))</span><br><span class="line">                    m))</span><br><span class="line">        (<span class="name"><span class="built_in">else</span></span></span><br><span class="line">         (<span class="name"><span class="built_in">remainder</span></span> (<span class="name"><span class="built_in">*</span></span> base (<span class="name">expmod</span> base (<span class="name"><span class="built_in">-</span></span> exp <span class="number">1</span>) m))</span><br><span class="line">                    m))))</span><br><span class="line"></span><br><span class="line">(<span class="name"><span class="built_in">define</span></span> (<span class="name">fermat-test</span> n)</span><br><span class="line">  (<span class="name"><span class="built_in">define</span></span> (<span class="name">try-it</span> a)</span><br><span class="line">    (<span class="name"><span class="built_in">=</span></span> (<span class="name">expmod</span> a n n) a))</span><br><span class="line">  (<span class="name">try-it</span> (<span class="name"><span class="built_in">+</span></span> <span class="number">1</span> (<span class="name">random</span> (<span class="name"><span class="built_in">-</span></span> n <span class="number">1</span>)))))</span><br><span class="line"></span><br><span class="line">(<span class="name"><span class="built_in">define</span></span> (<span class="name">prime?</span> n times)</span><br><span class="line">  (<span class="name"><span class="built_in">cond</span></span> ((<span class="name"><span class="built_in">=</span></span> times <span class="number">0</span>) true)</span><br><span class="line">        ((<span class="name">fermat-test</span> n) (<span class="name">fast-prime?</span> n (<span class="name"><span class="built_in">-</span></span> times <span class="number">1</span>)))</span><br><span class="line">        (<span class="name"><span class="built_in">else</span></span> false)))</span><br><span class="line"></span><br><span class="line">(<span class="name">prime?</span> <span class="number">3</span> <span class="number">10</span>)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
       
     </div>
 
@@ -546,8 +557,8 @@
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.png"
-               alt="chaz" />
-          <p class="site-author-name" itemprop="name">chaz</p>
+               alt="" />
+          <p class="site-author-name" itemprop="name"></p>
            
               <p class="site-description motion-element" itemprop="description"></p>
           
@@ -557,7 +568,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">96</span>
+                <span class="site-state-item-count">99</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -605,7 +616,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#范围"><span class="nav-number">1.</span> <span class="nav-text">范围</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#笔记"><span class="nav-number">2.</span> <span class="nav-text">笔记</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-1-线性递归和迭代"><span class="nav-number">2.1.</span> <span class="nav-text">1.2.1 线性递归和迭代</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#线性递归过程"><span class="nav-number">2.1.1.</span> <span class="nav-text">线性递归过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#迭代计算过程"><span class="nav-number">2.1.2.</span> <span class="nav-text">迭代计算过程</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-2-树形递归"><span class="nav-number">2.2.</span> <span class="nav-text">1.2.2 树形递归</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-4-分治法求幂"><span class="nav-number">2.3.</span> <span class="nav-text">1.2.4 分治法求幂</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-5-最大公约数-Greatest-Common-Divisor"><span class="nav-number">2.4.</span> <span class="nav-text">1.2.5 最大公约数 Greatest Common Divisor</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-6-用费马检查来进行质数检测"><span class="nav-number">2.5.</span> <span class="nav-text">1.2.6 用费马检查来进行质数检测</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%8C%83%E5%9B%B4"><span class="nav-number">1.</span> <span class="nav-text">范围</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%94%E8%AE%B0"><span class="nav-number">2.</span> <span class="nav-text">笔记</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-1-%E7%BA%BF%E6%80%A7%E9%80%92%E5%BD%92%E5%92%8C%E8%BF%AD%E4%BB%A3"><span class="nav-number">2.1.</span> <span class="nav-text">1.2.1 线性递归和迭代</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BA%BF%E6%80%A7%E9%80%92%E5%BD%92%E8%BF%87%E7%A8%8B"><span class="nav-number">2.1.1.</span> <span class="nav-text">线性递归过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%AD%E4%BB%A3%E8%AE%A1%E7%AE%97%E8%BF%87%E7%A8%8B"><span class="nav-number">2.1.2.</span> <span class="nav-text">迭代计算过程</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-2-%E6%A0%91%E5%BD%A2%E9%80%92%E5%BD%92"><span class="nav-number">2.2.</span> <span class="nav-text">1.2.2 树形递归</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-4-%E5%88%86%E6%B2%BB%E6%B3%95%E6%B1%82%E5%B9%82"><span class="nav-number">2.3.</span> <span class="nav-text">1.2.4 分治法求幂</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-5-%E6%9C%80%E5%A4%A7%E5%85%AC%E7%BA%A6%E6%95%B0-Greatest-Common-Divisor"><span class="nav-number">2.4.</span> <span class="nav-text">1.2.5 最大公约数 Greatest Common Divisor</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-6-%E7%94%A8%E8%B4%B9%E9%A9%AC%E6%A3%80%E6%9F%A5%E6%9D%A5%E8%BF%9B%E8%A1%8C%E8%B4%A8%E6%95%B0%E6%A3%80%E6%B5%8B"><span class="nav-number">2.5.</span> <span class="nav-text">1.2.6 用费马检查来进行质数检测</span></a></li></ol></li></ol></div>
             
 
           </div>
@@ -632,17 +643,17 @@
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
-  <span class="author" itemprop="copyrightHolder">chaz</span>
+  <span class="author" itemprop="copyrightHolder">Chang</span>
 </div>
 
 
 <div class="powered-by">
-  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+  由 <a class="theme-link" target="_blank" rel="noopener" href="https://hexo.io">Hexo</a> 强力驱动
 </div>
 
 <div class="theme-info">
   主题 -
-  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+  <a class="theme-link" target="_blank" rel="noopener" href="https://github.com/iissnan/hexo-theme-next">
     NexT.Mist
   </a>
 </div>

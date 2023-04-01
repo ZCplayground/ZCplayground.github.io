@@ -93,23 +93,24 @@
 
 
 
-<meta name="description" content="定义一个类12345678910111213141516class Stock //class declaration&amp;#123;private:	std::string company;	long shares;	double shares_val;	double total_val;	void set_tot() &amp;#123; total_val = shares*shares_val; &amp;#">
+<meta name="description" content="定义一个类12345678910111213141516class Stock &#x2F;&#x2F;class declaration&amp;#123;private:	std::string company;	long shares;	double shares_val;	double total_val;	void set_tot() &amp;#123; total_val &#x3D; shares*shares_val; &amp;#">
 <meta property="og:type" content="article">
 <meta property="og:title" content="C++学习之类的简单定义">
 <meta property="og:url" content="https://zcplayground.github.io/2017/06/07/class/index.html">
-<meta property="og:site_name" content="chaz">
-<meta property="og:description" content="定义一个类12345678910111213141516class Stock //class declaration&amp;#123;private:	std::string company;	long shares;	double shares_val;	double total_val;	void set_tot() &amp;#123; total_val = shares*shares_val; &amp;#">
-<meta property="og:updated_time" content="2017-06-08T00:59:58.000Z">
+<meta property="og:site_name" content="Chang&#39;s Note">
+<meta property="og:description" content="定义一个类12345678910111213141516class Stock &#x2F;&#x2F;class declaration&amp;#123;private:	std::string company;	long shares;	double shares_val;	double total_val;	void set_tot() &amp;#123; total_val &#x3D; shares*shares_val; &amp;#">
+<meta property="og:locale">
+<meta property="article:published_time" content="2017-06-07T05:10:47.000Z">
+<meta property="article:modified_time" content="2017-06-08T00:59:58.000Z">
+<meta property="article:author" content="Chang">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="C++学习之类的简单定义">
-<meta name="twitter:description" content="定义一个类12345678910111213141516class Stock //class declaration&amp;#123;private:	std::string company;	long shares;	double shares_val;	double total_val;	void set_tot() &amp;#123; total_val = shares*shares_val; &amp;#">
 
 
 
 <script type="text/javascript" id="hexo.configurations">
   var NexT = window.NexT || {};
   var CONFIG = {
-    root: '/',
+    root: '',
     scheme: 'Mist',
     sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
     fancybox: true,
@@ -136,8 +137,8 @@
 
 
 
-  <title>C++学习之类的简单定义 | chaz</title>
-</head>
+  <title>C++学习之类的简单定义 | Chang's Note</title>
+<meta name="generator" content="Hexo 5.4.2"></head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
 
@@ -173,7 +174,7 @@
     <div class="custom-logo-site-title">
       <a href="/"  class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
-        <span class="site-title">chaz</span>
+        <span class="site-title">Chang's Note</span>
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
@@ -237,6 +238,16 @@
           </a>
         </li>
       
+        
+        <li class="menu-item menu-item-quotations">
+          <a href="/quotations/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-quote-right"></i> <br />
+            
+            语录
+          </a>
+        </li>
+      
 
       
     </ul>
@@ -269,13 +280,13 @@
     <link itemprop="mainEntityOfPage" href="https://zcplayground.github.io/2017/06/07/class/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="chaz">
+      <meta itemprop="name" content="">
       <meta itemprop="description" content="">
       <meta itemprop="image" content="/images/avatar.png">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="chaz">
+      <meta itemprop="name" content="Chang's Note">
     </span>
 
     
@@ -352,9 +363,9 @@
       
 
       
-        <h1 id="定义一个类"><a href="#定义一个类" class="headerlink" title="定义一个类"></a>定义一个类</h1><figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Stock</span> //<span class="title">class</span> <span class="title">declaration</span></span></div><div class="line">&#123;</div><div class="line"><span class="keyword">private</span>:</div><div class="line">	<span class="built_in">std</span>::<span class="built_in">string</span> company;</div><div class="line">	<span class="keyword">long</span> shares;</div><div class="line">	<span class="keyword">double</span> shares_val;</div><div class="line">	<span class="keyword">double</span> total_val;</div><div class="line">	<span class="function"><span class="keyword">void</span> <span class="title">set_tot</span><span class="params">()</span> </span>&#123; total_val = shares*shares_val; &#125;</div><div class="line"><span class="keyword">public</span>:</div><div class="line">	<span class="function"><span class="keyword">void</span> <span class="title">acquire</span><span class="params">(<span class="keyword">const</span> <span class="built_in">std</span>::<span class="built_in">string</span> &amp;co, <span class="keyword">long</span> n, <span class="keyword">double</span> pr)</span></span>;</div><div class="line">	<span class="function"><span class="keyword">void</span> <span class="title">buy</span><span class="params">(<span class="keyword">long</span> num, <span class="keyword">double</span> price)</span></span>;</div><div class="line">	<span class="function"><span class="keyword">void</span> <span class="title">sell</span><span class="params">(<span class="keyword">long</span> num, <span class="keyword">double</span> price)</span></span>;</div><div class="line">	<span class="function"><span class="keyword">void</span> <span class="title">update</span><span class="params">(<span class="keyword">double</span> price)</span></span>;</div><div class="line">	<span class="function"><span class="keyword">void</span> <span class="title">show</span><span class="params">()</span></span>;</div><div class="line"></div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+        <h1 id="定义一个类"><a href="#定义一个类" class="headerlink" title="定义一个类"></a>定义一个类</h1><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Stock</span> <span class="comment">//class declaration</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">	std::string company;</span><br><span class="line">	<span class="type">long</span> shares;</span><br><span class="line">	<span class="type">double</span> shares_val;</span><br><span class="line">	<span class="type">double</span> total_val;</span><br><span class="line">	<span class="function"><span class="type">void</span> <span class="title">set_tot</span><span class="params">()</span> </span>&#123; total_val = shares*shares_val; &#125;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="function"><span class="type">void</span> <span class="title">acquire</span><span class="params">(<span class="type">const</span> std::string &amp;co, <span class="type">long</span> n, <span class="type">double</span> pr)</span></span>;</span><br><span class="line">	<span class="function"><span class="type">void</span> <span class="title">buy</span><span class="params">(<span class="type">long</span> num, <span class="type">double</span> price)</span></span>;</span><br><span class="line">	<span class="function"><span class="type">void</span> <span class="title">sell</span><span class="params">(<span class="type">long</span> num, <span class="type">double</span> price)</span></span>;</span><br><span class="line">	<span class="function"><span class="type">void</span> <span class="title">update</span><span class="params">(<span class="type">double</span> price)</span></span>;</span><br><span class="line">	<span class="function"><span class="type">void</span> <span class="title">show</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 <p>C++关键字<code>class</code>指出这些代码定义了一个类设计。Stock是这个新类的类型名。该声明能够让我们声明新的Stock类型变量——被称为对象。每个对象都代表一个Stock（股票）</p>
-<p>例子：<br><figure class="highlight abnf"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Stock A<span class="comment">;</span></div><div class="line">Stock B<span class="comment">;</span></div></pre></td></tr></table></figure></p>
+<p>例子：<br><figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Stock A<span class="comment">;</span></span><br><span class="line">Stock B<span class="comment">;</span></span><br></pre></td></tr></table></figure></p>
 <p>我们通过对象声明了新的Stock类型变量，可以代表A、B分别持有的某股票。<br>接下来，要储存的数据以类数据成员的形式出现（例如company，shares）</p>
 <p>例如：<br>A的<code>ompany</code>存储了公司的名称，<code>shares</code>成员存储了A持有股票的数量，<code>shares_val</code>存储了每股的价格，<code>total_val</code>存储了股票总价格。</p>
 <p>要执行的操作以类成员函数的形式出现（又称为方法），例如set_tot()。</p>
@@ -370,24 +381,23 @@
 <p>C++程序员通常使用类来描述，结构只是用来表示纯粹的数据对象。</p>
 <p>tips：如果没有写<code>private</code>就定义成员，那么成员的属性默认是<code>private</code>。<code>private</code>是类成员的默认访问控制。</p>
 <h2 id="实现类成员函数"><a href="#实现类成员函数" class="headerlink" title="实现类成员函数"></a>实现类成员函数</h2><p>定义成员函数时，使用<strong>作用域解析运算符</strong><code>::</code>来标识函数所属的类。</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">void</span> Stock::update(<span class="keyword">double</span> price)</div></pre></td></tr></table></figure>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> Stock::<span class="keyword">update</span>(<span class="type">double</span> price)</span><br></pre></td></tr></table></figure>
 <p>这种表示法意味着我们定义的update是Stock类的成员，不仅表明了update是成员函数，还允许我们把另一个类的成员函数也命名为update。</p>
 <p>作用域解析运算符还确定了方法定义的类的身份。所以<code>update()</code>具有<strong>类的作用域</strong>（class scope），Stock类的其他成员函数不必使用作用域解析运算符就可以使用<code>update()</code>方法，这是因为它们同属一个类，所以update是可见的。</p>
-<h2 id="使用类"><a href="#使用类" class="headerlink" title="使用类"></a>使用类</h2><p>如果创建两个Stock类<br><figure class="highlight abnf"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Stock A<span class="comment">;</span></div><div class="line">Stock B<span class="comment">;</span></div></pre></td></tr></table></figure></p>
-<p>要使用对象的成员函数，和结构体成员一样，使用<strong>成员运算符</strong>。<br><figure class="highlight abnf"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">A.show()<span class="comment">;</span></div><div class="line">B.show()<span class="comment">;</span></div></pre></td></tr></table></figure></p>
+<h2 id="使用类"><a href="#使用类" class="headerlink" title="使用类"></a>使用类</h2><p>如果创建两个Stock类<br><figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Stock A<span class="comment">;</span></span><br><span class="line">Stock B<span class="comment">;</span></span><br></pre></td></tr></table></figure><br>要使用对象的成员函数，和结构体成员一样，使用<strong>成员运算符</strong>。<br><figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">A.show()<span class="comment">;</span></span><br><span class="line">B.show()<span class="comment">;</span></span><br></pre></td></tr></table></figure></p>
 <p>A调用show()时，<code>share</code>是<code>A.shares</code>，<code>share_val</code>是<code>A.share_val</code>。</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">void</span> Stock::acquire(<span class="keyword">const</span> <span class="built_in">std</span>::<span class="built_in">string</span> &amp; co, <span class="keyword">long</span> n, <span class="keyword">double</span> pr)</div><div class="line">&#123;</div><div class="line">	company = co;</div><div class="line">	<span class="keyword">if</span> (n &lt; <span class="number">0</span>)</div><div class="line">	&#123;</div><div class="line">		<span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"Number of shares can't be negative."</span></div><div class="line">			&lt;&lt; company &lt;&lt; <span class="string">" shares set to 0.\n"</span>;</div><div class="line">		shares = <span class="number">0</span>;</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">else</span></div><div class="line">		shares = n;</div><div class="line">	share_val = pr;</div><div class="line">	set_tot();</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">void</span> Stock::buy(<span class="keyword">long</span> num, <span class="keyword">double</span> price)</div><div class="line">&#123;</div><div class="line">	<span class="keyword">if</span> (num &lt; <span class="number">0</span>)</div><div class="line">	&#123;</div><div class="line">		<span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"Number of shares purchased can't be negative."</span></div><div class="line">			&lt;&lt; <span class="string">" Transaction is aborted.\n"</span>;</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">else</span></div><div class="line">	&#123;</div><div class="line">		shares += num;</div><div class="line">		share_val = price;</div><div class="line">		set_tot();</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">void</span> Stock::sell(<span class="keyword">long</span> num, <span class="keyword">double</span> price)</div><div class="line">&#123;</div><div class="line">	<span class="keyword">if</span> (num &lt; <span class="number">0</span>)</div><div class="line">	&#123;</div><div class="line">		<span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"Number of shares sold can't be negative."</span></div><div class="line">			&lt;&lt; <span class="string">" Transaction is aborted.\n"</span>;</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">else</span> <span class="keyword">if</span> (num&gt;shares)</div><div class="line">	&#123;</div><div class="line">		<span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"You can't sell more than you have!"</span></div><div class="line">			&lt;&lt; <span class="string">" Transaction is aborted.\n"</span>;</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">else</span> </div><div class="line">	&#123;</div><div class="line">		shares -= num;</div><div class="line">		share_val = price;</div><div class="line">		set_tot();</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">void</span> Stock::update(<span class="keyword">double</span> price)</div><div class="line">&#123;</div><div class="line">	share_val = price;</div><div class="line">	set_tot();</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">void</span> Stock::show()</div><div class="line">&#123;</div><div class="line">	<span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"Company: "</span> &lt;&lt; company</div><div class="line">			  &lt;&lt; <span class="string">"   Shares: "</span> &lt;&lt; shares &lt;&lt; <span class="string">'\n'</span></div><div class="line">			  &lt;&lt; <span class="string">"   Share Price: $"</span> &lt;&lt; share_val</div><div class="line">			  &lt;&lt; <span class="string">"   Total Worth: $"</span> &lt;&lt; total_val &lt;&lt; <span class="string">'\n'</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">Stock::acquire</span><span class="params">(<span class="type">const</span> std::string &amp; co, <span class="type">long</span> n, <span class="type">double</span> pr)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	company = co;</span><br><span class="line">	<span class="keyword">if</span> (n &lt; <span class="number">0</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		std::cout &lt;&lt; <span class="string">&quot;Number of shares can&#x27;t be negative.&quot;</span></span><br><span class="line">			&lt;&lt; company &lt;&lt; <span class="string">&quot; shares set to 0.\n&quot;</span>;</span><br><span class="line">		shares = <span class="number">0</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">		shares = n;</span><br><span class="line">	share_val = pr;</span><br><span class="line">	<span class="built_in">set_tot</span>();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">Stock::buy</span><span class="params">(<span class="type">long</span> num, <span class="type">double</span> price)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (num &lt; <span class="number">0</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		std::cout &lt;&lt; <span class="string">&quot;Number of shares purchased can&#x27;t be negative.&quot;</span></span><br><span class="line">			&lt;&lt; <span class="string">&quot; Transaction is aborted.\n&quot;</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">	&#123;</span><br><span class="line">		shares += num;</span><br><span class="line">		share_val = price;</span><br><span class="line">		<span class="built_in">set_tot</span>();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">Stock::sell</span><span class="params">(<span class="type">long</span> num, <span class="type">double</span> price)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (num &lt; <span class="number">0</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		std::cout &lt;&lt; <span class="string">&quot;Number of shares sold can&#x27;t be negative.&quot;</span></span><br><span class="line">			&lt;&lt; <span class="string">&quot; Transaction is aborted.\n&quot;</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span> <span class="keyword">if</span> (num&gt;shares)</span><br><span class="line">	&#123;</span><br><span class="line">		std::cout &lt;&lt; <span class="string">&quot;You can&#x27;t sell more than you have!&quot;</span></span><br><span class="line">			&lt;&lt; <span class="string">&quot; Transaction is aborted.\n&quot;</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span> </span><br><span class="line">	&#123;</span><br><span class="line">		shares -= num;</span><br><span class="line">		share_val = price;</span><br><span class="line">		<span class="built_in">set_tot</span>();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">Stock::update</span><span class="params">(<span class="type">double</span> price)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	share_val = price;</span><br><span class="line">	<span class="built_in">set_tot</span>();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">Stock::show</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	std::cout &lt;&lt; <span class="string">&quot;Company: &quot;</span> &lt;&lt; company</span><br><span class="line">			  &lt;&lt; <span class="string">&quot;   Shares: &quot;</span> &lt;&lt; shares &lt;&lt; <span class="string">&#x27;\n&#x27;</span></span><br><span class="line">			  &lt;&lt; <span class="string">&quot;   Share Price: $&quot;</span> &lt;&lt; share_val</span><br><span class="line">			  &lt;&lt; <span class="string">&quot;   Total Worth: $&quot;</span> &lt;&lt; total_val &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h1 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h1><p>设计一个类的流程</p>
 <ul>
 <li>提供类声明。<br>  ○ 包括数据成员和函数成员<br>  ○ 声明有私有部分，只能通过成员函数进行访问。公有部分，可以被程序直接访问<br>  ○ 基本格式如下：</li>
 </ul>
 <pre><code>class classname
-{
+&#123;
 private:
     data member declarations
 public:
     member function prototypes
-};
+&#125;;
 </code></pre><pre><code>○ 公有部分的内容形成了公有接口，因此C++通过类来实现了抽象、数据隐藏、封装的OOP特性
 </code></pre><ul>
 <li>实现类成员函数。<br>  ○ 可以在类声明里提供完整的函数定义，而不是函数原型。但通常做法是单独提供函数定义，除非函数很小。<br>  ○ 需要用作用域解析运算符来指明成员函数到底属于哪个类。</li>
@@ -501,8 +511,8 @@ public:
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.png"
-               alt="chaz" />
-          <p class="site-author-name" itemprop="name">chaz</p>
+               alt="" />
+          <p class="site-author-name" itemprop="name"></p>
            
               <p class="site-description motion-element" itemprop="description"></p>
           
@@ -512,7 +522,7 @@ public:
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">96</span>
+                <span class="site-state-item-count">99</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -560,7 +570,7 @@ public:
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#定义一个类"><span class="nav-number">1.</span> <span class="nav-text">定义一个类</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#访问控制"><span class="nav-number">1.1.</span> <span class="nav-text">访问控制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#class-和-struct-的区别"><span class="nav-number">1.2.</span> <span class="nav-text">class 和 struct 的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实现类成员函数"><span class="nav-number">1.3.</span> <span class="nav-text">实现类成员函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用类"><span class="nav-number">1.4.</span> <span class="nav-text">使用类</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#小结"><span class="nav-number">2.</span> <span class="nav-text">小结</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%9A%E4%B9%89%E4%B8%80%E4%B8%AA%E7%B1%BB"><span class="nav-number">1.</span> <span class="nav-text">定义一个类</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6"><span class="nav-number">1.1.</span> <span class="nav-text">访问控制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#class-%E5%92%8C-struct-%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">1.2.</span> <span class="nav-text">class 和 struct 的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0%E7%B1%BB%E6%88%90%E5%91%98%E5%87%BD%E6%95%B0"><span class="nav-number">1.3.</span> <span class="nav-text">实现类成员函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E7%B1%BB"><span class="nav-number">1.4.</span> <span class="nav-text">使用类</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%B0%8F%E7%BB%93"><span class="nav-number">2.</span> <span class="nav-text">小结</span></a></li></ol></div>
             
 
           </div>
@@ -587,17 +597,17 @@ public:
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
-  <span class="author" itemprop="copyrightHolder">chaz</span>
+  <span class="author" itemprop="copyrightHolder">Chang</span>
 </div>
 
 
 <div class="powered-by">
-  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+  由 <a class="theme-link" target="_blank" rel="noopener" href="https://hexo.io">Hexo</a> 强力驱动
 </div>
 
 <div class="theme-info">
   主题 -
-  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+  <a class="theme-link" target="_blank" rel="noopener" href="https://github.com/iissnan/hexo-theme-next">
     NexT.Mist
   </a>
 </div>

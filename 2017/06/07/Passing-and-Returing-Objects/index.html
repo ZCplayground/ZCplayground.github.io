@@ -97,19 +97,20 @@
 <meta property="og:type" content="article">
 <meta property="og:title" content="C++学习之传递和返回对象">
 <meta property="og:url" content="https://zcplayground.github.io/2017/06/07/Passing-and-Returing-Objects/index.html">
-<meta property="og:site_name" content="chaz">
+<meta property="og:site_name" content="Chang&#39;s Note">
 <meta property="og:description" content="当编写成员函数或独立函数返回对象时，通常有这几种选择：返回指向对象的引用、返回指向对象的const引用、返回对象、返回const对象。下面进行讨论。 返回指向const对象的引用使用const引用的常见原因是提高效率。是因为能返回对象的引用的函数，也可以返回对象来实现。返回对象会导致调用复制构造函数，而返回引用就不会。因此，返回引用做的工作更少，效率更高。 返回指向对象的引用有一个要求，就是指向的">
-<meta property="og:updated_time" content="2017-06-07T11:17:12.000Z">
+<meta property="og:locale">
+<meta property="article:published_time" content="2017-06-07T11:14:11.000Z">
+<meta property="article:modified_time" content="2017-06-07T11:17:12.000Z">
+<meta property="article:author" content="Chang">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="C++学习之传递和返回对象">
-<meta name="twitter:description" content="当编写成员函数或独立函数返回对象时，通常有这几种选择：返回指向对象的引用、返回指向对象的const引用、返回对象、返回const对象。下面进行讨论。 返回指向const对象的引用使用const引用的常见原因是提高效率。是因为能返回对象的引用的函数，也可以返回对象来实现。返回对象会导致调用复制构造函数，而返回引用就不会。因此，返回引用做的工作更少，效率更高。 返回指向对象的引用有一个要求，就是指向的">
 
 
 
 <script type="text/javascript" id="hexo.configurations">
   var NexT = window.NexT || {};
   var CONFIG = {
-    root: '/',
+    root: '',
     scheme: 'Mist',
     sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
     fancybox: true,
@@ -136,8 +137,8 @@
 
 
 
-  <title>C++学习之传递和返回对象 | chaz</title>
-</head>
+  <title>C++学习之传递和返回对象 | Chang's Note</title>
+<meta name="generator" content="Hexo 5.4.2"></head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
 
@@ -173,7 +174,7 @@
     <div class="custom-logo-site-title">
       <a href="/"  class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
-        <span class="site-title">chaz</span>
+        <span class="site-title">Chang's Note</span>
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
@@ -237,6 +238,16 @@
           </a>
         </li>
       
+        
+        <li class="menu-item menu-item-quotations">
+          <a href="/quotations/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-quote-right"></i> <br />
+            
+            语录
+          </a>
+        </li>
+      
 
       
     </ul>
@@ -269,13 +280,13 @@
     <link itemprop="mainEntityOfPage" href="https://zcplayground.github.io/2017/06/07/Passing-and-Returing-Objects/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="chaz">
+      <meta itemprop="name" content="">
       <meta itemprop="description" content="">
       <meta itemprop="image" content="/images/avatar.png">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="chaz">
+      <meta itemprop="name" content="Chang's Note">
     </span>
 
     
@@ -354,8 +365,7 @@
       
         <p>当编写成员函数或独立函数返回对象时，通常有这几种选择：返回指向对象的引用、返回指向对象的const引用、返回对象、返回const对象。下面进行讨论。</p>
 <h1 id="返回指向const对象的引用"><a href="#返回指向const对象的引用" class="headerlink" title="返回指向const对象的引用"></a>返回指向const对象的引用</h1><p>使用const引用的常见原因是提高效率。是因为能返回对象的引用的函数，也可以返回对象来实现。返回对象会导致调用复制构造函数，而返回引用就不会。因此，返回引用做的工作更少，效率更高。</p>
-<p>返回指向对象的引用有一个要求，就是指向的对象应该在函数执行期间存在。例如对Vector类编写一个函数Max()，返回两个Vector对象中比较大的一个。则下面两种方法都可行，但第二个版本比较好。<br><figure class="highlight julia"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">Vector</span> Max(<span class="keyword">const</span> <span class="built_in">Vector</span> &amp; v1, <span class="keyword">const</span> <span class="built_in">Vector</span> &amp; v2)</div><div class="line">&#123;</div><div class="line">	<span class="keyword">if</span>(v1.magval() &gt; v2.magval())</div><div class="line">		<span class="keyword">return</span> v1;</div><div class="line">	<span class="keyword">else</span></div><div class="line">		<span class="keyword">return</span> v2;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<figure class="highlight julia"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">//better</div><div class="line"><span class="keyword">const</span> <span class="built_in">Vector</span> &amp; Max(<span class="keyword">const</span> <span class="built_in">Vector</span> &amp; v1, <span class="keyword">const</span> <span class="built_in">Vector</span> &amp; v2)</div><div class="line">&#123;</div><div class="line">	<span class="keyword">if</span>(v1.magval() &gt; v2.magval())</div><div class="line">		<span class="keyword">return</span> v1;</div><div class="line">	<span class="keyword">else</span></div><div class="line">		<span class="keyword">return</span> v2;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>返回指向对象的引用有一个要求，就是指向的对象应该在函数执行期间存在。例如对Vector类编写一个函数Max()，返回两个Vector对象中比较大的一个。则下面两种方法都可行，但第二个版本比较好。<br><figure class="highlight smali"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Vector Max(const Vector &amp; v1,<span class="built_in"> const </span>Vector &amp; v2)</span><br><span class="line">&#123;</span><br><span class="line">	if(v1.magval() &gt; v2.magval())</span><br><span class="line">	<span class="built_in">	return </span>v1;</span><br><span class="line">	else</span><br><span class="line">	<span class="built_in">	return </span>v2;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><br><figure class="highlight smali"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">//better<span class="built_in"></span></span><br><span class="line"><span class="built_in">const </span>Vector &amp; Max(const Vector &amp; v1,<span class="built_in"> const </span>Vector &amp; v2)</span><br><span class="line">&#123;</span><br><span class="line">	if(v1.magval() &gt; v2.magval())</span><br><span class="line">	<span class="built_in">	return </span>v1;</span><br><span class="line">	else</span><br><span class="line">	<span class="built_in">	return </span>v2;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <h1 id="按值传递or按引用传递？"><a href="#按值传递or按引用传递？" class="headerlink" title="按值传递or按引用传递？"></a>按值传递or按引用传递？</h1><p>编写使用对象作为参数的函数时，应按引用而不是按值来传递对象。</p>
 <p>原因之一是提高效率，跟返回同样的，如果按值传递对象会涉及到生成临时拷贝、调用复制构造函数、析构函数的步骤，如果按引用传递会使时间的花费少很多。如果函数不修改对象，则应声明参数为const对象引用。</p>
 <p>另外一个原因是如果定义为接受基类引用参数的函数，还能接受派生类引用。</p>
@@ -363,9 +373,8 @@
 <p><code>operator=()</code>的返回值用于连续赋值的话，则返回对象和返回引用都是可行的。但和上面的例子一样，如果返回引用可以免去调用复制构造函数的工作。</p>
 <p><code>operator&lt;&lt;()</code>的返回值用于串接输出，因此返回值必须是一个<code>ostream</code>对象。所以返回值必须是<code>ostream &amp;</code>。如果返回值是<code>ostream</code>，则会要求调用<code>ostream</code>类的复制构造函数，但<code>ostream</code>没有共有的复制构造函数。</p>
 <h1 id="返回对象"><a href="#返回对象" class="headerlink" title="返回对象"></a>返回对象</h1><p>如果返回的对象是被调用函数中的<strong>局部变量</strong>，则<strong>不应按引用方式返回它</strong>，因为被调用函数执行完毕后，局部对象会调用析构函数，控制权回到调用函数时，引用指向的对象将不复存在。通常，被重载的算术运算符属于这种情况。</p>
-<p>Vector类加法：<br><figure class="highlight julia"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">Vector</span> <span class="built_in">Vector</span>::operator+(<span class="keyword">const</span> <span class="built_in">Vector</span> &amp; b)<span class="keyword">const</span></div><div class="line">&#123;</div><div class="line">	<span class="keyword">return</span> <span class="built_in">Vector</span>(x + b.x, y + b.y);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="built_in">Vector</span> force1(<span class="number">50</span>,<span class="number">60</span>);</div><div class="line"><span class="built_in">Vector</span> force2(<span class="number">10</span>,<span class="number">70</span>);</div><div class="line"><span class="built_in">Vector</span> force3;</div><div class="line">force3 = force1 + force2;</div></pre></td></tr></table></figure></p>
-<p>这里返回的不是<code>force1</code>和<code>force2</code>，因为<code>force1</code>和<code>force2</code>在相加的过程中应该本身保持不变，而是返回两个对象的和。函数中应设置一个局部变量来存储计算结果，所以不应该返回指向该临时对象的引用，应该返回对象。</p>
-<h1 id="返回const对象"><a href="#返回const对象" class="headerlink" title="返回const对象"></a>返回const对象</h1><p>可以把<code>Vector::operator+()</code>的返回类型声明为<code>const Vector</code>。这样可以防止错误的使用。比如下面三条错误的写法：<br><figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">force1 + force2 = force3;</div><div class="line">cout&lt;&lt;<span class="params">(force1 + <span class="attr">force2</span> = force3)</span><span class="string">.magval</span><span class="params">()</span> &lt;&lt; endl;</div><div class="line"><span class="keyword">if</span><span class="params">(force1 + <span class="attr">force2</span> = force3)</span></div></pre></td></tr></table></figure></p>
+<p>Vector类加法：<br><figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Vector</span> <span class="built_in">Vector</span>::operator+(<span class="keyword">const</span> <span class="built_in">Vector</span> &amp; b)<span class="keyword">const</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="built_in">Vector</span>(x + b.x, y + b.y);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">Vector</span> force1(<span class="number">50</span>,<span class="number">60</span>);</span><br><span class="line"><span class="built_in">Vector</span> force2(<span class="number">10</span>,<span class="number">70</span>);</span><br><span class="line"><span class="built_in">Vector</span> force3;</span><br><span class="line">force3 = force1 + force2;</span><br></pre></td></tr></table></figure><br>这里返回的不是<code>force1</code>和<code>force2</code>，因为<code>force1</code>和<code>force2</code>在相加的过程中应该本身保持不变，而是返回两个对象的和。函数中应设置一个局部变量来存储计算结果，所以不应该返回指向该临时对象的引用，应该返回对象。</p>
+<h1 id="返回const对象"><a href="#返回const对象" class="headerlink" title="返回const对象"></a>返回const对象</h1><p>可以把<code>Vector::operator+()</code>的返回类型声明为<code>const Vector</code>。这样可以防止错误的使用。比如下面三条错误的写法：<br><figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">force1 + force2 = force3;</span><br><span class="line">cout&lt;&lt;<span class="params">(force1 + <span class="attr">force2</span> = force3)</span><span class="string">.magval</span><span class="params">()</span> &lt;&lt; endl;</span><br><span class="line"><span class="keyword">if</span><span class="params">(force1 + <span class="attr">force2</span> = force3)</span></span><br></pre></td></tr></table></figure></p>
 <h1 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h1><p>• 通常，编写使用对象作为参数的函数，应按照引用传递。<br>• 如果方法或函数需要返回局部对象，则应返回对象<br>• 如果方法或函数需要返回一个没有公有复制构造函数的类（如ostream），则必须返回指向对象的引用<br>• 有些方法和函数既可以返回对象，也可以返回引用，则出于效率方面的考虑应首选返回引用。</p>
 
       
@@ -476,8 +485,8 @@
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.png"
-               alt="chaz" />
-          <p class="site-author-name" itemprop="name">chaz</p>
+               alt="" />
+          <p class="site-author-name" itemprop="name"></p>
            
               <p class="site-description motion-element" itemprop="description"></p>
           
@@ -487,7 +496,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">96</span>
+                <span class="site-state-item-count">99</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -535,7 +544,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#返回指向const对象的引用"><span class="nav-number">1.</span> <span class="nav-text">返回指向const对象的引用</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#按值传递or按引用传递？"><span class="nav-number">2.</span> <span class="nav-text">按值传递or按引用传递？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#返回指向非const对象的引用"><span class="nav-number">3.</span> <span class="nav-text">返回指向非const对象的引用</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#返回对象"><span class="nav-number">4.</span> <span class="nav-text">返回对象</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#返回const对象"><span class="nav-number">5.</span> <span class="nav-text">返回const对象</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结："><span class="nav-number">6.</span> <span class="nav-text">总结：</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%BF%94%E5%9B%9E%E6%8C%87%E5%90%91const%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%BC%95%E7%94%A8"><span class="nav-number">1.</span> <span class="nav-text">返回指向const对象的引用</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%8C%89%E5%80%BC%E4%BC%A0%E9%80%92or%E6%8C%89%E5%BC%95%E7%94%A8%E4%BC%A0%E9%80%92%EF%BC%9F"><span class="nav-number">2.</span> <span class="nav-text">按值传递or按引用传递？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%BF%94%E5%9B%9E%E6%8C%87%E5%90%91%E9%9D%9Econst%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%BC%95%E7%94%A8"><span class="nav-number">3.</span> <span class="nav-text">返回指向非const对象的引用</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%BF%94%E5%9B%9E%E5%AF%B9%E8%B1%A1"><span class="nav-number">4.</span> <span class="nav-text">返回对象</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%BF%94%E5%9B%9Econst%E5%AF%B9%E8%B1%A1"><span class="nav-number">5.</span> <span class="nav-text">返回const对象</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%80%BB%E7%BB%93%EF%BC%9A"><span class="nav-number">6.</span> <span class="nav-text">总结：</span></a></li></ol></div>
             
 
           </div>
@@ -562,17 +571,17 @@
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
-  <span class="author" itemprop="copyrightHolder">chaz</span>
+  <span class="author" itemprop="copyrightHolder">Chang</span>
 </div>
 
 
 <div class="powered-by">
-  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+  由 <a class="theme-link" target="_blank" rel="noopener" href="https://hexo.io">Hexo</a> 强力驱动
 </div>
 
 <div class="theme-info">
   主题 -
-  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+  <a class="theme-link" target="_blank" rel="noopener" href="https://github.com/iissnan/hexo-theme-next">
     NexT.Mist
   </a>
 </div>

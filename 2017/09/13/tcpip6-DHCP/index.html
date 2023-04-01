@@ -93,20 +93,21 @@
 
 
 
-<meta name="description" content="简介为了使用 TCP/IP 协议族，每台主机or路由器都需要一定的配置信息：  IP地址 子网掩码 广播地址 路由或转发表 DNS  协议配置方法：  手动 通过使用网络服务来获得 使用一些算法来自动确定  服务器、路由器通常采取手工配置。而客户端主机也要手动配置的话就太麻烦了！ 定义动态主机配置协议[RFC2131] Dynamic Host Configuration Protocol  In">
+<meta name="description" content="简介为了使用 TCP&#x2F;IP 协议族，每台主机or路由器都需要一定的配置信息：  IP地址 子网掩码 广播地址 路由或转发表 DNS  协议配置方法：  手动 通过使用网络服务来获得 使用一些算法来自动确定  服务器、路由器通常采取手工配置。而客户端主机也要手动配置的话就太麻烦了！ 定义动态主机配置协议[RFC2131] Dynamic Host Configuration Protocol  In">
 <meta property="og:type" content="article">
 <meta property="og:title" content="《TCP&#x2F;IP 详解 卷1：协议》第 6 章：DHCP 与自动配置">
 <meta property="og:url" content="https://zcplayground.github.io/2017/09/13/tcpip6-DHCP/index.html">
-<meta property="og:site_name" content="chaz">
-<meta property="og:description" content="简介为了使用 TCP/IP 协议族，每台主机or路由器都需要一定的配置信息：  IP地址 子网掩码 广播地址 路由或转发表 DNS  协议配置方法：  手动 通过使用网络服务来获得 使用一些算法来自动确定  服务器、路由器通常采取手工配置。而客户端主机也要手动配置的话就太麻烦了！ 定义动态主机配置协议[RFC2131] Dynamic Host Configuration Protocol  In">
+<meta property="og:site_name" content="Chang&#39;s Note">
+<meta property="og:description" content="简介为了使用 TCP&#x2F;IP 协议族，每台主机or路由器都需要一定的配置信息：  IP地址 子网掩码 广播地址 路由或转发表 DNS  协议配置方法：  手动 通过使用网络服务来获得 使用一些算法来自动确定  服务器、路由器通常采取手工配置。而客户端主机也要手动配置的话就太麻烦了！ 定义动态主机配置协议[RFC2131] Dynamic Host Configuration Protocol  In">
+<meta property="og:locale">
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/DHCP%20packet%20.png">
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/DHCP%20exchange.png">
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/DHCP%20state%20machine.png">
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/DHCP%20relay.png">
-<meta property="og:updated_time" content="2017-11-07T01:54:38.000Z">
+<meta property="article:published_time" content="2017-09-12T17:41:45.000Z">
+<meta property="article:modified_time" content="2017-11-07T01:54:38.000Z">
+<meta property="article:author" content="Chang">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="《TCP&#x2F;IP 详解 卷1：协议》第 6 章：DHCP 与自动配置">
-<meta name="twitter:description" content="简介为了使用 TCP/IP 协议族，每台主机or路由器都需要一定的配置信息：  IP地址 子网掩码 广播地址 路由或转发表 DNS  协议配置方法：  手动 通过使用网络服务来获得 使用一些算法来自动确定  服务器、路由器通常采取手工配置。而客户端主机也要手动配置的话就太麻烦了！ 定义动态主机配置协议[RFC2131] Dynamic Host Configuration Protocol  In">
 <meta name="twitter:image" content="http://osax8w13y.bkt.clouddn.com/DHCP%20packet%20.png">
 
 
@@ -114,7 +115,7 @@
 <script type="text/javascript" id="hexo.configurations">
   var NexT = window.NexT || {};
   var CONFIG = {
-    root: '/',
+    root: '',
     scheme: 'Mist',
     sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
     fancybox: true,
@@ -141,8 +142,8 @@
 
 
 
-  <title>《TCP/IP 详解 卷1：协议》第 6 章：DHCP 与自动配置 | chaz</title>
-</head>
+  <title>《TCP/IP 详解 卷1：协议》第 6 章：DHCP 与自动配置 | Chang's Note</title>
+<meta name="generator" content="Hexo 5.4.2"></head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
 
@@ -178,7 +179,7 @@
     <div class="custom-logo-site-title">
       <a href="/"  class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
-        <span class="site-title">chaz</span>
+        <span class="site-title">Chang's Note</span>
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
@@ -242,6 +243,16 @@
           </a>
         </li>
       
+        
+        <li class="menu-item menu-item-quotations">
+          <a href="/quotations/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-quote-right"></i> <br />
+            
+            语录
+          </a>
+        </li>
+      
 
       
     </ul>
@@ -274,13 +285,13 @@
     <link itemprop="mainEntityOfPage" href="https://zcplayground.github.io/2017/09/13/tcpip6-DHCP/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="chaz">
+      <meta itemprop="name" content="">
       <meta itemprop="description" content="">
       <meta itemprop="image" content="/images/avatar.png">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="chaz">
+      <meta itemprop="name" content="Chang's Note">
     </span>
 
     
@@ -515,11 +526,11 @@
 <p>DHCP 很容易受到拒绝服务式攻击，大多数攻击可以通过为 DHCP 增加安全机制来缓解，但是目前仍然很少被使用。</p>
 <hr>
 <h1 id="links"><a href="#links" class="headerlink" title="links"></a>links</h1><ul>
-<li><a href="https://wenku.baidu.com/view/8fdeb5ddcf84b9d529ea7a59.html" target="_blank" rel="external">Wireshark对DHCP建立过程进行抓包分析</a></li>
-<li><a href="https://baike.baidu.com/item/DHCP/218195?fr=aladdin" target="_blank" rel="external">DHCP</a></li>
-<li><a href="http://blog.csdn.net/u012359618/article/details/51872678" target="_blank" rel="external">DHCP详解</a></li>
-<li><a href="http://network.51cto.com/art/201406/441752.htm" target="_blank" rel="external">DHCP的基本实现原理</a></li>
-<li><a href="https://baike.baidu.com/item/DHCP%20Relay/3755455?fr=aladdin" target="_blank" rel="external">DHCP Relay</a></li>
+<li><a target="_blank" rel="noopener" href="https://wenku.baidu.com/view/8fdeb5ddcf84b9d529ea7a59.html">Wireshark对DHCP建立过程进行抓包分析</a></li>
+<li><a target="_blank" rel="noopener" href="https://baike.baidu.com/item/DHCP/218195?fr=aladdin">DHCP</a></li>
+<li><a target="_blank" rel="noopener" href="http://blog.csdn.net/u012359618/article/details/51872678">DHCP详解</a></li>
+<li><a target="_blank" rel="noopener" href="http://network.51cto.com/art/201406/441752.htm">DHCP的基本实现原理</a></li>
+<li><a target="_blank" rel="noopener" href="https://baike.baidu.com/item/DHCP%20Relay/3755455?fr=aladdin">DHCP Relay</a></li>
 </ul>
 
       
@@ -630,8 +641,8 @@
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.png"
-               alt="chaz" />
-          <p class="site-author-name" itemprop="name">chaz</p>
+               alt="" />
+          <p class="site-author-name" itemprop="name"></p>
            
               <p class="site-description motion-element" itemprop="description"></p>
           
@@ -641,7 +652,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">96</span>
+                <span class="site-state-item-count">99</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -689,7 +700,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#简介"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#定义"><span class="nav-number">2.</span> <span class="nav-text">定义</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#消息格式"><span class="nav-number">3.</span> <span class="nav-text">消息格式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#协议操作和状态机"><span class="nav-number">4.</span> <span class="nav-text">协议操作和状态机</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#DHCP-relay"><span class="nav-number">5.</span> <span class="nav-text">DHCP relay</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#DHCP-与-DNS-交互"><span class="nav-number">6.</span> <span class="nav-text">DHCP 与 DNS 交互</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#DHCP-安全问题：认证、与-DHCP-有关的攻击"><span class="nav-number">7.</span> <span class="nav-text">DHCP 安全问题：认证、与 DHCP 有关的攻击</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#links"><span class="nav-number">8.</span> <span class="nav-text">links</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AE%80%E4%BB%8B"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%9A%E4%B9%89"><span class="nav-number">2.</span> <span class="nav-text">定义</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%B6%88%E6%81%AF%E6%A0%BC%E5%BC%8F"><span class="nav-number">3.</span> <span class="nav-text">消息格式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8D%8F%E8%AE%AE%E6%93%8D%E4%BD%9C%E5%92%8C%E7%8A%B6%E6%80%81%E6%9C%BA"><span class="nav-number">4.</span> <span class="nav-text">协议操作和状态机</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#DHCP-relay"><span class="nav-number">5.</span> <span class="nav-text">DHCP relay</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#DHCP-%E4%B8%8E-DNS-%E4%BA%A4%E4%BA%92"><span class="nav-number">6.</span> <span class="nav-text">DHCP 与 DNS 交互</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#DHCP-%E5%AE%89%E5%85%A8%E9%97%AE%E9%A2%98%EF%BC%9A%E8%AE%A4%E8%AF%81%E3%80%81%E4%B8%8E-DHCP-%E6%9C%89%E5%85%B3%E7%9A%84%E6%94%BB%E5%87%BB"><span class="nav-number">7.</span> <span class="nav-text">DHCP 安全问题：认证、与 DHCP 有关的攻击</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#links"><span class="nav-number">8.</span> <span class="nav-text">links</span></a></li></ol></div>
             
 
           </div>
@@ -716,17 +727,17 @@
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
-  <span class="author" itemprop="copyrightHolder">chaz</span>
+  <span class="author" itemprop="copyrightHolder">Chang</span>
 </div>
 
 
 <div class="powered-by">
-  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+  由 <a class="theme-link" target="_blank" rel="noopener" href="https://hexo.io">Hexo</a> 强力驱动
 </div>
 
 <div class="theme-info">
   主题 -
-  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+  <a class="theme-link" target="_blank" rel="noopener" href="https://github.com/iissnan/hexo-theme-next">
     NexT.Mist
   </a>
 </div>

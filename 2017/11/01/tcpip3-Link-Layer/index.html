@@ -97,8 +97,9 @@
 <meta property="og:type" content="article">
 <meta property="og:title" content="《TCP&#x2F;IP 详解 卷1：协议》第 3 章：链路层">
 <meta property="og:url" content="https://zcplayground.github.io/2017/11/01/tcpip3-Link-Layer/index.html">
-<meta property="og:site_name" content="chaz">
+<meta property="og:site_name" content="Chang&#39;s Note">
 <meta property="og:description" content="在体系结构中，我们知道：链路层（或数据链路层）包含为共享相同介质的邻居建立连接的协议和方法。该层是在广域网（WAN）中的相邻网络节点之间或同一局域网（LAN）网段上的节点之间传输数据的协议层，除此之外，提供检测物理层中可能发生的错误的手段，但不一定会去尝试纠正。同时，设计链路层的目的是为 IP 模块发送和接受 IP 数据报，链路层可用于携带支持 IP 的辅助性协议，例如 ARP。   The li">
+<meta property="og:locale">
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/Ethernet1.png">
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/frame%20format.png">
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/Ethernet%20Switch.png">
@@ -117,10 +118,10 @@
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/Ethernetpacket1.png">
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/stppacket.png">
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/stp%20presentation.JPG">
-<meta property="og:updated_time" content="2018-02-03T15:08:44.000Z">
+<meta property="article:published_time" content="2017-11-01T08:43:00.000Z">
+<meta property="article:modified_time" content="2018-02-03T15:08:44.000Z">
+<meta property="article:author" content="Chang">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="《TCP&#x2F;IP 详解 卷1：协议》第 3 章：链路层">
-<meta name="twitter:description" content="在体系结构中，我们知道：链路层（或数据链路层）包含为共享相同介质的邻居建立连接的协议和方法。该层是在广域网（WAN）中的相邻网络节点之间或同一局域网（LAN）网段上的节点之间传输数据的协议层，除此之外，提供检测物理层中可能发生的错误的手段，但不一定会去尝试纠正。同时，设计链路层的目的是为 IP 模块发送和接受 IP 数据报，链路层可用于携带支持 IP 的辅助性协议，例如 ARP。   The li">
 <meta name="twitter:image" content="http://osax8w13y.bkt.clouddn.com/Ethernet1.png">
 
 
@@ -128,7 +129,7 @@
 <script type="text/javascript" id="hexo.configurations">
   var NexT = window.NexT || {};
   var CONFIG = {
-    root: '/',
+    root: '',
     scheme: 'Mist',
     sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
     fancybox: true,
@@ -155,8 +156,8 @@
 
 
 
-  <title>《TCP/IP 详解 卷1：协议》第 3 章：链路层 | chaz</title>
-</head>
+  <title>《TCP/IP 详解 卷1：协议》第 3 章：链路层 | Chang's Note</title>
+<meta name="generator" content="Hexo 5.4.2"></head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
 
@@ -192,7 +193,7 @@
     <div class="custom-logo-site-title">
       <a href="/"  class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
-        <span class="site-title">chaz</span>
+        <span class="site-title">Chang's Note</span>
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
@@ -256,6 +257,16 @@
           </a>
         </li>
       
+        
+        <li class="menu-item menu-item-quotations">
+          <a href="/quotations/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-quote-right"></i> <br />
+            
+            语录
+          </a>
+        </li>
+      
 
       
     </ul>
@@ -288,13 +299,13 @@
     <link itemprop="mainEntityOfPage" href="https://zcplayground.github.io/2017/11/01/tcpip3-Link-Layer/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="chaz">
+      <meta itemprop="name" content="">
       <meta itemprop="description" content="">
       <meta itemprop="image" content="/images/avatar.png">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="chaz">
+      <meta itemprop="name" content="Chang's Note">
     </span>
 
     
@@ -471,12 +482,12 @@
 </tr>
 </tbody>
 </table>
-<h2 id="帧检验序列-循环冗余检验"><a href="#帧检验序列-循环冗余检验" class="headerlink" title="帧检验序列/循环冗余检验"></a>帧检验序列/循环冗余检验</h2><p>最后一个字段 FCS（Frame Check Sequence）提供了对<strong>帧完整性的检查</strong>。方法是：Cyclic Redundancy Check (CRC) <strong>循环冗余检验</strong>。<a href="http://blog.csdn.net/liyuanbhu/article/details/7882789" target="_blank" rel="external">这篇文章</a>介绍的很好，在这里引用一下：</p>
+<h2 id="帧检验序列-循环冗余检验"><a href="#帧检验序列-循环冗余检验" class="headerlink" title="帧检验序列/循环冗余检验"></a>帧检验序列/循环冗余检验</h2><p>最后一个字段 FCS（Frame Check Sequence）提供了对<strong>帧完整性的检查</strong>。方法是：Cyclic Redundancy Check (CRC) <strong>循环冗余检验</strong>。<a target="_blank" rel="noopener" href="http://blog.csdn.net/liyuanbhu/article/details/7882789">这篇文章</a>介绍的很好，在这里引用一下：</p>
 <blockquote>
 <p>CRC 算法的基本思想是将传输的数据当做一个位数很长的数。将这个数除以另一个数。得到的<strong>余数</strong>作为校验数据附加到原数据后面。（商是抛弃的）…… 为了进行CRC运算，也就是这种特殊的除法运算，<strong>必须要指定个被除数</strong>，在CRC算法中，这个被除数有一个专有名称叫做<strong>“生成多项式”</strong>。生成多项式的选取是个很有难度的问题，如果选的不好，那么检出错误的概率就会低很多。好在这个问题已经被专家们研究了很长一段时间了，对于我们这些使用者来说，只要把现成的成果拿来用就行了。</p>
 <p>多项式的位宽（Width，简记为W），这个位宽不是多项式对应的二进制数的位数，而是位数减 1。按照 CRC 算法的要求，计算前要在原始数据后填上 W 个 0。</p>
 </blockquote>
-<p>值得注意的是，CRC 使用的是 <a href="https://baike.baidu.com/item/%E6%A8%A12%E8%BF%90%E7%AE%97/18556715?fr=aladdin" target="_blank" rel="external">mod 2 二进制除法</a>计算余数。<strong>与四则运算不同的是模2运算不考虑进位和借位，即模2加法是不带进位的二进制加法运算，模2减法是不带借位的二进制减法运算。</strong>该计算结果的反码放置在帧的 CRC 或 FCS 字段中。在接受到数据之后，接收方执行相同的算法，得到结果，判断与存放在 FCS 字段的值是否匹配。如果两者不匹配，帧可能在传输过程中受损，通常被<strong>丢弃</strong>。</p>
+<p>值得注意的是，CRC 使用的是 <a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E6%A8%A12%E8%BF%90%E7%AE%97/18556715?fr=aladdin">mod 2 二进制除法</a>计算余数。<strong>与四则运算不同的是模2运算不考虑进位和借位，即模2加法是不带进位的二进制加法运算，模2减法是不带借位的二进制减法运算。</strong>该计算结果的反码放置在帧的 CRC 或 FCS 字段中。在接受到数据之后，接收方执行相同的算法，得到结果，判断与存放在 FCS 字段的值是否匹配。如果两者不匹配，帧可能在传输过程中受损，通常被<strong>丢弃</strong>。</p>
 <hr>
 <h1 id="网桥和交换机"><a href="#网桥和交换机" class="headerlink" title="网桥和交换机"></a>网桥和交换机</h1><p>IEEE 802.1d 标准规定了网桥的操作。 <strong>交换机本质上是高性能的网桥。</strong></p>
 <h2 id="交换机"><a href="#交换机" class="headerlink" title="交换机"></a>交换机</h2><p>随着以太网技术的发展，更快的计算机和基础设施使得局域网速度不断提升。（速度从 10Mb/s 增加到 100Mb/s、10Gb/s 甚至更高）。</p>
@@ -797,11 +808,11 @@
 <li><p>选取<strong>每个网桥的</strong>根端口，考虑对象：网桥。选取方法：比较<strong>每一台交换机每个端口发出</strong>的 BPDU 的根路径成本，发出更小 BPDU 的那个端口就是根端口。</p>
 </li>
 </ol>
-<figure class="highlight tap"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">S2: 端口<span class="number"> 1 </span>收到的 BPDU 的 cost 为 19; 端口<span class="number"> 2 </span>的为<span class="number"> 19 </span>+<span class="number"> 4 </span>+<span class="number"> 19 </span>= 42</div><div class="line">    端口<span class="number"> 1 </span>成为根端口</div><div class="line">S3: 端口 3:<span class="number"> 19 </span>+<span class="number"> 19 </span>= 38; 端口 4:19 +<span class="number"> 4 </span>= 23</div><div class="line">    端口<span class="number"> 4 </span>成为根端口</div><div class="line">S4: 端口 5:<span class="number"> 19 </span>+<span class="number"> 19 </span>+<span class="number"> 4 </span>= 42; 端口 6: 19</div><div class="line">    端口<span class="number"> 6 </span>成为根端口</div></pre></td></tr></table></figure>
+<figure class="highlight tap"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">S2: 端口<span class="number"> 1 </span>收到的 BPDU 的 cost 为 19; 端口<span class="number"> 2 </span>的为<span class="number"> 19 </span>+<span class="number"> 4 </span>+<span class="number"> 19 </span>= 42</span><br><span class="line">    端口<span class="number"> 1 </span>成为根端口</span><br><span class="line">S3: 端口 3:<span class="number"> 19 </span>+<span class="number"> 19 </span>= 38; 端口 4:19 +<span class="number"> 4 </span>= 23</span><br><span class="line">    端口<span class="number"> 4 </span>成为根端口</span><br><span class="line">S4: 端口 5:<span class="number"> 19 </span>+<span class="number"> 19 </span>+<span class="number"> 4 </span>= 42; 端口 6: 19</span><br><span class="line">    端口<span class="number"> 6 </span>成为根端口</span><br></pre></td></tr></table></figure>
 <ol>
 <li>选<strong>每个网段</strong>的指定端口，考虑对象：每条链路。选取方法：比较<strong>每条链路两端发出的</strong> BPDU 的 cost。</li>
 </ol>
-<figure class="highlight tap"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">S1-S2 网段: 端口<span class="number"> 8 </span>发出的 BPDU 的 cost 为 0; 端口<span class="number"> 1 </span>发出的 cost 为<span class="number"> 19 </span>+<span class="number"> 4 </span>+<span class="number"> 19 </span>= 42</div><div class="line">（这里，BPDU 不会逆着发，联想一下猴王的例子）</div><div class="line">            端口<span class="number"> 8 </span>成为指定端口</div><div class="line">S1-S3 网段: 端口 7: 0; 端口 6:<span class="number"> 19 </span>+<span class="number"> 19 </span>+<span class="number"> 4 </span>=<span class="number"> 42 </span></div><div class="line">            端口<span class="number"> 7 </span>成为指定端口</div><div class="line">S2-S3 网段: 端口 2: 19; 端口 3:<span class="number"> 19 </span>+<span class="number"> 4 </span>= 23</div><div class="line">            端口<span class="number"> 2 </span>成为指定端口</div><div class="line">S3-S4 网段: 端口 5: 19; 端口 4:<span class="number"> 19 </span>+<span class="number"> 19 </span>= 38</div><div class="line">            端口<span class="number"> 5 </span>成为指定端口</div></pre></td></tr></table></figure>
+<figure class="highlight tap"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">S1-S2 网段: 端口<span class="number"> 8 </span>发出的 BPDU 的 cost 为 0; 端口<span class="number"> 1 </span>发出的 cost 为<span class="number"> 19 </span>+<span class="number"> 4 </span>+<span class="number"> 19 </span>= 42</span><br><span class="line">（这里，BPDU 不会逆着发，联想一下猴王的例子）</span><br><span class="line">            端口<span class="number"> 8 </span>成为指定端口</span><br><span class="line">S1-S3 网段: 端口 7: 0; 端口 6:<span class="number"> 19 </span>+<span class="number"> 19 </span>+<span class="number"> 4 </span>=<span class="number"> 42 </span></span><br><span class="line">            端口<span class="number"> 7 </span>成为指定端口</span><br><span class="line">S2-S3 网段: 端口 2: 19; 端口 3:<span class="number"> 19 </span>+<span class="number"> 4 </span>= 23</span><br><span class="line">            端口<span class="number"> 2 </span>成为指定端口</span><br><span class="line">S3-S4 网段: 端口 5: 19; 端口 4:<span class="number"> 19 </span>+<span class="number"> 19 </span>= 38</span><br><span class="line">            端口<span class="number"> 5 </span>成为指定端口</span><br></pre></td></tr></table></figure>
 <p>下图是更新的状态：S1 当选根桥（root bridge）。端口 1、4、6 是根端口（蓝色圆圈）；端口 2、5、7、8 是指定端口（红色正方形）。<strong>既不是根端口，也不是指定端口的，就阻塞</strong>（图中的端口 3）。自然，形成了一棵生成树。</p>
 <p><img src="http://osax8w13y.bkt.clouddn.com/STP%20TOPO2.png" alt=""></p>
 <p>现在再来体会以下根端口和指定端口的定义。</p>
@@ -973,7 +984,7 @@
 <li><strong>标识</strong>、<strong>剩余时间</strong>用于管理目的：了解对方的系统类型，指出链路建立的时间。</li>
 </ul>
 <h2 id="LCP-状态"><a href="#LCP-状态" class="headerlink" title="LCP 状态"></a>LCP 状态</h2><p>LCP 用于建立 PPP 链路 ，商定各方选项。典型的过程包括：<strong>配置请求、配置确认、认证交换、数据交换、终止交换。</strong>因为 PPP 是一个<strong>包括很多部分的通用协议</strong>，所以一条链路的建立和终止之间可以发生很多其他种类的操作。</p>
-<p>（下面引用自<a href="http://blog.csdn.net/xdsoft365/article/details/6335882" target="_blank" rel="external">闲谈PPP协议</a>）</p>
+<p>（下面引用自<a target="_blank" rel="noopener" href="http://blog.csdn.net/xdsoft365/article/details/6335882">闲谈PPP协议</a>）</p>
 <ul>
 <li>配置请求：</li>
 </ul>
@@ -996,7 +1007,7 @@
 <li>当底层协议或硬件表明一个关联停止（例如载波消失），或发生了链路终止请求，并从对方接收到确认终止响应，则这个链路已被终止。</li>
 </ul>
 <h2 id="魔术数字"><a href="#魔术数字" class="headerlink" title="魔术数字"></a>魔术数字</h2><p>如果一个工作站处于<strong>环回模式</strong>，这时会使点到点链路出现一个常见问题。<strong>魔术字</strong>（发送方选择的任意数字）是在链路建立过程中比较重要的一个参数，这个参数是在Config-Request里面被协商的，主要的作用是防止环路。LCP 通过发送<strong>魔术数字</strong>，<strong>查看是否立即返回相同类型的信息</strong>。如果是的话，视为检测到环回，并可能需要进行维护。</p>
-<p>（下面引用自<a href="http://blog.csdn.net/xdsoft365/article/details/6335882" target="_blank" rel="external">闲谈PPP协议</a>）</p>
+<p>（下面引用自<a target="_blank" rel="noopener" href="http://blog.csdn.net/xdsoft365/article/details/6335882">闲谈PPP协议</a>）</p>
 <blockquote>
 <p>协议为了避免双方可能产生同样的魔术字，从而导致通信出现不必要的麻烦，因此要求由设备<strong>采用一些随机方法产生一个独一无二的魔术字</strong>。一般来说魔术字的选择会采用设备的系列号、网络硬件地址或时钟。双方产生相同魔术字的可能性不能说是没有的，但应尽量避免…… </p>
 <p>我们知道魔术字产生的作用是用来帮助检测链路是否存在环路，当接收端收到一个Config-Request报文时，会将此报文与上一次所接收到的Config-Request进行比较，如果两个报文中所含的魔术字不一致的话，表明链路不存在环路。但如果一致的话，接收端认为链路<strong>可能</strong>存在环路，<strong>但不一定</strong>存在环路，还需进一步确认，方法是： <strong>此时接收端将发送一个Config-Nak报文，并在该报文中携带一个重新产生的魔术字，而且此时在未接收到任何Config-Request或Config-Nak报文之前，接收端也不会发送任何的Config-Request报文。</strong></p>
@@ -1019,7 +1030,7 @@
 <ul>
 <li><p>一个随机值从认证方发送到另一方。通过一种特殊的单向（不可逆）功能，将一个随机值和共享密钥（通常由密码生成）结合形成响应中的一个数字。在接受到这个响应之后，认证方能更可靠地验证对方密钥是否正确。不会以明文方式传输密钥或者密码。每次使用不同的随机值，窃听者即使可能捕捉到这个值，也无法通过重放来欺骗对方。</p>
 </li>
-<li><p><a href="http://network.51cto.com/art/201109/291563.htm" target="_blank" rel="external">CHAP认证概述</a></p>
+<li><p><a target="_blank" rel="noopener" href="http://network.51cto.com/art/201109/291563.htm">CHAP认证概述</a></p>
 </li>
 </ul>
 <blockquote>
@@ -1029,11 +1040,11 @@
 </blockquote>
 <h2 id="网络控制协议"><a href="#网络控制协议" class="headerlink" title="网络控制协议"></a>网络控制协议</h2><p>在 LCP 完成链路建立和确认之后，该链路每端都进入网络状态。然后就可以开始使用<strong>一个或多个的 NCP</strong>（Network Control Protocol，NCP 网络控制协议）来<strong>进行网络层的相关协商。</strong></p>
 <p>典型的例如 IPCP（针对 IPv4 的标准 NCP）用于在一条链路上建立 IPv4 链接。包括一系列选项：IP 压缩、移动 IPv4等等。</p>
-<h2 id="PPPoE"><a href="#PPPoE" class="headerlink" title="PPPoE"></a>PPPoE</h2><p>对于大多数局域网和一些广域网连接，<a href="http://www.zcplayground.cc/2017/09/13/tcpip6-DHCP/" target="_blank" rel="external">DHCP</a> 提供了最基本的客户机系统的自动配置方式。对于广域网连接（常见的 DSL，Digital Subscriber Line 数字用户线路），常用另一种基于 PPP 的方式替代 DHCP。这种方法涉及在以太网中携带 PPP，因此称为 <strong>PPPoE（Point-to-point protocol over Ethernet）</strong>。</p>
+<h2 id="PPPoE"><a href="#PPPoE" class="headerlink" title="PPPoE"></a>PPPoE</h2><p>对于大多数局域网和一些广域网连接，<a target="_blank" rel="noopener" href="http://www.zcplayground.cc/2017/09/13/tcpip6-DHCP/">DHCP</a> 提供了最基本的客户机系统的自动配置方式。对于广域网连接（常见的 DSL，Digital Subscriber Line 数字用户线路），常用另一种基于 PPP 的方式替代 DHCP。这种方法涉及在以太网中携带 PPP，因此称为 <strong>PPPoE（Point-to-point protocol over Ethernet）</strong>。</p>
 <ul>
 <li>PPPoE 用于广域网连接设备作为一个交换机或者网桥（DSL Modem，也就是所谓的调制解调器，不支持路由）而不是路由器的情况下。</li>
 <li>PPPoE 作为一些 ISP 建立连接的首选，也是建立用户连接到网络的“最后一公里”的首选。</li>
-<li><a href="https://en.wikipedia.org/wiki/Point-to-point_protocol_over_Ethernet" target="_blank" rel="external">wiki:</a> 2005年的一本网络书籍指出：“大多数DSL提供商使用PPPoE，它提供认证，加密和压缩。” PPPoE的典型应用包括利用 PPP 设施使用用户名和密码验证用户，主要通过PAP协议而较少通过CHAP。</li>
+<li><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Point-to-point_protocol_over_Ethernet">wiki:</a> 2005年的一本网络书籍指出：“大多数DSL提供商使用PPPoE，它提供认证，加密和压缩。” PPPoE的典型应用包括利用 PPP 设施使用用户名和密码验证用户，主要通过PAP协议而较少通过CHAP。</li>
 </ul>
 <p>PPPoE是由UUNET，Redback Networks（现爱立信）和RouterWare（现在的风河系统）开发的。【RFC 2516】</p>
 <p><img src="http://osax8w13y.bkt.clouddn.com/PPPoE.png" alt=""></p>
@@ -1076,26 +1087,26 @@
 <li>如果攻击者可以访问两个端点之间的信道，就有很多方式来攻击 PPP 网络。对于简单的认证机制 PAP，简单的嗅探就可以捕获密码，用于后续的非法访问。</li>
 </ul>
 <h1 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h1><ul>
-<li><a href="https://en.wikipedia.org/wiki/Internet_protocol_suite" target="_blank" rel="external">wiki - Internet_protocol_suite</a></li>
-<li><p><a href="https://en.wikipedia.org/wiki/Data_link_layer" target="_blank" rel="external">wiki - Data_link_layer</a></p>
+<li><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Internet_protocol_suite">wiki - Internet_protocol_suite</a></li>
+<li><p><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Data_link_layer">wiki - Data_link_layer</a></p>
 </li>
-<li><p><a href="https://baike.baidu.com/item/%E6%A8%A12%E8%BF%90%E7%AE%97/18556715?fr=aladdin" target="_blank" rel="external">mod 2 运算</a></p>
+<li><p><a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E6%A8%A12%E8%BF%90%E7%AE%97/18556715?fr=aladdin">mod 2 运算</a></p>
 </li>
-<li><a href="http://blog.csdn.net/liyuanbhu/article/details/7882789" target="_blank" rel="external">循环冗余校验（CRC）算法入门引导</a></li>
-<li><p><a href="http://blog.csdn.net/huang_shiyang/article/details/50881305" target="_blank" rel="external">CRC查找表法推导及代码实现比较</a></p>
+<li><a target="_blank" rel="noopener" href="http://blog.csdn.net/liyuanbhu/article/details/7882789">循环冗余校验（CRC）算法入门引导</a></li>
+<li><p><a target="_blank" rel="noopener" href="http://blog.csdn.net/huang_shiyang/article/details/50881305">CRC查找表法推导及代码实现比较</a></p>
 </li>
-<li><p><a href="https://en.wikipedia.org/wiki/Spanning_Tree_Protocol" target="_blank" rel="external">wiki - Spanning Tree Protocol</a></p>
+<li><p><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Spanning_Tree_Protocol">wiki - Spanning Tree Protocol</a></p>
 </li>
-<li><a href="http://m.blog.csdn.net/hong0220/article/details/17448249" target="_blank" rel="external">STP生成树协议之根端口 指定端口 阻塞端口</a></li>
-<li><p><a href="http://blog.163.com/hlz_2599/blog/static/14237847420101124112234233/" target="_blank" rel="external">生成树详解</a></p>
+<li><a target="_blank" rel="noopener" href="http://m.blog.csdn.net/hong0220/article/details/17448249">STP生成树协议之根端口 指定端口 阻塞端口</a></li>
+<li><p><a target="_blank" rel="noopener" href="http://blog.163.com/hlz_2599/blog/static/14237847420101124112234233/">生成树详解</a></p>
 </li>
-<li><p><a href="https://en.wikipedia.org/wiki/Link_Control_Protocol" target="_blank" rel="external">wiki - Link Control Protocol</a></p>
+<li><p><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Link_Control_Protocol">wiki - Link Control Protocol</a></p>
 </li>
-<li><a href="http://blog.csdn.net/xdsoft365/article/details/6335882" target="_blank" rel="external">闲谈PPP协议</a></li>
-<li><a href="https://en.wikipedia.org/wiki/Point-to-Point_Protocol" target="_blank" rel="external">wiki - Point-to-Point Protocol</a></li>
-<li><p><a href="http://network.51cto.com/art/201109/291563.htm" target="_blank" rel="external">CHAP认证概述</a></p>
+<li><a target="_blank" rel="noopener" href="http://blog.csdn.net/xdsoft365/article/details/6335882">闲谈PPP协议</a></li>
+<li><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Point-to-Point_Protocol">wiki - Point-to-Point Protocol</a></li>
+<li><p><a target="_blank" rel="noopener" href="http://network.51cto.com/art/201109/291563.htm">CHAP认证概述</a></p>
 </li>
-<li><p><a href="https://en.wikipedia.org/wiki/Point-to-point_protocol_over_Ethernet" target="_blank" rel="external">wiki - Point-to-point protocol over Ethernet</a></p>
+<li><p><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Point-to-point_protocol_over_Ethernet">wiki - Point-to-point protocol over Ethernet</a></p>
 </li>
 </ul>
 <hr>
@@ -1111,7 +1122,7 @@
 </ul>
 <hr>
 <p>查看 MAC 地址的方法：在 cmd 中输入</p>
-<figure class="highlight ada"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ipconfig /<span class="keyword">all</span></div></pre></td></tr></table></figure>
+<figure class="highlight ada"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ipconfig /<span class="keyword">all</span></span><br></pre></td></tr></table></figure>
 <hr>
 <p>附上组会上分享的生成树板书：</p>
 <p><img src="http://osax8w13y.bkt.clouddn.com/stp%20presentation.JPG" alt=""></p>
@@ -1224,8 +1235,8 @@
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.png"
-               alt="chaz" />
-          <p class="site-author-name" itemprop="name">chaz</p>
+               alt="" />
+          <p class="site-author-name" itemprop="name"></p>
            
               <p class="site-description motion-element" itemprop="description"></p>
           
@@ -1235,7 +1246,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">96</span>
+                <span class="site-state-item-count">99</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -1283,7 +1294,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#以太网、IEEE-802-局域网标准"><span class="nav-number">1.</span> <span class="nav-text">以太网、IEEE 802 局域网标准</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#CSMA-CD-or-MAC"><span class="nav-number">1.1.</span> <span class="nav-text">CSMA/CD or MAC</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#以太网帧格式-Frame-Format"><span class="nav-number">1.2.</span> <span class="nav-text">以太网帧格式 / Frame Format</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#帧检验序列-循环冗余检验"><span class="nav-number">1.3.</span> <span class="nav-text">帧检验序列/循环冗余检验</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#网桥和交换机"><span class="nav-number">2.</span> <span class="nav-text">网桥和交换机</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#交换机"><span class="nav-number">2.1.</span> <span class="nav-text">交换机</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#全双工、半双工"><span class="nav-number">2.2.</span> <span class="nav-text">全双工、半双工</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#互连、MAC-学习"><span class="nav-number">2.3.</span> <span class="nav-text">互连、MAC 学习</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#生成树协议"><span class="nav-number">3.</span> <span class="nav-text">生成树协议</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#STP-状态机"><span class="nav-number">3.1.</span> <span class="nav-text">STP 状态机</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#端口角色"><span class="nav-number">3.2.</span> <span class="nav-text">端口角色</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#BPDU"><span class="nav-number">3.3.</span> <span class="nav-text">BPDU</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#建立生成树"><span class="nav-number">3.4.</span> <span class="nav-text">建立生成树</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#处理拓扑变化"><span class="nav-number">3.5.</span> <span class="nav-text">处理拓扑变化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#快速生成树协议"><span class="nav-number">3.6.</span> <span class="nav-text">快速生成树协议</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#点到点协议"><span class="nav-number">4.</span> <span class="nav-text">点到点协议</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#PPP-基本帧格式"><span class="nav-number">4.1.</span> <span class="nav-text">PPP 基本帧格式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#PPP-状态机"><span class="nav-number">4.2.</span> <span class="nav-text">PPP 状态机</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#链路控制协议"><span class="nav-number">4.3.</span> <span class="nav-text">链路控制协议</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#LCP-状态"><span class="nav-number">4.4.</span> <span class="nav-text">LCP 状态</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#魔术数字"><span class="nav-number">4.5.</span> <span class="nav-text">魔术数字</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#PPP-认证"><span class="nav-number">4.6.</span> <span class="nav-text">PPP 认证</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#网络控制协议"><span class="nav-number">4.7.</span> <span class="nav-text">网络控制协议</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#PPPoE"><span class="nav-number">4.8.</span> <span class="nav-text">PPPoE</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#环回"><span class="nav-number">5.</span> <span class="nav-text">环回</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#MTU"><span class="nav-number">6.</span> <span class="nav-text">MTU</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#隧道基础"><span class="nav-number">7.</span> <span class="nav-text">隧道基础</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#与链路层相关的攻击"><span class="nav-number">8.</span> <span class="nav-text">与链路层相关的攻击</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考链接"><span class="nav-number">9.</span> <span class="nav-text">参考链接</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Wireshark-抓包实例"><span class="nav-number">10.</span> <span class="nav-text">Wireshark 抓包实例</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Something-Else"><span class="nav-number">11.</span> <span class="nav-text">Something Else</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BB%A5%E5%A4%AA%E7%BD%91%E3%80%81IEEE-802-%E5%B1%80%E5%9F%9F%E7%BD%91%E6%A0%87%E5%87%86"><span class="nav-number">1.</span> <span class="nav-text">以太网、IEEE 802 局域网标准</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#CSMA-CD-or-MAC"><span class="nav-number">1.1.</span> <span class="nav-text">CSMA&#x2F;CD or MAC</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%A5%E5%A4%AA%E7%BD%91%E5%B8%A7%E6%A0%BC%E5%BC%8F-Frame-Format"><span class="nav-number">1.2.</span> <span class="nav-text">以太网帧格式 &#x2F; Frame Format</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%A7%E6%A3%80%E9%AA%8C%E5%BA%8F%E5%88%97-%E5%BE%AA%E7%8E%AF%E5%86%97%E4%BD%99%E6%A3%80%E9%AA%8C"><span class="nav-number">1.3.</span> <span class="nav-text">帧检验序列&#x2F;循环冗余检验</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BD%91%E6%A1%A5%E5%92%8C%E4%BA%A4%E6%8D%A2%E6%9C%BA"><span class="nav-number">2.</span> <span class="nav-text">网桥和交换机</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%A4%E6%8D%A2%E6%9C%BA"><span class="nav-number">2.1.</span> <span class="nav-text">交换机</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%A8%E5%8F%8C%E5%B7%A5%E3%80%81%E5%8D%8A%E5%8F%8C%E5%B7%A5"><span class="nav-number">2.2.</span> <span class="nav-text">全双工、半双工</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%92%E8%BF%9E%E3%80%81MAC-%E5%AD%A6%E4%B9%A0"><span class="nav-number">2.3.</span> <span class="nav-text">互连、MAC 学习</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%94%9F%E6%88%90%E6%A0%91%E5%8D%8F%E8%AE%AE"><span class="nav-number">3.</span> <span class="nav-text">生成树协议</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#STP-%E7%8A%B6%E6%80%81%E6%9C%BA"><span class="nav-number">3.1.</span> <span class="nav-text">STP 状态机</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AB%AF%E5%8F%A3%E8%A7%92%E8%89%B2"><span class="nav-number">3.2.</span> <span class="nav-text">端口角色</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#BPDU"><span class="nav-number">3.3.</span> <span class="nav-text">BPDU</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BB%BA%E7%AB%8B%E7%94%9F%E6%88%90%E6%A0%91"><span class="nav-number">3.4.</span> <span class="nav-text">建立生成树</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%84%E7%90%86%E6%8B%93%E6%89%91%E5%8F%98%E5%8C%96"><span class="nav-number">3.5.</span> <span class="nav-text">处理拓扑变化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BF%AB%E9%80%9F%E7%94%9F%E6%88%90%E6%A0%91%E5%8D%8F%E8%AE%AE"><span class="nav-number">3.6.</span> <span class="nav-text">快速生成树协议</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%82%B9%E5%88%B0%E7%82%B9%E5%8D%8F%E8%AE%AE"><span class="nav-number">4.</span> <span class="nav-text">点到点协议</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#PPP-%E5%9F%BA%E6%9C%AC%E5%B8%A7%E6%A0%BC%E5%BC%8F"><span class="nav-number">4.1.</span> <span class="nav-text">PPP 基本帧格式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#PPP-%E7%8A%B6%E6%80%81%E6%9C%BA"><span class="nav-number">4.2.</span> <span class="nav-text">PPP 状态机</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%93%BE%E8%B7%AF%E6%8E%A7%E5%88%B6%E5%8D%8F%E8%AE%AE"><span class="nav-number">4.3.</span> <span class="nav-text">链路控制协议</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#LCP-%E7%8A%B6%E6%80%81"><span class="nav-number">4.4.</span> <span class="nav-text">LCP 状态</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%AD%94%E6%9C%AF%E6%95%B0%E5%AD%97"><span class="nav-number">4.5.</span> <span class="nav-text">魔术数字</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#PPP-%E8%AE%A4%E8%AF%81"><span class="nav-number">4.6.</span> <span class="nav-text">PPP 认证</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BD%91%E7%BB%9C%E6%8E%A7%E5%88%B6%E5%8D%8F%E8%AE%AE"><span class="nav-number">4.7.</span> <span class="nav-text">网络控制协议</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#PPPoE"><span class="nav-number">4.8.</span> <span class="nav-text">PPPoE</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%8E%AF%E5%9B%9E"><span class="nav-number">5.</span> <span class="nav-text">环回</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#MTU"><span class="nav-number">6.</span> <span class="nav-text">MTU</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%9A%A7%E9%81%93%E5%9F%BA%E7%A1%80"><span class="nav-number">7.</span> <span class="nav-text">隧道基础</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%8E%E9%93%BE%E8%B7%AF%E5%B1%82%E7%9B%B8%E5%85%B3%E7%9A%84%E6%94%BB%E5%87%BB"><span class="nav-number">8.</span> <span class="nav-text">与链路层相关的攻击</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E9%93%BE%E6%8E%A5"><span class="nav-number">9.</span> <span class="nav-text">参考链接</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Wireshark-%E6%8A%93%E5%8C%85%E5%AE%9E%E4%BE%8B"><span class="nav-number">10.</span> <span class="nav-text">Wireshark 抓包实例</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Something-Else"><span class="nav-number">11.</span> <span class="nav-text">Something Else</span></a></li></ol></div>
             
 
           </div>
@@ -1310,17 +1321,17 @@
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
-  <span class="author" itemprop="copyrightHolder">chaz</span>
+  <span class="author" itemprop="copyrightHolder">Chang</span>
 </div>
 
 
 <div class="powered-by">
-  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+  由 <a class="theme-link" target="_blank" rel="noopener" href="https://hexo.io">Hexo</a> 强力驱动
 </div>
 
 <div class="theme-info">
   主题 -
-  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+  <a class="theme-link" target="_blank" rel="noopener" href="https://github.com/iissnan/hexo-theme-next">
     NexT.Mist
   </a>
 </div>

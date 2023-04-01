@@ -97,16 +97,17 @@
 <meta property="og:type" content="article">
 <meta property="og:title" content="基于Cisco IWAN 的 SDWAN 技术分析">
 <meta property="og:url" content="https://zcplayground.github.io/2017/05/21/IWAN-en/index.html">
-<meta property="og:site_name" content="chaz">
+<meta property="og:site_name" content="Chang&#39;s Note">
 <meta property="og:description" content="This artical is reorganized based on Cisco’s White papers: Intelligent WAN Is the Foundation for the SoftwareDefined WAN by Zeus Kerravala, at September 2015. Cisco’s page link source Introduction: Di">
+<meta property="og:locale">
 <meta property="og:image" content="http://images2015.cnblogs.com/blog/1092156/201705/1092156-20170521234016572-664702559.png">
 <meta property="og:image" content="http://images2015.cnblogs.com/blog/1092156/201705/1092156-20170521234020853-204518874.png">
 <meta property="og:image" content="http://images2015.cnblogs.com/blog/1092156/201705/1092156-20170521234030385-339956449.png">
 <meta property="og:image" content="http://images2015.cnblogs.com/blog/1092156/201705/1092156-20170521234033853-1185431835.png">
-<meta property="og:updated_time" content="2017-06-07T03:33:16.000Z">
+<meta property="article:published_time" content="2017-05-21T15:29:09.000Z">
+<meta property="article:modified_time" content="2017-06-07T03:33:16.000Z">
+<meta property="article:author" content="Chang">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="基于Cisco IWAN 的 SDWAN 技术分析">
-<meta name="twitter:description" content="This artical is reorganized based on Cisco’s White papers: Intelligent WAN Is the Foundation for the SoftwareDefined WAN by Zeus Kerravala, at September 2015. Cisco’s page link source Introduction: Di">
 <meta name="twitter:image" content="http://images2015.cnblogs.com/blog/1092156/201705/1092156-20170521234016572-664702559.png">
 
 
@@ -114,7 +115,7 @@
 <script type="text/javascript" id="hexo.configurations">
   var NexT = window.NexT || {};
   var CONFIG = {
-    root: '/',
+    root: '',
     scheme: 'Mist',
     sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
     fancybox: true,
@@ -141,8 +142,8 @@
 
 
 
-  <title>基于Cisco IWAN 的 SDWAN 技术分析 | chaz</title>
-</head>
+  <title>基于Cisco IWAN 的 SDWAN 技术分析 | Chang's Note</title>
+<meta name="generator" content="Hexo 5.4.2"></head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
 
@@ -178,7 +179,7 @@
     <div class="custom-logo-site-title">
       <a href="/"  class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
-        <span class="site-title">chaz</span>
+        <span class="site-title">Chang's Note</span>
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
@@ -242,6 +243,16 @@
           </a>
         </li>
       
+        
+        <li class="menu-item menu-item-quotations">
+          <a href="/quotations/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-quote-right"></i> <br />
+            
+            语录
+          </a>
+        </li>
+      
 
       
     </ul>
@@ -274,13 +285,13 @@
     <link itemprop="mainEntityOfPage" href="https://zcplayground.github.io/2017/05/21/IWAN-en/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="chaz">
+      <meta itemprop="name" content="">
       <meta itemprop="description" content="">
       <meta itemprop="image" content="/images/avatar.png">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="chaz">
+      <meta itemprop="name" content="Chang's Note">
     </span>
 
     
@@ -358,8 +369,8 @@
 
       
         <p>This artical is reorganized based on Cisco’s White papers: <em>Intelligent WAN Is the Foundation for the SoftwareDefined WAN</em> by Zeus Kerravala, at September 2015.</p>
-<p><a href="http://www.cisco.com/c/dam/en/us/solutions/collateral/enterprise-networks/intelligent-wan/intelligent-wan-foundation.pdf" target="_blank" rel="external">Cisco’s page link</a></p>
-<p><a href="http://www.cisco.com/c/en/us/solutions/enterprise-networks/intelligent-wan/index.html" target="_blank" rel="external">source</a></p>
+<p><a target="_blank" rel="noopener" href="http://www.cisco.com/c/dam/en/us/solutions/collateral/enterprise-networks/intelligent-wan/intelligent-wan-foundation.pdf">Cisco’s page link</a></p>
+<p><a target="_blank" rel="noopener" href="http://www.cisco.com/c/en/us/solutions/enterprise-networks/intelligent-wan/index.html">source</a></p>
 <h1 id="Introduction-Digital-Transformation-Drives-WAN-Evolution"><a href="#Introduction-Digital-Transformation-Drives-WAN-Evolution" class="headerlink" title="Introduction: Digital Transformation Drives WAN Evolution"></a>Introduction: Digital Transformation Drives WAN Evolution</h1><p>Digital transformation is reshaping the business landscape faster than at any time in history.  It used to take decades to disrupt a market, but natively digital companies such as <strong>Uber</strong> and <strong>Airbnb</strong> have disrupted their industries in just half a decade.</p>
 <p><strong>Digitization</strong> is creating new winners and losers at an unprecedented rate —— that is, having the ability to take advantage of market opportunities faster than the competition. This <strong>shift to being an agile business</strong> has now become a top initiative for IT and business leaders. This is why businesses spent more than $12 billion on technology to make IT more agile in 2014, according to ZK Research.</p>
 <p>However, one part of IT that has yet to <strong>evolve and lacks flexibility</strong> is the enterprise wide area network (WAN) Evolving the WAN must be a top priority for every IT and business leader.</p>
@@ -464,11 +475,11 @@
 <p><img src="http://images2015.cnblogs.com/blog/1092156/201705/1092156-20170521234033853-1185431835.png" alt=""></p>
 <p>some reference linking:</p>
 <ul>
-<li><a href="http://www.cisco.com/c/en/us/products/security/dynamic-multipoint-vpn-dmvpn/index.html" target="_blank" rel="external">Dynamic Multipoint VPN (DMVPN)</a></li>
-<li><a href="http://docwiki.cisco.com/wiki/PfRv3:Home" target="_blank" rel="external">Cisco Performance Routing (PfRv3)</a></li>
-<li><a href="https://en.wikipedia.org/wiki/FIPS_140-2" target="_blank" rel="external">FIPS 142-2</a></li>
-<li><a href="http://www.cisco.com/c/en/us/about/security-center/next-generation-cryptography.html" target="_blank" rel="external">Next Generation Encryption : AES-GCM-256</a></li>
-<li><a href="https://developer.cisco.com/site/apic-em/" target="_blank" rel="external">APIC Enterprise Module (APIC-EM)</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.cisco.com/c/en/us/products/security/dynamic-multipoint-vpn-dmvpn/index.html">Dynamic Multipoint VPN (DMVPN)</a></li>
+<li><a target="_blank" rel="noopener" href="http://docwiki.cisco.com/wiki/PfRv3:Home">Cisco Performance Routing (PfRv3)</a></li>
+<li><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/FIPS_140-2">FIPS 142-2</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.cisco.com/c/en/us/about/security-center/next-generation-cryptography.html">Next Generation Encryption : AES-GCM-256</a></li>
+<li><a target="_blank" rel="noopener" href="https://developer.cisco.com/site/apic-em/">APIC Enterprise Module (APIC-EM)</a></li>
 </ul>
 <h2 id="Additional-benefits"><a href="#Additional-benefits" class="headerlink" title="Additional benefits:"></a>Additional benefits:</h2><ul>
 <li>Full system validation:</li>
@@ -515,7 +526,7 @@
 <li>Shed conventional thinking around network design.</li>
 </ul>
 <p><strong>Many factors</strong> are involved in designing a WAN, and IT leaders must be willing to <strong>think differently today</strong>. </p>
-<p>For example, years ago, organizations <strong>would never have</strong> considered using <strong>broadband Internet</strong> or <strong>cellular services</strong> for business connectivity. Today, it’s possible to use a combination of <a href="https://zh.wikipedia.org/wiki/DSL" target="_blank" rel="external">DSL</a>, cable and 4G wireless to connect branch offices. <strong>An SD-WAN isn’t a traditional WAN</strong>, and it’s important that IT leaders <strong>not discount possible solutions</strong> because of <strong>historical biases</strong>. </p>
+<p>For example, years ago, organizations <strong>would never have</strong> considered using <strong>broadband Internet</strong> or <strong>cellular services</strong> for business connectivity. Today, it’s possible to use a combination of <a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/DSL">DSL</a>, cable and 4G wireless to connect branch offices. <strong>An SD-WAN isn’t a traditional WAN</strong>, and it’s important that IT leaders <strong>not discount possible solutions</strong> because of <strong>historical biases</strong>. </p>
 
       
     </div>
@@ -625,8 +636,8 @@
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.png"
-               alt="chaz" />
-          <p class="site-author-name" itemprop="name">chaz</p>
+               alt="" />
+          <p class="site-author-name" itemprop="name"></p>
            
               <p class="site-description motion-element" itemprop="description"></p>
           
@@ -636,7 +647,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">96</span>
+                <span class="site-state-item-count">99</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -684,7 +695,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Introduction-Digital-Transformation-Drives-WAN-Evolution"><span class="nav-number">1.</span> <span class="nav-text">Introduction: Digital Transformation Drives WAN Evolution</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Other-factors-driving-the-evolution-of-the-WAN"><span class="nav-number">1.1.</span> <span class="nav-text">Other factors driving the evolution of the WAN</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#II-Challenges-with-the-Traditional-WAN"><span class="nav-number">2.</span> <span class="nav-text">II: Challenges with the Traditional WAN</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#III-Introducing-the-Software-Defined-WAN"><span class="nav-number">3.</span> <span class="nav-text">III: Introducing the Software Defined WAN</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Criteria"><span class="nav-number">3.1.</span> <span class="nav-text">Criteria</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#IV-Cisco’s-IWAN"><span class="nav-number">4.</span> <span class="nav-text">IV: Cisco’s IWAN</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#IWAN-enables-the-following-WAN-capabilities"><span class="nav-number">4.1.</span> <span class="nav-text">IWAN enables the following WAN capabilities:</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Additional-benefits"><span class="nav-number">4.2.</span> <span class="nav-text">Additional benefits:</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#V-Conclusion-and-Recommendations"><span class="nav-number">5.</span> <span class="nav-text">V: Conclusion and Recommendations</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Introduction-Digital-Transformation-Drives-WAN-Evolution"><span class="nav-number">1.</span> <span class="nav-text">Introduction: Digital Transformation Drives WAN Evolution</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Other-factors-driving-the-evolution-of-the-WAN"><span class="nav-number">1.1.</span> <span class="nav-text">Other factors driving the evolution of the WAN</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#II-Challenges-with-the-Traditional-WAN"><span class="nav-number">2.</span> <span class="nav-text">II: Challenges with the Traditional WAN</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#III-Introducing-the-Software-Defined-WAN"><span class="nav-number">3.</span> <span class="nav-text">III: Introducing the Software Defined WAN</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Criteria"><span class="nav-number">3.1.</span> <span class="nav-text">Criteria</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#IV-Cisco%E2%80%99s-IWAN"><span class="nav-number">4.</span> <span class="nav-text">IV: Cisco’s IWAN</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#IWAN-enables-the-following-WAN-capabilities"><span class="nav-number">4.1.</span> <span class="nav-text">IWAN enables the following WAN capabilities:</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Additional-benefits"><span class="nav-number">4.2.</span> <span class="nav-text">Additional benefits:</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#V-Conclusion-and-Recommendations"><span class="nav-number">5.</span> <span class="nav-text">V: Conclusion and Recommendations</span></a></li></ol></div>
             
 
           </div>
@@ -711,17 +722,17 @@
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
-  <span class="author" itemprop="copyrightHolder">chaz</span>
+  <span class="author" itemprop="copyrightHolder">Chang</span>
 </div>
 
 
 <div class="powered-by">
-  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+  由 <a class="theme-link" target="_blank" rel="noopener" href="https://hexo.io">Hexo</a> 强力驱动
 </div>
 
 <div class="theme-info">
   主题 -
-  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+  <a class="theme-link" target="_blank" rel="noopener" href="https://github.com/iissnan/hexo-theme-next">
     NexT.Mist
   </a>
 </div>

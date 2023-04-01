@@ -93,12 +93,13 @@
 
 
 
-<meta name="description" content="《Computer Systems a Programmer’s Perspective》，机械工业出版社。中文译名《深入理解计算机系统》。作者：（美）Randal E.Bryant / David O’Hallaron  想写点推荐理由，作罢，原因是自己学识尚浅（留坑以后写？）。这里附上几个链接，也许你看过之后，也会产生和我一样的想法，阅读这本计算机界的经典著作。  豆瓣——深入理解计算机系统（">
+<meta name="description" content="《Computer Systems a Programmer’s Perspective》，机械工业出版社。中文译名《深入理解计算机系统》。作者：（美）Randal E.Bryant &#x2F; David O’Hallaron  想写点推荐理由，作罢，原因是自己学识尚浅（留坑以后写？）。这里附上几个链接，也许你看过之后，也会产生和我一样的想法，阅读这本计算机界的经典著作。  豆瓣——深入理解计算机系统（">
 <meta property="og:type" content="article">
 <meta property="og:title" content="【CSAPP笔记】1. 位、字节、整型">
 <meta property="og:url" content="https://zcplayground.github.io/2017/06/24/csapp-1-Bits-and-Bytes/index.html">
-<meta property="og:site_name" content="chaz">
-<meta property="og:description" content="《Computer Systems a Programmer’s Perspective》，机械工业出版社。中文译名《深入理解计算机系统》。作者：（美）Randal E.Bryant / David O’Hallaron  想写点推荐理由，作罢，原因是自己学识尚浅（留坑以后写？）。这里附上几个链接，也许你看过之后，也会产生和我一样的想法，阅读这本计算机界的经典著作。  豆瓣——深入理解计算机系统（">
+<meta property="og:site_name" content="Chang&#39;s Note">
+<meta property="og:description" content="《Computer Systems a Programmer’s Perspective》，机械工业出版社。中文译名《深入理解计算机系统》。作者：（美）Randal E.Bryant &#x2F; David O’Hallaron  想写点推荐理由，作罢，原因是自己学识尚浅（留坑以后写？）。这里附上几个链接，也许你看过之后，也会产生和我一样的想法，阅读这本计算机界的经典著作。  豆瓣——深入理解计算机系统（">
+<meta property="og:locale">
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/1-1.png">
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/1-2.png">
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/1-3.png">
@@ -110,10 +111,10 @@
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/1-9.png">
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/1-10.png">
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/1-11.png">
-<meta property="og:updated_time" content="2017-06-29T09:31:18.000Z">
+<meta property="article:published_time" content="2017-06-24T14:53:50.000Z">
+<meta property="article:modified_time" content="2017-06-29T09:31:18.000Z">
+<meta property="article:author" content="Chang">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="【CSAPP笔记】1. 位、字节、整型">
-<meta name="twitter:description" content="《Computer Systems a Programmer’s Perspective》，机械工业出版社。中文译名《深入理解计算机系统》。作者：（美）Randal E.Bryant / David O’Hallaron  想写点推荐理由，作罢，原因是自己学识尚浅（留坑以后写？）。这里附上几个链接，也许你看过之后，也会产生和我一样的想法，阅读这本计算机界的经典著作。  豆瓣——深入理解计算机系统（">
 <meta name="twitter:image" content="http://osax8w13y.bkt.clouddn.com/1-1.png">
 
 
@@ -121,7 +122,7 @@
 <script type="text/javascript" id="hexo.configurations">
   var NexT = window.NexT || {};
   var CONFIG = {
-    root: '/',
+    root: '',
     scheme: 'Mist',
     sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
     fancybox: true,
@@ -148,8 +149,8 @@
 
 
 
-  <title>【CSAPP笔记】1. 位、字节、整型 | chaz</title>
-</head>
+  <title>【CSAPP笔记】1. 位、字节、整型 | Chang's Note</title>
+<meta name="generator" content="Hexo 5.4.2"></head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
 
@@ -185,7 +186,7 @@
     <div class="custom-logo-site-title">
       <a href="/"  class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
-        <span class="site-title">chaz</span>
+        <span class="site-title">Chang's Note</span>
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
@@ -249,6 +250,16 @@
           </a>
         </li>
       
+        
+        <li class="menu-item menu-item-quotations">
+          <a href="/quotations/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-quote-right"></i> <br />
+            
+            语录
+          </a>
+        </li>
+      
 
       
     </ul>
@@ -281,13 +292,13 @@
     <link itemprop="mainEntityOfPage" href="https://zcplayground.github.io/2017/06/24/csapp-1-Bits-and-Bytes/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="chaz">
+      <meta itemprop="name" content="">
       <meta itemprop="description" content="">
       <meta itemprop="image" content="/images/avatar.png">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="chaz">
+      <meta itemprop="name" content="Chang's Note">
     </span>
 
     
@@ -367,9 +378,9 @@
         <p>《Computer Systems a Programmer’s Perspective》，机械工业出版社。中文译名《深入理解计算机系统》。作者：（美）Randal E.Bryant / David O’Hallaron </p>
 <p>想写点推荐理由，作罢，原因是自己学识尚浅（留坑以后写？）。这里附上几个链接，也许你看过之后，也会产生和我一样的想法，阅读这本计算机界的经典著作。</p>
 <ul>
-<li><a href="https://book.douban.com/subject/5333562/" target="_blank" rel="external">豆瓣——深入理解计算机系统（原书第2版）</a></li>
-<li><a href="http://www.cnblogs.com/JeffreyZhao/archive/2009/11/23/recommended-reading-3-csapp.html" target="_blank" rel="external">老赵书托（3）：深入理解计算机系统</a></li>
-<li><a href="http://csapp.cs.cmu.edu/3e/perspective.html" target="_blank" rel="external">CMU CSAPP网站：何为Programmer’s Prospective？</a></li>
+<li><a target="_blank" rel="noopener" href="https://book.douban.com/subject/5333562/">豆瓣——深入理解计算机系统（原书第2版）</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.cnblogs.com/JeffreyZhao/archive/2009/11/23/recommended-reading-3-csapp.html">老赵书托（3）：深入理解计算机系统</a></li>
+<li><a target="_blank" rel="noopener" href="http://csapp.cs.cmu.edu/3e/perspective.html">CMU CSAPP网站：何为Programmer’s Prospective？</a></li>
 </ul>
 <hr>
 <h1 id="程序的结构和执行"><a href="#程序的结构和执行" class="headerlink" title="程序的结构和执行"></a>程序的结构和执行</h1><p>这是本书的第一部分，Program Structure and  Execution。包括内容是第二到第六章。第二章的标题是：信息的表示和处理（Representing and  Manipulating Information）</p>
@@ -462,11 +473,11 @@
 <p>计算机有一个很重要的概念叫做<strong>字长</strong>（word size），指明整数和指针的<strong>标称大小</strong>。因为一个个地址都是唯一的数字，就是由一个字编码的。所以字长决定的一个最重要的系统参数就是虚拟地址空间的最大大小。一般来说32位的计算机，限定虚拟地址空间为4GB（2的32次方减1个字节）。</p>
 <h2 id="C语言数据类型的字节数"><a href="#C语言数据类型的字节数" class="headerlink" title="C语言数据类型的字节数"></a>C语言数据类型的字节数</h2><p><img src="http://osax8w13y.bkt.clouddn.com/1-1.png" alt=""></p>
 <h2 id="大端法、小端法"><a href="#大端法、小端法" class="headerlink" title="大端法、小端法"></a>大端法、小端法</h2><p>测试代码如下：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdio.h&gt;</span></span></div><div class="line"><span class="keyword">typedef</span> <span class="keyword">unsigned</span> <span class="keyword">char</span> *byte_pointer;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">show_bytes</span><span class="params">(byte_pointer start, <span class="keyword">int</span> len)</span> </span>&#123;</div><div class="line">	<span class="keyword">int</span> i;</div><div class="line">	<span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; len; i++)</div><div class="line">		<span class="built_in">printf</span>(<span class="string">" %.2x"</span>, start[i]);</div><div class="line">	<span class="built_in">printf</span>(<span class="string">"\n"</span>);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">show_int</span><span class="params">(<span class="keyword">int</span> x)</span> </span>&#123;</div><div class="line">	show_bytes((byte_pointer)&amp;x, <span class="keyword">sizeof</span>(<span class="keyword">int</span>));</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></div><div class="line">&#123;</div><div class="line">	<span class="keyword">int</span> x = <span class="number">12345</span>;</div><div class="line">	show_int(x);</div><div class="line">	<span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="keyword">typedef</span> <span class="type">unsigned</span> <span class="type">char</span> *byte_pointer;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">show_bytes</span><span class="params">(byte_pointer start, <span class="type">int</span> len)</span> </span>&#123;</span><br><span class="line">	<span class="type">int</span> i;</span><br><span class="line">	<span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; len; i++)</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot; %.2x&quot;</span>, start[i]);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;\n&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">show_int</span><span class="params">(<span class="type">int</span> x)</span> </span>&#123;</span><br><span class="line">	<span class="built_in">show_bytes</span>((byte_pointer)&amp;x, <span class="built_in">sizeof</span>(<span class="type">int</span>));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="type">int</span> x = <span class="number">12345</span>;</span><br><span class="line">	<span class="built_in">show_int</span>(x);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <p>在显示一个w位的整数时，如果w是8的整数，那么能以字节为单位来表示。最低有效字节排在前面的方式叫做小端法，大多intel兼容机器采取小端法。大端法采用的是最高有效字节在最前面，也就是我们平常习惯的方式。例如十进制<code>12345</code>的32位编码是<code>0000 3039</code>。小端法是如下的输出。</p>
 <p><img src="http://osax8w13y.bkt.clouddn.com/1-2.png" alt=""></p>
-<h1 id="bool代数、逻辑运算、移位运算"><a href="#bool代数、逻辑运算、移位运算" class="headerlink" title="bool代数、逻辑运算、移位运算"></a>bool代数、逻辑运算、移位运算</h1><p><a href="https://en.wikipedia.org/wiki/Boolean_algebra" target="_blank" rel="external">bool代数</a></p>
-<p><a href="https://en.wikipedia.org/wiki/Bitwise_operation#Bit_shifts" target="_blank" rel="external">位运算</a></p>
+<h1 id="bool代数、逻辑运算、移位运算"><a href="#bool代数、逻辑运算、移位运算" class="headerlink" title="bool代数、逻辑运算、移位运算"></a>bool代数、逻辑运算、移位运算</h1><p><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Boolean_algebra">bool代数</a></p>
+<p><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Bitwise_operation#Bit_shifts">位运算</a></p>
 <p>以下是一些补充记录：</p>
 <ul>
 <li><p>掩码运算。按位与：<code>&amp;</code>，常用于保持某位不变：<code>x&amp;1</code>，或把某些位置为0：<code>x&amp;0</code>。按位或：<code>|</code>，常用于将某些位置置为1：<code>x|1</code>。</p>
@@ -514,20 +525,20 @@
 <p>第三个，这两个操作数都是有符号型，而且2147483648大于TMax，导致溢出，成了一个很小的负数。</p>
 <p><img src="http://osax8w13y.bkt.clouddn.com/1-8.png" alt=""></p>
 <h2 id="扩展、截断"><a href="#扩展、截断" class="headerlink" title="扩展、截断"></a>扩展、截断</h2><p><img src="http://osax8w13y.bkt.clouddn.com/1-9.png" alt=""></p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdio.h&gt;</span></span></div><div class="line"><span class="keyword">typedef</span> <span class="keyword">unsigned</span> <span class="keyword">char</span> *byte_pointer;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">show_bytes</span><span class="params">(byte_pointer start, <span class="keyword">int</span> len)</span> </span>&#123;</div><div class="line">	<span class="keyword">int</span> i;</div><div class="line">	<span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; len; i++)</div><div class="line">		<span class="built_in">printf</span>(<span class="string">" %.2x"</span>, start[i]);</div><div class="line">	<span class="built_in">printf</span>(<span class="string">"\n"</span>);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">show_int</span><span class="params">(<span class="keyword">int</span> x)</span> </span>&#123;</div><div class="line">	show_bytes((byte_pointer)&amp;x, <span class="keyword">sizeof</span>(<span class="keyword">int</span>));</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">show_short</span><span class="params">(<span class="keyword">short</span> x)</span> </span>&#123;</div><div class="line">	show_bytes((byte_pointer)&amp;x, <span class="keyword">sizeof</span>(<span class="keyword">short</span>));</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></div><div class="line">&#123;</div><div class="line">	<span class="comment">//扩展</span></div><div class="line">	<span class="keyword">short</span> x = <span class="number">12345</span>;</div><div class="line">	show_short(x);</div><div class="line">	<span class="built_in">printf</span>(<span class="string">"short x = %d\n"</span>, x);</div><div class="line">	show_int(x);</div><div class="line">	<span class="built_in">printf</span>(<span class="string">"int x = %d\n\n"</span>, (<span class="keyword">int</span>)x);</div><div class="line"></div><div class="line">	<span class="comment">//截断</span></div><div class="line">	<span class="keyword">int</span> y = <span class="number">123456</span>;</div><div class="line">	show_int(y);</div><div class="line">	<span class="built_in">printf</span>(<span class="string">"int y = %d\n"</span>, y);</div><div class="line">	show_short(y);</div><div class="line">	<span class="built_in">printf</span>(<span class="string">"short y = %d\n\n"</span>, (<span class="keyword">short</span>)y);</div><div class="line">	<span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="keyword">typedef</span> <span class="type">unsigned</span> <span class="type">char</span> *byte_pointer;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">show_bytes</span><span class="params">(byte_pointer start, <span class="type">int</span> len)</span> </span>&#123;</span><br><span class="line">	<span class="type">int</span> i;</span><br><span class="line">	<span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; len; i++)</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot; %.2x&quot;</span>, start[i]);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;\n&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">show_int</span><span class="params">(<span class="type">int</span> x)</span> </span>&#123;</span><br><span class="line">	<span class="built_in">show_bytes</span>((byte_pointer)&amp;x, <span class="built_in">sizeof</span>(<span class="type">int</span>));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">show_short</span><span class="params">(<span class="type">short</span> x)</span> </span>&#123;</span><br><span class="line">	<span class="built_in">show_bytes</span>((byte_pointer)&amp;x, <span class="built_in">sizeof</span>(<span class="type">short</span>));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="comment">//扩展</span></span><br><span class="line">	<span class="type">short</span> x = <span class="number">12345</span>;</span><br><span class="line">	<span class="built_in">show_short</span>(x);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;short x = %d\n&quot;</span>, x);</span><br><span class="line">	<span class="built_in">show_int</span>(x);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;int x = %d\n\n&quot;</span>, (<span class="type">int</span>)x);</span><br><span class="line"></span><br><span class="line">	<span class="comment">//截断</span></span><br><span class="line">	<span class="type">int</span> y = <span class="number">123456</span>;</span><br><span class="line">	<span class="built_in">show_int</span>(y);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;int y = %d\n&quot;</span>, y);</span><br><span class="line">	<span class="built_in">show_short</span>(y);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;short y = %d\n\n&quot;</span>, (<span class="type">short</span>)y);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <p>扩展，例如<code>short</code>到<code>int</code>，<code>int</code>到<code>long long int</code>这样。不会改变数字的值。如果是无符号数就是扩展全部为0的位，有符号数就是扩展全部为1的位。</p>
 <p>截断，例如<code>int</code>到<code>short</code>，有点类似于右移，类似于模2的n次方，但只是类似。对于大的数据，截断会导致溢出。例如<code>int</code>型整数<code>123456</code>大于<code>short</code>能表示的最大数值范围，如果将其截断会导致上溢出从而得到一个负数。</p>
 <p><img src="http://osax8w13y.bkt.clouddn.com/1-10.png" alt=""></p>
 <p>如果打算通过使用扩展位数的手段来使得一些运算结果由原本的溢出变为不溢出，那么强制类型转换和计算这两个过程的先后顺序很重要。例如下面这个函数验证两个32位的int型整数做乘法有没有产生溢出，验证的手段是先用64位的整型存结果，再将64位乘积截断为32位是否会改变其值：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">imull</span><span class="params">(<span class="keyword">int</span> x, <span class="keyword">int</span> y)</span></span>&#123;</div><div class="line">    <span class="keyword">long</span> <span class="keyword">long</span> pll = (<span class="keyword">long</span> <span class="keyword">long</span>)x * y;</div><div class="line">    <span class="keyword">return</span> pll == (<span class="keyword">int</span>)pll;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">imull</span><span class="params">(<span class="type">int</span> x, <span class="type">int</span> y)</span></span>&#123;</span><br><span class="line">    <span class="type">long</span> <span class="type">long</span> pll = (<span class="type">long</span> <span class="type">long</span>)x * y;</span><br><span class="line">    <span class="keyword">return</span> pll == (<span class="type">int</span>)pll;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>代码第二行的强制类型转换至关重要，<strong>先转换再计算</strong>。如果第二行是这么写的话：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">long</span> <span class="keyword">long</span> pll = x * y;</div></pre></td></tr></table></figure>
+<figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">long long pll <span class="operator">=</span> x * y<span class="comment">;</span></span><br></pre></td></tr></table></figure>
 <p>那么会用32位值来计算乘积（可能这会溢出），然后再将其扩展为64位。显然不会达到目的。可以参考下面的运行结果</p>
 <p><img src="http://osax8w13y.bkt.clouddn.com/1-11.png" alt=""></p>
 <hr>
 <h1 id="See-Also"><a href="#See-Also" class="headerlink" title="See Also"></a>See Also</h1><p>部分公式、数据截图来源</p>
 <ul>
-<li><a href="http://www.cs.cmu.edu/~./213/schedule.html" target="_blank" rel="external">CMU 2017年春季学期  ICS课程网站</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.cs.cmu.edu/~./213/schedule.html">CMU 2017年春季学期  ICS课程网站</a></li>
 </ul>
 
       
@@ -638,8 +649,8 @@
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.png"
-               alt="chaz" />
-          <p class="site-author-name" itemprop="name">chaz</p>
+               alt="" />
+          <p class="site-author-name" itemprop="name"></p>
            
               <p class="site-description motion-element" itemprop="description"></p>
           
@@ -649,7 +660,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">96</span>
+                <span class="site-state-item-count">99</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -697,7 +708,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#程序的结构和执行"><span class="nav-number">1.</span> <span class="nav-text">程序的结构和执行</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#位、字、数据类型"><span class="nav-number">2.</span> <span class="nav-text">位、字、数据类型</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#位"><span class="nav-number">2.1.</span> <span class="nav-text">位</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#十进制0-15的三种进制表示"><span class="nav-number">2.2.</span> <span class="nav-text">十进制0~15的三种进制表示</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#字"><span class="nav-number">2.3.</span> <span class="nav-text">字</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#C语言数据类型的字节数"><span class="nav-number">2.4.</span> <span class="nav-text">C语言数据类型的字节数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#大端法、小端法"><span class="nav-number">2.5.</span> <span class="nav-text">大端法、小端法</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#bool代数、逻辑运算、移位运算"><span class="nav-number">3.</span> <span class="nav-text">bool代数、逻辑运算、移位运算</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#整数（integer）表示"><span class="nav-number">4.</span> <span class="nav-text">整数（integer）表示</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#整数编码"><span class="nav-number">4.1.</span> <span class="nav-text">整数编码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#无符号数和有符号数之间的转换"><span class="nav-number">4.2.</span> <span class="nav-text">无符号数和有符号数之间的转换</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#扩展、截断"><span class="nav-number">4.3.</span> <span class="nav-text">扩展、截断</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#See-Also"><span class="nav-number">5.</span> <span class="nav-text">See Also</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%A8%8B%E5%BA%8F%E7%9A%84%E7%BB%93%E6%9E%84%E5%92%8C%E6%89%A7%E8%A1%8C"><span class="nav-number">1.</span> <span class="nav-text">程序的结构和执行</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BD%8D%E3%80%81%E5%AD%97%E3%80%81%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="nav-number">2.</span> <span class="nav-text">位、字、数据类型</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%8D"><span class="nav-number">2.1.</span> <span class="nav-text">位</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8D%81%E8%BF%9B%E5%88%B60-15%E7%9A%84%E4%B8%89%E7%A7%8D%E8%BF%9B%E5%88%B6%E8%A1%A8%E7%A4%BA"><span class="nav-number">2.2.</span> <span class="nav-text">十进制0~15的三种进制表示</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AD%97"><span class="nav-number">2.3.</span> <span class="nav-text">字</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#C%E8%AF%AD%E8%A8%80%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E7%9A%84%E5%AD%97%E8%8A%82%E6%95%B0"><span class="nav-number">2.4.</span> <span class="nav-text">C语言数据类型的字节数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%A7%E7%AB%AF%E6%B3%95%E3%80%81%E5%B0%8F%E7%AB%AF%E6%B3%95"><span class="nav-number">2.5.</span> <span class="nav-text">大端法、小端法</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#bool%E4%BB%A3%E6%95%B0%E3%80%81%E9%80%BB%E8%BE%91%E8%BF%90%E7%AE%97%E3%80%81%E7%A7%BB%E4%BD%8D%E8%BF%90%E7%AE%97"><span class="nav-number">3.</span> <span class="nav-text">bool代数、逻辑运算、移位运算</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%95%B4%E6%95%B0%EF%BC%88integer%EF%BC%89%E8%A1%A8%E7%A4%BA"><span class="nav-number">4.</span> <span class="nav-text">整数（integer）表示</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B4%E6%95%B0%E7%BC%96%E7%A0%81"><span class="nav-number">4.1.</span> <span class="nav-text">整数编码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%97%A0%E7%AC%A6%E5%8F%B7%E6%95%B0%E5%92%8C%E6%9C%89%E7%AC%A6%E5%8F%B7%E6%95%B0%E4%B9%8B%E9%97%B4%E7%9A%84%E8%BD%AC%E6%8D%A2"><span class="nav-number">4.2.</span> <span class="nav-text">无符号数和有符号数之间的转换</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%89%A9%E5%B1%95%E3%80%81%E6%88%AA%E6%96%AD"><span class="nav-number">4.3.</span> <span class="nav-text">扩展、截断</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#See-Also"><span class="nav-number">5.</span> <span class="nav-text">See Also</span></a></li></ol></div>
             
 
           </div>
@@ -724,17 +735,17 @@
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
-  <span class="author" itemprop="copyrightHolder">chaz</span>
+  <span class="author" itemprop="copyrightHolder">Chang</span>
 </div>
 
 
 <div class="powered-by">
-  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+  由 <a class="theme-link" target="_blank" rel="noopener" href="https://hexo.io">Hexo</a> 强力驱动
 </div>
 
 <div class="theme-info">
   主题 -
-  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+  <a class="theme-link" target="_blank" rel="noopener" href="https://github.com/iissnan/hexo-theme-next">
     NexT.Mist
   </a>
 </div>

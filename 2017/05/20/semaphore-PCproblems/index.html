@@ -97,14 +97,15 @@
 <meta property="og:type" content="article">
 <meta property="og:title" content="操作系统实验之通过信号量实现复杂PC问题">
 <meta property="og:url" content="https://zcplayground.github.io/2017/05/20/semaphore-PCproblems/index.html">
-<meta property="og:site_name" content="chaz">
+<meta property="og:site_name" content="Chang&#39;s Note">
 <meta property="og:description" content="PC问题PC问题（producer and consumer，生产者和消费者问题）是操作系统中并发程序设计中的经典同步问题。 semget 函数的作用是创建新的或获得已存在的信号量集。这个函数是以信号量集作为操作单位的，一个信号量集可以包括一个或多个信号量。对于PC问题，有full、empty、mutex1、mutex2等多个信号量。在选取信号量以及对它们进行操作（赋值、P、V）的时候，通过两种变">
+<meta property="og:locale">
 <meta property="og:image" content="http://images2015.cnblogs.com/blog/1092156/201705/1092156-20170506183005367-1513094013.png">
 <meta property="og:image" content="http://images2015.cnblogs.com/blog/1092156/201705/1092156-20170506183039539-921756659.png">
-<meta property="og:updated_time" content="2017-06-07T03:33:48.000Z">
+<meta property="article:published_time" content="2017-05-20T07:38:29.000Z">
+<meta property="article:modified_time" content="2017-06-07T03:33:48.000Z">
+<meta property="article:author" content="Chang">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="操作系统实验之通过信号量实现复杂PC问题">
-<meta name="twitter:description" content="PC问题PC问题（producer and consumer，生产者和消费者问题）是操作系统中并发程序设计中的经典同步问题。 semget 函数的作用是创建新的或获得已存在的信号量集。这个函数是以信号量集作为操作单位的，一个信号量集可以包括一个或多个信号量。对于PC问题，有full、empty、mutex1、mutex2等多个信号量。在选取信号量以及对它们进行操作（赋值、P、V）的时候，通过两种变">
 <meta name="twitter:image" content="http://images2015.cnblogs.com/blog/1092156/201705/1092156-20170506183005367-1513094013.png">
 
 
@@ -112,7 +113,7 @@
 <script type="text/javascript" id="hexo.configurations">
   var NexT = window.NexT || {};
   var CONFIG = {
-    root: '/',
+    root: '',
     scheme: 'Mist',
     sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
     fancybox: true,
@@ -139,8 +140,8 @@
 
 
 
-  <title>操作系统实验之通过信号量实现复杂PC问题 | chaz</title>
-</head>
+  <title>操作系统实验之通过信号量实现复杂PC问题 | Chang's Note</title>
+<meta name="generator" content="Hexo 5.4.2"></head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
 
@@ -176,7 +177,7 @@
     <div class="custom-logo-site-title">
       <a href="/"  class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
-        <span class="site-title">chaz</span>
+        <span class="site-title">Chang's Note</span>
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
@@ -240,6 +241,16 @@
           </a>
         </li>
       
+        
+        <li class="menu-item menu-item-quotations">
+          <a href="/quotations/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-quote-right"></i> <br />
+            
+            语录
+          </a>
+        </li>
+      
 
       
     </ul>
@@ -272,13 +283,13 @@
     <link itemprop="mainEntityOfPage" href="https://zcplayground.github.io/2017/05/20/semaphore-PCproblems/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="chaz">
+      <meta itemprop="name" content="">
       <meta itemprop="description" content="">
       <meta itemprop="image" content="/images/avatar.png">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="chaz">
+      <meta itemprop="name" content="Chang's Note">
     </span>
 
     
@@ -355,7 +366,7 @@
       
 
       
-        <h1 id="PC问题"><a href="#PC问题" class="headerlink" title="PC问题"></a>PC问题</h1><p><a href="http://blog.chinaunix.net/uid-21411227-id-1826740.html" target="_blank" rel="external">PC问题</a>（producer and consumer，生产者和消费者问题）是操作系统中并发程序设计中的经典同步问题。</p>
+        <h1 id="PC问题"><a href="#PC问题" class="headerlink" title="PC问题"></a>PC问题</h1><p><a target="_blank" rel="noopener" href="http://blog.chinaunix.net/uid-21411227-id-1826740.html">PC问题</a>（producer and consumer，生产者和消费者问题）是操作系统中并发程序设计中的经典同步问题。</p>
 <p>semget 函数的作用是创建新的或获得已存在的信号量集。这个函数是以信号量集作为操作单位的，一个信号量集可以包括一个或多个信号量。对于PC问题，有full、empty、mutex1、mutex2等多个信号量。在选取信号量以及对它们进行操作（赋值、P、V）的时候，通过两种变量来识别它们，分别是键值<code>sem_id</code>和信号在信号量集中的序号<code>sem_num</code>。所以可以有两种选择：</p>
 <ul>
 <li><p>声明四个键值，用来创建四个信号量集，每个信号量集包括一个信号量。在操作信号量时，每个信号量的<code>sem_num</code>都是0。是通过键值<code>sem_id</code>来区分信号量的。</p>
@@ -367,7 +378,7 @@
 <p>从运行结果来看，P、C的过程成功受到了信号量的影响。</p>
 <p><img src="http://images2015.cnblogs.com/blog/1092156/201705/1092156-20170506183039539-921756659.png" alt=""></p>
 <p><strong>update: 2017-05-20:</strong> 竟然忘了把信号量放到共享存储区中，罪过罪过，在这里多谢浴盆指出我的问题。</p>
-<p><a href="https://github.com/ZCplayground/Linux-experiments/blob/master/semaphore%20-%20PCproblem/PCproblem.c" target="_blank" rel="external">代码地址</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/ZCplayground/Linux-experiments/blob/master/semaphore%20-%20PCproblem/PCproblem.c">代码地址</a></p>
 <h1 id="父子进程、共享存储区"><a href="#父子进程、共享存储区" class="headerlink" title="父子进程、共享存储区"></a>父子进程、共享存储区</h1><p>摘抄一段CSAPP中关于进程的内容：</p>
 <p>第8章异常控制流：</p>
 <blockquote>
@@ -383,10 +394,10 @@
 <hr>
 <p>关于信号量实验API的一些参考链接</p>
 <ul>
-<li><a href="https://zhidao.baidu.com/question/1893918728169133900.html" target="_blank" rel="external">ftok函数</a></li>
-<li><strong>重点推荐：</strong><a href="http://www.educity.cn/linux/1241661.html" target="_blank" rel="external">Linux进程间通信(六)—信号量通信之semget()、semctl()、semop()</a> </li>
-<li><a href="http://blog.csdn.net/ta893115871/article/details/7505560" target="_blank" rel="external">信号量 Linux函数 semget();semctl();semop();</a></li>
-<li><a href="http://blog.csdn.net/shaohui973/article/details/8142797" target="_blank" rel="external">关于进程和线程对于全局变量共享的问题学习总结</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhidao.baidu.com/question/1893918728169133900.html">ftok函数</a></li>
+<li><strong>重点推荐：</strong><a target="_blank" rel="noopener" href="http://www.educity.cn/linux/1241661.html">Linux进程间通信(六)—信号量通信之semget()、semctl()、semop()</a> </li>
+<li><a target="_blank" rel="noopener" href="http://blog.csdn.net/ta893115871/article/details/7505560">信号量 Linux函数 semget();semctl();semop();</a></li>
+<li><a target="_blank" rel="noopener" href="http://blog.csdn.net/shaohui973/article/details/8142797">关于进程和线程对于全局变量共享的问题学习总结</a></li>
 </ul>
 
       
@@ -497,8 +508,8 @@
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.png"
-               alt="chaz" />
-          <p class="site-author-name" itemprop="name">chaz</p>
+               alt="" />
+          <p class="site-author-name" itemprop="name"></p>
            
               <p class="site-description motion-element" itemprop="description"></p>
           
@@ -508,7 +519,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">96</span>
+                <span class="site-state-item-count">99</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -556,7 +567,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#PC问题"><span class="nav-number">1.</span> <span class="nav-text">PC问题</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#父子进程、共享存储区"><span class="nav-number">2.</span> <span class="nav-text">父子进程、共享存储区</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#PC%E9%97%AE%E9%A2%98"><span class="nav-number">1.</span> <span class="nav-text">PC问题</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%88%B6%E5%AD%90%E8%BF%9B%E7%A8%8B%E3%80%81%E5%85%B1%E4%BA%AB%E5%AD%98%E5%82%A8%E5%8C%BA"><span class="nav-number">2.</span> <span class="nav-text">父子进程、共享存储区</span></a></li></ol></div>
             
 
           </div>
@@ -583,17 +594,17 @@
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
-  <span class="author" itemprop="copyrightHolder">chaz</span>
+  <span class="author" itemprop="copyrightHolder">Chang</span>
 </div>
 
 
 <div class="powered-by">
-  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+  由 <a class="theme-link" target="_blank" rel="noopener" href="https://hexo.io">Hexo</a> 强力驱动
 </div>
 
 <div class="theme-info">
   主题 -
-  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+  <a class="theme-link" target="_blank" rel="noopener" href="https://github.com/iissnan/hexo-theme-next">
     NexT.Mist
   </a>
 </div>

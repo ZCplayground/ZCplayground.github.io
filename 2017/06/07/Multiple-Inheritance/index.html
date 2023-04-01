@@ -93,18 +93,19 @@
 
 
 
-<meta name="description" content="多重继承定义多重继承，multiple inheritance，简称MI。在现实中，也许某种事物具有两种或以上的种类的事物的基础属性，所以C++中有多重继承这种手段来解决这种问题。即允许一个派生类指定多个基类。例如下面这个类，从侍者类公有继承，从歌手类私有继承，得到一个“会唱歌的侍者”类： 1234class singingwaiter : public waiter, singer //sing">
+<meta name="description" content="多重继承定义多重继承，multiple inheritance，简称MI。在现实中，也许某种事物具有两种或以上的种类的事物的基础属性，所以C++中有多重继承这种手段来解决这种问题。即允许一个派生类指定多个基类。例如下面这个类，从侍者类公有继承，从歌手类私有继承，得到一个“会唱歌的侍者”类： 1234class singingwaiter : public waiter, singer &#x2F;&#x2F;sing">
 <meta property="og:type" content="article">
 <meta property="og:title" content="C++学习之多重继承">
 <meta property="og:url" content="https://zcplayground.github.io/2017/06/07/Multiple-Inheritance/index.html">
-<meta property="og:site_name" content="chaz">
-<meta property="og:description" content="多重继承定义多重继承，multiple inheritance，简称MI。在现实中，也许某种事物具有两种或以上的种类的事物的基础属性，所以C++中有多重继承这种手段来解决这种问题。即允许一个派生类指定多个基类。例如下面这个类，从侍者类公有继承，从歌手类私有继承，得到一个“会唱歌的侍者”类： 1234class singingwaiter : public waiter, singer //sing">
+<meta property="og:site_name" content="Chang&#39;s Note">
+<meta property="og:description" content="多重继承定义多重继承，multiple inheritance，简称MI。在现实中，也许某种事物具有两种或以上的种类的事物的基础属性，所以C++中有多重继承这种手段来解决这种问题。即允许一个派生类指定多个基类。例如下面这个类，从侍者类公有继承，从歌手类私有继承，得到一个“会唱歌的侍者”类： 1234class singingwaiter : public waiter, singer &#x2F;&#x2F;sing">
+<meta property="og:locale">
 <meta property="og:image" content="http://images2015.cnblogs.com/blog/1092156/201706/1092156-20170608085906668-993821047.png">
 <meta property="og:image" content="http://images2015.cnblogs.com/blog/1092156/201706/1092156-20170608085908887-666750778.png">
-<meta property="og:updated_time" content="2017-06-08T01:14:58.000Z">
+<meta property="article:published_time" content="2017-06-07T12:28:09.000Z">
+<meta property="article:modified_time" content="2017-06-08T01:14:58.000Z">
+<meta property="article:author" content="Chang">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="C++学习之多重继承">
-<meta name="twitter:description" content="多重继承定义多重继承，multiple inheritance，简称MI。在现实中，也许某种事物具有两种或以上的种类的事物的基础属性，所以C++中有多重继承这种手段来解决这种问题。即允许一个派生类指定多个基类。例如下面这个类，从侍者类公有继承，从歌手类私有继承，得到一个“会唱歌的侍者”类： 1234class singingwaiter : public waiter, singer //sing">
 <meta name="twitter:image" content="http://images2015.cnblogs.com/blog/1092156/201706/1092156-20170608085906668-993821047.png">
 
 
@@ -112,7 +113,7 @@
 <script type="text/javascript" id="hexo.configurations">
   var NexT = window.NexT || {};
   var CONFIG = {
-    root: '/',
+    root: '',
     scheme: 'Mist',
     sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
     fancybox: true,
@@ -139,8 +140,8 @@
 
 
 
-  <title>C++学习之多重继承 | chaz</title>
-</head>
+  <title>C++学习之多重继承 | Chang's Note</title>
+<meta name="generator" content="Hexo 5.4.2"></head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
 
@@ -176,7 +177,7 @@
     <div class="custom-logo-site-title">
       <a href="/"  class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
-        <span class="site-title">chaz</span>
+        <span class="site-title">Chang's Note</span>
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
@@ -240,6 +241,16 @@
           </a>
         </li>
       
+        
+        <li class="menu-item menu-item-quotations">
+          <a href="/quotations/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-quote-right"></i> <br />
+            
+            语录
+          </a>
+        </li>
+      
 
       
     </ul>
@@ -272,13 +283,13 @@
     <link itemprop="mainEntityOfPage" href="https://zcplayground.github.io/2017/06/07/Multiple-Inheritance/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="chaz">
+      <meta itemprop="name" content="">
       <meta itemprop="description" content="">
       <meta itemprop="image" content="/images/avatar.png">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="chaz">
+      <meta itemprop="name" content="Chang's Note">
     </span>
 
     
@@ -356,25 +367,24 @@
 
       
         <h1 id="多重继承定义"><a href="#多重继承定义" class="headerlink" title="多重继承定义"></a>多重继承定义</h1><p>多重继承，multiple inheritance，简称MI。在现实中，也许某种事物具有两种或以上的种类的事物的基础属性，所以C++中有多重继承这种手段来解决这种问题。即允许一个派生类指定多个基类。例如下面这个类，从侍者类公有继承，从歌手类私有继承，得到一个“会唱歌的侍者”类：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">singingwaiter</span> :</span> <span class="keyword">public</span> waiter, singer <span class="comment">//singer is private</span></div><div class="line">&#123;</div><div class="line">……</div><div class="line">&#125; ;</div></pre></td></tr></table></figure>
+<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="symbol">singingwaiter</span> : <span class="symbol">public</span> <span class="symbol">waiter, <span class="symbol">singer</span></span> //<span class="symbol">singer</span> <span class="symbol">is</span> <span class="symbol">private</span></span><br><span class="line">&#123;</span><br><span class="line">……</span><br><span class="line">&#125; ;</span><br></pre></td></tr></table></figure>
 <p>必须为每个类添加限定符，如果没有，默认是私有继承。</p>
 <p>MI会给程序员<strong>带来很多编程问题</strong>。因此许多人反对MI，甚至希望删除MI；但对于喜欢MI的人来说，MI很有用，用得好能大大缩减代码量，甚至对于特殊工程来说MI是必不可少的；也有一些人建议谨慎使用MI。主要的两个问题是：从两个不同的基类继承同名方法；从两个或更多的相关基类那里继承同一个类的多个实例。</p>
 <h1 id="多重继承可能存在的问题"><a href="#多重继承可能存在的问题" class="headerlink" title="多重继承可能存在的问题"></a>多重继承可能存在的问题</h1><h2 id="继承同名类方法的二义性错误解决"><a href="#继承同名类方法的二义性错误解决" class="headerlink" title="继承同名类方法的二义性错误解决"></a>继承同名类方法的二义性错误解决</h2><p><img src="http://images2015.cnblogs.com/blog/1092156/201706/1092156-20170608085906668-993821047.png" alt=""></p>
 <p>水陆两用汽车（amphibiancar）具有小汽车和小船两种属性，所以由小汽车类和小船类共同派生出一个水陆两用汽车类。那么假设这么一个问题，交通工具就认为它是抽象基类吧，有一个虚函数<code>show()</code>，大概就是显示一些信息之类的，小汽车当然就继承了<code>car::show()</code>，小船则是<code>boat::show()</code>。<br>那么面对两个同名类方法，并且在这里假如在水陆两用汽车类中没有重新定义该方法，那到底继承的是什么呢？或者说，在水陆两用汽车类中调用<code>AmphibianCar::show()</code>，那么这明显是有问题的有<strong>二义性错误</strong>（ambiguous） 。当然，也有两个<code>setweight()</code>的错误</p>
-<p>有以下解决方法：比如使用作用域解析运算符直接调用，如果有一个<code>amphibiancar</code>对象<code>a</code>，那么调用<code>a.car::show();</code>。更好的方法就是编写成员函数，直接指出使用哪个<code>show</code>，或者重新定义<code>show</code><br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">void</span> <span class="selector-tag">amphibiancar</span>:: <span class="selector-tag">show</span>()</div><div class="line">&#123;</div><div class="line">	<span class="attribute">car</span>::<span class="built_in">show</span>();</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>有以下解决方法：比如使用作用域解析运算符直接调用，如果有一个<code>amphibiancar</code>对象<code>a</code>，那么调用<code>a.car::show();</code>。更好的方法就是编写成员函数，直接指出使用哪个<code>show</code>，或者重新定义<code>show</code><br><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">void amphibiancar:: <span class="built_in">show</span>()</span><br><span class="line">&#123;</span><br><span class="line">	car::<span class="built_in">show</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <h2 id="继承多个同名基类对象，需要用到虚基类"><a href="#继承多个同名基类对象，需要用到虚基类" class="headerlink" title="继承多个同名基类对象，需要用到虚基类"></a>继承多个同名基类对象，需要用到虚基类</h2><p>因为抽象基类：交通工具有一个<code>weight</code>，小汽车和小船都从交通工具那儿<strong>各自</strong>继承了一个<code>weight</code>组件，<strong>因此水陆两用汽车将会包含两个weight组件</strong>，这会引发一系列问题。</p>
-<p>例如常见的派生类对象（的地址）可以赋给基类（指针）引用，但现在将出现二义性。原理是这种赋值是把基类指针设置为派生类对象中基类对象的地址。但现在派生类含有两个<code>weight</code>对象，所以：<br><figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">amphibiancar(...) a<span class="comment">;</span></div><div class="line">vehicle * p1 = &amp; a<span class="comment">; //这里出现二义性错误</span></div><div class="line"></div><div class="line">vehicle * p2 = (car *) &amp; a<span class="comment">;</span></div><div class="line">vehicle * p3 = (<span class="keyword">boat </span>*) &amp; a<span class="comment">;</span></div></pre></td></tr></table></figure></p>
+<p>例如常见的派生类对象（的地址）可以赋给基类（指针）引用，但现在将出现二义性。原理是这种赋值是把基类指针设置为派生类对象中基类对象的地址。但现在派生类含有两个<code>weight</code>对象，所以：<br><figure class="highlight 1c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">amphibiancar(...) a;</span><br><span class="line">vehicle * p1 = <span class="meta">&amp; a; <span class="comment">//这里出现二义性错误</span></span></span><br><span class="line"></span><br><span class="line">vehicle * p2 = (car *) <span class="meta">&amp; a;</span></span><br><span class="line">vehicle * p3 = (boat *) <span class="meta">&amp; a;</span></span><br></pre></td></tr></table></figure></p>
 <p>是不是很蛋疼？说明这种同名对象的继承会影响多态性的复杂。实际上这里的水陆两用汽车不需要两个weight成员，（虽说有的时候还真的可以继承多个同名成员）所以真正的问题是我们<strong>只需要一个变量来描述重量</strong>就可以了。C++引入了<strong>虚基类</strong>（virtual base class）来解决问题。</p>
-<h3 id="虚基类语法"><a href="#虚基类语法" class="headerlink" title="虚基类语法"></a>虚基类语法</h3><p>虚基类使得从多个类（它们基类相同）派生出来的类，只继承一个基类对象。在类声明的派生中添加关键字<code>virtual</code>。<code>virtua</code>l和<code>public</code>的顺序不关紧要。<br><figure class="highlight nimrod"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">class <span class="type">Car</span> : virtual public <span class="type">Vehicle</span><span class="meta">&#123;...&#125;</span>;</div><div class="line">class <span class="type">Boat</span> : virtual public <span class="type">Vehicle</span><span class="meta">&#123;...&#125;</span>;</div></pre></td></tr></table></figure></p>
-<p>如果这样做，那么<code>amphibiancar</code>类将只包含<code>vehicle</code>对象的一个副本，从本质上来说，继承<code>car</code>和<code>boat</code>类共享一个<code>vehicle</code>对象，而不是各自引入一个。</p>
+<h3 id="虚基类语法"><a href="#虚基类语法" class="headerlink" title="虚基类语法"></a>虚基类语法</h3><p>虚基类使得从多个类（它们基类相同）派生出来的类，只继承一个基类对象。在类声明的派生中添加关键字<code>virtual</code>。<code>virtua</code>l和<code>public</code>的顺序不关紧要。<br><figure class="highlight nim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">class <span class="type">Car</span> : virtual public <span class="type">Vehicle</span><span class="meta">&#123;...&#125;</span>;</span><br><span class="line">class <span class="type">Boat</span> : virtual public <span class="type">Vehicle</span><span class="meta">&#123;...&#125;</span>;</span><br></pre></td></tr></table></figure><br>如果这样做，那么<code>amphibiancar</code>类将只包含<code>vehicle</code>对象的一个副本，从本质上来说，继承<code>car</code>和<code>boat</code>类共享一个<code>vehicle</code>对象，而不是各自引入一个。</p>
 <h2 id="新的构造函数规则"><a href="#新的构造函数规则" class="headerlink" title="新的构造函数规则"></a>新的构造函数规则</h2><p>用到虚基类时，需要对类构造函数使用一种新的方法。对于非虚基类，出现在初始化列表的构造函数 是 <strong>即时基类</strong>的构造函数。例如：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span></span></div><div class="line">&#123;</div><div class="line">	<span class="keyword">int</span> a;</div><div class="line"><span class="keyword">public</span>:</div><div class="line">     A(<span class="keyword">int</span> n = <span class="number">0</span>): a(n)&#123;&#125;</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">B</span> :</span><span class="keyword">public</span> A</div><div class="line">&#123;</div><div class="line">	<span class="keyword">int</span> b;</div><div class="line"><span class="keyword">public</span>:</div><div class="line">	B(<span class="keyword">int</span> m = <span class="number">0</span>, <span class="keyword">int</span> n = <span class="number">0</span>):A(n) , b(m) &#123;&#125;</div><div class="line">	</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">C</span> :</span><span class="keyword">public</span> B</div><div class="line">&#123;</div><div class="line">	<span class="keyword">int</span> c;</div><div class="line"><span class="keyword">public</span>:</div><div class="line">	c(<span class="keyword">int</span> q = <span class="number">0</span>, <span class="keyword">int</span> m = <span class="number">0</span>, <span class="keyword">int</span> n = <span class="number">0</span>): B(m, n), c(q)&#123;&#125;</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="symbol">A</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="built_in">int</span> a;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">     A(<span class="built_in">int</span> n = <span class="number">0</span>): a(n)&#123;&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="symbol">B</span> :<span class="symbol">public</span> <span class="symbol">A</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="built_in">int</span> b;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	B(<span class="built_in">int</span> m = <span class="number">0</span>, <span class="built_in">int</span> n = <span class="number">0</span>):A(n) , b(m) &#123;&#125;</span><br><span class="line">	</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="symbol">C</span> :<span class="symbol">public</span> <span class="symbol">B</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="built_in">int</span> c;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	c(<span class="built_in">int</span> q = <span class="number">0</span>, <span class="built_in">int</span> m = <span class="number">0</span>, <span class="built_in">int</span> n = <span class="number">0</span>): B(m, n), c(q)&#123;&#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 <p><code>C</code>类的构造函数只能调用<code>B</code>类的构造函数，<code>B</code>类的构造函数只能调用<code>A</code>类的构造函数。<code>c</code>的构造函数使用值<code>q</code>，并将<code>m</code>和<code>n</code>传递给<code>B</code>的构造函数，<code>B</code>使用<code>m</code>，将<code>n</code>传递给<code>A</code>的构造函数。</p>
 <p><strong>如果vehicle是虚基类，这种自动传递信息则不再起作用</strong>，例如在上面的多重继承条件下有这样的构造函数：</p>
 <p><img src="http://images2015.cnblogs.com/blog/1092156/201706/1092156-20170608085908887-666750778.png" alt=""></p>
-<figure class="highlight mel"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">amphibiancar(const vehicle &amp; v, <span class="keyword">int</span> <span class="keyword">air</span> = <span class="number">0</span>, <span class="keyword">int</span> ton = <span class="number">0</span>)::car(v,<span class="keyword">air</span>),boat(v,ton) &#123;&#125;<span class="comment">//failed</span></div></pre></td></tr></table></figure>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="title">amphibiancar</span><span class="params">(const vehicle &amp; v, int air = <span class="number">0</span>, int ton = <span class="number">0</span>)</span></span>::<span class="built_in">car</span>(v,air),<span class="built_in">boat</span>(v,ton) &#123;&#125;<span class="comment">//failed</span></span><br></pre></td></tr></table></figure>
 <p>会出错。原因是：自动传递信息时，将通过两条不同的途径（car or boat）将<code>v</code>传递给<code>vehicle</code>。为避免这种冲突，C++在基类是虚基类时，<strong>禁止信息通过中间类自动传递给基类</strong>。然而，编译器仍然需要保证派生类对象生成之前先调用基类构造函数组件，因此需要显式调用（基类构造函数），因此正确的构造函数应该是这样：</p>
-<figure class="highlight less"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">amphibiancar</span>(const vehicle &amp; v, int air = <span class="number">0</span>, int ton = <span class="number">0</span>)<span class="selector-pseudo">::vehicle(v)</span>,<span class="selector-tag">car</span>(v,air),<span class="selector-tag">boat</span>(v,ton) &#123;&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="title">amphibiancar</span><span class="params">(const vehicle &amp; v, int air = <span class="number">0</span>, int ton = <span class="number">0</span>)</span></span>::<span class="built_in">vehicle</span>(v),<span class="built_in">car</span>(v,air),<span class="built_in">boat</span>(v,ton) &#123;&#125;</span><br></pre></td></tr></table></figure>
 <p>上面代码显示调用构造函数<code>vehicle(const vehicle &amp;)</code>。请注意！这种用法是合法的，而且对于虚基类来说，必须这样做。但对于非虚基类，这是非法的。</p>
 <h1 id="MI小结"><a href="#MI小结" class="headerlink" title="MI小结"></a>MI小结</h1><ul>
 <li>不使用虚基类的MI：这种方式不会引入新的规则。例如：</li>
@@ -388,7 +398,7 @@
 <li><p>当派生类使用关键字virtual来指示派生时，基类成为虚基类：</p>
 </li>
 </ul>
-<p><code>class Car : virtual public Vehicle{...};//vehicle成为虚基类</code></p>
+<p><code>class Car : virtual public Vehicle&#123;...&#125;;//vehicle成为虚基类</code></p>
 <ul>
 <li><p>主要变化（同时也是使用虚基类的原因）是：从虚基类的一个或多个实例派生而来的类将只继承一个基类对象。为了实现这种特性，需要做的其他工作有：</p>
 <p>  • 有间接虚基类的派生类包含直接调用间接基类构造函数的构造函数。这对间接非虚基类来说是非法的。<br>  • 优先规则解决名称二义性</p>
@@ -397,7 +407,7 @@
 <p>最后总结，综上所述，MI会增加编程复杂程度。主要是由于派生类通过多种途径继承了同一个基类所引起的。</p>
 <hr>
 <p>参考链接</p>
-<p>-<a href="http://blog.sina.com.cn/s/blog_44c488680101745i.html" target="_blank" rel="external">多重继承</a></p>
+<p>-<a target="_blank" rel="noopener" href="http://blog.sina.com.cn/s/blog_44c488680101745i.html">多重继承</a></p>
 
       
     </div>
@@ -507,8 +517,8 @@
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.png"
-               alt="chaz" />
-          <p class="site-author-name" itemprop="name">chaz</p>
+               alt="" />
+          <p class="site-author-name" itemprop="name"></p>
            
               <p class="site-description motion-element" itemprop="description"></p>
           
@@ -518,7 +528,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">96</span>
+                <span class="site-state-item-count">99</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -566,7 +576,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#多重继承定义"><span class="nav-number">1.</span> <span class="nav-text">多重继承定义</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#多重继承可能存在的问题"><span class="nav-number">2.</span> <span class="nav-text">多重继承可能存在的问题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#继承同名类方法的二义性错误解决"><span class="nav-number">2.1.</span> <span class="nav-text">继承同名类方法的二义性错误解决</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#继承多个同名基类对象，需要用到虚基类"><span class="nav-number">2.2.</span> <span class="nav-text">继承多个同名基类对象，需要用到虚基类</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#虚基类语法"><span class="nav-number">2.2.1.</span> <span class="nav-text">虚基类语法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#新的构造函数规则"><span class="nav-number">2.3.</span> <span class="nav-text">新的构造函数规则</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#MI小结"><span class="nav-number">3.</span> <span class="nav-text">MI小结</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%A4%9A%E9%87%8D%E7%BB%A7%E6%89%BF%E5%AE%9A%E4%B9%89"><span class="nav-number">1.</span> <span class="nav-text">多重继承定义</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%A4%9A%E9%87%8D%E7%BB%A7%E6%89%BF%E5%8F%AF%E8%83%BD%E5%AD%98%E5%9C%A8%E7%9A%84%E9%97%AE%E9%A2%98"><span class="nav-number">2.</span> <span class="nav-text">多重继承可能存在的问题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%A7%E6%89%BF%E5%90%8C%E5%90%8D%E7%B1%BB%E6%96%B9%E6%B3%95%E7%9A%84%E4%BA%8C%E4%B9%89%E6%80%A7%E9%94%99%E8%AF%AF%E8%A7%A3%E5%86%B3"><span class="nav-number">2.1.</span> <span class="nav-text">继承同名类方法的二义性错误解决</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%A7%E6%89%BF%E5%A4%9A%E4%B8%AA%E5%90%8C%E5%90%8D%E5%9F%BA%E7%B1%BB%E5%AF%B9%E8%B1%A1%EF%BC%8C%E9%9C%80%E8%A6%81%E7%94%A8%E5%88%B0%E8%99%9A%E5%9F%BA%E7%B1%BB"><span class="nav-number">2.2.</span> <span class="nav-text">继承多个同名基类对象，需要用到虚基类</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%99%9A%E5%9F%BA%E7%B1%BB%E8%AF%AD%E6%B3%95"><span class="nav-number">2.2.1.</span> <span class="nav-text">虚基类语法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%B0%E7%9A%84%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0%E8%A7%84%E5%88%99"><span class="nav-number">2.3.</span> <span class="nav-text">新的构造函数规则</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#MI%E5%B0%8F%E7%BB%93"><span class="nav-number">3.</span> <span class="nav-text">MI小结</span></a></li></ol></div>
             
 
           </div>
@@ -593,17 +603,17 @@
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
-  <span class="author" itemprop="copyrightHolder">chaz</span>
+  <span class="author" itemprop="copyrightHolder">Chang</span>
 </div>
 
 
 <div class="powered-by">
-  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+  由 <a class="theme-link" target="_blank" rel="noopener" href="https://hexo.io">Hexo</a> 强力驱动
 </div>
 
 <div class="theme-info">
   主题 -
-  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+  <a class="theme-link" target="_blank" rel="noopener" href="https://github.com/iissnan/hexo-theme-next">
     NexT.Mist
   </a>
 </div>

@@ -97,19 +97,20 @@
 <meta property="og:type" content="article">
 <meta property="og:title" content="C++学习之智能指针">
 <meta property="og:url" content="https://zcplayground.github.io/2017/06/22/smart-pointer/index.html">
-<meta property="og:site_name" content="chaz">
+<meta property="og:site_name" content="Chang&#39;s Note">
 <meta property="og:description" content="智能指针是行为类似于指针的类对象，同时还有其他的功能。 我们知道，通过new分配的内存要及时delete，如果不及时回收，会导致内存泄漏。有的时候，我们可能会忘记delete，有没有更好的解决方法呢？假设我们在一个函数中new了一块内存，并让一个指针p指向这块内存。当函数返回时，指针p占据的内存将被释放。如果p指向的内存也被释放，不就解决了会忘记delete导致的内存泄漏问题吗？我们的想法是：指针">
-<meta property="og:updated_time" content="2017-06-22T02:09:16.000Z">
+<meta property="og:locale">
+<meta property="article:published_time" content="2017-06-22T02:02:09.000Z">
+<meta property="article:modified_time" content="2017-06-22T02:09:16.000Z">
+<meta property="article:author" content="Chang">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="C++学习之智能指针">
-<meta name="twitter:description" content="智能指针是行为类似于指针的类对象，同时还有其他的功能。 我们知道，通过new分配的内存要及时delete，如果不及时回收，会导致内存泄漏。有的时候，我们可能会忘记delete，有没有更好的解决方法呢？假设我们在一个函数中new了一块内存，并让一个指针p指向这块内存。当函数返回时，指针p占据的内存将被释放。如果p指向的内存也被释放，不就解决了会忘记delete导致的内存泄漏问题吗？我们的想法是：指针">
 
 
 
 <script type="text/javascript" id="hexo.configurations">
   var NexT = window.NexT || {};
   var CONFIG = {
-    root: '/',
+    root: '',
     scheme: 'Mist',
     sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
     fancybox: true,
@@ -136,8 +137,8 @@
 
 
 
-  <title>C++学习之智能指针 | chaz</title>
-</head>
+  <title>C++学习之智能指针 | Chang's Note</title>
+<meta name="generator" content="Hexo 5.4.2"></head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
 
@@ -173,7 +174,7 @@
     <div class="custom-logo-site-title">
       <a href="/"  class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
-        <span class="site-title">chaz</span>
+        <span class="site-title">Chang's Note</span>
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
@@ -237,6 +238,16 @@
           </a>
         </li>
       
+        
+        <li class="menu-item menu-item-quotations">
+          <a href="/quotations/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-quote-right"></i> <br />
+            
+            语录
+          </a>
+        </li>
+      
 
       
     </ul>
@@ -269,13 +280,13 @@
     <link itemprop="mainEntityOfPage" href="https://zcplayground.github.io/2017/06/22/smart-pointer/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="chaz">
+      <meta itemprop="name" content="">
       <meta itemprop="description" content="">
       <meta itemprop="image" content="/images/avatar.png">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="chaz">
+      <meta itemprop="name" content="Chang's Note">
     </span>
 
     
@@ -356,9 +367,9 @@
 <p>我们知道，通过new分配的内存要及时delete，如果不及时回收，会导致内存泄漏。有的时候，我们可能会忘记delete，有没有更好的解决方法呢？假设我们在一个函数中new了一块内存，并让一个指针p指向这块内存。当函数返回时，指针p占据的内存将被释放。如果p指向的内存也被释放，不就解决了会忘记delete导致的内存泄漏问题吗？我们的想法是：指针有一个析构函数，当指针过期时，释放指针指向的内存。问题在于，普通指针并不是一个对象，没有析构函数，我们要做到的就是将其设计成对象，让它过期时，通过它的析构函数删除指向的内存。这正是智能指针背后的思想。</p>
 <p>有三种智能指针：<code>auto_ptr</code>、<code>unique_ptr</code>、<code>shared_ptr</code>。auto_ptr是C++98提供的解决方案，C++11已经摒弃，并提供了另外两种解决方案。</p>
 <h1 id="使用智能指针"><a href="#使用智能指针" class="headerlink" title="使用智能指针"></a>使用智能指针</h1><p>这三个智能指针模板都定义了类似指针的对象，可以将new获得的地址赋给这种对象。当智能指针对象过期时，其析构函数将使用delete来释放内存。因此，如果将new返回的地址赋给这种对象，就不存在内存泄漏问题。</p>
-<p>要使用智能指针，需要包含头文件<code>memory</code>，使用通常的模板语法来实例化所需类型的指针。例如模板 auto_ptr 包含如下的构造函数：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">template</span>&lt;<span class="class"><span class="keyword">class</span> <span class="title">X</span>&gt; <span class="title">class</span> <span class="title">auto_ptr</span>&#123;</span></div><div class="line"><span class="keyword">public</span>:</div><div class="line">	<span class="function"><span class="keyword">explicit</span> <span class="title">auto_ptr</span><span class="params">(X *p = <span class="number">0</span>)</span> <span class="title">throw</span><span class="params">()</span></span>;</div><div class="line">...&#125;;</div></pre></td></tr></table></figure></p>
+<p>要使用智能指针，需要包含头文件<code>memory</code>，使用通常的模板语法来实例化所需类型的指针。例如模板 auto_ptr 包含如下的构造函数：<br><figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">template&lt;<span class="keyword">class</span> <span class="symbol">X</span>&gt; <span class="symbol">class</span> <span class="symbol">auto_ptr</span>&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="keyword">explicit</span> <span class="built_in">auto</span>_ptr(X *p = <span class="number">0</span>) throw();</span><br><span class="line">...&#125;;</span><br></pre></td></tr></table></figure></p>
 <p>请求X类型的 auto_ptr 将获得一个指向X类型的 auto_ptr。其他两种智能指针有相同的语法。</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">auto_ptr</span>&lt;<span class="keyword">double</span>&gt; pd1(<span class="keyword">new</span> <span class="keyword">double</span>);   <span class="comment">//替代了 double *</span></div><div class="line"><span class="built_in">auto_ptr</span>&lt;<span class="built_in">string</span>&gt; pd1(<span class="keyword">new</span> <span class="built_in">string</span>);   <span class="comment">//替代了 string *</span></div></pre></td></tr></table></figure>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">auto_ptr&lt;<span class="type">double</span>&gt; <span class="title">pd1</span><span class="params">(<span class="keyword">new</span> <span class="type">double</span>)</span></span>;   <span class="comment">//替代了 double *</span></span><br><span class="line"><span class="function">auto_ptr&lt;string&gt; <span class="title">pd1</span><span class="params">(<span class="keyword">new</span> string)</span></span>;   <span class="comment">//替代了 string *</span></span><br></pre></td></tr></table></figure>
 <p>如果要用智能指针替换普通指针，需要安装下面三个步骤进行：</p>
 <ol>
 <li>包含头文件memory</li>
@@ -366,7 +377,7 @@
 <li>删去delete语句。</li>
 </ol>
 <h1 id="有关智能指针的注意事项"><a href="#有关智能指针的注意事项" class="headerlink" title="有关智能指针的注意事项"></a>有关智能指针的注意事项</h1><p>为何要有三种智能指针？为何摒弃auto_ptr？看下面的赋值语句：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">auto_ptr</span>&lt;<span class="built_in">string</span>&gt; p1(<span class="keyword">new</span> <span class="built_in">string</span>(<span class="string">"lol"</span>));</div><div class="line"><span class="built_in">auto_ptr</span>&lt;<span class="built_in">string</span>&gt; p2;</div><div class="line">p2 = p1;</div></pre></td></tr></table></figure>
+<figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">auto_ptr&lt;string&gt; p1(new string(<span class="string">&quot;lol&quot;</span>))<span class="comment">;</span></span><br><span class="line">auto_ptr&lt;string&gt; p2<span class="comment">;</span></span><br><span class="line"><span class="attribute">p2</span> <span class="operator">=</span> p1<span class="comment">;</span></span><br></pre></td></tr></table></figure>
 <p>如果p1和p2是常规指针，则两个指针指向了同一个string对象，在delete p1和p2时会导致同一个内存块被释放了两次，这是不能接受的。要避免这种问题，方法有多种：</p>
 <ul>
 <li>定义赋值运算符，使之执行深度复制。这在类的动态内存分配中有提到。</li>
@@ -374,12 +385,12 @@
 <li>建立<strong>引用计数</strong>（reference counting）概念，用于确定引用同一个特定对象的智能指针数。例如赋值时，计数自增1，指针过期时，计数自减1。只有当最后一个指针过期时，才调用 delete 释放内存块。这是 share_ptr 的策略。</li>
 </ul>
 <p>三种智能指针各有用途和适用的情况，下面来看一个不适合 auto_ptr 的情况：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;iostream&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;string&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;memory&gt;</span></span></div><div class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></div><div class="line">&#123;</div><div class="line">	<span class="built_in">auto_ptr</span>&lt;<span class="built_in">string</span>&gt; n[<span class="number">5</span>] =</div><div class="line">	&#123;</div><div class="line">		<span class="built_in">auto_ptr</span>&lt;<span class="built_in">string</span>&gt;(<span class="keyword">new</span> <span class="built_in">string</span>(<span class="string">"1"</span>)),</div><div class="line">		<span class="built_in">auto_ptr</span>&lt;<span class="built_in">string</span>&gt;(<span class="keyword">new</span> <span class="built_in">string</span>(<span class="string">"2"</span>)),</div><div class="line">		<span class="built_in">auto_ptr</span>&lt;<span class="built_in">string</span>&gt;(<span class="keyword">new</span> <span class="built_in">string</span>(<span class="string">"3"</span>)),</div><div class="line">		<span class="built_in">auto_ptr</span>&lt;<span class="built_in">string</span>&gt;(<span class="keyword">new</span> <span class="built_in">string</span>(<span class="string">"4"</span>)),</div><div class="line">		<span class="built_in">auto_ptr</span>&lt;<span class="built_in">string</span>&gt;(<span class="keyword">new</span> <span class="built_in">string</span>(<span class="string">"5"</span>))</div><div class="line">	&#125;;</div><div class="line"></div><div class="line">	<span class="built_in">auto_ptr</span>&lt;<span class="built_in">string</span>&gt; p;</div><div class="line">	p = n[<span class="number">2</span>];</div><div class="line"></div><div class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">5</span>; i++)</div><div class="line">	&#123;</div><div class="line">		<span class="built_in">cout</span> &lt;&lt; *n[i] &lt;&lt; <span class="built_in">endl</span>;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;string&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;memory&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	auto_ptr&lt;string&gt; n[<span class="number">5</span>] =</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">auto_ptr</span>&lt;string&gt;(<span class="keyword">new</span> <span class="built_in">string</span>(<span class="string">&quot;1&quot;</span>)),</span><br><span class="line">		<span class="built_in">auto_ptr</span>&lt;string&gt;(<span class="keyword">new</span> <span class="built_in">string</span>(<span class="string">&quot;2&quot;</span>)),</span><br><span class="line">		<span class="built_in">auto_ptr</span>&lt;string&gt;(<span class="keyword">new</span> <span class="built_in">string</span>(<span class="string">&quot;3&quot;</span>)),</span><br><span class="line">		<span class="built_in">auto_ptr</span>&lt;string&gt;(<span class="keyword">new</span> <span class="built_in">string</span>(<span class="string">&quot;4&quot;</span>)),</span><br><span class="line">		<span class="built_in">auto_ptr</span>&lt;string&gt;(<span class="keyword">new</span> <span class="built_in">string</span>(<span class="string">&quot;5&quot;</span>))</span><br><span class="line">	&#125;;</span><br><span class="line"></span><br><span class="line">	auto_ptr&lt;string&gt; p;</span><br><span class="line">	p = n[<span class="number">2</span>];</span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">5</span>; i++)</span><br><span class="line">	&#123;</span><br><span class="line">		cout &lt;&lt; *n[i] &lt;&lt; endl;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>所有权机制是一个好事，可以防止两个不同的智能指针对象调用析构函数时重复删除同一块内存块。但这里错误地使用 auto_ptr 会导致问题。这里的问题在于，语句<code>p = n[2];</code>将导致所有权从 n[2] 转让给 p。n[2]将不再引用该字符串。当程序要输出 n[2] 指向的字符串时，却发现这是一个空指针。报错：auto_ptr not dereferencable</p>
 <p>如果用 share_ptr 来替代程序中的auto_ptr，程序将会正常运行并输出正确。使用了shared_ptr后，语句<code>p = n[2];</code>，使得 p 和 n[2] 指向同一个对象，引用计数从1增加到2。在程序末尾 后声明的p先调用其析构函数，引用计数降到1，然后到 n[2] 被释放时，引用计数降低到0，此时再调用delete，释放内存。</p>
 <p>unique_ptr采取更严格的所有权机制，如果把上述代码的指针改成 unique_ptr，会在编译阶段就报错。因此，unique_ptr 比 auto_ptr 更安全，编译阶段错误总比潜在的程序运行时崩溃要好得多。</p>
 <p>程序试图将一个unique_ptr 赋给另一个时，如果源 unique_ptr 是一个临时右值，那编译器允许这样做。如果源 unique_ptr 将存在一段时间，则编译器会禁止这样做。</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">unique_ptr</span>&lt;<span class="built_in">string</span>&gt; p1(<span class="keyword">new</span> <span class="built_in">string</span>(<span class="string">"hello"</span>));</div><div class="line"><span class="built_in">unique_ptr</span>&lt;<span class="built_in">string</span>&gt; p2;</div><div class="line">p2 = p1; <span class="comment">//not allowed</span></div><div class="line"></div><div class="line"><span class="built_in">unique_ptr</span>&lt;<span class="built_in">string</span>&gt; p3;</div><div class="line">p3 = <span class="built_in">unique_ptr</span>&lt;<span class="built_in">string</span>&gt;(<span class="keyword">new</span> <span class="built_in">string</span>(<span class="string">"hello"</span>)); <span class="comment">//allowed</span></div></pre></td></tr></table></figure>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">unique_ptr&lt;<span class="built_in">string</span>&gt; <span class="title">p1</span>(<span class="params"><span class="keyword">new</span> <span class="built_in">string</span>(<span class="string">&quot;hello&quot;</span></span>))</span>;</span><br><span class="line">unique_ptr&lt;<span class="built_in">string</span>&gt; p2;</span><br><span class="line">p2 = p1; <span class="comment">//not allowed</span></span><br><span class="line"></span><br><span class="line">unique_ptr&lt;<span class="built_in">string</span>&gt; p3;</span><br><span class="line">p3 = unique_ptr&lt;<span class="built_in">string</span>&gt;(<span class="keyword">new</span> <span class="built_in">string</span>(<span class="string">&quot;hello&quot;</span>)); <span class="comment">//allowed</span></span><br></pre></td></tr></table></figure>
 <p>第一个例子将留下悬挂的指针p1，语句二不会导致留下悬挂指针，因为它调用构造函数，构造函数创建的临时对象赋值给p3后，在构造函数返回时临时对象被销毁。</p>
 <p>当确实有需要时，C++有一个标准库函数<code>std::move()</code>可以将一个 unique_ptr 赋值给另一个。</p>
 <h1 id="如何选择智能指针？"><a href="#如何选择智能指针？" class="headerlink" title="如何选择智能指针？"></a>如何选择智能指针？</h1><p>如果程序要使用多个指向同一个对象的指针，应选择<code>shared_ptr</code>。举几个这样的情况的例子：有一个指针数组，此外还有一些额外的辅助指针标识特定的元素，例如最大的元素，最小的元素等等；两个对象都包含指向第三个对象的指针；STL容器和算法，很多STL算法都支持复制和赋值操作。</p>
@@ -493,8 +504,8 @@
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.png"
-               alt="chaz" />
-          <p class="site-author-name" itemprop="name">chaz</p>
+               alt="" />
+          <p class="site-author-name" itemprop="name"></p>
            
               <p class="site-description motion-element" itemprop="description"></p>
           
@@ -504,7 +515,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">96</span>
+                <span class="site-state-item-count">99</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -552,7 +563,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#使用智能指针"><span class="nav-number">1.</span> <span class="nav-text">使用智能指针</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#有关智能指针的注意事项"><span class="nav-number">2.</span> <span class="nav-text">有关智能指针的注意事项</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#如何选择智能指针？"><span class="nav-number">3.</span> <span class="nav-text">如何选择智能指针？</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88"><span class="nav-number">1.</span> <span class="nav-text">使用智能指针</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%9C%89%E5%85%B3%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88%E7%9A%84%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><span class="nav-number">2.</span> <span class="nav-text">有关智能指针的注意事项</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E9%80%89%E6%8B%A9%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88%EF%BC%9F"><span class="nav-number">3.</span> <span class="nav-text">如何选择智能指针？</span></a></li></ol></div>
             
 
           </div>
@@ -579,17 +590,17 @@
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
-  <span class="author" itemprop="copyrightHolder">chaz</span>
+  <span class="author" itemprop="copyrightHolder">Chang</span>
 </div>
 
 
 <div class="powered-by">
-  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+  由 <a class="theme-link" target="_blank" rel="noopener" href="https://hexo.io">Hexo</a> 强力驱动
 </div>
 
 <div class="theme-info">
   主题 -
-  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+  <a class="theme-link" target="_blank" rel="noopener" href="https://github.com/iissnan/hexo-theme-next">
     NexT.Mist
   </a>
 </div>

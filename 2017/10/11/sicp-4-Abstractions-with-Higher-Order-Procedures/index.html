@@ -97,14 +97,15 @@
 <meta property="og:type" content="article">
 <meta property="og:title" content="SICP——高阶函数做抽象">
 <meta property="og:url" content="https://zcplayground.github.io/2017/10/11/sicp-4-Abstractions-with-Higher-Order-Procedures/index.html">
-<meta property="og:site_name" content="chaz">
+<meta property="og:site_name" content="Chang&#39;s Note">
 <meta property="og:description" content="范围第一章 构造过程抽象 1.3 节，用高阶函数做抽象。P37 - 48 keywords：过程作为参数、lambda 演算子 笔记1.3.1 过程作为参数我们可以用 define 对一些过程做抽象。例如下面这个求立方： 123456(* 3 3 3)(* y y y)抽象为：(define (cube x) (* x x x)) 这一章我们将看见一种更高级的过程抽象。通过 define 产生的过">
+<meta property="og:locale">
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/%E8%BF%87%E7%A8%8B%E5%8F%82%E6%95%B0.png">
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/lambda.png">
-<meta property="og:updated_time" content="2018-03-31T01:47:52.000Z">
+<meta property="article:published_time" content="2017-10-11T03:09:43.000Z">
+<meta property="article:modified_time" content="2018-03-31T01:47:52.000Z">
+<meta property="article:author" content="Chang">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="SICP——高阶函数做抽象">
-<meta name="twitter:description" content="范围第一章 构造过程抽象 1.3 节，用高阶函数做抽象。P37 - 48 keywords：过程作为参数、lambda 演算子 笔记1.3.1 过程作为参数我们可以用 define 对一些过程做抽象。例如下面这个求立方： 123456(* 3 3 3)(* y y y)抽象为：(define (cube x) (* x x x)) 这一章我们将看见一种更高级的过程抽象。通过 define 产生的过">
 <meta name="twitter:image" content="http://osax8w13y.bkt.clouddn.com/%E8%BF%87%E7%A8%8B%E5%8F%82%E6%95%B0.png">
 
 
@@ -112,7 +113,7 @@
 <script type="text/javascript" id="hexo.configurations">
   var NexT = window.NexT || {};
   var CONFIG = {
-    root: '/',
+    root: '',
     scheme: 'Mist',
     sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
     fancybox: true,
@@ -139,8 +140,8 @@
 
 
 
-  <title>SICP——高阶函数做抽象 | chaz</title>
-</head>
+  <title>SICP——高阶函数做抽象 | Chang's Note</title>
+<meta name="generator" content="Hexo 5.4.2"></head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
 
@@ -176,7 +177,7 @@
     <div class="custom-logo-site-title">
       <a href="/"  class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
-        <span class="site-title">chaz</span>
+        <span class="site-title">Chang's Note</span>
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
@@ -240,6 +241,16 @@
           </a>
         </li>
       
+        
+        <li class="menu-item menu-item-quotations">
+          <a href="/quotations/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-quote-right"></i> <br />
+            
+            语录
+          </a>
+        </li>
+      
 
       
     </ul>
@@ -272,13 +283,13 @@
     <link itemprop="mainEntityOfPage" href="https://zcplayground.github.io/2017/10/11/sicp-4-Abstractions-with-Higher-Order-Procedures/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="chaz">
+      <meta itemprop="name" content="">
       <meta itemprop="description" content="">
       <meta itemprop="image" content="/images/avatar.png">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="chaz">
+      <meta itemprop="name" content="Chang's Note">
     </span>
 
     
@@ -359,22 +370,22 @@
 <p>1.3 节，用高阶函数做抽象。P37 - 48</p>
 <p><strong>keywords</strong>：过程作为参数、lambda 演算子</p>
 <h1 id="笔记"><a href="#笔记" class="headerlink" title="笔记"></a>笔记</h1><h2 id="1-3-1-过程作为参数"><a href="#1-3-1-过程作为参数" class="headerlink" title="1.3.1 过程作为参数"></a>1.3.1 过程作为参数</h2><p>我们可以用 define 对一些过程做抽象。例如下面这个求立方：</p>
-<figure class="highlight llvm"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">(* <span class="number">3</span> <span class="number">3</span> <span class="number">3</span>)</div><div class="line">(* y y y)</div><div class="line"></div><div class="line">抽象为：</div><div class="line"></div><div class="line">(<span class="keyword">define</span> (cube <span class="keyword">x</span>) (* <span class="keyword">x</span> <span class="keyword">x</span> <span class="keyword">x</span>))</div></pre></td></tr></table></figure>
+<figure class="highlight llvm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">(* <span class="number">3</span> <span class="number">3</span> <span class="number">3</span>)</span><br><span class="line">(* y y y)</span><br><span class="line"></span><br><span class="line">抽象为：</span><br><span class="line"></span><br><span class="line">(<span class="keyword">define</span> (cube <span class="keyword">x</span>) (* <span class="keyword">x</span> <span class="keyword">x</span> <span class="keyword">x</span>))</span><br></pre></td></tr></table></figure>
 <p>这一章我们将看见一种更高级的过程抽象。通过 define 产生的过程，迫使我们永远只能使用特定的操作，并且要传入参数，而不能基于更高级的操作去工作。</p>
 <p><strong>如果过程只能限制以数为参数，将严重限制我们建立抽象的能力。</strong>因此我们要构造出<strong>以过程为参数、返回过程的高阶过程</strong>，以及 lambda 演算子等技巧。这是强有力的抽象机制，极大的增强了语言的表述能力。下面看看如何将过程作为参数。</p>
 <p>考虑几个计算过程：</p>
 <p><img src="http://osax8w13y.bkt.clouddn.com/%E8%BF%87%E7%A8%8B%E5%8F%82%E6%95%B0.png" alt=""></p>
 <p>在这里可以明显的看出，三个过程中有一种共享的基础模式。（在一段范围内把某种东西累加起来）我们也希望程序语言足够强大，写出一个过程，<strong>表达求和的概念</strong>，而<strong>不是只能写出一种特定的求和过程</strong>。其实就上述三个过程，我们可以从中抽象出一种通式：</p>
-<figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">(define (<span class="built_in">sum</span> term <span class="keyword">a</span> next b))</div><div class="line">    (<span class="keyword">if</span> (&gt; <span class="keyword">a</span> b)</div><div class="line">        <span class="number">0</span></div><div class="line">        (+ (term <span class="keyword">a</span>)</div><div class="line">            (<span class="built_in">sum</span> term (next <span class="keyword">a</span>) next b))))</div></pre></td></tr></table></figure>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">(define (sum term <span class="selector-tag">a</span> next <span class="selector-tag">b</span>))</span><br><span class="line">    (if (&gt; <span class="selector-tag">a</span> <span class="selector-tag">b</span>)</span><br><span class="line">        <span class="number">0</span></span><br><span class="line">        (+ (term <span class="selector-tag">a</span>)</span><br><span class="line">            (sum term (next <span class="selector-tag">a</span>) next <span class="selector-tag">b</span>))))</span><br></pre></td></tr></table></figure>
 <p><code>sum</code>除了原有的两个参数 a 与 b，增加了<strong>过程参数</strong><code>term</code>和<code>next</code>，可以很简单的看出：<code>term</code>是指对当前数进行一个操作后，再把结果累加。<code>next</code>就是计算下一步的 a 值。</p>
 <p>下面是对原有的代码进行改进的过程，将过程作为了参数。将一个迭代累加的过程抽象成了一个通式，只需要传入过程来控制我们想要的累加形式即可。“抽象”不仅是用 sum-integers、sum-pi 等名字去描述那些过程，还可以从各种 sum 中抽象出更强的抽象：<strong>求和的概念</strong>。厉害厉害！值得一提的是，之前还很轻易地用 C 语言就可以改写的 Scheme 程序，从这里开始就变得难了。因为 C 语言要实现类似的效果，需要传递函数指针。</p>
-<figure class="highlight scheme"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line">(<span class="name"><span class="builtin-name">define</span></span> (<span class="name">inc</span> n)(<span class="name"><span class="builtin-name">+</span></span> n <span class="number">1</span>)) </div><div class="line"><span class="comment">;定义 inc 过程，用作 x++ 的功能</span></div><div class="line"></div><div class="line">(<span class="name"><span class="builtin-name">define</span></span> (<span class="name">sum</span> term a next b)</div><div class="line">  (<span class="name"><span class="builtin-name">if</span></span> (<span class="name"><span class="builtin-name">&gt;</span></span> a b)</div><div class="line">      <span class="number">0</span></div><div class="line">      (<span class="name"><span class="builtin-name">+</span></span> (<span class="name">term</span> a)(<span class="name">sum</span> term (<span class="name">next</span> a)next b)))) </div><div class="line"></div><div class="line">(<span class="name"><span class="builtin-name">define</span></span> (<span class="name">sum-cubes</span> a b)</div><div class="line">  (<span class="name">sum</span> cube a inc b)) </div><div class="line"></div><div class="line">(<span class="name"><span class="builtin-name">define</span></span> (<span class="name">cube</span> x)(<span class="name"><span class="builtin-name">*</span></span> x x x)) </div><div class="line"></div><div class="line">(<span class="name">sum-cubes</span> <span class="number">1</span> <span class="number">10</span>)</div><div class="line"><span class="comment">;Value: 3025</span></div><div class="line"></div><div class="line">(<span class="name"><span class="builtin-name">define</span></span> (<span class="name">pi-sum</span> a b)</div><div class="line">  (<span class="name"><span class="builtin-name">define</span></span> (<span class="name">pi-term</span> x)</div><div class="line">    (<span class="name"><span class="builtin-name">/</span></span> <span class="number">1.0</span> (<span class="name"><span class="builtin-name">*</span></span> x (<span class="name"><span class="builtin-name">+</span></span> x <span class="number">2</span>))))</div><div class="line">  (<span class="name"><span class="builtin-name">define</span></span> (<span class="name">pi-next</span> x)</div><div class="line">    (<span class="name"><span class="builtin-name">+</span></span> x <span class="number">4</span>))</div><div class="line">  (<span class="name">sum</span> pi-term a pi-next b))</div><div class="line"></div><div class="line"><span class="comment">;这个式子会收敛于 π/8</span></div><div class="line"></div><div class="line">(<span class="name"><span class="builtin-name">*</span></span> <span class="number">8</span> (<span class="name">pi-sum</span> <span class="number">1</span> <span class="number">1000</span>))</div><div class="line"><span class="comment">;Value: 3.139592655589783</span></div></pre></td></tr></table></figure>
+<figure class="highlight scheme"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">(<span class="name"><span class="built_in">define</span></span> (<span class="name">inc</span> n)(<span class="name"><span class="built_in">+</span></span> n <span class="number">1</span>)) </span><br><span class="line"><span class="comment">;定义 inc 过程，用作 x++ 的功能</span></span><br><span class="line"></span><br><span class="line">(<span class="name"><span class="built_in">define</span></span> (<span class="name">sum</span> term a next b)</span><br><span class="line">  (<span class="name"><span class="built_in">if</span></span> (<span class="name"><span class="built_in">&gt;</span></span> a b)</span><br><span class="line">      <span class="number">0</span></span><br><span class="line">      (<span class="name"><span class="built_in">+</span></span> (<span class="name">term</span> a)(<span class="name">sum</span> term (<span class="name">next</span> a)next b)))) </span><br><span class="line"></span><br><span class="line">(<span class="name"><span class="built_in">define</span></span> (<span class="name">sum-cubes</span> a b)</span><br><span class="line">  (<span class="name">sum</span> cube a inc b)) </span><br><span class="line"></span><br><span class="line">(<span class="name"><span class="built_in">define</span></span> (<span class="name">cube</span> x)(<span class="name"><span class="built_in">*</span></span> x x x)) </span><br><span class="line"></span><br><span class="line">(<span class="name">sum-cubes</span> <span class="number">1</span> <span class="number">10</span>)</span><br><span class="line"><span class="comment">;Value: 3025</span></span><br><span class="line"></span><br><span class="line">(<span class="name"><span class="built_in">define</span></span> (<span class="name">pi-sum</span> a b)</span><br><span class="line">  (<span class="name"><span class="built_in">define</span></span> (<span class="name">pi-term</span> x)</span><br><span class="line">    (<span class="name"><span class="built_in">/</span></span> <span class="number">1.0</span> (<span class="name"><span class="built_in">*</span></span> x (<span class="name"><span class="built_in">+</span></span> x <span class="number">2</span>))))</span><br><span class="line">  (<span class="name"><span class="built_in">define</span></span> (<span class="name">pi-next</span> x)</span><br><span class="line">    (<span class="name"><span class="built_in">+</span></span> x <span class="number">4</span>))</span><br><span class="line">  (<span class="name">sum</span> pi-term a pi-next b))</span><br><span class="line"></span><br><span class="line"><span class="comment">;这个式子会收敛于 π/8</span></span><br><span class="line"></span><br><span class="line">(<span class="name"><span class="built_in">*</span></span> <span class="number">8</span> (<span class="name">pi-sum</span> <span class="number">1</span> <span class="number">1000</span>))</span><br><span class="line"><span class="comment">;Value: 3.139592655589783</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <p>一旦有了 sum ，我们就能用它作为基本构件，去形式化其他概念。例如，求函数 f 在范围 a 和 b 之间的定积分近似值，可以用下面公式去完成：</p>
 <p>$$\int_a^b = \lbrace f(a+\frac{dx}{2}) + f(a+dx+\frac{dx}{2}) + f(a+2dx+\frac{dx}{2}) + … \rbrace dx $$</p>
 <p>这个式子的意思：将 x 轴取极小的小块（dx），大括号内的东西是所有长方体的长的累加，乘以 dx 就是积分。利用前面的 sum，我们可以直接描述 integral 过程：</p>
-<figure class="highlight scheme"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">(<span class="name"><span class="builtin-name">define</span></span> (<span class="name">integral</span> f a b dx)</div><div class="line">  (<span class="name"><span class="builtin-name">define</span></span> (<span class="name">add-dx</span> x)(<span class="name"><span class="builtin-name">+</span></span> x dx))</div><div class="line">  (<span class="name"><span class="builtin-name">*</span></span> (<span class="name">sum</span> f (<span class="name"><span class="builtin-name">+</span></span> a (<span class="name"><span class="builtin-name">/</span></span> dx <span class="number">2.0</span>)) add-dx b) dx))</div><div class="line"><span class="comment">;Value: integral</span></div><div class="line"></div><div class="line">(<span class="name">integral</span> cube <span class="number">0</span> <span class="number">1</span> <span class="number">0.001</span>)</div><div class="line"><span class="comment">;Value: .249999875000001</span></div></pre></td></tr></table></figure>
+<figure class="highlight scheme"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">(<span class="name"><span class="built_in">define</span></span> (<span class="name">integral</span> f a b dx)</span><br><span class="line">  (<span class="name"><span class="built_in">define</span></span> (<span class="name">add-dx</span> x)(<span class="name"><span class="built_in">+</span></span> x dx))</span><br><span class="line">  (<span class="name"><span class="built_in">*</span></span> (<span class="name">sum</span> f (<span class="name"><span class="built_in">+</span></span> a (<span class="name"><span class="built_in">/</span></span> dx <span class="number">2.0</span>)) add-dx b) dx))</span><br><span class="line"><span class="comment">;Value: integral</span></span><br><span class="line"></span><br><span class="line">(<span class="name">integral</span> cube <span class="number">0</span> <span class="number">1</span> <span class="number">0.001</span>)</span><br><span class="line"><span class="comment">;Value: .249999875000001</span></span><br></pre></td></tr></table></figure>
 <h2 id="1-3-2-lambda-构造"><a href="#1-3-2-lambda-构造" class="headerlink" title="1.3.2 lambda 构造"></a>1.3.2 lambda 构造</h2><p>在用过程做为参数时，我们不免要定义一些诸如 <code>pi-next</code>、<code>add-dx</code> 这样的过程名。这种做法有些不舒服，这些过程用作高阶函数的参数，它们在 <code>pi-sum</code> 和 <code>integral</code> 过程之外，是没什么用途的。我们可以通过引入一种 <strong>lambda λ 表达式</strong>来完成这种描述。</p>
-<figure class="highlight hy"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">;比如 pi-sum 可以这么写：</span></div><div class="line">(<span class="name"><span class="builtin-name">lambda</span></span> (<span class="name">x</span>) (<span class="name"><span class="builtin-name">+</span></span> x <span class="number">4</span>))</div></pre></td></tr></table></figure>
+<figure class="highlight scheme"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">;比如 pi-sum 可以这么写：</span></span><br><span class="line">(<span class="name"><span class="built_in">lambda</span></span> (x) (<span class="name"><span class="built_in">+</span></span> x <span class="number">4</span>))</span><br></pre></td></tr></table></figure>
 <p>lambda 创建过程的语法和 define 是一样的，只不过 lambda 不为过程提供一个名字。</p>
 <p>可以以如下方法来阅读 lambda 语句：</p>
 <p><img src="http://osax8w13y.bkt.clouddn.com/lambda.png" alt=""></p>
@@ -487,8 +498,8 @@
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.png"
-               alt="chaz" />
-          <p class="site-author-name" itemprop="name">chaz</p>
+               alt="" />
+          <p class="site-author-name" itemprop="name"></p>
            
               <p class="site-description motion-element" itemprop="description"></p>
           
@@ -498,7 +509,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">96</span>
+                <span class="site-state-item-count">99</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -546,7 +557,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#范围"><span class="nav-number">1.</span> <span class="nav-text">范围</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#笔记"><span class="nav-number">2.</span> <span class="nav-text">笔记</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3-1-过程作为参数"><span class="nav-number">2.1.</span> <span class="nav-text">1.3.1 过程作为参数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3-2-lambda-构造"><span class="nav-number">2.2.</span> <span class="nav-text">1.3.2 lambda 构造</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%8C%83%E5%9B%B4"><span class="nav-number">1.</span> <span class="nav-text">范围</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%94%E8%AE%B0"><span class="nav-number">2.</span> <span class="nav-text">笔记</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3-1-%E8%BF%87%E7%A8%8B%E4%BD%9C%E4%B8%BA%E5%8F%82%E6%95%B0"><span class="nav-number">2.1.</span> <span class="nav-text">1.3.1 过程作为参数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3-2-lambda-%E6%9E%84%E9%80%A0"><span class="nav-number">2.2.</span> <span class="nav-text">1.3.2 lambda 构造</span></a></li></ol></li></ol></div>
             
 
           </div>
@@ -573,17 +584,17 @@
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
-  <span class="author" itemprop="copyrightHolder">chaz</span>
+  <span class="author" itemprop="copyrightHolder">Chang</span>
 </div>
 
 
 <div class="powered-by">
-  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+  由 <a class="theme-link" target="_blank" rel="noopener" href="https://hexo.io">Hexo</a> 强力驱动
 </div>
 
 <div class="theme-info">
   主题 -
-  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+  <a class="theme-link" target="_blank" rel="noopener" href="https://github.com/iissnan/hexo-theme-next">
     NexT.Mist
   </a>
 </div>

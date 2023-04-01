@@ -97,8 +97,9 @@
 <meta property="og:type" content="article">
 <meta property="og:title" content="《TCP&#x2F;IP 详解 卷1：协议》第 8 章：Internet 控制报文协议">
 <meta property="og:url" content="https://zcplayground.github.io/2018/03/06/tcpip-8-ICMP/index.html">
-<meta property="og:site_name" content="chaz">
+<meta property="og:site_name" content="Chang&#39;s Note">
 <meta property="og:description" content="ICMP 报文路由器是 Internet 的重要组成部分，严密监视 Internet 的操作。IP 协议未给发送失败的 IP 数据包提供一种错误处理，也没有给端系统提供直接的方法来发现错误。为了解决这一不足之处，ICMP（Internet Control Message Protocol，Internet 控制报文协议） 被设计出来，与 IP 结合使用。当路由器处理一个数据包的过程中发生了意外，就">
+<meta property="og:locale">
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/ICMP%20header.png">
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/ICMP%20data.png">
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/Message%20type.png">
@@ -110,10 +111,10 @@
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/ping%20request.png">
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/ping%20reply.png">
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/port%20unreachable.png">
-<meta property="og:updated_time" content="2018-03-07T12:14:38.000Z">
+<meta property="article:published_time" content="2018-03-06T14:36:13.000Z">
+<meta property="article:modified_time" content="2018-03-07T12:14:38.000Z">
+<meta property="article:author" content="Chang">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="《TCP&#x2F;IP 详解 卷1：协议》第 8 章：Internet 控制报文协议">
-<meta name="twitter:description" content="ICMP 报文路由器是 Internet 的重要组成部分，严密监视 Internet 的操作。IP 协议未给发送失败的 IP 数据包提供一种错误处理，也没有给端系统提供直接的方法来发现错误。为了解决这一不足之处，ICMP（Internet Control Message Protocol，Internet 控制报文协议） 被设计出来，与 IP 结合使用。当路由器处理一个数据包的过程中发生了意外，就">
 <meta name="twitter:image" content="http://osax8w13y.bkt.clouddn.com/ICMP%20header.png">
 
 
@@ -121,7 +122,7 @@
 <script type="text/javascript" id="hexo.configurations">
   var NexT = window.NexT || {};
   var CONFIG = {
-    root: '/',
+    root: '',
     scheme: 'Mist',
     sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
     fancybox: true,
@@ -148,8 +149,8 @@
 
 
 
-  <title>《TCP/IP 详解 卷1：协议》第 8 章：Internet 控制报文协议 | chaz</title>
-</head>
+  <title>《TCP/IP 详解 卷1：协议》第 8 章：Internet 控制报文协议 | Chang's Note</title>
+<meta name="generator" content="Hexo 5.4.2"></head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
 
@@ -185,7 +186,7 @@
     <div class="custom-logo-site-title">
       <a href="/"  class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
-        <span class="site-title">chaz</span>
+        <span class="site-title">Chang's Note</span>
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
@@ -249,6 +250,16 @@
           </a>
         </li>
       
+        
+        <li class="menu-item menu-item-quotations">
+          <a href="/quotations/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-quote-right"></i> <br />
+            
+            语录
+          </a>
+        </li>
+      
 
       
     </ul>
@@ -281,13 +292,13 @@
     <link itemprop="mainEntityOfPage" href="https://zcplayground.github.io/2018/03/06/tcpip-8-ICMP/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="chaz">
+      <meta itemprop="name" content="">
       <meta itemprop="description" content="">
       <meta itemprop="image" content="/images/avatar.png">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="chaz">
+      <meta itemprop="name" content="Chang's Note">
     </span>
 
     
@@ -643,8 +654,8 @@
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.png"
-               alt="chaz" />
-          <p class="site-author-name" itemprop="name">chaz</p>
+               alt="" />
+          <p class="site-author-name" itemprop="name"></p>
            
               <p class="site-description motion-element" itemprop="description"></p>
           
@@ -654,7 +665,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">96</span>
+                <span class="site-state-item-count">99</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -702,7 +713,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#ICMP-报文"><span class="nav-number">1.</span> <span class="nav-text">ICMP 报文</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#格式"><span class="nav-number">1.1.</span> <span class="nav-text">格式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#类型"><span class="nav-number">1.2.</span> <span class="nav-text">类型</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#处理-ICMP-报文"><span class="nav-number">2.</span> <span class="nav-text">处理 ICMP 报文</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#差错报文"><span class="nav-number">3.</span> <span class="nav-text">差错报文</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#发送速率的限制"><span class="nav-number">3.1.</span> <span class="nav-text">发送速率的限制</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#查询-信息类报文"><span class="nav-number">4.</span> <span class="nav-text">查询/信息类报文</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#几种常见的-ICMP-消息"><span class="nav-number">5.</span> <span class="nav-text">几种常见的 ICMP 消息</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#回显请求-应答类报文-ping"><span class="nav-number">5.1.</span> <span class="nav-text">回显请求/应答类报文 ping</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#目的不可达-Destination-Unreachable-（主机-端口不可达、禁止通行、目的无路由等）"><span class="nav-number">5.2.</span> <span class="nav-text">目的不可达 Destination Unreachable （主机/端口不可达、禁止通行、目的无路由等）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#超时-Time-Exceed"><span class="nav-number">5.3.</span> <span class="nav-text">超时 Time Exceed</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#重定向-Redirect"><span class="nav-number">5.4.</span> <span class="nav-text">重定向 Redirect</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Wireshark-抓包"><span class="nav-number">6.</span> <span class="nav-text">Wireshark 抓包</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#ICMP-%E6%8A%A5%E6%96%87"><span class="nav-number">1.</span> <span class="nav-text">ICMP 报文</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A0%BC%E5%BC%8F"><span class="nav-number">1.1.</span> <span class="nav-text">格式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B1%BB%E5%9E%8B"><span class="nav-number">1.2.</span> <span class="nav-text">类型</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%A4%84%E7%90%86-ICMP-%E6%8A%A5%E6%96%87"><span class="nav-number">2.</span> <span class="nav-text">处理 ICMP 报文</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%B7%AE%E9%94%99%E6%8A%A5%E6%96%87"><span class="nav-number">3.</span> <span class="nav-text">差错报文</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%91%E9%80%81%E9%80%9F%E7%8E%87%E7%9A%84%E9%99%90%E5%88%B6"><span class="nav-number">3.1.</span> <span class="nav-text">发送速率的限制</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%9F%A5%E8%AF%A2-%E4%BF%A1%E6%81%AF%E7%B1%BB%E6%8A%A5%E6%96%87"><span class="nav-number">4.</span> <span class="nav-text">查询&#x2F;信息类报文</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%87%A0%E7%A7%8D%E5%B8%B8%E8%A7%81%E7%9A%84-ICMP-%E6%B6%88%E6%81%AF"><span class="nav-number">5.</span> <span class="nav-text">几种常见的 ICMP 消息</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9E%E6%98%BE%E8%AF%B7%E6%B1%82-%E5%BA%94%E7%AD%94%E7%B1%BB%E6%8A%A5%E6%96%87-ping"><span class="nav-number">5.1.</span> <span class="nav-text">回显请求&#x2F;应答类报文 ping</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9B%AE%E7%9A%84%E4%B8%8D%E5%8F%AF%E8%BE%BE-Destination-Unreachable-%EF%BC%88%E4%B8%BB%E6%9C%BA-%E7%AB%AF%E5%8F%A3%E4%B8%8D%E5%8F%AF%E8%BE%BE%E3%80%81%E7%A6%81%E6%AD%A2%E9%80%9A%E8%A1%8C%E3%80%81%E7%9B%AE%E7%9A%84%E6%97%A0%E8%B7%AF%E7%94%B1%E7%AD%89%EF%BC%89"><span class="nav-number">5.2.</span> <span class="nav-text">目的不可达 Destination Unreachable （主机&#x2F;端口不可达、禁止通行、目的无路由等）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B6%85%E6%97%B6-Time-Exceed"><span class="nav-number">5.3.</span> <span class="nav-text">超时 Time Exceed</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%87%8D%E5%AE%9A%E5%90%91-Redirect"><span class="nav-number">5.4.</span> <span class="nav-text">重定向 Redirect</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Wireshark-%E6%8A%93%E5%8C%85"><span class="nav-number">6.</span> <span class="nav-text">Wireshark 抓包</span></a></li></ol></div>
             
 
           </div>
@@ -729,17 +740,17 @@
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
-  <span class="author" itemprop="copyrightHolder">chaz</span>
+  <span class="author" itemprop="copyrightHolder">Chang</span>
 </div>
 
 
 <div class="powered-by">
-  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+  由 <a class="theme-link" target="_blank" rel="noopener" href="https://hexo.io">Hexo</a> 强力驱动
 </div>
 
 <div class="theme-info">
   主题 -
-  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+  <a class="theme-link" target="_blank" rel="noopener" href="https://github.com/iissnan/hexo-theme-next">
     NexT.Mist
   </a>
 </div>

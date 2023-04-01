@@ -97,8 +97,9 @@
 <meta property="og:type" content="article">
 <meta property="og:title" content="《TCP&#x2F;IP 详解 卷1：协议》第 5 章：Internet 协议">
 <meta property="og:url" content="https://zcplayground.github.io/2018/02/06/tcpip5-IP-Protocol/index.html">
-<meta property="og:site_name" content="chaz">
+<meta property="og:site_name" content="Chang&#39;s Note">
 <meta property="og:description" content="IP 是 TCPIP 协议族中的核心协议。所有 TCP、UDP、ICMP、IGMP 数据都通过 IP 数据包（又称为 packet）来传输。IP 的英文名为 Internet Protocol，是互联网协议族中用于跨越网络边界中继数据报的主要通信协议，主要提供主机寻址、数据报路由操作。它的路由功能可以实现互联，从本质上建立互联网（网络的网络）。  IP 是一种尽力而为（best-effort de">
+<meta property="og:locale">
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/IPv4header.png">
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/IPOption.png">
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/IPv6header.png">
@@ -107,10 +108,10 @@
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/IPV4fragmentation.png">
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/IPv6Fragmentation.png">
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/IPforwarding.png">
-<meta property="og:updated_time" content="2018-03-01T09:24:30.000Z">
+<meta property="article:published_time" content="2018-02-05T16:27:59.000Z">
+<meta property="article:modified_time" content="2018-03-01T09:24:30.000Z">
+<meta property="article:author" content="Chang">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="《TCP&#x2F;IP 详解 卷1：协议》第 5 章：Internet 协议">
-<meta name="twitter:description" content="IP 是 TCPIP 协议族中的核心协议。所有 TCP、UDP、ICMP、IGMP 数据都通过 IP 数据包（又称为 packet）来传输。IP 的英文名为 Internet Protocol，是互联网协议族中用于跨越网络边界中继数据报的主要通信协议，主要提供主机寻址、数据报路由操作。它的路由功能可以实现互联，从本质上建立互联网（网络的网络）。  IP 是一种尽力而为（best-effort de">
 <meta name="twitter:image" content="http://osax8w13y.bkt.clouddn.com/IPv4header.png">
 
 
@@ -118,7 +119,7 @@
 <script type="text/javascript" id="hexo.configurations">
   var NexT = window.NexT || {};
   var CONFIG = {
-    root: '/',
+    root: '',
     scheme: 'Mist',
     sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
     fancybox: true,
@@ -145,8 +146,8 @@
 
 
 
-  <title>《TCP/IP 详解 卷1：协议》第 5 章：Internet 协议 | chaz</title>
-</head>
+  <title>《TCP/IP 详解 卷1：协议》第 5 章：Internet 协议 | Chang's Note</title>
+<meta name="generator" content="Hexo 5.4.2"></head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
 
@@ -182,7 +183,7 @@
     <div class="custom-logo-site-title">
       <a href="/"  class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
-        <span class="site-title">chaz</span>
+        <span class="site-title">Chang's Note</span>
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
@@ -246,6 +247,16 @@
           </a>
         </li>
       
+        
+        <li class="menu-item menu-item-quotations">
+          <a href="/quotations/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-quote-right"></i> <br />
+            
+            语录
+          </a>
+        </li>
+      
 
       
     </ul>
@@ -278,13 +289,13 @@
     <link itemprop="mainEntityOfPage" href="https://zcplayground.github.io/2018/02/06/tcpip5-IP-Protocol/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="chaz">
+      <meta itemprop="name" content="">
       <meta itemprop="description" content="">
       <meta itemprop="image" content="/images/avatar.png">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="chaz">
+      <meta itemprop="name" content="Chang's Note">
     </span>
 
     
@@ -392,13 +403,13 @@
 <td>以 32 bits 为单位的字，IPv4 packet header 的长度。正常为 5（20个字节）</td>
 </tr>
 <tr>
-<td><a href="https://en.wikipedia.org/wiki/Differentiated_services" target="_blank" rel="external">区分服务（DS）</a></td>
+<td><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Differentiated_services">区分服务（DS）</a></td>
 <td>6</td>
 <td>见下文</td>
 <td>为 IP 网络提供 QoS 服务，典型例子为 voIP（voice over IP）</td>
 </tr>
 <tr>
-<td><a href="https://en.wikipedia.org/wiki/Explicit_Congestion_Notification" target="_blank" rel="external">显示拥塞控制（ECN）</a></td>
+<td><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Explicit_Congestion_Notification">显示拥塞控制（ECN）</a></td>
 <td>2</td>
 <td>见下文</td>
 <td>IP 协议的扩展，使得内置 ECN 功能的端点间通讯时拥有拥塞控制机制</td>
@@ -482,7 +493,7 @@
 <li>bit 1: Don’t Fragment (DF)，不对此 datagram 分片。此位被设置时，当某个 datagram 经过路由器时若需要分片，则会被丢弃。将数据包发送给没有足够资源来处理碎片的主机时，可以使用此功能。还可以用于<strong>路径 MTU 发现</strong>。</li>
 <li>bit 2: More Fragments (MF)，对于除了最后一片以外的分片，都设置了 MF 来表明“后面仍有其他分片”，方便拼接。最后一个分片 MF = 0 且 Fragmentation Offset 字段不为零，这样就将其与未分片的数据包区分开来。</li>
 </ul>
-<p>关于 IP checksum，参见 <a href="http://www.zcplayground.cc/2018/02/10/Internet-Checksum-and-Abel-Group/" target="_blank" rel="external">here</a></p>
+<p>关于 IP checksum，参见 <a target="_blank" rel="noopener" href="http://www.zcplayground.cc/2018/02/10/Internet-Checksum-and-Abel-Group/">here</a></p>
 <h2 id="IP-选项"><a href="#IP-选项" class="headerlink" title="IP 选项"></a>IP 选项</h2><p><img src="http://osax8w13y.bkt.clouddn.com/IPOption.png" alt=""></p>
 <p>IP 选项（Option）字段是一些可选参数通常用来配置一些行为，例如在路由期间使用的方法、一些探测、控制，早期对于 IP 进行的一些实验也是通过 IP 选项来完成的。在早期，处于 IPv4 设计阶段的 Internet 规模较小，来自恶意用户的威胁也比较少。随着时间的推移，所涉及相关的安全问题使得很多选项变得不再使用。许多路由器把某些 IP 选项认为是恶意或危险的，会被边界路由器或防火墙所拦截。多数标准化的选项在现如今的 Internet中很少使用。</p>
 <h1 id="IPv6-头部字段"><a href="#IPv6-头部字段" class="headerlink" title="IPv6 头部字段"></a>IPv6 头部字段</h1><p><img src="http://osax8w13y.bkt.clouddn.com/IPv6header.png" alt=""></p>
@@ -556,7 +567,7 @@
 <p><img src="http://osax8w13y.bkt.clouddn.com/nextheader.png" alt=""></p>
 <p><strong>下一个头部（Next Header）字段</strong>告诉接收方如何解释头部之后的数据。最后一个 Next Header 内容是携带有效载荷的上层协议信息，之后就是有效载荷。IPv6 使用许多下一个字段形成一个链。IPv6 头部（header）仅出现在数据报的开头。</p>
 <p><img src="http://osax8w13y.bkt.clouddn.com/IPv6Nextheader.png" alt=""></p>
-<h1 id="分片"><a href="#分片" class="headerlink" title="分片"></a>分片</h1><p>相关知识点：<a href="http://www.zcplayground.cc/2017/11/01/tcpip3-Link-Layer/" target="_blank" rel="external">MTU</a></p>
+<h1 id="分片"><a href="#分片" class="headerlink" title="分片"></a>分片</h1><p>相关知识点：<a target="_blank" rel="noopener" href="http://www.zcplayground.cc/2017/11/01/tcpip3-Link-Layer/">MTU</a></p>
 <blockquote>
 <p> 如果 IP 需要发送一个数据报，大小大于链路层 MTU，则 IP 通过分片将数据报分解成较小的部分，使每个分片都小于 MTU。</p>
 </blockquote>
@@ -588,7 +599,7 @@
 <p>转发表中的内容没有被协议标准规定的很精确，这些工作留给 IP 协议的实现者。通常转发表需要包含下列关键信息</p>
 <ul>
 <li>目的地</li>
-<li>掩码（用于进行最匹配前缀运算，见 <a href="http://www.zcplayground.cc/2017/10/30/tcpip2-IP-address/" target="_blank" rel="external">IP地址</a>）</li>
+<li>掩码（用于进行最匹配前缀运算，见 <a target="_blank" rel="noopener" href="http://www.zcplayground.cc/2017/10/30/tcpip2-IP-address/">IP地址</a>）</li>
 <li>下一跳</li>
 <li>下一跳网络接口（以太网、wifi、DSL 等）</li>
 </ul>
@@ -608,14 +619,14 @@
 </ul>
 <p>下面给出直接交付和简介交付的例子：</p>
 <p><img src="http://osax8w13y.bkt.clouddn.com/IPforwarding.png" alt=""></p>
-<p>关于掩码、最长前缀匹配的知识，参见 <a href="http://www.zcplayground.cc/2017/10/30/tcpip2-IP-address/" target="_blank" rel="external">here</a></p>
+<p>关于掩码、最长前缀匹配的知识，参见 <a target="_blank" rel="noopener" href="http://www.zcplayground.cc/2017/10/30/tcpip2-IP-address/">here</a></p>
 <hr>
 <h1 id="something-else"><a href="#something-else" class="headerlink" title="something else"></a>something else</h1><p>packet 是网络层的 PDU（协议数据单元），数据包</p>
 <p>datagram 数据报，用于形容网络层的传输数据，一个 datagram 可以被分到一个或多个 packets，在数据链路层中传输。而且也有说法说 datagram 形容起始点和目的地都使用无连接网络服务的的网络层的信息单元，例如 UDP 协议中也称传输单元是 datagram。</p>
 <h1 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h1><ul>
-<li><a href="https://en.wikipedia.org/wiki/Internet_layer" target="_blank" rel="external">wiki/Internet_layer</a></li>
-<li><a href="https://en.wikipedia.org/wiki/IPv6" target="_blank" rel="external">wiki/IPv6</a></li>
-<li><a href="https://en.wikipedia.org/wiki/IPv4#Fragmentation_and_reassembly" target="_blank" rel="external">wiki/IPv4</a></li>
+<li><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Internet_layer">wiki/Internet_layer</a></li>
+<li><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/IPv6">wiki/IPv6</a></li>
+<li><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/IPv4#Fragmentation_and_reassembly">wiki/IPv4</a></li>
 </ul>
 
       
@@ -726,8 +737,8 @@
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.png"
-               alt="chaz" />
-          <p class="site-author-name" itemprop="name">chaz</p>
+               alt="" />
+          <p class="site-author-name" itemprop="name"></p>
            
               <p class="site-description motion-element" itemprop="description"></p>
           
@@ -737,7 +748,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">96</span>
+                <span class="site-state-item-count">99</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -785,7 +796,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#IPv4-头部字段"><span class="nav-number">1.</span> <span class="nav-text">IPv4 头部字段</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#IP-选项"><span class="nav-number">1.1.</span> <span class="nav-text">IP 选项</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#IPv6-头部字段"><span class="nav-number">2.</span> <span class="nav-text">IPv6 头部字段</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#IPv6-选项及扩展头部"><span class="nav-number">2.1.</span> <span class="nav-text">IPv6 选项及扩展头部</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#分片"><span class="nav-number">3.</span> <span class="nav-text">分片</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#IPv4"><span class="nav-number">3.1.</span> <span class="nav-text">IPv4</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IPv6"><span class="nav-number">3.2.</span> <span class="nav-text">IPv6</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#IP-转发"><span class="nav-number">4.</span> <span class="nav-text">IP 转发</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#路由器"><span class="nav-number">4.1.</span> <span class="nav-text">路由器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#转发表"><span class="nav-number">4.2.</span> <span class="nav-text">转发表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IP-转发行动"><span class="nav-number">4.3.</span> <span class="nav-text">IP 转发行动</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#something-else"><span class="nav-number">5.</span> <span class="nav-text">something else</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考链接"><span class="nav-number">6.</span> <span class="nav-text">参考链接</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#IPv4-%E5%A4%B4%E9%83%A8%E5%AD%97%E6%AE%B5"><span class="nav-number">1.</span> <span class="nav-text">IPv4 头部字段</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#IP-%E9%80%89%E9%A1%B9"><span class="nav-number">1.1.</span> <span class="nav-text">IP 选项</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#IPv6-%E5%A4%B4%E9%83%A8%E5%AD%97%E6%AE%B5"><span class="nav-number">2.</span> <span class="nav-text">IPv6 头部字段</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#IPv6-%E9%80%89%E9%A1%B9%E5%8F%8A%E6%89%A9%E5%B1%95%E5%A4%B4%E9%83%A8"><span class="nav-number">2.1.</span> <span class="nav-text">IPv6 选项及扩展头部</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%88%86%E7%89%87"><span class="nav-number">3.</span> <span class="nav-text">分片</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#IPv4"><span class="nav-number">3.1.</span> <span class="nav-text">IPv4</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IPv6"><span class="nav-number">3.2.</span> <span class="nav-text">IPv6</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#IP-%E8%BD%AC%E5%8F%91"><span class="nav-number">4.</span> <span class="nav-text">IP 转发</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B7%AF%E7%94%B1%E5%99%A8"><span class="nav-number">4.1.</span> <span class="nav-text">路由器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BD%AC%E5%8F%91%E8%A1%A8"><span class="nav-number">4.2.</span> <span class="nav-text">转发表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IP-%E8%BD%AC%E5%8F%91%E8%A1%8C%E5%8A%A8"><span class="nav-number">4.3.</span> <span class="nav-text">IP 转发行动</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#something-else"><span class="nav-number">5.</span> <span class="nav-text">something else</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E9%93%BE%E6%8E%A5"><span class="nav-number">6.</span> <span class="nav-text">参考链接</span></a></li></ol></div>
             
 
           </div>
@@ -812,17 +823,17 @@
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
-  <span class="author" itemprop="copyrightHolder">chaz</span>
+  <span class="author" itemprop="copyrightHolder">Chang</span>
 </div>
 
 
 <div class="powered-by">
-  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+  由 <a class="theme-link" target="_blank" rel="noopener" href="https://hexo.io">Hexo</a> 强力驱动
 </div>
 
 <div class="theme-info">
   主题 -
-  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+  <a class="theme-link" target="_blank" rel="noopener" href="https://github.com/iissnan/hexo-theme-next">
     NexT.Mist
   </a>
 </div>

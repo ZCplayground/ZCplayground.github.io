@@ -97,8 +97,9 @@
 <meta property="og:type" content="article">
 <meta property="og:title" content="【CSAPP笔记】13. 链接">
 <meta property="og:url" content="https://zcplayground.github.io/2017/07/02/csapp-13-Linking/index.html">
-<meta property="og:site_name" content="chaz">
+<meta property="og:site_name" content="Chang&#39;s Note">
 <meta property="og:description" content="下面就要进入本书的第二部分——在系统上运行程序。书的第一部分，主要是研究单个应用程序，关注的是数据类型、机器指令、程序性能、存储器系统等话题。在书的第二部分，我们继续对计算机系统的探索。现代操作系统与硬件合作，（进程的概念、虚拟存储器）为每个程序提供一种假象，好像这个程序是计算机上唯一运行的程序。实际上在任何时间点，计算机上都有多个程序在运行。 链接（Linking）是将各种代码和数据收集起来组合">
+<meta property="og:locale">
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/13-compilesystem.png">
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/ELF1.png">
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/symbol1.png">
@@ -111,10 +112,10 @@
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/library2.png">
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/dynamiclinking.png">
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/execute.png">
-<meta property="og:updated_time" content="2017-07-09T05:35:36.000Z">
+<meta property="article:published_time" content="2017-07-02T13:20:55.000Z">
+<meta property="article:modified_time" content="2017-07-09T05:35:36.000Z">
+<meta property="article:author" content="Chang">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="【CSAPP笔记】13. 链接">
-<meta name="twitter:description" content="下面就要进入本书的第二部分——在系统上运行程序。书的第一部分，主要是研究单个应用程序，关注的是数据类型、机器指令、程序性能、存储器系统等话题。在书的第二部分，我们继续对计算机系统的探索。现代操作系统与硬件合作，（进程的概念、虚拟存储器）为每个程序提供一种假象，好像这个程序是计算机上唯一运行的程序。实际上在任何时间点，计算机上都有多个程序在运行。 链接（Linking）是将各种代码和数据收集起来组合">
 <meta name="twitter:image" content="http://osax8w13y.bkt.clouddn.com/13-compilesystem.png">
 
 
@@ -122,7 +123,7 @@
 <script type="text/javascript" id="hexo.configurations">
   var NexT = window.NexT || {};
   var CONFIG = {
-    root: '/',
+    root: '',
     scheme: 'Mist',
     sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
     fancybox: true,
@@ -149,8 +150,8 @@
 
 
 
-  <title>【CSAPP笔记】13. 链接 | chaz</title>
-</head>
+  <title>【CSAPP笔记】13. 链接 | Chang's Note</title>
+<meta name="generator" content="Hexo 5.4.2"></head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
 
@@ -186,7 +187,7 @@
     <div class="custom-logo-site-title">
       <a href="/"  class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
-        <span class="site-title">chaz</span>
+        <span class="site-title">Chang's Note</span>
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
@@ -250,6 +251,16 @@
           </a>
         </li>
       
+        
+        <li class="menu-item menu-item-quotations">
+          <a href="/quotations/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-quote-right"></i> <br />
+            
+            语录
+          </a>
+        </li>
+      
 
       
     </ul>
@@ -282,13 +293,13 @@
     <link itemprop="mainEntityOfPage" href="https://zcplayground.github.io/2017/07/02/csapp-13-Linking/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="chaz">
+      <meta itemprop="name" content="">
       <meta itemprop="description" content="">
       <meta itemprop="image" content="/images/avatar.png">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="chaz">
+      <meta itemprop="name" content="Chang's Note">
     </span>
 
     
@@ -383,7 +394,7 @@
 <li><strong>加载器</strong>（loader，shell 调用）：将可执行文件加载到内存中执行。</li>
 </ul>
 <p>假设我们写了两个 C 语言代码，分别是<code>main.c</code>和<code>sum.c</code>，前者中代码用到了后者中定义的函数。两者分别经过编译过程（cpp、cc1、as）之后，生成可重定位目标文件<code>main.o</code>和<code>sum.o</code>，最后，执行链接操作：</p>
-<figure class="highlight axapta"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ld -o <span class="keyword">sum</span> main.o <span class="keyword">sum</span>.o</div></pre></td></tr></table></figure>
+<figure class="highlight arcade"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ld -o <span class="built_in">sum</span> main.o <span class="built_in">sum</span>.o</span><br></pre></td></tr></table></figure>
 <p>就得到可执行文件<code>sum</code>。</p>
 <h1 id="链接的基本知识"><a href="#链接的基本知识" class="headerlink" title="链接的基本知识"></a>链接的基本知识</h1><p>下面来了解一些关于链接的术语。</p>
 <h2 id="静态链接"><a href="#静态链接" class="headerlink" title="静态链接"></a>静态链接</h2><p>Unix 下 <code>ld</code> 程序，叫做<strong>静态链接器</strong>，以一组可重定位目标文件和命令行参数作为输入，生成一个完全链接，可以加载运行的可执行目标文件做为输出。</p>
@@ -478,7 +489,7 @@
 <p>在上图的<code>main.c</code>中，<code>time</code>是弱符号，其余的符号是强符号。</p>
 <p>如果说在两个不同的文件中定义了同名的函数，由于函数都是强符号，链接时就会报错。</p>
 <p>下面看一个特殊的例子：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//文件1</span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdio.h&gt;</span></span></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">f</span><span class="params">(<span class="keyword">void</span>)</span></span>;</div><div class="line"></div><div class="line"><span class="keyword">int</span> x = <span class="number">15213</span>;</div><div class="line"><span class="keyword">int</span> y = <span class="number">15212</span>;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></div><div class="line">&#123;</div><div class="line">    f();</div><div class="line">    <span class="built_in">printf</span>(<span class="string">"x = 0x%x y = 0x%x \n"</span>, x, y);</div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">//文件2</span></div><div class="line"><span class="keyword">double</span> x;</div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">f</span><span class="params">()</span></span></div><div class="line">&#123;</div><div class="line">    x = <span class="number">-0.0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//文件1</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">f</span><span class="params">(<span class="type">void</span>)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> x = <span class="number">15213</span>;</span><br><span class="line"><span class="type">int</span> y = <span class="number">15212</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">f</span>();</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;x = 0x%x y = 0x%x \n&quot;</span>, x, y);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//文件2</span></span><br><span class="line"><span class="type">double</span> x;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">f</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    x = <span class="number">-0.0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>实验结果如下，可以看到，变量 y 的值也被改变了。</p>
 <p><img src="http://osax8w13y.bkt.clouddn.com/ex.png" alt=""></p>
 <p>上述代码的问题在于，文件2中定义的变量 x 是弱定义，在调用 f 函数对 x 进行写入的时候，实际上操作的应该是文件1中定义的强符号。在文件2中，x 的类型是 double，占 8 个字节，赋值语句 <code>x = -0.0</code> 会导致文件1中定义的强符号 y 的数据也被覆盖。在 linux 下，编译会发出一条警告，提示我们，两个同名符号的大小不同。</p>
@@ -501,21 +512,21 @@
 <li><strong>重定位节中的符号引用</strong>。链接器修改代码节和数据节中对每个符号的引用，使其指向正确的运行时地址。</li>
 </ul>
 <p>下面是一个实验，源文件<code>relocation.c</code>如下：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">sum</span><span class="params">(<span class="keyword">int</span> *a, <span class="keyword">int</span> n)</span></span>;</div><div class="line"><span class="keyword">int</span> <span class="built_in">array</span>[<span class="number">2</span>] = &#123;<span class="number">1</span>, <span class="number">2</span>&#125;;</div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">int</span> val = sum(<span class="built_in">array</span>, <span class="number">2</span>);</div><div class="line">    <span class="keyword">return</span> val;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> sum(<span class="type">int</span> *a, <span class="type">int</span> n);</span><br><span class="line"><span class="type">int</span> <span class="keyword">array</span>[<span class="number">2</span>] = &#123;<span class="number">1</span>, <span class="number">2</span>&#125;;</span><br><span class="line"><span class="type">int</span> main()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">int</span> val = sum(<span class="keyword">array</span>, <span class="number">2</span>);</span><br><span class="line">    <span class="keyword">return</span> val;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>源文件<code>sum.c</code>如下：</p>
-<figure class="highlight nimrod"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">int</span> sum(<span class="built_in">int</span> *a, <span class="built_in">int</span> n)</div><div class="line">&#123;</div><div class="line">    <span class="built_in">int</span> i, <span class="literal">result</span> = <span class="number">0</span>;</div><div class="line">    <span class="keyword">for</span>(i = <span class="number">0</span>;i &lt; n; i++)</div><div class="line">        <span class="literal">result</span> += a[i];</div><div class="line">    <span class="keyword">return</span> <span class="literal">result</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight nim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> sum(<span class="type">int</span> *a, <span class="type">int</span> n)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">int</span> i, <span class="built_in">result</span> = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(i = <span class="number">0</span>;i &lt; n; i++)</span><br><span class="line">        <span class="built_in">result</span> += a[i];</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">result</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>使用指令：<code>gcc -c relocation.c -o relocation.o</code>，-c 选项的意思是只编译不链接，我们可以由此得到可重定位目标文件。</p>
 <p>使用指令：<code>objdump -r -d relocation.o</code>反编译对应的可重定位对象文件，可以得到如下的汇编代码：</p>
 <p><img src="http://osax8w13y.bkt.clouddn.com/relocationex1.png" alt=""></p>
 <p>全局数组<code>array</code>需要重定位。call 指令调用函数 <code>sum</code>，这也是一个需要重定位的符号。我们将目光移到 call 指令这一行。<code>e8</code>是 <code>call</code> 的字节编码，可以看到，后面的操作数都是零，就是留出位置让链接器在链接的时候填上对应的实际内存地址。同理<code>bf</code>是<code>mov</code>的字节编码，<code>array</code>的首地址也是链接完成后才知道的，因此还没有确定地址。</p>
 <p>call 指令的下一行，有一句<code>13: R_X86_64_PC32 sum-0x4</code>，这个东西叫做<strong>重定位条目</strong>（relocation entry），无论何时汇编器遇到了对最终位置未知的符号引用，就会生成一个重定位条目，也就是存放在<code>.rel.text</code>和<code>.rel.data</code>节中的数据。<code>objdump</code>为了方便，将汇编代码和重定位条目放到一起显示，虽然他们实际存储不在一起。</p>
 <h3 id="PC相对引用重定位"><a href="#PC相对引用重定位" class="headerlink" title="PC相对引用重定位"></a>PC相对引用重定位</h3><p>我们现在来看一下链接器如何确定 call 调用的实际位置。重定位条目<code>13: R_X86_64_PC32 sum-0x4</code>告诉链接器要修改位于目标文件偏移量 0x13 （数一下机器编码的字节数，可以发现 call 指令刚好是第 0x13 个字节）的 <strong>PC相对引用</strong>（PC是指程序计数器），使得它在运行时指向 sum 的偏移量 <code>-0x4</code> 位置。</p>
-<p>使用指令<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">gcc -o relocation relocation<span class="selector-class">.c</span> sum<span class="selector-class">.c</span></div><div class="line">objdump -dx relocation</div></pre></td></tr></table></figure></p>
+<p>使用指令<br><figure class="highlight llvm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">gcc -o relocation relocation.<span class="keyword">c</span> sum.<span class="keyword">c</span></span><br><span class="line">objdump -dx relocation</span><br></pre></td></tr></table></figure></p>
 <p>在可执行文件的反汇编代码中找到 main 这一节，main 的地址是<code>0x4004d6</code>，sum 的地址是<code>0x4004f5</code>。这也就是链接器为节选择了<strong>运行时地址</strong>。</p>
 <p><img src="http://osax8w13y.bkt.clouddn.com/relocationex2.png" alt=""></p>
-<figure class="highlight lsl"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">ADDR(.text) = <span class="number">0x4004d6</span></div><div class="line">ADDR(sum) = <span class="number">0x4004f5</span></div><div class="line"></div><div class="line"><span class="comment">//计算引用的运行时，程序计数器的地址</span></div><div class="line">refaddr = ADDR(.text) + offset = <span class="number">0x4004d6</span> + <span class="number">0x13</span> = <span class="number">0x4004e9</span></div><div class="line"></div><div class="line"><span class="comment">//因此 call 的目标地址是 （第二个refptr是 0 ，计算前 call 后的操作数）</span></div><div class="line">*refptr = unsigned(ADDR(sum) - refaddr) <span class="number">-0x4</span></div><div class="line">        = unsigned(<span class="number">0x4004f5</span> - <span class="number">0x4004e9</span>) <span class="number">-0x4</span></div><div class="line">        = <span class="number">0x8</span></div></pre></td></tr></table></figure>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="title">ADDR</span><span class="params">(.text)</span></span> = <span class="number">0</span>x4004d6</span><br><span class="line"><span class="function"><span class="title">ADDR</span><span class="params">(sum)</span></span> = <span class="number">0</span>x4004f5</span><br><span class="line"></span><br><span class="line"><span class="comment">//计算引用的运行时，程序计数器的地址</span></span><br><span class="line">refaddr = <span class="built_in">ADDR</span>(.text) + offset = <span class="number">0</span>x4004d6 + <span class="number">0</span>x13 = <span class="number">0</span>x4004e9</span><br><span class="line"></span><br><span class="line"><span class="comment">//因此 call 的目标地址是 （第二个refptr是 0 ，计算前 call 后的操作数）</span></span><br><span class="line">*refptr = <span class="built_in">unsigned</span>(<span class="built_in">ADDR</span>(sum) - refaddr) -<span class="number">0</span>x4</span><br><span class="line">        = <span class="built_in">unsigned</span>(<span class="number">0</span>x4004f5 - <span class="number">0</span>x4004e9) -<span class="number">0</span>x4</span><br><span class="line">        = <span class="number">0</span>x8 </span><br></pre></td></tr></table></figure>
 <p>以上就是 PC 相对重定位的过程。链接器将结果填入可执行目标文件，call 指令有了如下的重定位形式：</p>
-<figure class="highlight tap"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">4004e8:     e8<span class="number"> 08 </span>00<span class="number"> 00 </span>00          callq   4004f5 &lt;sum&gt;</div></pre></td></tr></table></figure>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">4004e8</span>:     e8 <span class="number">08</span> <span class="number">00</span> <span class="number">00</span> <span class="number">00</span>          callq   <span class="number">4004</span>f5 &lt;sum&gt;</span><br></pre></td></tr></table></figure>
 <h3 id="绝对引用重定位"><a href="#绝对引用重定位" class="headerlink" title="绝对引用重定位"></a>绝对引用重定位</h3><p>对于全局数组 <code>array</code> 的重定位条目：<code>e：R_X86_64_32 array</code>，重定位条目告诉链接器，这是一个<strong>绝对引用</strong>，将要修改位于目标文件偏移量 0xe 的绝对引用，使其指向符号 <code>array</code>。绝对引用就相对简单，只需要把链接器确定的数组开头的运行时地址，即<code>&amp;array[0]</code>填入相应的地方即可。</p>
 <h1 id="共享库"><a href="#共享库" class="headerlink" title="共享库"></a>共享库</h1><p>我们目前为止做的工作都是链接器读取一组可重定位目标文件，并把它们链接起来。那在处理一大堆常用的标准函数，例如<code>printf、scanf、malloc</code>等，我们要怎么做呢？</p>
 <ul>
@@ -541,7 +552,7 @@
 <p>下面看一个具体例子，各个文件代码如下：</p>
 <p><img src="http://osax8w13y.bkt.clouddn.com/staticlibrary1.png" alt=""></p>
 <p>使用如下指令：</p>
-<figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">只编译不链接，获得两个目标文件：</div><div class="line">gcc -c addvec<span class="selector-class">.c</span> multvec<span class="selector-class">.c</span></div><div class="line"></div><div class="line">将两个目标文件打包成一个后缀为 <span class="selector-class">.a</span> 的静态库：</div><div class="line">ar rcs libvector<span class="selector-class">.a</span> addvec<span class="selector-class">.o</span> multvec<span class="selector-class">.o</span> </div><div class="line"></div><div class="line">使用静态库链接</div><div class="line">gcc -c main<span class="selector-class">.c</span> -o main<span class="selector-class">.o</span></div><div class="line">gcc -static -o <span class="selector-tag">p</span> main<span class="selector-class">.o</span> ./libvector.a</div></pre></td></tr></table></figure>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">只编译不链接，获得两个目标文件：</span><br><span class="line">gcc -c addvec<span class="selector-class">.c</span> multvec<span class="selector-class">.c</span></span><br><span class="line"></span><br><span class="line">将两个目标文件打包成一个后缀为 <span class="selector-class">.a</span> 的静态库：</span><br><span class="line">ar rcs libvector<span class="selector-class">.a</span> addvec<span class="selector-class">.o</span> multvec<span class="selector-class">.o</span> </span><br><span class="line"></span><br><span class="line">使用静态库链接</span><br><span class="line">gcc -c <span class="selector-tag">main</span><span class="selector-class">.c</span> -o <span class="selector-tag">main</span><span class="selector-class">.o</span></span><br><span class="line">gcc -static -o <span class="selector-tag">p</span> <span class="selector-tag">main</span><span class="selector-class">.o</span> ./libvector.a</span><br></pre></td></tr></table></figure>
 <p>-static 参数告诉编译器，链接器应当构建一个完全链接的可执行文件。</p>
 <p>链接器会判断：<code>addvec.o</code> 中的符号 <code>addvec</code> 被 <code>main.o</code> 引用，因此拷贝这个模块到可执行文件。由于没有用到 <code>multvec.o</code> 中的符号，因此不会拷贝这个模块到可执行文件。此外，由于用到了函数 <code>printf</code> ，链接器还会拷贝 <code>libc.a</code> 中的 <code>printf.o</code> 模块，以及许多其他运行时需要用到的模块。下图很清晰的展现了静态库的好处：</p>
 <p><img src="http://osax8w13y.bkt.clouddn.com/library2.png" alt=""></p>
@@ -550,7 +561,7 @@
 <p>共享库也叫<strong>共享目标</strong>（shared object），在 Unix 系统下常用后缀名 .so 来表示。在 Windows 中大量利用了动态链接库，就是 DLL（dynamic linking library）。</p>
 <p>如果还是以上面的例子，但是以动态链接的方式，工作原理如下图：</p>
 <p><img src="http://osax8w13y.bkt.clouddn.com/dynamiclinking.png" alt=""></p>
-<figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">创建一个共享的目标文件</div><div class="line">gcc -shared -fPIC -o libvector<span class="selector-class">.so</span> addvec<span class="selector-class">.c</span> mutlvec<span class="selector-class">.c</span></div><div class="line"></div><div class="line">创建可执行目标文件 p2，这个文件的形式是可以在运行时与 libvector<span class="selector-class">.so</span> 动态链接</div><div class="line">gcc -o p2 main<span class="selector-class">.c</span> ./libvector.so</div></pre></td></tr></table></figure>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">创建一个共享的目标文件</span><br><span class="line">gcc -shared -fPIC -o libvector<span class="selector-class">.so</span> addvec<span class="selector-class">.c</span> mutlvec<span class="selector-class">.c</span></span><br><span class="line"></span><br><span class="line">创建可执行目标文件 p2，这个文件的形式是可以在运行时与 libvector<span class="selector-class">.so</span> 动态链接</span><br><span class="line">gcc -o p2 <span class="selector-tag">main</span><span class="selector-class">.c</span> ./libvector.so</span><br></pre></td></tr></table></figure>
 <p>-fPIC 指示编译器生成<strong>与位置无关的代码</strong>。目的就是允许多个正在运行的进程共享存储区中相同的库代码，节约了存储器空间。</p>
 <p>基本的思路是：创建可执行文件时，静态地执行一部分链接，当程序被加载运行时，动态地完成剩余的链接过程。</p>
 <h1 id="可执行目标文件、加载运行"><a href="#可执行目标文件、加载运行" class="headerlink" title="可执行目标文件、加载运行"></a>可执行目标文件、加载运行</h1><p>下图可以看到一个可执行目标文件的形式，它是由多个目标文件合并而来的。我们最开始的 C 源代码，是一个 ASCII 码文件，已经被转换成一个二进制文件，包含了加载程序且运行它所需的所有信息。</p>
@@ -559,9 +570,9 @@
 <h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>链接是一种运行程序由多个目标文件构造得来的技术。链接可以发生在编译时（静态链接）、加载时、运行时（动态链接）。理解链接的相关知识点，我们从代码级进入到系统级，有益于我们了解操作系统是如何完成各种复杂工作的。</p>
 <hr>
 <h1 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h1><ul>
-<li><a href="http://www.cs.cmu.edu/~./213/schedule.html" target="_blank" rel="external">CMU 2017年春季学期  ICS课程网站</a></li>
-<li><a href="https://zh.wikipedia.org/wiki/%E9%9D%99%E6%80%81%E5%BA%93" target="_blank" rel="external">wiki -静态库</a></li>
-<li><a href="http://www.cnblogs.com/oubo/archive/2011/12/06/2394631.html" target="_blank" rel="external">C编译器、链接器、加载器详解</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.cs.cmu.edu/~./213/schedule.html">CMU 2017年春季学期  ICS课程网站</a></li>
+<li><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E9%9D%99%E6%80%81%E5%BA%93">wiki -静态库</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.cnblogs.com/oubo/archive/2011/12/06/2394631.html">C编译器、链接器、加载器详解</a></li>
 </ul>
 
       
@@ -672,8 +683,8 @@
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.png"
-               alt="chaz" />
-          <p class="site-author-name" itemprop="name">chaz</p>
+               alt="" />
+          <p class="site-author-name" itemprop="name"></p>
            
               <p class="site-description motion-element" itemprop="description"></p>
           
@@ -683,7 +694,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">96</span>
+                <span class="site-state-item-count">99</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -731,7 +742,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#编译系统"><span class="nav-number">1.</span> <span class="nav-text">编译系统</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#链接的基本知识"><span class="nav-number">2.</span> <span class="nav-text">链接的基本知识</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#静态链接"><span class="nav-number">2.1.</span> <span class="nav-text">静态链接</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#目标文件"><span class="nav-number">2.2.</span> <span class="nav-text">目标文件</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#链接器做了什么？"><span class="nav-number">3.</span> <span class="nav-text">链接器做了什么？</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#符号表"><span class="nav-number">3.1.</span> <span class="nav-text">符号表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#符号解析"><span class="nav-number">3.2.</span> <span class="nav-text">符号解析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#解析多重定义的符号"><span class="nav-number">3.3.</span> <span class="nav-text">解析多重定义的符号</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#重定位"><span class="nav-number">3.4.</span> <span class="nav-text">重定位</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#PC相对引用重定位"><span class="nav-number">3.4.1.</span> <span class="nav-text">PC相对引用重定位</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#绝对引用重定位"><span class="nav-number">3.4.2.</span> <span class="nav-text">绝对引用重定位</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#共享库"><span class="nav-number">4.</span> <span class="nav-text">共享库</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#静态库"><span class="nav-number">4.1.</span> <span class="nav-text">静态库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#动态链接共享库"><span class="nav-number">4.2.</span> <span class="nav-text">动态链接共享库</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#可执行目标文件、加载运行"><span class="nav-number">5.</span> <span class="nav-text">可执行目标文件、加载运行</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">6.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考链接"><span class="nav-number">7.</span> <span class="nav-text">参考链接</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BC%96%E8%AF%91%E7%B3%BB%E7%BB%9F"><span class="nav-number">1.</span> <span class="nav-text">编译系统</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%93%BE%E6%8E%A5%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%9F%A5%E8%AF%86"><span class="nav-number">2.</span> <span class="nav-text">链接的基本知识</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9D%99%E6%80%81%E9%93%BE%E6%8E%A5"><span class="nav-number">2.1.</span> <span class="nav-text">静态链接</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9B%AE%E6%A0%87%E6%96%87%E4%BB%B6"><span class="nav-number">2.2.</span> <span class="nav-text">目标文件</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%93%BE%E6%8E%A5%E5%99%A8%E5%81%9A%E4%BA%86%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="nav-number">3.</span> <span class="nav-text">链接器做了什么？</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%A6%E5%8F%B7%E8%A1%A8"><span class="nav-number">3.1.</span> <span class="nav-text">符号表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%A6%E5%8F%B7%E8%A7%A3%E6%9E%90"><span class="nav-number">3.2.</span> <span class="nav-text">符号解析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%A3%E6%9E%90%E5%A4%9A%E9%87%8D%E5%AE%9A%E4%B9%89%E7%9A%84%E7%AC%A6%E5%8F%B7"><span class="nav-number">3.3.</span> <span class="nav-text">解析多重定义的符号</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%87%8D%E5%AE%9A%E4%BD%8D"><span class="nav-number">3.4.</span> <span class="nav-text">重定位</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#PC%E7%9B%B8%E5%AF%B9%E5%BC%95%E7%94%A8%E9%87%8D%E5%AE%9A%E4%BD%8D"><span class="nav-number">3.4.1.</span> <span class="nav-text">PC相对引用重定位</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%9D%E5%AF%B9%E5%BC%95%E7%94%A8%E9%87%8D%E5%AE%9A%E4%BD%8D"><span class="nav-number">3.4.2.</span> <span class="nav-text">绝对引用重定位</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%85%B1%E4%BA%AB%E5%BA%93"><span class="nav-number">4.</span> <span class="nav-text">共享库</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9D%99%E6%80%81%E5%BA%93"><span class="nav-number">4.1.</span> <span class="nav-text">静态库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%85%B1%E4%BA%AB%E5%BA%93"><span class="nav-number">4.2.</span> <span class="nav-text">动态链接共享库</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%AF%E6%89%A7%E8%A1%8C%E7%9B%AE%E6%A0%87%E6%96%87%E4%BB%B6%E3%80%81%E5%8A%A0%E8%BD%BD%E8%BF%90%E8%A1%8C"><span class="nav-number">5.</span> <span class="nav-text">可执行目标文件、加载运行</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">6.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E9%93%BE%E6%8E%A5"><span class="nav-number">7.</span> <span class="nav-text">参考链接</span></a></li></ol></div>
             
 
           </div>
@@ -758,17 +769,17 @@
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
-  <span class="author" itemprop="copyrightHolder">chaz</span>
+  <span class="author" itemprop="copyrightHolder">Chang</span>
 </div>
 
 
 <div class="powered-by">
-  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+  由 <a class="theme-link" target="_blank" rel="noopener" href="https://hexo.io">Hexo</a> 强力驱动
 </div>
 
 <div class="theme-info">
   主题 -
-  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+  <a class="theme-link" target="_blank" rel="noopener" href="https://github.com/iissnan/hexo-theme-next">
     NexT.Mist
   </a>
 </div>

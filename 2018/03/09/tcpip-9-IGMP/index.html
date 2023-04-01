@@ -97,8 +97,9 @@
 <meta property="og:type" content="article">
 <meta property="og:title" content="《TCP&#x2F;IP 详解 卷1：协议》第 9 章：广播和本地组播（IGMP 和 MLD）">
 <meta property="og:url" content="https://zcplayground.github.io/2018/03/09/tcpip-9-IGMP/index.html">
-<meta property="og:site_name" content="chaz">
+<meta property="og:site_name" content="Chang&#39;s Note">
 <meta property="og:description" content="广播和本地组播（IGMP 和 MLD） 引言有 4 种 IP 地址，单播（unicast）、任播（anycast）、组播（multicast）和广播（broadcast）。IPv4 可以使用所有地址，IPv6 可以使用除广播之外的地址。 本章讨论广播和组播的细节，例如：  链路层如何有效地从一台计算机向其他计算机发送广播或组播流量。 互联网组管理协议（IGMP）和组播侦听协议（MLD）如何工作，通">
+<meta property="og:locale">
 <meta property="og:image" content="http://p6rl2gdnw.bkt.clouddn.com/D%20address.png">
 <meta property="og:image" content="http://p6rl2gdnw.bkt.clouddn.com/map%20of%20IPv4.png">
 <meta property="og:image" content="http://p6rl2gdnw.bkt.clouddn.com/filter%20on%20group%20message.png">
@@ -108,10 +109,10 @@
 <meta property="og:image" content="http://p6rl2gdnw.bkt.clouddn.com/group%20record.png">
 <meta property="og:image" content="http://p6rl2gdnw.bkt.clouddn.com/IGMP%20filtering%20mode.png">
 <meta property="og:image" content="http://p6rl2gdnw.bkt.clouddn.com/IGMP%20query.png">
-<meta property="og:updated_time" content="2018-05-26T09:11:36.000Z">
+<meta property="article:published_time" content="2018-03-09T15:03:06.000Z">
+<meta property="article:modified_time" content="2018-05-26T09:11:36.000Z">
+<meta property="article:author" content="Chang">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="《TCP&#x2F;IP 详解 卷1：协议》第 9 章：广播和本地组播（IGMP 和 MLD）">
-<meta name="twitter:description" content="广播和本地组播（IGMP 和 MLD） 引言有 4 种 IP 地址，单播（unicast）、任播（anycast）、组播（multicast）和广播（broadcast）。IPv4 可以使用所有地址，IPv6 可以使用除广播之外的地址。 本章讨论广播和组播的细节，例如：  链路层如何有效地从一台计算机向其他计算机发送广播或组播流量。 互联网组管理协议（IGMP）和组播侦听协议（MLD）如何工作，通">
 <meta name="twitter:image" content="http://p6rl2gdnw.bkt.clouddn.com/D%20address.png">
 
 
@@ -119,7 +120,7 @@
 <script type="text/javascript" id="hexo.configurations">
   var NexT = window.NexT || {};
   var CONFIG = {
-    root: '/',
+    root: '',
     scheme: 'Mist',
     sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
     fancybox: true,
@@ -146,8 +147,8 @@
 
 
 
-  <title>《TCP/IP 详解 卷1：协议》第 9 章：广播和本地组播（IGMP 和 MLD） | chaz</title>
-</head>
+  <title>《TCP/IP 详解 卷1：协议》第 9 章：广播和本地组播（IGMP 和 MLD） | Chang's Note</title>
+<meta name="generator" content="Hexo 5.4.2"></head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
 
@@ -183,7 +184,7 @@
     <div class="custom-logo-site-title">
       <a href="/"  class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
-        <span class="site-title">chaz</span>
+        <span class="site-title">Chang's Note</span>
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
@@ -247,6 +248,16 @@
           </a>
         </li>
       
+        
+        <li class="menu-item menu-item-quotations">
+          <a href="/quotations/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-quote-right"></i> <br />
+            
+            语录
+          </a>
+        </li>
+      
 
       
     </ul>
@@ -279,13 +290,13 @@
     <link itemprop="mainEntityOfPage" href="https://zcplayground.github.io/2018/03/09/tcpip-9-IGMP/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="chaz">
+      <meta itemprop="name" content="">
       <meta itemprop="description" content="">
       <meta itemprop="image" content="/images/avatar.png">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="chaz">
+      <meta itemprop="name" content="Chang's Note">
     </span>
 
     
@@ -378,7 +389,7 @@
 <p><strong>一般来说，只用使用 UDP 传输协议的应用程序才利用广播和组播</strong>，在 UDP 下，发送单个报文到多个收件方才是有意义的。TCP 是面向连接的协议，使用 TCP 的话意味着两台主机（由IP地址指定）上面的进程（由端口号指定）之间建立了连接。TCP 可以使用单播和任播，但是不能使用广播和组播地址。</p>
 <h1 id="广播"><a href="#广播" class="headerlink" title="广播"></a>广播</h1><p>广播是指将报文发送到网络中所有可能的接收者。原理上很清晰：路由器<strong>简单地把它接受到的任意报文，在除了报文到达接口之外的所有接口都发送一个副本。</strong></p>
 <h2 id="广播地址"><a href="#广播地址" class="headerlink" title="广播地址"></a>广播地址</h2><p>回忆一下，每个以太网帧包含源和目的 MAC 地址。使用单播地址时，MAC 地址由ARP 或 IPv6 邻居发现来确定。当一个帧以这种方式发送到单播 IP 地址时，任意两个主机之间的通信不会打扰这个网络上的其他主机。诸如以太网这种链路层支持<strong>链路层广播</strong>。</p>
-<p>组播的 MAC 地址，高字节位是低位有效字节，也就是 CSAPP 里面讲的<a href="http://www.cnblogs.com/ZCplayground/p/6485364.html" target="_blank" rel="external">小端法</a>。以太网的广播地址是<code>ff:ff:ff:ff:ff:ff</code>。</p>
+<p>组播的 MAC 地址，高字节位是低位有效字节，也就是 CSAPP 里面讲的<a target="_blank" rel="noopener" href="http://www.cnblogs.com/ZCplayground/p/6485364.html">小端法</a>。以太网的广播地址是<code>ff:ff:ff:ff:ff:ff</code>。</p>
 <p>每个 IPv4 子网都有一个<strong>本子网广播地址，就是地址中的主机部分全置 1 形成的</strong>。特殊地址：<code>255.255.255.255</code> 被称为<strong>本地广播地址</strong>（也称为“有限广播”）。该地址我们在 DHCP 中见过。由于主机在未配置网络环境时，自身没有 IP 地址，也没有关于子网掩码等信息。适用本地广播地址，路由器是不会转发的，有限广播地址仅出现在本地网络。</p>
 <h1 id="组播"><a href="#组播" class="headerlink" title="组播"></a>组播</h1><p>为了减少在广播中涉及的开销，可以只向那些<strong>对该流量感兴趣的接收方</strong>发送流量。这被称为组播（multicasting）。实现组播就要比广播更具复杂性，因为要实现组播就要维持一个组播<strong>状态信息</strong>（multicast state），主机和路由器维持状态信息来说明哪些接收方对哪类流量感兴趣。除此之外，该状态应该是软状态（soft state），应该定期更新或者是超时删除。</p>
 <p>组播在企业和本地网络中的使用超过在广域网中的使用。在这种环境下广播的低效就体现的比较严重。</p>
@@ -563,8 +574,8 @@
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.png"
-               alt="chaz" />
-          <p class="site-author-name" itemprop="name">chaz</p>
+               alt="" />
+          <p class="site-author-name" itemprop="name"></p>
            
               <p class="site-description motion-element" itemprop="description"></p>
           
@@ -574,7 +585,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">96</span>
+                <span class="site-state-item-count">99</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -622,7 +633,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#引言"><span class="nav-number">1.</span> <span class="nav-text">引言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#广播"><span class="nav-number">2.</span> <span class="nav-text">广播</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#广播地址"><span class="nav-number">2.1.</span> <span class="nav-text">广播地址</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#组播"><span class="nav-number">3.</span> <span class="nav-text">组播</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#将-IP-组播地址转换为-802-MAC／以太网地址"><span class="nav-number">3.1.</span> <span class="nav-text">将 IP 组播地址转换为 802 MAC／以太网地址</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#发送／接收组播数据报"><span class="nav-number">3.2.</span> <span class="nav-text">发送／接收组播数据报</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#主机地址过滤"><span class="nav-number">3.3.</span> <span class="nav-text">主机地址过滤</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#互联网组管理协议-和-组播侦听发现协议"><span class="nav-number">4.</span> <span class="nav-text">互联网组管理协议 和 组播侦听发现协议</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#组成员的-IGMP-和-MLD-部分（“组成员部分”）"><span class="nav-number">4.1.</span> <span class="nav-text">组成员的 IGMP 和 MLD 部分（“组成员部分”）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#组播路由器的-IGMP-和-MLD-部分（“组播路由器部分”）"><span class="nav-number">4.2.</span> <span class="nav-text">组播路由器的 IGMP 和 MLD 部分（“组播路由器部分”）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IGMP-和-MLD-健壮性"><span class="nav-number">4.3.</span> <span class="nav-text">IGMP 和 MLD 健壮性</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%BC%95%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">引言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%B9%BF%E6%92%AD"><span class="nav-number">2.</span> <span class="nav-text">广播</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B9%BF%E6%92%AD%E5%9C%B0%E5%9D%80"><span class="nav-number">2.1.</span> <span class="nav-text">广播地址</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BB%84%E6%92%AD"><span class="nav-number">3.</span> <span class="nav-text">组播</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B0%86-IP-%E7%BB%84%E6%92%AD%E5%9C%B0%E5%9D%80%E8%BD%AC%E6%8D%A2%E4%B8%BA-802-MAC%EF%BC%8F%E4%BB%A5%E5%A4%AA%E7%BD%91%E5%9C%B0%E5%9D%80"><span class="nav-number">3.1.</span> <span class="nav-text">将 IP 组播地址转换为 802 MAC／以太网地址</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%91%E9%80%81%EF%BC%8F%E6%8E%A5%E6%94%B6%E7%BB%84%E6%92%AD%E6%95%B0%E6%8D%AE%E6%8A%A5"><span class="nav-number">3.2.</span> <span class="nav-text">发送／接收组播数据报</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BB%E6%9C%BA%E5%9C%B0%E5%9D%80%E8%BF%87%E6%BB%A4"><span class="nav-number">3.3.</span> <span class="nav-text">主机地址过滤</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BA%92%E8%81%94%E7%BD%91%E7%BB%84%E7%AE%A1%E7%90%86%E5%8D%8F%E8%AE%AE-%E5%92%8C-%E7%BB%84%E6%92%AD%E4%BE%A6%E5%90%AC%E5%8F%91%E7%8E%B0%E5%8D%8F%E8%AE%AE"><span class="nav-number">4.</span> <span class="nav-text">互联网组管理协议 和 组播侦听发现协议</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%84%E6%88%90%E5%91%98%E7%9A%84-IGMP-%E5%92%8C-MLD-%E9%83%A8%E5%88%86%EF%BC%88%E2%80%9C%E7%BB%84%E6%88%90%E5%91%98%E9%83%A8%E5%88%86%E2%80%9D%EF%BC%89"><span class="nav-number">4.1.</span> <span class="nav-text">组成员的 IGMP 和 MLD 部分（“组成员部分”）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%84%E6%92%AD%E8%B7%AF%E7%94%B1%E5%99%A8%E7%9A%84-IGMP-%E5%92%8C-MLD-%E9%83%A8%E5%88%86%EF%BC%88%E2%80%9C%E7%BB%84%E6%92%AD%E8%B7%AF%E7%94%B1%E5%99%A8%E9%83%A8%E5%88%86%E2%80%9D%EF%BC%89"><span class="nav-number">4.2.</span> <span class="nav-text">组播路由器的 IGMP 和 MLD 部分（“组播路由器部分”）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IGMP-%E5%92%8C-MLD-%E5%81%A5%E5%A3%AE%E6%80%A7"><span class="nav-number">4.3.</span> <span class="nav-text">IGMP 和 MLD 健壮性</span></a></li></ol></li></ol></div>
             
 
           </div>
@@ -649,17 +660,17 @@
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
-  <span class="author" itemprop="copyrightHolder">chaz</span>
+  <span class="author" itemprop="copyrightHolder">Chang</span>
 </div>
 
 
 <div class="powered-by">
-  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+  由 <a class="theme-link" target="_blank" rel="noopener" href="https://hexo.io">Hexo</a> 强力驱动
 </div>
 
 <div class="theme-info">
   主题 -
-  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+  <a class="theme-link" target="_blank" rel="noopener" href="https://github.com/iissnan/hexo-theme-next">
     NexT.Mist
   </a>
 </div>

@@ -93,12 +93,13 @@
 
 
 
-<meta name="description" content="回想起刚学C语言时，我对浮点数的印象大概是“能够表示小数”的数据类型。还死记硬背过例如什么“小数用 double 存，用 %f 输出”这类的话。实际上呢，浮点数可以用这么一个公式来概括： $$ \sum_{k=-j}^i b_k×2^k$$ 除了我们所熟知的，表示小数之外，它对执行涉及非常大的数字、非常接近于0的数字，以及更普遍地作为对实数运算的结果的近似值，是非常有用的。 以下摘取一些书本中的内">
+<meta name="description" content="回想起刚学C语言时，我对浮点数的印象大概是“能够表示小数”的数据类型。还死记硬背过例如什么“小数用 double 存，用 %f 输出”这类的话。实际上呢，浮点数可以用这么一个公式来概括： $$ \sum_{k&#x3D;-j}^i b_k×2^k$$ 除了我们所熟知的，表示小数之外，它对执行涉及非常大的数字、非常接近于0的数字，以及更普遍地作为对实数运算的结果的近似值，是非常有用的。 以下摘取一些书本中的内">
 <meta property="og:type" content="article">
 <meta property="og:title" content="【CSAPP笔记】3. 浮点数">
 <meta property="og:url" content="https://zcplayground.github.io/2017/06/25/csapp-3-Floating-Point/index.html">
-<meta property="og:site_name" content="chaz">
-<meta property="og:description" content="回想起刚学C语言时，我对浮点数的印象大概是“能够表示小数”的数据类型。还死记硬背过例如什么“小数用 double 存，用 %f 输出”这类的话。实际上呢，浮点数可以用这么一个公式来概括： $$ \sum_{k=-j}^i b_k×2^k$$ 除了我们所熟知的，表示小数之外，它对执行涉及非常大的数字、非常接近于0的数字，以及更普遍地作为对实数运算的结果的近似值，是非常有用的。 以下摘取一些书本中的内">
+<meta property="og:site_name" content="Chang&#39;s Note">
+<meta property="og:description" content="回想起刚学C语言时，我对浮点数的印象大概是“能够表示小数”的数据类型。还死记硬背过例如什么“小数用 double 存，用 %f 输出”这类的话。实际上呢，浮点数可以用这么一个公式来概括： $$ \sum_{k&#x3D;-j}^i b_k×2^k$$ 除了我们所熟知的，表示小数之外，它对执行涉及非常大的数字、非常接近于0的数字，以及更普遍地作为对实数运算的结果的近似值，是非常有用的。 以下摘取一些书本中的内">
+<meta property="og:locale">
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/3-1.png">
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/3-2.png">
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/3-3.png">
@@ -106,10 +107,10 @@
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/3-5.png">
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/3-6.png">
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/3-7.png">
-<meta property="og:updated_time" content="2017-06-29T09:31:18.000Z">
+<meta property="article:published_time" content="2017-06-25T03:34:03.000Z">
+<meta property="article:modified_time" content="2017-06-29T09:31:18.000Z">
+<meta property="article:author" content="Chang">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="【CSAPP笔记】3. 浮点数">
-<meta name="twitter:description" content="回想起刚学C语言时，我对浮点数的印象大概是“能够表示小数”的数据类型。还死记硬背过例如什么“小数用 double 存，用 %f 输出”这类的话。实际上呢，浮点数可以用这么一个公式来概括： $$ \sum_{k=-j}^i b_k×2^k$$ 除了我们所熟知的，表示小数之外，它对执行涉及非常大的数字、非常接近于0的数字，以及更普遍地作为对实数运算的结果的近似值，是非常有用的。 以下摘取一些书本中的内">
 <meta name="twitter:image" content="http://osax8w13y.bkt.clouddn.com/3-1.png">
 
 
@@ -117,7 +118,7 @@
 <script type="text/javascript" id="hexo.configurations">
   var NexT = window.NexT || {};
   var CONFIG = {
-    root: '/',
+    root: '',
     scheme: 'Mist',
     sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
     fancybox: true,
@@ -144,8 +145,8 @@
 
 
 
-  <title>【CSAPP笔记】3. 浮点数 | chaz</title>
-</head>
+  <title>【CSAPP笔记】3. 浮点数 | Chang's Note</title>
+<meta name="generator" content="Hexo 5.4.2"></head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
 
@@ -181,7 +182,7 @@
     <div class="custom-logo-site-title">
       <a href="/"  class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
-        <span class="site-title">chaz</span>
+        <span class="site-title">Chang's Note</span>
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
@@ -245,6 +246,16 @@
           </a>
         </li>
       
+        
+        <li class="menu-item menu-item-quotations">
+          <a href="/quotations/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-quote-right"></i> <br />
+            
+            语录
+          </a>
+        </li>
+      
 
       
     </ul>
@@ -277,13 +288,13 @@
     <link itemprop="mainEntityOfPage" href="https://zcplayground.github.io/2017/06/25/csapp-3-Floating-Point/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="chaz">
+      <meta itemprop="name" content="">
       <meta itemprop="description" content="">
       <meta itemprop="image" content="/images/avatar.png">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="chaz">
+      <meta itemprop="name" content="Chang's Note">
     </span>
 
     
@@ -412,7 +423,7 @@
 <p>还记得吗？阶码值<code>E</code>，是用来做浮点数的权。可以看到，这个权在 <code>float</code> 最大可以达到 127，最小可以达到 -126，<code>double</code> 的范围就更大了。想想看，用float可以表示的最大的数是表示为某个小数乘以 2 的 127 次方，这就是为什么浮点数可以表示<strong>很大的数与很小的数</strong>的原因，相比之下，<code>int</code> 能存下的最大的数也就 10 的 ⑨ 次方啊。</p>
 <p>对于小数字段<code>frac</code>，它就是描述<strong>小数值f</strong>，0 ≤ f ≤ 1 。对于规格化数，尾数<code>M</code>定义为 <code>M = 1 + f</code>。你也可以这样理解：<code>M</code> 一定是一个以 1 开头的小数，形如 <code>M=1.xxxxx.xx</code>，那些 xxx 就是 <code>frac</code> 的编码部分。当 <code>frac</code> 全为 0 时 <code>M</code>最小（M=1.0），当 <code>frac</code> 全为 1 时 <code>M</code>最大（M = 2 - ϵ，无限接近于 2）。之所以采取这种方式，是因为如果阶码没有溢出，我们总是可以调整阶码（想象一下，也就是移动小数点的位置）来把尾数控制在 1 ≤ M ＜ 2 之间。这种方式就是<strong>轻松获得一个额外精度位</strong>的技巧。也可以理解为：开头的 1 是白送的，<strong>不需要额外的编码位</strong>。</p>
 <p>举个例子：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">int</span> x = <span class="number">12345</span>；</div><div class="line"><span class="built_in">printf</span>(<span class="string">"%f"</span>,(<span class="keyword">float</span>)x);</div></pre></td></tr></table></figure>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> x = <span class="number">12345</span>；</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;%f&quot;</span>,(<span class="type">float</span>)x);</span><br></pre></td></tr></table></figure>
 <p>在强制类型转换时，到底发生了什么呢？</p>
 <p>首先，用二进制来表示十进制的12345：</p>
 <p>$$12345_{10}=11000000111001$$</p>
@@ -428,7 +439,7 @@
 </li>
 </ul>
 <p>将其组合在一起，就形成了<strong>32位单精度浮点数12345的编码</strong>：</p>
-<figure class="highlight lsl"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="number">0</span>  <span class="number">10001100</span>  <span class="number">10000001110010000000000</span></div><div class="line">s    exp            frac</div></pre></td></tr></table></figure>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">0</span>  <span class="number">10001100</span>  <span class="number">10000001110010000000000</span></span><br><span class="line"><span class="attribute">s</span>    exp            frac</span><br></pre></td></tr></table></figure>
 <h3 id="非规格化的值-Denormalized-Values"><a href="#非规格化的值-Denormalized-Values" class="headerlink" title="非规格化的值(Denormalized Values)"></a>非规格化的值(Denormalized Values)</h3><p>当阶码域exp全为0时，所表示的数就是非规格化形式。这里的意思是，原本用二进制表示的连续值，它们之间的<strong>间距是一样的</strong>。</p>
 <p>在这种情况下有两点不同。对于阶码字段，阶码值<code>E</code>改成了<code>E = 1 - Bias</code>。也就是说</p>
 <ul>
@@ -439,7 +450,7 @@
 <h2 id="特殊值"><a href="#特殊值" class="headerlink" title="特殊值"></a>特殊值</h2><p>第一类是当exp全为1，frac全为0时，表示的值为<strong>无穷</strong>。当符号位 s = 1 代表负无穷，s = 0 代表正无穷。当小数域不是0，那就代表 NaN（Not a Number），不是一个数，表示出错。例如计算 -1 开根号的值就是 NaN。</p>
 <h2 id="实例分析"><a href="#实例分析" class="headerlink" title="实例分析"></a>实例分析</h2><p><img src="http://osax8w13y.bkt.clouddn.com/3-2.png" alt=""></p>
 <p>我们采取一位符号位，4 位 exp 位，3 位 frac 位，bias = 2 ^ 3 - 1 = 7的编码方式。</p>
-<figure class="highlight lsl"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line">   符号 阶码 尾数  </div><div class="line">    s exp  frac  e   E   十进制值</div><div class="line">                         小数部分 * <span class="number">2</span>的E次方</div><div class="line">---------------------------------------------------------------------</div><div class="line">                             # 这部分是非规范化数值，E = <span class="number">1</span> - bias = <span class="number">-6</span></div><div class="line">    <span class="number">0</span> <span class="number">0000</span> <span class="number">000</span>   <span class="number">0</span>  <span class="number">-6</span>   <span class="number">0</span>   </div><div class="line">    <span class="number">0</span> <span class="number">0000</span> <span class="number">001</span>   <span class="number">0</span>  <span class="number">-6</span>   <span class="number">1</span>/<span class="number">8</span> * <span class="number">1</span>/<span class="number">64</span> = <span class="number">1</span>/<span class="number">512</span>     # 能表示的最接近零的值</div><div class="line">    <span class="number">0</span> <span class="number">0000</span> <span class="number">010</span>   <span class="number">0</span>  <span class="number">-6</span>   <span class="number">2</span>/<span class="number">8</span> * <span class="number">1</span>/<span class="number">64</span> = <span class="number">2</span>/<span class="number">512</span> </div><div class="line">    ...</div><div class="line">    <span class="number">0</span> <span class="number">0000</span> <span class="number">110</span>   <span class="number">0</span>  <span class="number">-6</span>   <span class="number">6</span>/<span class="number">8</span> * <span class="number">1</span>/<span class="number">64</span> = <span class="number">6</span>/<span class="number">512</span></div><div class="line">    <span class="number">0</span> <span class="number">0000</span> <span class="number">111</span>   <span class="number">0</span>  <span class="number">-6</span>   <span class="number">7</span>/<span class="number">8</span> * <span class="number">1</span>/<span class="number">64</span> = <span class="number">7</span>/<span class="number">512</span>     # 能表示的最大非规范化值</div><div class="line">---------------------------------------------------------------------</div><div class="line">                              # 这部分是规范化值，E = e - bias </div><div class="line"></div><div class="line">    <span class="number">0</span> <span class="number">0001</span> <span class="number">000</span>   <span class="number">1</span>  <span class="number">-6</span>   <span class="number">8</span>/<span class="number">8</span> * <span class="number">1</span>/<span class="number">64</span> = <span class="number">8</span>/<span class="number">512</span>     # 能表示的最小规范化值</div><div class="line">    <span class="number">0</span> <span class="number">0001</span> <span class="number">001</span>   <span class="number">1</span>  <span class="number">-6</span>   <span class="number">9</span>/<span class="number">8</span> * <span class="number">1</span>/<span class="number">64</span> = <span class="number">9</span>/<span class="number">512</span></div><div class="line">    ...</div><div class="line">    <span class="number">0</span> <span class="number">0110</span> <span class="number">110</span>   <span class="number">6</span>  <span class="number">-1</span>   <span class="number">14</span>/<span class="number">8</span> * <span class="number">1</span>/<span class="number">2</span> = <span class="number">14</span>/<span class="number">16</span></div><div class="line">    <span class="number">0</span> <span class="number">0110</span> <span class="number">111</span>   <span class="number">6</span>  <span class="number">-1</span>   <span class="number">15</span>/<span class="number">8</span> * <span class="number">1</span>/<span class="number">2</span> = <span class="number">15</span>/<span class="number">16</span>     # 最接近且小于 <span class="number">1</span> 的值</div><div class="line">    <span class="number">0</span> <span class="number">0111</span> <span class="number">000</span>   <span class="number">7</span>   <span class="number">0</span>   <span class="number">8</span>/<span class="number">8</span> * <span class="number">1</span> = <span class="number">1</span></div><div class="line">    <span class="number">0</span> <span class="number">0111</span> <span class="number">001</span>   <span class="number">7</span>   <span class="number">0</span>   <span class="number">9</span>/<span class="number">8</span> * <span class="number">1</span> = <span class="number">9</span>/<span class="number">8</span>          # 最接近且大于 <span class="number">1</span> 的值</div><div class="line">    <span class="number">0</span> <span class="number">0111</span> <span class="number">010</span>   <span class="number">7</span>   <span class="number">0</span>   <span class="number">10</span>/<span class="number">8</span> * <span class="number">1</span> = <span class="number">10</span>/<span class="number">8</span></div><div class="line">    ...</div><div class="line">    <span class="number">0</span> <span class="number">1110</span> <span class="number">110</span>   <span class="number">14</span>  <span class="number">7</span>   <span class="number">14</span>/<span class="number">8</span> * <span class="number">128</span> = <span class="number">224</span></div><div class="line">    <span class="number">0</span> <span class="number">1110</span> <span class="number">111</span>   <span class="number">14</span>  <span class="number">7</span>   <span class="number">15</span>/<span class="number">8</span> * <span class="number">128</span> = <span class="number">240</span>       # 能表示的最大规范化值</div><div class="line">------------------------------------------------------------------</div><div class="line">                                                # 特殊值</div><div class="line">    <span class="number">0</span> <span class="number">1111</span> <span class="number">000</span>   价码部分全为 <span class="number">1</span>，小数部分全为 <span class="number">0</span>，正无穷大</div><div class="line">    <span class="number">1</span> <span class="number">1111</span> <span class="number">000</span>   无穷大的符号位是 <span class="number">1</span>，代表负无穷大</div><div class="line">    <span class="number">0</span> <span class="number">1111</span> <span class="number">001</span>   阶码部分全为 <span class="number">1</span>，小数部分不全为 <span class="number">0</span>，NaN</div></pre></td></tr></table></figure>
+<figure class="highlight tap"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">   符号 阶码 尾数  </span><br><span class="line">    s exp  frac  e   E   十进制值</span><br><span class="line">                         小数部分 * 2的E次方</span><br><span class="line">------------------------------------------------------------------<span class="language-yaml"><span class="meta">---</span></span></span><br><span class="line"><span class="language-yaml">                             <span class="comment"># 这部分是非规范化数值，E = 1 - bias = -6</span></span></span><br><span class="line"><span class="language-yaml">    <span class="number">0</span> <span class="number">0000 </span><span class="number">000</span>   <span class="number">0</span>  <span class="number">-6</span>   <span class="number">0</span>   </span></span><br><span class="line"><span class="language-yaml">    <span class="number">0</span> <span class="number">0000 </span><span class="number">001</span>   <span class="number">0</span>  <span class="number">-6</span>   <span class="number">1</span><span class="string">/8</span> <span class="string">*</span> <span class="number">1</span><span class="string">/64</span> <span class="string">=</span> <span class="number">1</span><span class="string">/512</span>     <span class="comment"># 能表示的最接近零的值</span></span></span><br><span class="line"><span class="language-yaml">    <span class="number">0</span> <span class="number">0000 </span><span class="number">010</span>   <span class="number">0</span>  <span class="number">-6</span>   <span class="number">2</span><span class="string">/8</span> <span class="string">*</span> <span class="number">1</span><span class="string">/64</span> <span class="string">=</span> <span class="number">2</span><span class="string">/512</span> </span></span><br><span class="line"><span class="language-yaml">    <span class="string">...</span></span></span><br><span class="line">   <span class="number"> 0 </span>0000<span class="number"> 110 </span> <span class="number"> 0 </span> -6   6/8 * 1/64 = 6/512</span><br><span class="line">   <span class="number"> 0 </span>0000<span class="number"> 111 </span> <span class="number"> 0 </span> -6   7/8 * 1/64 = 7/512     <span class="comment"># 能表示的最大非规范化值</span></span><br><span class="line">------------------------------------------------------------------<span class="language-yaml"><span class="meta">---</span></span></span><br><span class="line"><span class="language-yaml">                              <span class="comment"># 这部分是规范化值，E = e - bias </span></span></span><br><span class="line"><span class="language-yaml"></span></span><br><span class="line"><span class="language-yaml">    <span class="number">0</span> <span class="number">0001 </span><span class="number">000</span>   <span class="number">1</span>  <span class="number">-6</span>   <span class="number">8</span><span class="string">/8</span> <span class="string">*</span> <span class="number">1</span><span class="string">/64</span> <span class="string">=</span> <span class="number">8</span><span class="string">/512</span>     <span class="comment"># 能表示的最小规范化值</span></span></span><br><span class="line"><span class="language-yaml">    <span class="number">0</span> <span class="number">0001 </span><span class="number">001</span>   <span class="number">1</span>  <span class="number">-6</span>   <span class="number">9</span><span class="string">/8</span> <span class="string">*</span> <span class="number">1</span><span class="string">/64</span> <span class="string">=</span> <span class="number">9</span><span class="string">/512</span></span></span><br><span class="line"><span class="language-yaml">    <span class="string">...</span></span></span><br><span class="line">   <span class="number"> 0 </span>0110<span class="number"> 110 </span> <span class="number"> 6 </span> -1   14/8 * 1/2 = 14/16</span><br><span class="line">   <span class="number"> 0 </span>0110<span class="number"> 111 </span> <span class="number"> 6 </span> -1   15/8 * 1/2 = 15/16     <span class="comment"># 最接近且小于 1 的值</span></span><br><span class="line">   <span class="number"> 0 </span>0111<span class="number"> 000 </span> <span class="number"> 7 </span> <span class="number"> 0 </span>  8/8 *<span class="number"> 1 </span>= 1</span><br><span class="line">   <span class="number"> 0 </span>0111<span class="number"> 001 </span> <span class="number"> 7 </span> <span class="number"> 0 </span>  9/8 *<span class="number"> 1 </span>= 9/8          <span class="comment"># 最接近且大于 1 的值</span></span><br><span class="line">   <span class="number"> 0 </span>0111<span class="number"> 010 </span> <span class="number"> 7 </span> <span class="number"> 0 </span>  10/8 *<span class="number"> 1 </span>= 10/8</span><br><span class="line">    ...</span><br><span class="line">   <span class="number"> 0 </span>1110<span class="number"> 110 </span> <span class="number"> 14 </span><span class="number"> 7 </span>  14/8 *<span class="number"> 128 </span>= 224</span><br><span class="line">   <span class="number"> 0 </span>1110<span class="number"> 111 </span> <span class="number"> 14 </span><span class="number"> 7 </span>  15/8 *<span class="number"> 128 </span>=<span class="number"> 240 </span>      <span class="comment"># 能表示的最大规范化值</span></span><br><span class="line">---------------------------------------------------------------<span class="language-yaml"><span class="meta">---</span></span></span><br><span class="line"><span class="language-yaml">                                                <span class="comment"># 特殊值</span></span></span><br><span class="line"><span class="language-yaml">    <span class="number">0</span> <span class="number">1111 </span><span class="number">000</span>   <span class="string">价码部分全为</span> <span class="number">1</span><span class="string">，小数部分全为</span> <span class="number">0</span><span class="string">，正无穷大</span></span></span><br><span class="line"><span class="language-yaml">    <span class="number">1</span> <span class="number">1111 </span><span class="number">000</span>   <span class="string">无穷大的符号位是</span> <span class="number">1</span><span class="string">，代表负无穷大</span></span></span><br><span class="line"><span class="language-yaml">    <span class="number">0</span> <span class="number">1111 </span><span class="number">001</span>   <span class="string">阶码部分全为</span> <span class="number">1</span><span class="string">，小数部分不全为</span> <span class="number">0</span><span class="string">，NaN</span></span></span><br></pre></td></tr></table></figure>
 <p>观察表格，我们更好地可以理解之前的几个细节：</p>
 <ul>
 <li>连续非规格化值之间的间距是一样的，上面这个例子中，都是差了1/512</li>
@@ -508,8 +519,8 @@
 <p>我们从最基本的元素——bit开始，了解了整型和浮点数两个非常重要的数据类型的编码方式。只有了解了位的知识、以及编码方式，我们才可能对这些数据类型涉及的其他方方面面的概念，例如：掩码运算、强制类型转换、扩展、截断、舍入、溢出等等。如果不了解位，那么对于上述这些概念只能是知其然而不知其所以然（好吧，原谅我的词穷，这个词我好像在本篇博客中用了好几遍。。但我觉得知道深层的原理是很有帮助的）。</p>
 <p>这些内容很重要，但我觉得比较好的学习方法是举例子来理解。这本书每个小节后面配有很好的题目，可以帮助大家理解这些知识点。</p>
 <h1 id="See-Also"><a href="#See-Also" class="headerlink" title="See Also"></a>See Also</h1><ul>
-<li><a href="http://www.cs.cmu.edu/~./213/schedule.html" target="_blank" rel="external">CMU 2017年春季学期  ICS课程网站</a></li>
-<li><a href="https://en.wikipedia.org/wiki/IEEE_floating_point" target="_blank" rel="external">IEEE floating point</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.cs.cmu.edu/~./213/schedule.html">CMU 2017年春季学期  ICS课程网站</a></li>
+<li><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/IEEE_floating_point">IEEE floating point</a></li>
 </ul>
 
       
@@ -620,8 +631,8 @@
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.png"
-               alt="chaz" />
-          <p class="site-author-name" itemprop="name">chaz</p>
+               alt="" />
+          <p class="site-author-name" itemprop="name"></p>
            
               <p class="site-description motion-element" itemprop="description"></p>
           
@@ -631,7 +642,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">96</span>
+                <span class="site-state-item-count">99</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -679,7 +690,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#二进制小数"><span class="nav-number">1.</span> <span class="nav-text">二进制小数</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#IEEE-754-浮点标准"><span class="nav-number">2.</span> <span class="nav-text">IEEE 754 浮点标准</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#规格化和非规格化的值"><span class="nav-number">2.1.</span> <span class="nav-text">规格化和非规格化的值</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#规格化的值-Normalized-Values"><span class="nav-number">2.1.1.</span> <span class="nav-text">规格化的值(Normalized Values)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#非规格化的值-Denormalized-Values"><span class="nav-number">2.1.2.</span> <span class="nav-text">非规格化的值(Denormalized Values)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#特殊值"><span class="nav-number">2.2.</span> <span class="nav-text">特殊值</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实例分析"><span class="nav-number">2.3.</span> <span class="nav-text">实例分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#舍入（rounding）"><span class="nav-number">2.4.</span> <span class="nav-text">舍入（rounding）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#浮点运算"><span class="nav-number">2.5.</span> <span class="nav-text">浮点运算</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#浮点加法"><span class="nav-number">2.5.1.</span> <span class="nav-text">浮点加法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#浮点乘法"><span class="nav-number">2.5.2.</span> <span class="nav-text">浮点乘法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#浮点运算性质"><span class="nav-number">2.6.</span> <span class="nav-text">浮点运算性质</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#int、float、double间的强制类型转换"><span class="nav-number">2.7.</span> <span class="nav-text">int、float、double间的强制类型转换</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#对于浮点数的一些总结，以及特殊的浮点数"><span class="nav-number">2.8.</span> <span class="nav-text">对于浮点数的一些总结，以及特殊的浮点数</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#第一章小结"><span class="nav-number">3.</span> <span class="nav-text">第一章小结</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#See-Also"><span class="nav-number">4.</span> <span class="nav-text">See Also</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%B0%8F%E6%95%B0"><span class="nav-number">1.</span> <span class="nav-text">二进制小数</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#IEEE-754-%E6%B5%AE%E7%82%B9%E6%A0%87%E5%87%86"><span class="nav-number">2.</span> <span class="nav-text">IEEE 754 浮点标准</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%84%E6%A0%BC%E5%8C%96%E5%92%8C%E9%9D%9E%E8%A7%84%E6%A0%BC%E5%8C%96%E7%9A%84%E5%80%BC"><span class="nav-number">2.1.</span> <span class="nav-text">规格化和非规格化的值</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A7%84%E6%A0%BC%E5%8C%96%E7%9A%84%E5%80%BC-Normalized-Values"><span class="nav-number">2.1.1.</span> <span class="nav-text">规格化的值(Normalized Values)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9D%9E%E8%A7%84%E6%A0%BC%E5%8C%96%E7%9A%84%E5%80%BC-Denormalized-Values"><span class="nav-number">2.1.2.</span> <span class="nav-text">非规格化的值(Denormalized Values)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%89%B9%E6%AE%8A%E5%80%BC"><span class="nav-number">2.2.</span> <span class="nav-text">特殊值</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E4%BE%8B%E5%88%86%E6%9E%90"><span class="nav-number">2.3.</span> <span class="nav-text">实例分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%88%8D%E5%85%A5%EF%BC%88rounding%EF%BC%89"><span class="nav-number">2.4.</span> <span class="nav-text">舍入（rounding）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B5%AE%E7%82%B9%E8%BF%90%E7%AE%97"><span class="nav-number">2.5.</span> <span class="nav-text">浮点运算</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B5%AE%E7%82%B9%E5%8A%A0%E6%B3%95"><span class="nav-number">2.5.1.</span> <span class="nav-text">浮点加法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B5%AE%E7%82%B9%E4%B9%98%E6%B3%95"><span class="nav-number">2.5.2.</span> <span class="nav-text">浮点乘法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B5%AE%E7%82%B9%E8%BF%90%E7%AE%97%E6%80%A7%E8%B4%A8"><span class="nav-number">2.6.</span> <span class="nav-text">浮点运算性质</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#int%E3%80%81float%E3%80%81double%E9%97%B4%E7%9A%84%E5%BC%BA%E5%88%B6%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2"><span class="nav-number">2.7.</span> <span class="nav-text">int、float、double间的强制类型转换</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%B9%E4%BA%8E%E6%B5%AE%E7%82%B9%E6%95%B0%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%BB%E7%BB%93%EF%BC%8C%E4%BB%A5%E5%8F%8A%E7%89%B9%E6%AE%8A%E7%9A%84%E6%B5%AE%E7%82%B9%E6%95%B0"><span class="nav-number">2.8.</span> <span class="nav-text">对于浮点数的一些总结，以及特殊的浮点数</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E7%AB%A0%E5%B0%8F%E7%BB%93"><span class="nav-number">3.</span> <span class="nav-text">第一章小结</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#See-Also"><span class="nav-number">4.</span> <span class="nav-text">See Also</span></a></li></ol></div>
             
 
           </div>
@@ -706,17 +717,17 @@
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
-  <span class="author" itemprop="copyrightHolder">chaz</span>
+  <span class="author" itemprop="copyrightHolder">Chang</span>
 </div>
 
 
 <div class="powered-by">
-  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+  由 <a class="theme-link" target="_blank" rel="noopener" href="https://hexo.io">Hexo</a> 强力驱动
 </div>
 
 <div class="theme-info">
   主题 -
-  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+  <a class="theme-link" target="_blank" rel="noopener" href="https://github.com/iissnan/hexo-theme-next">
     NexT.Mist
   </a>
 </div>

@@ -97,8 +97,9 @@
 <meta property="og:type" content="article">
 <meta property="og:title" content="阅读 DPDK 中文论文两则">
 <meta property="og:url" content="https://zcplayground.github.io/2018/04/06/DPDK-papers-reading/index.html">
-<meta property="og:site_name" content="chaz">
+<meta property="og:site_name" content="Chang&#39;s Note">
 <meta property="og:description" content="基于DPDK的高效数据包捕获技术分析与应用本文应用场景网络安全领域的数据包捕获技术,对系统有高性能需求，要在短时间内成功收集、分析、处理大量数据，实时捕获效率低下。 旧有传统数据包处理机制 BPF，伯克利封包处理器，是 Unix Linux 上的链路层的一种原始接口，许多功能以此为基础。 libpcap，linux 下的 C 语言网络数据包捕获函数库，大多数网络包分析软件以此为基础。 pf-rin">
+<meta property="og:locale">
 <meta property="og:image" content="http://p6rl2gdnw.bkt.clouddn.com/1%20packet%20process1.png">
 <meta property="og:image" content="http://p6rl2gdnw.bkt.clouddn.com/1%20packet%20process2.png">
 <meta property="og:image" content="http://p6rl2gdnw.bkt.clouddn.com/1%20ideal%20topo.png">
@@ -107,10 +108,10 @@
 <meta property="og:image" content="http://p6rl2gdnw.bkt.clouddn.com/core%20components%20architecture.png">
 <meta property="og:image" content="http://p6rl2gdnw.bkt.clouddn.com/2%20DPDK%20packet%20process%20workflow%20.png">
 <meta property="og:image" content="http://p6rl2gdnw.bkt.clouddn.com/2%20%20architecture.png">
-<meta property="og:updated_time" content="2018-04-08T13:54:10.000Z">
+<meta property="article:published_time" content="2018-04-06T14:14:13.000Z">
+<meta property="article:modified_time" content="2018-04-08T13:54:10.000Z">
+<meta property="article:author" content="Chang">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="阅读 DPDK 中文论文两则">
-<meta name="twitter:description" content="基于DPDK的高效数据包捕获技术分析与应用本文应用场景网络安全领域的数据包捕获技术,对系统有高性能需求，要在短时间内成功收集、分析、处理大量数据，实时捕获效率低下。 旧有传统数据包处理机制 BPF，伯克利封包处理器，是 Unix Linux 上的链路层的一种原始接口，许多功能以此为基础。 libpcap，linux 下的 C 语言网络数据包捕获函数库，大多数网络包分析软件以此为基础。 pf-rin">
 <meta name="twitter:image" content="http://p6rl2gdnw.bkt.clouddn.com/1%20packet%20process1.png">
 
 
@@ -118,7 +119,7 @@
 <script type="text/javascript" id="hexo.configurations">
   var NexT = window.NexT || {};
   var CONFIG = {
-    root: '/',
+    root: '',
     scheme: 'Mist',
     sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
     fancybox: true,
@@ -145,8 +146,8 @@
 
 
 
-  <title>阅读 DPDK 中文论文两则 | chaz</title>
-</head>
+  <title>阅读 DPDK 中文论文两则 | Chang's Note</title>
+<meta name="generator" content="Hexo 5.4.2"></head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
 
@@ -182,7 +183,7 @@
     <div class="custom-logo-site-title">
       <a href="/"  class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
-        <span class="site-title">chaz</span>
+        <span class="site-title">Chang's Note</span>
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
@@ -246,6 +247,16 @@
           </a>
         </li>
       
+        
+        <li class="menu-item menu-item-quotations">
+          <a href="/quotations/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-quote-right"></i> <br />
+            
+            语录
+          </a>
+        </li>
+      
 
       
     </ul>
@@ -278,13 +289,13 @@
     <link itemprop="mainEntityOfPage" href="https://zcplayground.github.io/2018/04/06/DPDK-papers-reading/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="chaz">
+      <meta itemprop="name" content="">
       <meta itemprop="description" content="">
       <meta itemprop="image" content="/images/avatar.png">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="chaz">
+      <meta itemprop="name" content="Chang's Note">
     </span>
 
     
@@ -418,7 +429,7 @@
 <li>Linux 网络协议栈的报文处理是典型的软件系统。</li>
 </ul>
 <p>简述工作原理：</p>
-<figure class="highlight routeros"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">        interrupt                           <span class="built_in"> system </span>call</div><div class="line">driver ----------&gt; kernel (protocol stack)  &lt;-----------<span class="built_in"> user </span>space(application)</div><div class="line">       &lt;----------                          -----------&gt;</div><div class="line">           copy       context switch        copy(<span class="keyword">or</span> sleep)</div></pre></td></tr></table></figure>
+<figure class="highlight isbl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">        <span class="variable">interrupt</span>                            <span class="variable">system</span> <span class="variable">call</span></span><br><span class="line"><span class="variable">driver</span> ----------&gt; <span class="variable">kernel</span> (<span class="variable">protocol</span> <span class="variable">stack</span>)  &lt;----------- <span class="variable">user</span> <span class="function"><span class="title">space</span>(<span class="variable"><span class="class">application</span></span>)</span></span><br><span class="line">       &lt;----------                          -----------&gt;</span><br><span class="line">           <span class="variable">copy</span>       <span class="variable">context</span> <span class="variable">switch</span>        <span class="function"><span class="title"><span class="built_in">copy</span></span>(<span class="variable"><span class="keyword">or</span></span> <span class="variable">sleep</span>)</span></span><br></pre></td></tr></table></figure>
 <p>性能瓶颈分析：</p>
 <ul>
 <li>流量串行访问带来的性能瓶颈。涉及到现代 NIC 的接收端扩展（receiver-side scaling，RSS），使用这种技术，<strong>分组的捕获过程</strong>可以并行化，<strong>然而上层</strong>协议栈和用户程序对此<strong>没有很好的利用</strong>。</li>
@@ -456,7 +467,7 @@
 <p><strong>缓存管理</strong><code>rte_mbuf</code> 用来访问某一个 mempool。</p>
 <p>关于核心组件，打算之后要深入看源码，先贴上关于这一部分的一个缩略图。</p>
 <p><img src="http://p6rl2gdnw.bkt.clouddn.com/core%20components%20architecture.png" alt=""></p>
-<p>参考链接：<a href="http://www.dpdk.org/doc/guides/prog_guide/overview.html#core-components" target="_blank" rel="external">here</a></p>
+<p>参考链接：<a target="_blank" rel="noopener" href="http://www.dpdk.org/doc/guides/prog_guide/overview.html#core-components">here</a></p>
 <h2 id="网络流捕获系统设计"><a href="#网络流捕获系统设计" class="headerlink" title="网络流捕获系统设计"></a>网络流捕获系统设计</h2><p><strong>系统总体设计</strong>：可维护、可靠、灵活、可重用</p>
 <ul>
 <li>数据包接收、处理模块</li>
@@ -482,7 +493,7 @@
 <p>第二篇论文中提到了 DPDK 的系统在试验中相较于 Linux 的内核有 10 倍以上的吞吐量提升。</p>
 <h1 id="本次收获"><a href="#本次收获" class="headerlink" title="本次收获"></a>本次收获</h1><p>更加了解了 DPDK 的创新点和工作原理，对于如何用 DPDK 做出基本的网络流量捕获有一个大概的了解。</p>
 <p>深刻理解一定的操作系统知识对于理解 DPDK 的创新点非常必要且重要，列出以供参考：</p>
-<figure class="highlight mathematica"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">I</span>/<span class="keyword">O</span> 驱动</div><div class="line">中断</div><div class="line">系统调用</div><div class="line">内核空间、用户空间</div><div class="line">cache</div><div class="line">进程、线程</div><div class="line">虚拟内存、页表</div><div class="line">上下文切换</div><div class="line">单/多生产者消费者、读者写者等经典信号量同步问题</div></pre></td></tr></table></figure>
+<figure class="highlight mathematica"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">I</span><span class="operator">/</span><span class="built_in">O</span> 驱动</span><br><span class="line">中断</span><br><span class="line">系统调用</span><br><span class="line">内核空间、用户空间</span><br><span class="line"><span class="variable">cache</span></span><br><span class="line">进程、线程</span><br><span class="line">虚拟内存、页表</span><br><span class="line">上下文切换</span><br><span class="line">单<span class="operator">/</span>多生产者消费者、读者写者等经典信号量同步问题</span><br></pre></td></tr></table></figure>
 <hr>
 <h1 id="文献："><a href="#文献：" class="headerlink" title="文献："></a>文献：</h1><ul>
 <li>[1] 赵　宁, 谢淑翠, 基于 DPDK 的高效数据包捕获技术分析与应用 [J].计算机工程与科学, 2016, 38(11): 2209-2215.</li>
@@ -597,8 +608,8 @@
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.png"
-               alt="chaz" />
-          <p class="site-author-name" itemprop="name">chaz</p>
+               alt="" />
+          <p class="site-author-name" itemprop="name"></p>
            
               <p class="site-description motion-element" itemprop="description"></p>
           
@@ -608,7 +619,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">96</span>
+                <span class="site-state-item-count">99</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -656,7 +667,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#基于DPDK的高效数据包捕获技术分析与应用"><span class="nav-number">1.</span> <span class="nav-text">基于DPDK的高效数据包捕获技术分析与应用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#本文应用场景"><span class="nav-number">1.1.</span> <span class="nav-text">本文应用场景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#旧有传统数据包处理机制"><span class="nav-number">1.2.</span> <span class="nav-text">旧有传统数据包处理机制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DPDK"><span class="nav-number">1.3.</span> <span class="nav-text">DPDK</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#基于多核平台的高速网络流量实时捕获方法"><span class="nav-number">2.</span> <span class="nav-text">基于多核平台的高速网络流量实时捕获方法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#本文应用场景-1"><span class="nav-number">2.1.</span> <span class="nav-text">本文应用场景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#旧有解决方案"><span class="nav-number">2.2.</span> <span class="nav-text">旧有解决方案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#传统的报文处理"><span class="nav-number">2.3.</span> <span class="nav-text">传统的报文处理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#思考对传统模式的改进方向"><span class="nav-number">2.4.</span> <span class="nav-text">思考对传统模式的改进方向</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DPDK-数据平面开发套件"><span class="nav-number">2.5.</span> <span class="nav-text">DPDK 数据平面开发套件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#网络流捕获系统设计"><span class="nav-number">2.6.</span> <span class="nav-text">网络流捕获系统设计</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#实验分析"><span class="nav-number">3.</span> <span class="nav-text">实验分析</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#本次收获"><span class="nav-number">4.</span> <span class="nav-text">本次收获</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#文献："><span class="nav-number">5.</span> <span class="nav-text">文献：</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8EDPDK%E7%9A%84%E9%AB%98%E6%95%88%E6%95%B0%E6%8D%AE%E5%8C%85%E6%8D%95%E8%8E%B7%E6%8A%80%E6%9C%AF%E5%88%86%E6%9E%90%E4%B8%8E%E5%BA%94%E7%94%A8"><span class="nav-number">1.</span> <span class="nav-text">基于DPDK的高效数据包捕获技术分析与应用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%AC%E6%96%87%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="nav-number">1.1.</span> <span class="nav-text">本文应用场景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%97%A7%E6%9C%89%E4%BC%A0%E7%BB%9F%E6%95%B0%E6%8D%AE%E5%8C%85%E5%A4%84%E7%90%86%E6%9C%BA%E5%88%B6"><span class="nav-number">1.2.</span> <span class="nav-text">旧有传统数据包处理机制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DPDK"><span class="nav-number">1.3.</span> <span class="nav-text">DPDK</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8E%E5%A4%9A%E6%A0%B8%E5%B9%B3%E5%8F%B0%E7%9A%84%E9%AB%98%E9%80%9F%E7%BD%91%E7%BB%9C%E6%B5%81%E9%87%8F%E5%AE%9E%E6%97%B6%E6%8D%95%E8%8E%B7%E6%96%B9%E6%B3%95"><span class="nav-number">2.</span> <span class="nav-text">基于多核平台的高速网络流量实时捕获方法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%AC%E6%96%87%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF-1"><span class="nav-number">2.1.</span> <span class="nav-text">本文应用场景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%97%A7%E6%9C%89%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="nav-number">2.2.</span> <span class="nav-text">旧有解决方案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BC%A0%E7%BB%9F%E7%9A%84%E6%8A%A5%E6%96%87%E5%A4%84%E7%90%86"><span class="nav-number">2.3.</span> <span class="nav-text">传统的报文处理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%9D%E8%80%83%E5%AF%B9%E4%BC%A0%E7%BB%9F%E6%A8%A1%E5%BC%8F%E7%9A%84%E6%94%B9%E8%BF%9B%E6%96%B9%E5%90%91"><span class="nav-number">2.4.</span> <span class="nav-text">思考对传统模式的改进方向</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DPDK-%E6%95%B0%E6%8D%AE%E5%B9%B3%E9%9D%A2%E5%BC%80%E5%8F%91%E5%A5%97%E4%BB%B6"><span class="nav-number">2.5.</span> <span class="nav-text">DPDK 数据平面开发套件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BD%91%E7%BB%9C%E6%B5%81%E6%8D%95%E8%8E%B7%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1"><span class="nav-number">2.6.</span> <span class="nav-text">网络流捕获系统设计</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%9E%E9%AA%8C%E5%88%86%E6%9E%90"><span class="nav-number">3.</span> <span class="nav-text">实验分析</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%9C%AC%E6%AC%A1%E6%94%B6%E8%8E%B7"><span class="nav-number">4.</span> <span class="nav-text">本次收获</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%96%87%E7%8C%AE%EF%BC%9A"><span class="nav-number">5.</span> <span class="nav-text">文献：</span></a></li></ol></div>
             
 
           </div>
@@ -683,17 +694,17 @@
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
-  <span class="author" itemprop="copyrightHolder">chaz</span>
+  <span class="author" itemprop="copyrightHolder">Chang</span>
 </div>
 
 
 <div class="powered-by">
-  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+  由 <a class="theme-link" target="_blank" rel="noopener" href="https://hexo.io">Hexo</a> 强力驱动
 </div>
 
 <div class="theme-info">
   主题 -
-  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+  <a class="theme-link" target="_blank" rel="noopener" href="https://github.com/iissnan/hexo-theme-next">
     NexT.Mist
   </a>
 </div>

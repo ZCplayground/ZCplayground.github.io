@@ -97,19 +97,20 @@
 <meta property="og:type" content="article">
 <meta property="og:title" content="C++学习之抽象基类">
 <meta property="og:url" content="https://zcplayground.github.io/2017/06/07/Abstract-Base-Class/index.html">
-<meta property="og:site_name" content="chaz">
+<meta property="og:site_name" content="Chang&#39;s Note">
 <meta property="og:description" content="抽象基类和纯虚函数至此，已经介绍了简单继承和较为复杂的多态继承。接下来介绍抽象基类（Abstract base class, ABC） 有些时候，继承关系并不是is-a那样简单。例如在开发图形程序时，可能会涉及到椭圆和圆，会有Ellipse类和Circle类。因为所有的圆都是特殊的椭圆，所以考虑从Ellipse类派生出Circle类。但涉及到细节时，会有很多问题。椭圆Ellipse类包含的内容有：">
-<meta property="og:updated_time" content="2017-06-07T12:17:08.000Z">
+<meta property="og:locale">
+<meta property="article:published_time" content="2017-06-07T11:29:32.000Z">
+<meta property="article:modified_time" content="2017-06-07T12:17:08.000Z">
+<meta property="article:author" content="Chang">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="C++学习之抽象基类">
-<meta name="twitter:description" content="抽象基类和纯虚函数至此，已经介绍了简单继承和较为复杂的多态继承。接下来介绍抽象基类（Abstract base class, ABC） 有些时候，继承关系并不是is-a那样简单。例如在开发图形程序时，可能会涉及到椭圆和圆，会有Ellipse类和Circle类。因为所有的圆都是特殊的椭圆，所以考虑从Ellipse类派生出Circle类。但涉及到细节时，会有很多问题。椭圆Ellipse类包含的内容有：">
 
 
 
 <script type="text/javascript" id="hexo.configurations">
   var NexT = window.NexT || {};
   var CONFIG = {
-    root: '/',
+    root: '',
     scheme: 'Mist',
     sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
     fancybox: true,
@@ -136,8 +137,8 @@
 
 
 
-  <title>C++学习之抽象基类 | chaz</title>
-</head>
+  <title>C++学习之抽象基类 | Chang's Note</title>
+<meta name="generator" content="Hexo 5.4.2"></head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
 
@@ -173,7 +174,7 @@
     <div class="custom-logo-site-title">
       <a href="/"  class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
-        <span class="site-title">chaz</span>
+        <span class="site-title">Chang's Note</span>
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
@@ -237,6 +238,16 @@
           </a>
         </li>
       
+        
+        <li class="menu-item menu-item-quotations">
+          <a href="/quotations/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-quote-right"></i> <br />
+            
+            语录
+          </a>
+        </li>
+      
 
       
     </ul>
@@ -269,13 +280,13 @@
     <link itemprop="mainEntityOfPage" href="https://zcplayground.github.io/2017/06/07/Abstract-Base-Class/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="chaz">
+      <meta itemprop="name" content="">
       <meta itemprop="description" content="">
       <meta itemprop="image" content="/images/avatar.png">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="chaz">
+      <meta itemprop="name" content="Chang's Note">
     </span>
 
     
@@ -356,7 +367,7 @@
 <p>有些时候，继承关系并不是<code>is-a</code>那样简单。例如在开发图形程序时，可能会涉及到椭圆和圆，会有<code>Ellipse</code>类和<code>Circle</code>类。因为所有的圆都是特殊的椭圆，所以考虑从<code>Ellipse</code>类派生出<code>Circle</code>类。但涉及到细节时，会有很多问题。椭圆Ellipse类包含的内容有：椭圆中心的横纵坐标(x,y)、长半轴长(a)、短半轴长(b)、方向角(angle)。方法包括：移动椭圆、求椭圆面积、旋转椭圆(Rotate)、缩短或放长长短半轴。</p>
 <p>虽然圆是一种椭圆，但如果直接用<code>Ellipse</code>类派生<code>Circle</code>类是笨拙的。首先，圆只需要一个值——半径——就可以描述大小和形状，不需要长半轴长和短半轴长，也不需要方向角<code>angle</code>和方法<code>Rotate()</code>，因为这些东西对圆来说完全没有意义。所以与其派生，不如直接定义<code>Circle</code>类更简单。但是这种解决方式也不是最好的，忽略了<code>Circle</code>和<code>Ellipse</code>实际上有很多共同点的事实。分别定义忽略了这一事实。</p>
 <p>因此，还有一种解决方法：从<code>Ellipse</code>和<code>Circle</code>类中抽象出它们的共性，将这些特效放到一个<code>抽象基类，Abstract base class, ABC</code>里头，再由<code>ABC</code>派生出<code>Ellips</code>e和<code>Circle</code>类。这样就可以实现用基类指针数组同时管理<code>Ellipse</code>类和<code>Circle</code>类。C++通过<strong>纯虚函数</strong>（pure virtual function）来提供未实现的函数。</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">BaseEllipse</span></span></div><div class="line">&#123;</div><div class="line"><span class="keyword">private</span>:</div><div class="line">	<span class="keyword">double</span> x;</div><div class="line">	<span class="keyword">double</span> y;</div><div class="line"></div><div class="line"><span class="keyword">public</span>:</div><div class="line">	BaseEllipse(<span class="keyword">double</span> x0 = <span class="number">0</span>, <span class="keyword">double</span> y0 = <span class="number">0</span>):x(x0),y(y0) &#123;&#125;</div><div class="line">	<span class="keyword">virtual</span> ~BaseEllipse() &#123;&#125;</div><div class="line">	<span class="function"><span class="keyword">void</span> <span class="title">Move</span><span class="params">(<span class="keyword">int</span> nx, <span class="keyword">int</span> ny)</span> </span>&#123; x = nx; y = ny; &#125;</div><div class="line">	<span class="function"><span class="keyword">virtual</span> <span class="keyword">double</span> <span class="title">Area</span><span class="params">()</span><span class="keyword">const</span> </span>= <span class="number">0</span>;</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title">BaseEllipse</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">	<span class="built_in">double</span> x;</span><br><span class="line">	<span class="built_in">double</span> y;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	BaseEllipse(<span class="built_in">double</span> x0 = <span class="number">0</span>, <span class="built_in">double</span> y0 = <span class="number">0</span>):x(x0),y(y0) &#123;&#125;</span><br><span class="line">	<span class="keyword">virtual</span> ~BaseEllipse() &#123;&#125;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">Move</span>(<span class="params"><span class="built_in">int</span> nx, <span class="built_in">int</span> ny</span>)</span> &#123; x = nx; y = ny; &#125;</span><br><span class="line">	<span class="function"><span class="keyword">virtual</span> <span class="built_in">double</span> <span class="title">Area</span>()<span class="keyword">const</span></span> = <span class="number">0</span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 <p>注意Area方法。在函数原型的末尾加上<code>=0</code>使虚函数成为<strong>纯虚函数</strong>。这里的Area方法<strong>没有定义</strong>。这里的概念是：包含纯虚函数的类<strong>只用作基类</strong>。当类声明中包含纯虚函数时，<strong>不能创建该类对象</strong>。</p>
 <p>现在，可以用<code>BaseEllipse</code>类派生<code>Ellipse</code>类和<code>Circle</code>类。使用这些类的程序能够创建<code>Ellipse</code>类对象和<code>Circle</code>类对象，但不能创建<code>BaseEllipse</code>对象。由于<code>Ellipse</code>类和<code>Circle</code>类有共同的基类，所以可以用<code>BaseEllipse</code>指针数组同时管理这两种对象。所以说：ABC描述的是至少使用一个纯虚函数的接口。</p>
 <p>在处理继承的问题上，抽象基类的方法更具有系统性和规范性。可以将抽象基类设计人员能够制定“接口约定”，确保从抽象基类派生的所有组件都至少支持抽象基类所制定的功能。</p>
@@ -469,8 +480,8 @@
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.png"
-               alt="chaz" />
-          <p class="site-author-name" itemprop="name">chaz</p>
+               alt="" />
+          <p class="site-author-name" itemprop="name"></p>
            
               <p class="site-description motion-element" itemprop="description"></p>
           
@@ -480,7 +491,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">96</span>
+                <span class="site-state-item-count">99</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -528,7 +539,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#抽象基类和纯虚函数"><span class="nav-number">1.</span> <span class="nav-text">抽象基类和纯虚函数</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%8A%BD%E8%B1%A1%E5%9F%BA%E7%B1%BB%E5%92%8C%E7%BA%AF%E8%99%9A%E5%87%BD%E6%95%B0"><span class="nav-number">1.</span> <span class="nav-text">抽象基类和纯虚函数</span></a></li></ol></div>
             
 
           </div>
@@ -555,17 +566,17 @@
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
-  <span class="author" itemprop="copyrightHolder">chaz</span>
+  <span class="author" itemprop="copyrightHolder">Chang</span>
 </div>
 
 
 <div class="powered-by">
-  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+  由 <a class="theme-link" target="_blank" rel="noopener" href="https://hexo.io">Hexo</a> 强力驱动
 </div>
 
 <div class="theme-info">
   主题 -
-  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+  <a class="theme-link" target="_blank" rel="noopener" href="https://github.com/iissnan/hexo-theme-next">
     NexT.Mist
   </a>
 </div>

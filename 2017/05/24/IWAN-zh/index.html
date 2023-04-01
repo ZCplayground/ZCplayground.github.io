@@ -97,16 +97,17 @@
 <meta property="og:type" content="article">
 <meta property="og:title" content="基于Cisco IWAN 的 SDWAN 技术分析（译）">
 <meta property="og:url" content="https://zcplayground.github.io/2017/05/24/IWAN-zh/index.html">
-<meta property="og:site_name" content="chaz">
+<meta property="og:site_name" content="Chang&#39;s Note">
 <meta property="og:description" content="该文章是基于2015年9月由思科的 Zeus Kerravala 所撰 SDWAN 白皮书整理而来的：Intelligent WAN Is the Foundation for the SoftwareDefined WAN. Cisco’s page link source 引言：数字转型驱动广域网演进数字转型正在重塑商业景观，而且比历史上的任何时间都要更迅速。可能需要几十年才能扰乱了市场，但一">
+<meta property="og:locale">
 <meta property="og:image" content="http://images2015.cnblogs.com/blog/1092156/201705/1092156-20170521234016572-664702559.png">
 <meta property="og:image" content="http://images2015.cnblogs.com/blog/1092156/201705/1092156-20170521234020853-204518874.png">
 <meta property="og:image" content="http://images2015.cnblogs.com/blog/1092156/201705/1092156-20170521234030385-339956449.png">
 <meta property="og:image" content="http://images2015.cnblogs.com/blog/1092156/201705/1092156-20170521234033853-1185431835.png">
-<meta property="og:updated_time" content="2017-06-07T03:33:34.000Z">
+<meta property="article:published_time" content="2017-05-24T05:05:36.000Z">
+<meta property="article:modified_time" content="2017-06-07T03:33:34.000Z">
+<meta property="article:author" content="Chang">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="基于Cisco IWAN 的 SDWAN 技术分析（译）">
-<meta name="twitter:description" content="该文章是基于2015年9月由思科的 Zeus Kerravala 所撰 SDWAN 白皮书整理而来的：Intelligent WAN Is the Foundation for the SoftwareDefined WAN. Cisco’s page link source 引言：数字转型驱动广域网演进数字转型正在重塑商业景观，而且比历史上的任何时间都要更迅速。可能需要几十年才能扰乱了市场，但一">
 <meta name="twitter:image" content="http://images2015.cnblogs.com/blog/1092156/201705/1092156-20170521234016572-664702559.png">
 
 
@@ -114,7 +115,7 @@
 <script type="text/javascript" id="hexo.configurations">
   var NexT = window.NexT || {};
   var CONFIG = {
-    root: '/',
+    root: '',
     scheme: 'Mist',
     sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
     fancybox: true,
@@ -141,8 +142,8 @@
 
 
 
-  <title>基于Cisco IWAN 的 SDWAN 技术分析（译） | chaz</title>
-</head>
+  <title>基于Cisco IWAN 的 SDWAN 技术分析（译） | Chang's Note</title>
+<meta name="generator" content="Hexo 5.4.2"></head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
 
@@ -178,7 +179,7 @@
     <div class="custom-logo-site-title">
       <a href="/"  class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
-        <span class="site-title">chaz</span>
+        <span class="site-title">Chang's Note</span>
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
@@ -242,6 +243,16 @@
           </a>
         </li>
       
+        
+        <li class="menu-item menu-item-quotations">
+          <a href="/quotations/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-quote-right"></i> <br />
+            
+            语录
+          </a>
+        </li>
+      
 
       
     </ul>
@@ -274,13 +285,13 @@
     <link itemprop="mainEntityOfPage" href="https://zcplayground.github.io/2017/05/24/IWAN-zh/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="chaz">
+      <meta itemprop="name" content="">
       <meta itemprop="description" content="">
       <meta itemprop="image" content="/images/avatar.png">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="chaz">
+      <meta itemprop="name" content="Chang's Note">
     </span>
 
     
@@ -358,8 +369,8 @@
 
       
         <p>该文章是基于2015年9月由思科的 Zeus Kerravala 所撰 SDWAN 白皮书整理而来的：<em>Intelligent WAN Is the Foundation for the SoftwareDefined WAN</em>.</p>
-<p><a href="http://www.cisco.com/c/dam/en/us/solutions/collateral/enterprise-networks/intelligent-wan/intelligent-wan-foundation.pdf" target="_blank" rel="external">Cisco’s page link</a></p>
-<p><a href="http://www.cisco.com/c/en/us/solutions/enterprise-networks/intelligent-wan/index.html" target="_blank" rel="external">source</a></p>
+<p><a target="_blank" rel="noopener" href="http://www.cisco.com/c/dam/en/us/solutions/collateral/enterprise-networks/intelligent-wan/intelligent-wan-foundation.pdf">Cisco’s page link</a></p>
+<p><a target="_blank" rel="noopener" href="http://www.cisco.com/c/en/us/solutions/enterprise-networks/intelligent-wan/index.html">source</a></p>
 <h1 id="引言：数字转型驱动广域网演进"><a href="#引言：数字转型驱动广域网演进" class="headerlink" title="引言：数字转型驱动广域网演进"></a>引言：数字转型驱动广域网演进</h1><p>数字转型正在重塑商业景观，而且比历史上的任何时间都要更迅速。可能需要几十年才能扰乱了市场，但一些数码公司如<strong>Uber</strong>和<strong>Airbnb</strong>在短短的五年间就已经扰乱了他们的行业。</p>
 <p><strong>数字化</strong>以前所未有的速度创造新的赢家和输家 - 也就是说，有能力比竞争对手更快地利用市场机会。 <strong>向敏捷业务的转变</strong>已经成为IT和商业领袖的首要举措。 据ZK研究报告，这就是为什么企业在2014年花费超过120亿美元的技术来使IT更加敏捷。</p>
 <p>然而，IT的一部分，企业广域网（WAN），目前<strong>尚未发展和缺乏灵活性</strong>。不断发展的广域网必须是每一个IT和业务领导者的第一要务。</p>
@@ -470,11 +481,11 @@
 <p><img src="http://images2015.cnblogs.com/blog/1092156/201705/1092156-20170521234033853-1185431835.png" alt=""></p>
 <p>一些参考链接：</p>
 <ul>
-<li><a href="http://www.cisco.com/c/en/us/products/security/dynamic-multipoint-vpn-dmvpn/index.html" target="_blank" rel="external">动态多点VPN，Dynamic Multipoint VPN (DMVPN)</a></li>
-<li><a href="http://docwiki.cisco.com/wiki/PfRv3:Home" target="_blank" rel="external">思科性能路由，Cisco Performance Routing (PfRv3)</a></li>
-<li><a href="https://en.wikipedia.org/wiki/FIPS_140-2" target="_blank" rel="external">联邦信息处理标准（FIPS）出版物140-2（FIPS PUB 140-2）</a></li>
-<li><a href="http://www.cisco.com/c/en/us/about/security-center/next-generation-cryptography.html" target="_blank" rel="external">下一代加密：AES-GCM-256</a></li>
-<li><a href="https://developer.cisco.com/site/apic-em/" target="_blank" rel="external">APIC企业模块：APIC Enterprise Module (APIC-EM)</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.cisco.com/c/en/us/products/security/dynamic-multipoint-vpn-dmvpn/index.html">动态多点VPN，Dynamic Multipoint VPN (DMVPN)</a></li>
+<li><a target="_blank" rel="noopener" href="http://docwiki.cisco.com/wiki/PfRv3:Home">思科性能路由，Cisco Performance Routing (PfRv3)</a></li>
+<li><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/FIPS_140-2">联邦信息处理标准（FIPS）出版物140-2（FIPS PUB 140-2）</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.cisco.com/c/en/us/about/security-center/next-generation-cryptography.html">下一代加密：AES-GCM-256</a></li>
+<li><a target="_blank" rel="noopener" href="https://developer.cisco.com/site/apic-em/">APIC企业模块：APIC Enterprise Module (APIC-EM)</a></li>
 </ul>
 <h2 id="额外的优点："><a href="#额外的优点：" class="headerlink" title="额外的优点："></a>额外的优点：</h2><ul>
 <li>全系统验证：</li>
@@ -522,7 +533,7 @@
 <li>Shed conventional thinking around network design.</li>
 </ul>
 <p>广域网的设计涉及许多因素，IT领导者今天必须愿意以不同的角度去思考。</p>
-<p>例如，多年以前，组织永远不会考虑使用宽带互联网或蜂窝业务进行业务连接。 而在今天，我们可以使用<a href="https://zh.wikipedia.org/wiki/DSL" target="_blank" rel="external">DSL</a>、有线、无线4G连接分支机构。 <strong>SD-WAN不是传统的WAN</strong>，对于IT行业的领导者来说，不要因为历史偏见（historical biases）而忽视（discount）可能的解决方案是很重要的。</p>
+<p>例如，多年以前，组织永远不会考虑使用宽带互联网或蜂窝业务进行业务连接。 而在今天，我们可以使用<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/DSL">DSL</a>、有线、无线4G连接分支机构。 <strong>SD-WAN不是传统的WAN</strong>，对于IT行业的领导者来说，不要因为历史偏见（historical biases）而忽视（discount）可能的解决方案是很重要的。</p>
 
       
     </div>
@@ -632,8 +643,8 @@
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.png"
-               alt="chaz" />
-          <p class="site-author-name" itemprop="name">chaz</p>
+               alt="" />
+          <p class="site-author-name" itemprop="name"></p>
            
               <p class="site-description motion-element" itemprop="description"></p>
           
@@ -643,7 +654,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">96</span>
+                <span class="site-state-item-count">99</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -691,7 +702,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#引言：数字转型驱动广域网演进"><span class="nav-number">1.</span> <span class="nav-text">引言：数字转型驱动广域网演进</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#推动广域网发展的其他因素"><span class="nav-number">1.1.</span> <span class="nav-text">推动广域网发展的其他因素</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#II-传统广域网面临的挑战"><span class="nav-number">2.</span> <span class="nav-text">II: 传统广域网面临的挑战</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#III：软件定义的WAN"><span class="nav-number">3.</span> <span class="nav-text">III：软件定义的WAN</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#标准"><span class="nav-number">3.1.</span> <span class="nav-text">标准</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#IV-Cisco’s-IWAN"><span class="nav-number">4.</span> <span class="nav-text">IV: Cisco’s IWAN</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#IWAN启用以下WAN功能："><span class="nav-number">4.1.</span> <span class="nav-text">IWAN启用以下WAN功能：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#额外的优点："><span class="nav-number">4.2.</span> <span class="nav-text">额外的优点：</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#V：结论和建议"><span class="nav-number">5.</span> <span class="nav-text">V：结论和建议</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%BC%95%E8%A8%80%EF%BC%9A%E6%95%B0%E5%AD%97%E8%BD%AC%E5%9E%8B%E9%A9%B1%E5%8A%A8%E5%B9%BF%E5%9F%9F%E7%BD%91%E6%BC%94%E8%BF%9B"><span class="nav-number">1.</span> <span class="nav-text">引言：数字转型驱动广域网演进</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8E%A8%E5%8A%A8%E5%B9%BF%E5%9F%9F%E7%BD%91%E5%8F%91%E5%B1%95%E7%9A%84%E5%85%B6%E4%BB%96%E5%9B%A0%E7%B4%A0"><span class="nav-number">1.1.</span> <span class="nav-text">推动广域网发展的其他因素</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#II-%E4%BC%A0%E7%BB%9F%E5%B9%BF%E5%9F%9F%E7%BD%91%E9%9D%A2%E4%B8%B4%E7%9A%84%E6%8C%91%E6%88%98"><span class="nav-number">2.</span> <span class="nav-text">II: 传统广域网面临的挑战</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#III%EF%BC%9A%E8%BD%AF%E4%BB%B6%E5%AE%9A%E4%B9%89%E7%9A%84WAN"><span class="nav-number">3.</span> <span class="nav-text">III：软件定义的WAN</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A0%87%E5%87%86"><span class="nav-number">3.1.</span> <span class="nav-text">标准</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#IV-Cisco%E2%80%99s-IWAN"><span class="nav-number">4.</span> <span class="nav-text">IV: Cisco’s IWAN</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#IWAN%E5%90%AF%E7%94%A8%E4%BB%A5%E4%B8%8BWAN%E5%8A%9F%E8%83%BD%EF%BC%9A"><span class="nav-number">4.1.</span> <span class="nav-text">IWAN启用以下WAN功能：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A2%9D%E5%A4%96%E7%9A%84%E4%BC%98%E7%82%B9%EF%BC%9A"><span class="nav-number">4.2.</span> <span class="nav-text">额外的优点：</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#V%EF%BC%9A%E7%BB%93%E8%AE%BA%E5%92%8C%E5%BB%BA%E8%AE%AE"><span class="nav-number">5.</span> <span class="nav-text">V：结论和建议</span></a></li></ol></div>
             
 
           </div>
@@ -718,17 +729,17 @@
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
-  <span class="author" itemprop="copyrightHolder">chaz</span>
+  <span class="author" itemprop="copyrightHolder">Chang</span>
 </div>
 
 
 <div class="powered-by">
-  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+  由 <a class="theme-link" target="_blank" rel="noopener" href="https://hexo.io">Hexo</a> 强力驱动
 </div>
 
 <div class="theme-info">
   主题 -
-  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+  <a class="theme-link" target="_blank" rel="noopener" href="https://github.com/iissnan/hexo-theme-next">
     NexT.Mist
   </a>
 </div>

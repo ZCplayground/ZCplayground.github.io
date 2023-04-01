@@ -93,21 +93,22 @@
 
 
 
-<meta name="description" content="P416语言规范版本1.0.0P4语言联盟2017年5月22日 abstractP4是用于编程网络设备的数据平面的语言。 本文档提供了P416语言的精确定义，这是P4版本的版本http：// p4。org。 本文档的目标受众包括希望为P4程序编写编译器，模拟器，IDE和调试器的开发人员。 对于有兴趣了解更深层次语言语法和语义的P4程序员而言，本文档也可能引起关注。 1.范围本规范文件定义了P416">
+<meta name="description" content="P416语言规范版本1.0.0P4语言联盟2017年5月22日 abstractP4是用于编程网络设备的数据平面的语言。 本文档提供了P416语言的精确定义，这是P4版本的版本http：&#x2F;&#x2F; p4。org。 本文档的目标受众包括希望为P4程序编写编译器，模拟器，IDE和调试器的开发人员。 对于有兴趣了解更深层次语言语法和语义的P4程序员而言，本文档也可能引起关注。 1.范围本规范文件定义了P416">
 <meta property="og:type" content="article">
 <meta property="og:title" content="p4-specification">
 <meta property="og:url" content="https://zcplayground.github.io/2017/10/21/p4-specification/index.html">
-<meta property="og:site_name" content="chaz">
-<meta property="og:description" content="P416语言规范版本1.0.0P4语言联盟2017年5月22日 abstractP4是用于编程网络设备的数据平面的语言。 本文档提供了P416语言的精确定义，这是P4版本的版本http：// p4。org。 本文档的目标受众包括希望为P4程序编写编译器，模拟器，IDE和调试器的开发人员。 对于有兴趣了解更深层次语言语法和语义的P4程序员而言，本文档也可能引起关注。 1.范围本规范文件定义了P416">
+<meta property="og:site_name" content="Chang&#39;s Note">
+<meta property="og:description" content="P416语言规范版本1.0.0P4语言联盟2017年5月22日 abstractP4是用于编程网络设备的数据平面的语言。 本文档提供了P416语言的精确定义，这是P4版本的版本http：&#x2F;&#x2F; p4。org。 本文档的目标受众包括希望为P4程序编写编译器，模拟器，IDE和调试器的开发人员。 对于有兴趣了解更深层次语言语法和语义的P4程序员而言，本文档也可能引起关注。 1.范围本规范文件定义了P416">
+<meta property="og:locale">
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/1.p4%E7%A8%8B%E5%BA%8F%E3%80%81%E4%B8%8E%E4%BC%A0%E7%BB%9F%E4%BA%A4%E6%8D%A2%E6%9C%BA%E7%9A%84%E5%8C%BA%E5%88%AB.png">
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/2.%E4%BD%BF%E7%94%A8p4%E7%BC%96%E7%A8%8B.png">
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/3.p416%E8%AF%AD%E8%A8%80.png">
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/5.extern.png">
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/4.%20Architecture.png">
-<meta property="og:updated_time" content="2017-12-03T07:21:56.000Z">
+<meta property="article:published_time" content="2017-10-21T04:27:59.000Z">
+<meta property="article:modified_time" content="2017-12-03T07:21:56.000Z">
+<meta property="article:author" content="Chang">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="p4-specification">
-<meta name="twitter:description" content="P416语言规范版本1.0.0P4语言联盟2017年5月22日 abstractP4是用于编程网络设备的数据平面的语言。 本文档提供了P416语言的精确定义，这是P4版本的版本http：// p4。org。 本文档的目标受众包括希望为P4程序编写编译器，模拟器，IDE和调试器的开发人员。 对于有兴趣了解更深层次语言语法和语义的P4程序员而言，本文档也可能引起关注。 1.范围本规范文件定义了P416">
 <meta name="twitter:image" content="http://osax8w13y.bkt.clouddn.com/1.p4%E7%A8%8B%E5%BA%8F%E3%80%81%E4%B8%8E%E4%BC%A0%E7%BB%9F%E4%BA%A4%E6%8D%A2%E6%9C%BA%E7%9A%84%E5%8C%BA%E5%88%AB.png">
 
 
@@ -115,7 +116,7 @@
 <script type="text/javascript" id="hexo.configurations">
   var NexT = window.NexT || {};
   var CONFIG = {
-    root: '/',
+    root: '',
     scheme: 'Mist',
     sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
     fancybox: true,
@@ -142,8 +143,8 @@
 
 
 
-  <title>p4-specification | chaz</title>
-</head>
+  <title>p4-specification | Chang's Note</title>
+<meta name="generator" content="Hexo 5.4.2"></head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
 
@@ -179,7 +180,7 @@
     <div class="custom-logo-site-title">
       <a href="/"  class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
-        <span class="site-title">chaz</span>
+        <span class="site-title">Chang's Note</span>
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
@@ -243,6 +244,16 @@
           </a>
         </li>
       
+        
+        <li class="menu-item menu-item-quotations">
+          <a href="/quotations/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-quote-right"></i> <br />
+            
+            语录
+          </a>
+        </li>
+      
 
       
     </ul>
@@ -275,13 +286,13 @@
     <link itemprop="mainEntityOfPage" href="https://zcplayground.github.io/2017/10/21/p4-specification/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="chaz">
+      <meta itemprop="name" content="">
       <meta itemprop="description" content="">
       <meta itemprop="image" content="/images/avatar.png">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="chaz">
+      <meta itemprop="name" content="Chang's Note">
     </span>
 
     
@@ -415,7 +426,7 @@
 </ul>
 </li>
 </ul>
-<figure class="highlight dart"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div></pre></td><td class="code"><pre><div class="line"><span class="comment"><span class="markdown">/<span class="strong">*****</span><span class="strong">*****</span> 报头类型 <span class="strong">*****</span><span class="strong">*****</span>**/</span></span> </div><div class="line"><span class="comment">// 以太网</span></div><div class="line">header_type ethernet_t &#123; </div><div class="line">    ﬁelds &#123;</div><div class="line">        dst_addr : <span class="number">48</span>;</div><div class="line">        src_addr : <span class="number">48</span>;</div><div class="line">        ethertype : <span class="number">16</span>;	</div><div class="line">    &#125;       	</div><div class="line">&#125;</div><div class="line">header ethernet_t ethernet;</div><div class="line"></div><div class="line"><span class="comment"><span class="markdown">/<span class="strong">*****</span><span class="strong">*****</span> 解析过程 <span class="strong">*****</span><span class="strong">*****</span>**/</span></span></div><div class="line"><span class="comment">// 以太网包头的解析逻辑</span></div><div class="line"></div><div class="line">parser start </div><div class="line">&#123;</div><div class="line">    <span class="keyword">return</span>  parse_ethernet;</div><div class="line">&#125;</div><div class="line"></div><div class="line">parser parse_ethernet </div><div class="line">&#123; </div><div class="line">    extract(ethernet)</div><div class="line">    <span class="keyword">return</span> <span class="keyword">switch</span>(latest.ethertype) &#123; </div><div class="line">        <span class="keyword">case</span> <span class="number">0x8100</span>: parse_vlan; <span class="keyword">case</span> <span class="number">0x0800</span>: parse_ipv4;</div><div class="line"><span class="comment">// Other cases</span></div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment"><span class="markdown">/<span class="strong">*****</span><span class="strong">*****</span><span class="bullet">* “匹配 - 动作” *</span><span class="strong">*****</span><span class="emphasis">***</span>*/</span></span></div><div class="line">#deﬁne  IPV4_LPM_TABLE_SIZE <span class="number">65536</span></div><div class="line">table ipv4_ﬁb_lpm &#123; </div><div class="line">    reads &#123;</div><div class="line">        metadata.vrf : exact; </div><div class="line">        ipv4.dstAddr :lpm;</div><div class="line">    &#125;	</div><div class="line">    actions &#123;	</div><div class="line">        on_miss;	</div><div class="line">        ﬁb_hit_nexthop;	</div><div class="line">    &#125;</div><div class="line">    size  : IPV4_LPM_TABLE_SIZE;</div><div class="line">&#125;</div><div class="line">action on_miss() &#123;</div><div class="line"><span class="comment">// no op</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// 一旦定义好包头、解析器、表和动作，剩下的任务则是指定从一个表到下一个表的控制流。</span></div><div class="line"></div><div class="line"><span class="comment">// example: 数据包首先经过L2转发表(12_fwd)，然后可能经过L3路由表（ipv4_ﬁb_lpm和ipv6_ﬁb_lpm）</span></div><div class="line"></div><div class="line">control ingress &#123;</div><div class="line"><span class="comment">// L2 forwarding apply(l2_fwd);</span></div><div class="line"><span class="comment">// L3 routing apply(router_mac) &#123;</span></div><div class="line">    hit </div><div class="line">    &#123;</div><div class="line">        <span class="keyword">if</span> (valid(ipv4)) </div><div class="line">        &#123; </div><div class="line">            apply(ipv4_ﬁb_lpm);</div><div class="line">        &#125; </div><div class="line">        <span class="keyword">else</span> </div><div class="line">        &#123;</div><div class="line">            <span class="keyword">if</span> (valid(ipv6)) </div><div class="line">            &#123; </div><div class="line">                apply(ipv6_ﬁb_lpm)</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"><span class="comment">// ACL apply(acl);</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><span class="line"><span class="regexp">/********** 报头类型 ************/</span> </span><br><span class="line"><span class="regexp">//</span> 以太网</span><br><span class="line">header_type ethernet_t &#123; </span><br><span class="line">    ﬁelds &#123;</span><br><span class="line">        dst_addr : <span class="number">48</span>;</span><br><span class="line">        src_addr : <span class="number">48</span>;</span><br><span class="line">        ethertype : <span class="number">16</span>;	</span><br><span class="line">    &#125;       	</span><br><span class="line">&#125;</span><br><span class="line">header ethernet_t ethernet;</span><br><span class="line"></span><br><span class="line"><span class="regexp">/********** 解析过程 ************/</span></span><br><span class="line"><span class="regexp">//</span> 以太网包头的解析逻辑</span><br><span class="line"></span><br><span class="line">parser start </span><br><span class="line">&#123;</span><br><span class="line">    return  parse_ethernet;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">parser parse_ethernet </span><br><span class="line">&#123; </span><br><span class="line">    extract(ethernet)</span><br><span class="line">    return switch(latest.ethertype) &#123; </span><br><span class="line">        case <span class="number">0</span>x8100: parse_vlan; case <span class="number">0</span>x0800: parse_ipv4;</span><br><span class="line"><span class="regexp">//</span> Other cases</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="regexp">/*********** “匹配 - 动作” **********/</span></span><br><span class="line"><span class="comment">#deﬁne  IPV4_LPM_TABLE_SIZE 65536</span></span><br><span class="line">table ipv4_ﬁb_lpm &#123; </span><br><span class="line">    reads &#123;</span><br><span class="line">        metadata.vrf : exact; </span><br><span class="line">        ipv4.dstAddr :lpm;</span><br><span class="line">    &#125;	</span><br><span class="line">    actions &#123;	</span><br><span class="line">        on_miss;	</span><br><span class="line">        ﬁb_hit_nexthop;	</span><br><span class="line">    &#125;</span><br><span class="line">    size  : IPV4_LPM_TABLE_SIZE;</span><br><span class="line">&#125;</span><br><span class="line">action on_miss() &#123;</span><br><span class="line"><span class="regexp">//</span> no op</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="regexp">//</span> 一旦定义好包头、解析器、表和动作，剩下的任务则是指定从一个表到下一个表的控制流。</span><br><span class="line"></span><br><span class="line"><span class="regexp">//</span> example: 数据包首先经过L2转发表(<span class="number">12</span>_fwd)，然后可能经过L3路由表（ipv4_ﬁb_lpm和ipv6_ﬁb_lpm）</span><br><span class="line"></span><br><span class="line">control ingress &#123;</span><br><span class="line"><span class="regexp">//</span> L2 forwarding apply(l2_fwd);</span><br><span class="line"><span class="regexp">//</span> L3 routing apply(router_mac) &#123;</span><br><span class="line">    hit </span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (valid(ipv4)) </span><br><span class="line">        &#123; </span><br><span class="line">            apply(ipv4_ﬁb_lpm);</span><br><span class="line">        &#125; </span><br><span class="line">        <span class="keyword">else</span> </span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (valid(ipv6)) </span><br><span class="line">            &#123; </span><br><span class="line">                apply(ipv6_ﬁb_lpm)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"><span class="regexp">//</span> ACL apply(acl);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h2 id="编译-P4-程序"><a href="#编译-P4-程序" class="headerlink" title="编译 P4 程序"></a>编译 P4 程序</h2><p>P4编译器本质上是将在P4程序中表达的数据平面的逻辑翻译成一个在特定可编程数据包处理硬件上的具体物理配置。因此，编译器后端部分自然与其支持的硬件目标紧密结合，而其前端部分则可以在各个P4可编程目标之间通用。这就意味着一个P4程序的具体实现可根据被编译的目标而改变。PISA编译器可以从P4程序的包头和解析器定义中导出解析器和重组器的配置。P4采用的状态机概念使得此映射变得相对容易。PISA编译器可以从表、动作和控制流的定义中导出“匹配 - 动作”阶 段的配置。编译器首先分析每个包头字段、元数据和状态对象在表和动作之间的所有依赖关系。基于这个结果，识别出可放置在相同阶段同时运行的表和动作，以及那些由于依赖性而必须顺序执行的表和动作。同时编译器还应考虑到其他由特定目标带来的相关限制，如可用的表内存、计算逻辑单元和携带数据包包头的寄存器等。</p>
 <p>目标制造商提供硬件或软件实现框架，架构定义和该目标的P4编译器。 P4编程人员针对特定架构编写程序，其中定义了目标系统上的一组P4可编程组件以及其外部数据平面接口。</p>
 <p>编译一组P4程序会产生两个工件：</p>
@@ -438,7 +449,7 @@
 <p><img src="http://osax8w13y.bkt.clouddn.com/3.p416%E8%AF%AD%E8%A8%80.png" alt=""></p>
 <p>因此，语言已经从复杂语言（超过70个关键字）转变为相对较小的核心语言（少于40个关键字，如A部分所示），并附有一个基本构造库，用于编写大多数P4。</p>
 <p>P4的v1.1版本引入了一种称为extern的语言结构，可用于描述库元素。 因此，在v1.1语言规范中定义的许多结构将被转换成这样的库元素（包括从语言中消除的结构，例如计数器和计量表）。 这些外部对象中的一些预期将被标准化，并且它们将在将来描述P4元素标准库的文档的范围内。 在本文中，我们提供了几个extern结构的例子。 P416还介绍并重新使用了一些v1.1语言结构来描述架构的可编程部分。 这些语言结构是：解析器，状态，控件和包。</p>
-<p>外部对象描述了一组由<strong>对象</strong>实现的方法，但<strong>不描述这些方法的实现</strong>（即它类似于面向对象语言中的抽象类）。 例如，以下构造可用于描述增量校验和单元提供的操作：<br><figure class="highlight cs"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">extern</span> Checksum16 &#123;</div><div class="line">    Checksum16();              <span class="comment">// constructor</span></div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">clear</span>(<span class="params"></span>)</span>;              <span class="comment">// prepare unit for computation</span></div><div class="line">    <span class="keyword">void</span> update&lt;T&gt;(<span class="keyword">in</span> T data); <span class="comment">// add data to checksum</span></div><div class="line">    <span class="keyword">void</span> <span class="keyword">remove</span>&lt;T&gt;(<span class="keyword">in</span> T data); <span class="comment">// remove data from existing checksum</span></div><div class="line">    bit&lt;<span class="number">16</span>&gt; <span class="keyword">get</span>(); <span class="comment">// get the checksum for the data added since last clear</span></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>外部对象描述了一组由<strong>对象</strong>实现的方法，但<strong>不描述这些方法的实现</strong>（即它类似于面向对象语言中的抽象类）。 例如，以下构造可用于描述增量校验和单元提供的操作：<br><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">extern</span> Checksum16 &#123;</span><br><span class="line">    Checksum16();              <span class="comment">// constructor</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">clear</span>()</span>;              <span class="comment">// prepare unit for computation</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">update</span>&lt;<span class="title">T</span>&gt;(<span class="params"><span class="keyword">in</span> T data</span>)</span>; <span class="comment">// add data to checksum</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">remove</span>&lt;<span class="title">T</span>&gt;(<span class="params"><span class="keyword">in</span> T data</span>)</span>; <span class="comment">// remove data from existing checksum</span></span><br><span class="line">    bit&lt;<span class="number">16</span>&gt; <span class="keyword">get</span>(); <span class="comment">// get the checksum for the data added since last clear</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p><img src="http://osax8w13y.bkt.clouddn.com/5.extern.png" alt=""></p>
 <p>P416语言修订的一个重要目标是提供一个稳定的语言定义。 换句话说，我们努力确保在P416中编写的所有程序在语言的未来版本被视为程序时将保持语法正确，行为相同。 此外，如果将来版本的语言需要反向兼容性，我们将努力为将P416程序迁移到新版本提供一条简单的途径。</p>
 <h1 id="4-架构模型（Architecture-Model）"><a href="#4-架构模型（Architecture-Model）" class="headerlink" title="4. 架构模型（Architecture Model）"></a>4. 架构模型（Architecture Model）</h1><p><img src="http://osax8w13y.bkt.clouddn.com/4.%20Architecture.png" alt=""></p>
@@ -451,7 +462,7 @@
 <p>一般来说，P4程序预计不会在不同体系结构中移植。 例如，通过写入自定义控制寄存器来执行广播数据包的P4程序将无法在没有控制寄存器的目标上正常工作。 然而，只要有足够的资源，为某个架构编写的P4程序应该可以移植到所有目标上，忠实地实现相应的模型。</p>
 <p>结论：P4 不是一个比较适合移植的设计？</p>
 <h2 id="4-2-数据平面接口-Data-plane-interfaces"><a href="#4-2-数据平面接口-Data-plane-interfaces" class="headerlink" title="4.2 数据平面接口 Data plane interfaces"></a>4.2 数据平面接口 Data plane interfaces</h2><p>为了描述可以在P4中编程的功能块，该体系结构包括一个类型声明，指定块与架构中其他组件之间的接口。 例如，架构可能包含以下声明：</p>
-<figure class="highlight pf"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">control MatchActionPipe<span class="variable">&lt;H&gt;</span>(<span class="keyword">in</span> bit<span class="variable">&lt;4&gt;</span> inputPort,</div><div class="line">                           inout H parsedHeaders,</div><div class="line">                           <span class="keyword">out</span> bit<span class="variable">&lt;4&gt;</span> outputPort);</div></pre></td></tr></table></figure>
+<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">control MatchActionPipe&lt;H&gt;(<span class="keyword">in</span> bit&lt;<span class="number">4</span>&gt; inputPort,</span><br><span class="line">                           <span class="keyword">inout</span> H parsedHeaders,</span><br><span class="line">                           <span class="keyword">out</span> bit&lt;<span class="number">4</span>&gt; outputPort);</span><br></pre></td></tr></table></figure>
 <p>control 是一个关键字。</p>
 <p>此类型声明描述了一个名为MatchActionPipe的块，可以使用匹配动作单元（match-action unit）调用和其他命令式构造进行编程。</p>
 <p>由上述声明可以看出：</p>
@@ -463,8 +474,8 @@
 <h2 id="4-3。-外部对象和函数"><a href="#4-3。-外部对象和函数" class="headerlink" title="4.3。 外部对象和函数"></a>4.3。 外部对象和函数</h2><p>P4程序还可以与架构提供的对象和功能进行交互。 这样的对象使用extern构造来描述，该外部构造描述了这些对象暴露于数据平面的接口。</p>
 <p>例子就是校验和 checksum</p>
 <hr>
-<p><a href="http://www.sdnlab.com/17456.html" target="_blank" rel="external">http://www.sdnlab.com/17456.html</a></p>
-<p><a href="https://p4lang.github.io/p4-spec/docs/P4-16-v1.0.0-spec.html" target="_blank" rel="external">https://p4lang.github.io/p4-spec/docs/P4-16-v1.0.0-spec.html</a></p>
+<p><a target="_blank" rel="noopener" href="http://www.sdnlab.com/17456.html">http://www.sdnlab.com/17456.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://p4lang.github.io/p4-spec/docs/P4-16-v1.0.0-spec.html">https://p4lang.github.io/p4-spec/docs/P4-16-v1.0.0-spec.html</a></p>
 
       
     </div>
@@ -574,8 +585,8 @@
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.png"
-               alt="chaz" />
-          <p class="site-author-name" itemprop="name">chaz</p>
+               alt="" />
+          <p class="site-author-name" itemprop="name"></p>
            
               <p class="site-description motion-element" itemprop="description"></p>
           
@@ -585,7 +596,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">96</span>
+                <span class="site-state-item-count">99</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -633,7 +644,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#abstract"><span class="nav-number">1.</span> <span class="nav-text">abstract</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#1-范围"><span class="nav-number">2.</span> <span class="nav-text">1.范围</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-术语，定义和符号"><span class="nav-number">3.</span> <span class="nav-text">2. 术语，定义和符号</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-概述"><span class="nav-number">4.</span> <span class="nav-text">3. 概述</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#P4语言提供的核心抽象是："><span class="nav-number">4.1.</span> <span class="nav-text">P4语言提供的核心抽象是：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#编译-P4-程序"><span class="nav-number">4.2.</span> <span class="nav-text">编译 P4 程序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-P4的优点"><span class="nav-number">4.3.</span> <span class="nav-text">3.1 P4的优点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2。-P4语言演变：与以前版本的比较（P4-v1-0-v1-1）"><span class="nav-number">4.4.</span> <span class="nav-text">3.2。 P4语言演变：与以前版本的比较（P4 v1.0 / v1.1）</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-架构模型（Architecture-Model）"><span class="nav-number">5.</span> <span class="nav-text">4. 架构模型（Architecture Model）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#4-2-数据平面接口-Data-plane-interfaces"><span class="nav-number">5.1.</span> <span class="nav-text">4.2 数据平面接口 Data plane interfaces</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-3。-外部对象和函数"><span class="nav-number">5.2.</span> <span class="nav-text">4.3。 外部对象和函数</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#abstract"><span class="nav-number">1.</span> <span class="nav-text">abstract</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#1-%E8%8C%83%E5%9B%B4"><span class="nav-number">2.</span> <span class="nav-text">1.范围</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-%E6%9C%AF%E8%AF%AD%EF%BC%8C%E5%AE%9A%E4%B9%89%E5%92%8C%E7%AC%A6%E5%8F%B7"><span class="nav-number">3.</span> <span class="nav-text">2. 术语，定义和符号</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-%E6%A6%82%E8%BF%B0"><span class="nav-number">4.</span> <span class="nav-text">3. 概述</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#P4%E8%AF%AD%E8%A8%80%E6%8F%90%E4%BE%9B%E7%9A%84%E6%A0%B8%E5%BF%83%E6%8A%BD%E8%B1%A1%E6%98%AF%EF%BC%9A"><span class="nav-number">4.1.</span> <span class="nav-text">P4语言提供的核心抽象是：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BC%96%E8%AF%91-P4-%E7%A8%8B%E5%BA%8F"><span class="nav-number">4.2.</span> <span class="nav-text">编译 P4 程序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-P4%E7%9A%84%E4%BC%98%E7%82%B9"><span class="nav-number">4.3.</span> <span class="nav-text">3.1 P4的优点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2%E3%80%82-P4%E8%AF%AD%E8%A8%80%E6%BC%94%E5%8F%98%EF%BC%9A%E4%B8%8E%E4%BB%A5%E5%89%8D%E7%89%88%E6%9C%AC%E7%9A%84%E6%AF%94%E8%BE%83%EF%BC%88P4-v1-0-v1-1%EF%BC%89"><span class="nav-number">4.4.</span> <span class="nav-text">3.2。 P4语言演变：与以前版本的比较（P4 v1.0 &#x2F; v1.1）</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-%E6%9E%B6%E6%9E%84%E6%A8%A1%E5%9E%8B%EF%BC%88Architecture-Model%EF%BC%89"><span class="nav-number">5.</span> <span class="nav-text">4. 架构模型（Architecture Model）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#4-2-%E6%95%B0%E6%8D%AE%E5%B9%B3%E9%9D%A2%E6%8E%A5%E5%8F%A3-Data-plane-interfaces"><span class="nav-number">5.1.</span> <span class="nav-text">4.2 数据平面接口 Data plane interfaces</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-3%E3%80%82-%E5%A4%96%E9%83%A8%E5%AF%B9%E8%B1%A1%E5%92%8C%E5%87%BD%E6%95%B0"><span class="nav-number">5.2.</span> <span class="nav-text">4.3。 外部对象和函数</span></a></li></ol></li></ol></div>
             
 
           </div>
@@ -660,17 +671,17 @@
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
-  <span class="author" itemprop="copyrightHolder">chaz</span>
+  <span class="author" itemprop="copyrightHolder">Chang</span>
 </div>
 
 
 <div class="powered-by">
-  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+  由 <a class="theme-link" target="_blank" rel="noopener" href="https://hexo.io">Hexo</a> 强力驱动
 </div>
 
 <div class="theme-info">
   主题 -
-  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+  <a class="theme-link" target="_blank" rel="noopener" href="https://github.com/iissnan/hexo-theme-next">
     NexT.Mist
   </a>
 </div>

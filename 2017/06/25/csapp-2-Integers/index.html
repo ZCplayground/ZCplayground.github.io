@@ -97,18 +97,19 @@
 <meta property="og:type" content="article">
 <meta property="og:title" content="【CSAPP笔记】2. 整型运算">
 <meta property="og:url" content="https://zcplayground.github.io/2017/06/25/csapp-2-Integers/index.html">
-<meta property="og:site_name" content="chaz">
+<meta property="og:site_name" content="Chang&#39;s Note">
 <meta property="og:description" content="现在想补补推荐这本书的理由。  Most books on systems—computer architecture, compilers, operating systems, and networking—are written as if the reader were going to design and implement such a system. We call this th">
+<meta property="og:locale">
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/2-1.png">
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/2-2.png">
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/2-3.png">
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/2-7.png">
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/2-5.png">
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/2-6.png">
-<meta property="og:updated_time" content="2017-06-29T09:31:18.000Z">
+<meta property="article:published_time" content="2017-06-25T02:55:54.000Z">
+<meta property="article:modified_time" content="2017-06-29T09:31:18.000Z">
+<meta property="article:author" content="Chang">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="【CSAPP笔记】2. 整型运算">
-<meta name="twitter:description" content="现在想补补推荐这本书的理由。  Most books on systems—computer architecture, compilers, operating systems, and networking—are written as if the reader were going to design and implement such a system. We call this th">
 <meta name="twitter:image" content="http://osax8w13y.bkt.clouddn.com/2-1.png">
 
 
@@ -116,7 +117,7 @@
 <script type="text/javascript" id="hexo.configurations">
   var NexT = window.NexT || {};
   var CONFIG = {
-    root: '/',
+    root: '',
     scheme: 'Mist',
     sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
     fancybox: true,
@@ -143,8 +144,8 @@
 
 
 
-  <title>【CSAPP笔记】2. 整型运算 | chaz</title>
-</head>
+  <title>【CSAPP笔记】2. 整型运算 | Chang's Note</title>
+<meta name="generator" content="Hexo 5.4.2"></head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
 
@@ -180,7 +181,7 @@
     <div class="custom-logo-site-title">
       <a href="/"  class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
-        <span class="site-title">chaz</span>
+        <span class="site-title">Chang's Note</span>
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
@@ -244,6 +245,16 @@
           </a>
         </li>
       
+        
+        <li class="menu-item menu-item-quotations">
+          <a href="/quotations/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-quote-right"></i> <br />
+            
+            语录
+          </a>
+        </li>
+      
 
       
     </ul>
@@ -276,13 +287,13 @@
     <link itemprop="mainEntityOfPage" href="https://zcplayground.github.io/2017/06/25/csapp-2-Integers/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="chaz">
+      <meta itemprop="name" content="">
       <meta itemprop="description" content="">
       <meta itemprop="image" content="/images/avatar.png">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="chaz">
+      <meta itemprop="name" content="Chang's Note">
     </span>
 
     
@@ -387,7 +398,7 @@
 <p>简单的说，如果现在有一台支持4位的无符号数加法运算的“计算器”摆在你面前，那么大于2^w也就是16的结果都是溢出的。</p>
 <p><img src="http://osax8w13y.bkt.clouddn.com/2-2.png" alt=""></p>
 <p>C语言程序中，<strong>不会</strong>把溢出作为错误而发送信号。考虑一个函数，判断两个无符号数相加会不会产生溢出，那么它应该是下面这个样子的：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">uadd_ok</span><span class="params">(<span class="keyword">unsigned</span> x, <span class="keyword">unsigned</span> y)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">unsigned</span> result = x + y;</div><div class="line">    <span class="keyword">return</span> (s&gt;=x);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">uadd_ok</span><span class="params">(<span class="type">unsigned</span> x, <span class="type">unsigned</span> y)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">unsigned</span> result = x + y;</span><br><span class="line">    <span class="keyword">return</span> (s&gt;=x);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h2 id="补码加法"><a href="#补码加法" class="headerlink" title="补码加法"></a>补码加法</h2><p>如果能够理解无符号加法的溢出，那么也就很好理解补码加法时，如果太大的结果也是会溢出的。只不过如果是正溢出的话，结果会变成一个很小很小的负数。这个现象的关键还是在于补码的编码机制。其实就正溢的情况来看，补码正溢和无符号正溢有些许不同。无符号正溢会导致现有w位放不下运算结果而溢出，而补码正溢时，是因为加法导致运算进位的1成了符号位，而符号位的权是负权。</p>
 <p>简而言之，如果加法运算之后的结果仍然落在无符号、补码所能够表示的范围之内，那么就不会溢出，否则会溢出。溢出后结果的具体情况根据不同的编码规则来。</p>
 <blockquote>
@@ -458,9 +469,8 @@
 <p>如果对无符号整型的内容不是很理解，<strong>请不要使用</strong>无符号整型！</p>
 <p><img src="http://osax8w13y.bkt.clouddn.com/2-6.png" alt=""></p>
 <h2 id="一些题目"><a href="#一些题目" class="headerlink" title="一些题目"></a>一些题目</h2><p>在32位机器上运行如下代码。假设我们对有符号值使用补码运算，对有符号值使用的是算术右移，对有符号值使用的是逻辑右移。变量的初始化声明如下：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">int</span> x = ArbitraryValue();</div><div class="line"><span class="keyword">int</span> y = ArbitraryValue();</div><div class="line"></div><div class="line"><span class="keyword">unsigned</span> ux = x;</div><div class="line"><span class="keyword">unsigned</span> uy = y; <span class="comment">//ux,uy 是x,y 的无符号型</span></div></pre></td></tr></table></figure>
-<p>对于下面的C语言表达式，请说明 1）对于所有的 x 和 y 值，表达式恒为真。或者 2）给出使表达式为假的 x 和 y 的值。<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="number">1.</span> (x &gt; <span class="number">0</span>) || (x - <span class="number">1</span> &lt; <span class="number">0</span>) </div><div class="line"><span class="number">2.</span> (x &amp; <span class="number">7</span>) != <span class="number">7</span> || (x &lt;&lt; <span class="number">29</span>) &lt; <span class="number">0</span></div><div class="line"><span class="number">3.</span> (x * x) &gt;= <span class="number">0</span></div><div class="line"><span class="number">4.</span> x &lt; <span class="number">0</span> || -x &gt;= <span class="number">0</span></div><div class="line"><span class="number">5.</span> x &gt; <span class="number">0</span> || -x &gt;= <span class="number">0</span></div><div class="line"><span class="number">6.</span> x + y == ux + uy</div><div class="line"><span class="number">7.</span> x * ~y + ux * uy == -x</div></pre></td></tr></table></figure></p>
-<p>解答or提示：</p>
+<figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">int x <span class="operator">=</span> ArbitraryValue()<span class="comment">;</span></span><br><span class="line">int y <span class="operator">=</span> ArbitraryValue()<span class="comment">;</span></span><br><span class="line"></span><br><span class="line">unsigned ux <span class="operator">=</span> x<span class="comment">;</span></span><br><span class="line">unsigned uy <span class="operator">=</span> y<span class="comment">; //ux,uy 是x,y 的无符号型</span></span><br></pre></td></tr></table></figure>
+<p>对于下面的C语言表达式，请说明 1）对于所有的 x 和 y 值，表达式恒为真。或者 2）给出使表达式为假的 x 和 y 的值。<br><figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">1</span>. (x &gt; <span class="number">0</span>) || (x - <span class="number">1</span> &lt; <span class="number">0</span>) </span><br><span class="line"><span class="attribute">2</span>. (x &amp; <span class="number">7</span>) != <span class="number">7</span> || (x &lt;&lt; <span class="number">29</span>) &lt; <span class="number">0</span></span><br><span class="line"><span class="attribute">3</span>. (x * x) &gt;= <span class="number">0</span></span><br><span class="line"><span class="attribute">4</span>. x &lt; <span class="number">0</span> || -x &gt;= <span class="number">0</span></span><br><span class="line"><span class="attribute">5</span>. x &gt; <span class="number">0</span> || -x &gt;= <span class="number">0</span></span><br><span class="line"><span class="attribute">6</span>. x + y == ux + uy</span><br><span class="line"><span class="attribute">7</span>. x * ~y + ux * uy == -x</span><br></pre></td></tr></table></figure><br>解答or提示：</p>
 <ol>
 <li>若 x = TMin ，x - 1 = TMax。</li>
 <li>7 的二进制表示是 0111 ，如果 (x &amp; 7) != 7 这个表达式为假，那么 x 的第二位必须是 1。左移29位之后，这个1变成了符号位。</li>
@@ -472,7 +482,7 @@
 </ol>
 <h1 id="See-Also"><a href="#See-Also" class="headerlink" title="See Also"></a>See Also</h1><p>部分公式、数据截图来源</p>
 <ul>
-<li><a href="http://www.cs.cmu.edu/~./213/schedule.html" target="_blank" rel="external">CMU 2017年春季学期  ICS课程网站</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.cs.cmu.edu/~./213/schedule.html">CMU 2017年春季学期  ICS课程网站</a></li>
 </ul>
 
       
@@ -583,8 +593,8 @@
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.png"
-               alt="chaz" />
-          <p class="site-author-name" itemprop="name">chaz</p>
+               alt="" />
+          <p class="site-author-name" itemprop="name"></p>
            
               <p class="site-description motion-element" itemprop="description"></p>
           
@@ -594,7 +604,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">96</span>
+                <span class="site-state-item-count">99</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -642,7 +652,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#整数运算"><span class="nav-number">1.</span> <span class="nav-text">整数运算</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#无符号加法"><span class="nav-number">1.1.</span> <span class="nav-text">无符号加法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#补码加法"><span class="nav-number">1.2.</span> <span class="nav-text">补码加法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#减法、非"><span class="nav-number">1.3.</span> <span class="nav-text">减法、非</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#乘法，与移位运算的联系"><span class="nav-number">1.4.</span> <span class="nav-text">乘法，与移位运算的联系</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#除以2的幂"><span class="nav-number">1.5.</span> <span class="nav-text">除以2的幂</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#思考和总结"><span class="nav-number">2.</span> <span class="nav-text">思考和总结</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#对于整数运算"><span class="nav-number">2.1.</span> <span class="nav-text">对于整数运算</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#何时使用无符号整型呢？"><span class="nav-number">2.2.</span> <span class="nav-text">何时使用无符号整型呢？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#一些题目"><span class="nav-number">2.3.</span> <span class="nav-text">一些题目</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#See-Also"><span class="nav-number">3.</span> <span class="nav-text">See Also</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%95%B4%E6%95%B0%E8%BF%90%E7%AE%97"><span class="nav-number">1.</span> <span class="nav-text">整数运算</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%97%A0%E7%AC%A6%E5%8F%B7%E5%8A%A0%E6%B3%95"><span class="nav-number">1.1.</span> <span class="nav-text">无符号加法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A1%A5%E7%A0%81%E5%8A%A0%E6%B3%95"><span class="nav-number">1.2.</span> <span class="nav-text">补码加法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%87%8F%E6%B3%95%E3%80%81%E9%9D%9E"><span class="nav-number">1.3.</span> <span class="nav-text">减法、非</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B9%98%E6%B3%95%EF%BC%8C%E4%B8%8E%E7%A7%BB%E4%BD%8D%E8%BF%90%E7%AE%97%E7%9A%84%E8%81%94%E7%B3%BB"><span class="nav-number">1.4.</span> <span class="nav-text">乘法，与移位运算的联系</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%99%A4%E4%BB%A52%E7%9A%84%E5%B9%82"><span class="nav-number">1.5.</span> <span class="nav-text">除以2的幂</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%80%9D%E8%80%83%E5%92%8C%E6%80%BB%E7%BB%93"><span class="nav-number">2.</span> <span class="nav-text">思考和总结</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%B9%E4%BA%8E%E6%95%B4%E6%95%B0%E8%BF%90%E7%AE%97"><span class="nav-number">2.1.</span> <span class="nav-text">对于整数运算</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%95%E6%97%B6%E4%BD%BF%E7%94%A8%E6%97%A0%E7%AC%A6%E5%8F%B7%E6%95%B4%E5%9E%8B%E5%91%A2%EF%BC%9F"><span class="nav-number">2.2.</span> <span class="nav-text">何时使用无符号整型呢？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E4%BA%9B%E9%A2%98%E7%9B%AE"><span class="nav-number">2.3.</span> <span class="nav-text">一些题目</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#See-Also"><span class="nav-number">3.</span> <span class="nav-text">See Also</span></a></li></ol></div>
             
 
           </div>
@@ -669,17 +679,17 @@
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
-  <span class="author" itemprop="copyrightHolder">chaz</span>
+  <span class="author" itemprop="copyrightHolder">Chang</span>
 </div>
 
 
 <div class="powered-by">
-  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+  由 <a class="theme-link" target="_blank" rel="noopener" href="https://hexo.io">Hexo</a> 强力驱动
 </div>
 
 <div class="theme-info">
   主题 -
-  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+  <a class="theme-link" target="_blank" rel="noopener" href="https://github.com/iissnan/hexo-theme-next">
     NexT.Mist
   </a>
 </div>

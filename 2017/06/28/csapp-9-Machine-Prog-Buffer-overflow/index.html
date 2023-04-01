@@ -97,16 +97,17 @@
 <meta property="og:type" content="article">
 <meta property="og:title" content="【CSAPP笔记】9. 汇编语言——缓冲区溢出">
 <meta property="og:url" content="https://zcplayground.github.io/2017/06/28/csapp-9-Machine-Prog-Buffer-overflow/index.html">
-<meta property="og:site_name" content="chaz">
+<meta property="og:site_name" content="Chang&#39;s Note">
 <meta property="og:description" content="x86-64 Linux 内存结构先来看看一个程序在内存中是如何组织的。Linux 为每个进程维持了一段单独的虚拟地址空间。（进程是计算机科学中很深刻、很成功的一个概念。当我们在运行一个程序时，会得到一个假象，好像我们的程序是系统当中运行的唯一程序，独占存储器和处理器资源。）   最上面是栈（stack），一般用来保存局部变量，有 8 MB 的大小限制，因此不建议在函数内开大数组，递归的效率低是因">
+<meta property="og:locale">
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/1.png">
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/4.png">
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/2.png">
 <meta property="og:image" content="http://osax8w13y.bkt.clouddn.com/3.png">
-<meta property="og:updated_time" content="2017-08-27T11:04:32.000Z">
+<meta property="article:published_time" content="2017-06-28T04:02:23.000Z">
+<meta property="article:modified_time" content="2017-08-27T11:04:32.000Z">
+<meta property="article:author" content="Chang">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="【CSAPP笔记】9. 汇编语言——缓冲区溢出">
-<meta name="twitter:description" content="x86-64 Linux 内存结构先来看看一个程序在内存中是如何组织的。Linux 为每个进程维持了一段单独的虚拟地址空间。（进程是计算机科学中很深刻、很成功的一个概念。当我们在运行一个程序时，会得到一个假象，好像我们的程序是系统当中运行的唯一程序，独占存储器和处理器资源。）   最上面是栈（stack），一般用来保存局部变量，有 8 MB 的大小限制，因此不建议在函数内开大数组，递归的效率低是因">
 <meta name="twitter:image" content="http://osax8w13y.bkt.clouddn.com/1.png">
 
 
@@ -114,7 +115,7 @@
 <script type="text/javascript" id="hexo.configurations">
   var NexT = window.NexT || {};
   var CONFIG = {
-    root: '/',
+    root: '',
     scheme: 'Mist',
     sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
     fancybox: true,
@@ -141,8 +142,8 @@
 
 
 
-  <title>【CSAPP笔记】9. 汇编语言——缓冲区溢出 | chaz</title>
-</head>
+  <title>【CSAPP笔记】9. 汇编语言——缓冲区溢出 | Chang's Note</title>
+<meta name="generator" content="Hexo 5.4.2"></head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
 
@@ -178,7 +179,7 @@
     <div class="custom-logo-site-title">
       <a href="/"  class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
-        <span class="site-title">chaz</span>
+        <span class="site-title">Chang's Note</span>
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
@@ -242,6 +243,16 @@
           </a>
         </li>
       
+        
+        <li class="menu-item menu-item-quotations">
+          <a href="/quotations/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-quote-right"></i> <br />
+            
+            语录
+          </a>
+        </li>
+      
 
       
     </ul>
@@ -274,13 +285,13 @@
     <link itemprop="mainEntityOfPage" href="https://zcplayground.github.io/2017/06/28/csapp-9-Machine-Prog-Buffer-overflow/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="chaz">
+      <meta itemprop="name" content="">
       <meta itemprop="description" content="">
       <meta itemprop="image" content="/images/avatar.png">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="chaz">
+      <meta itemprop="name" content="Chang's Note">
     </span>
 
     
@@ -366,9 +377,9 @@
 <li>text 区和共享库，是可执行机器指令，是只读的。</li>
 </ol>
 <h1 id="缓冲区溢出"><a href="#缓冲区溢出" class="headerlink" title="缓冲区溢出"></a>缓冲区溢出</h1><p>通过对过程调用、以及数组怎么翻译成机器代码的学习，我们知道C语言对于数组的引用<strong>不进行任何边界检查</strong>，而且局部变量和状态信息（保护寄存器的值、返回地址）都存在栈中。当对数组进行越界的写操作时可能会破坏掉栈中原有的信息，导致严重的程序错误。一种特别常见的破坏状态称作<strong>缓冲区溢出</strong>（buffer overflow），段错误（segmentation fault）也是C语言初学者经常会犯的毛病。通常，在栈中分配一个数组，用这个数组保存一个字符串，只要字符串的长度超过了为数组分配的空间，就会出现缓冲区溢出。下面这个简单的实例就说明了这个问题：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">char</span> *<span class="title">gets</span><span class="params">(<span class="keyword">char</span> *s)</span><span class="comment">//一个没有保护措施的 gets 函数</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">int</span> c;</div><div class="line">    <span class="keyword">char</span> *dest = s;</div><div class="line">    <span class="keyword">int</span> gotchar = <span class="number">0</span>;</div><div class="line">    <span class="keyword">while</span>((c=getchar())!= <span class="string">'\n'</span> &amp;&amp; c != EOF)&#123;</div><div class="line">        *dest++ = c;</div><div class="line">        gtochar = <span class="number">1</span>;</div><div class="line">    &#125;</div><div class="line">    *dest++ = <span class="string">'\0'</span>;</div><div class="line">    <span class="keyword">if</span>(c == EOF &amp;&amp; !gotchar)</div><div class="line">        <span class="keyword">return</span> <span class="literal">NULL</span>;</div><div class="line">    <span class="keyword">return</span> s;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">input</span><span class="params">()</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">char</span> buf[<span class="number">8</span>];<span class="comment">//设置一个较小的缓冲区</span></div><div class="line">    gets(buf);</div><div class="line">    <span class="built_in">puts</span>(buf);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">char</span> *<span class="title">gets</span><span class="params">(<span class="type">char</span> *s)</span><span class="comment">//一个没有保护措施的 gets 函数</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">int</span> c;</span><br><span class="line">    <span class="type">char</span> *dest = s;</span><br><span class="line">    <span class="type">int</span> gotchar = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span>((c=<span class="built_in">getchar</span>())!= <span class="string">&#x27;\n&#x27;</span> &amp;&amp; c != EOF)&#123;</span><br><span class="line">        *dest++ = c;</span><br><span class="line">        gtochar = <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    *dest++ = <span class="string">&#x27;\0&#x27;</span>;</span><br><span class="line">    <span class="keyword">if</span>(c == EOF &amp;&amp; !gotchar)</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">    <span class="keyword">return</span> s;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">input</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">char</span> buf[<span class="number">8</span>];<span class="comment">//设置一个较小的缓冲区</span></span><br><span class="line">    <span class="built_in">gets</span>(buf);</span><br><span class="line">    <span class="built_in">puts</span>(buf);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>在函数 input 中，故意将缓冲区设计的特别小，只有 8 个字节。任何超过 7 个字节的字符串都会导致写越界。检查 GCC 为 input 产生的汇编代码，看看栈是如何组织的：</p>
-<figure class="highlight perl"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">input:</div><div class="line">    pushl   %ebp                <span class="comment"># 保存帧指针</span></div><div class="line">    mov     %esp, %ebp          <span class="comment"># 更新栈指针位置</span></div><div class="line">    pushl   %ebx                <span class="comment"># 压入保护寄存器</span></div><div class="line">    subl    $2<span class="number">0</span>, %esp           <span class="comment"># 通过减法运算在栈上分配 20 个字节的空间</span></div><div class="line">    leal    -<span class="number">12</span>(%ebp), %ebx     <span class="comment"># 计算缓冲区开始的位置，是 %ebp - 12，存放到 %ebx 中</span></div><div class="line">    movl    %ebx, (%esp)        <span class="comment"># 将缓冲区开始的位置存到栈中（这是调用 gets 的参数）</span></div><div class="line">    call    gets                <span class="comment"># 调用 gets</span></div><div class="line"></div><div class="line">    movl    %ebx, (%esp)        <span class="comment"># 这是调用 puts 的参数</span></div><div class="line">    call    puts;               <span class="comment"># 调用 puts</span></div><div class="line"></div><div class="line">    addl    $2<span class="number">0</span>, %esp           <span class="comment"># 释放 20 个字节的空间</span></div><div class="line">    popl    %ebx;               <span class="comment"># 恢复保护寄存器</span></div><div class="line">    popl    %ebp;               <span class="comment"># 弹出帧指针</span></div><div class="line">    ret;                        <span class="comment"># 返回</span></div></pre></td></tr></table></figure>
+<figure class="highlight perl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">input:</span><br><span class="line">    pushl   %ebp                <span class="comment"># 保存帧指针</span></span><br><span class="line">    mov     %esp, %ebp          <span class="comment"># 更新栈指针位置</span></span><br><span class="line">    pushl   %ebx                <span class="comment"># 压入保护寄存器</span></span><br><span class="line">    subl    $2<span class="number">0</span>, %esp           <span class="comment"># 通过减法运算在栈上分配 20 个字节的空间</span></span><br><span class="line">    leal    -<span class="number">12</span>(%ebp), %ebx     <span class="comment"># 计算缓冲区开始的位置，是 %ebp - 12，存放到 %ebx 中</span></span><br><span class="line">    movl    %ebx, (%esp)        <span class="comment"># 将缓冲区开始的位置存到栈中（这是调用 gets 的参数）</span></span><br><span class="line">    call    gets                <span class="comment"># 调用 gets</span></span><br><span class="line"></span><br><span class="line">    movl    %ebx, (%esp)        <span class="comment"># 这是调用 puts 的参数</span></span><br><span class="line">    call    puts;               <span class="comment"># 调用 puts</span></span><br><span class="line"></span><br><span class="line">    addl    $2<span class="number">0</span>, %esp           <span class="comment"># 释放 20 个字节的空间</span></span><br><span class="line">    popl    %ebx;               <span class="comment"># 恢复保护寄存器</span></span><br><span class="line">    popl    %ebp;               <span class="comment"># 弹出帧指针</span></span><br><span class="line">    ret;                        <span class="comment"># 返回</span></span><br></pre></td></tr></table></figure>
 <p>可以知道，在运行上面这个程序的时候，栈空间是长这样的：</p>
 <p><img src="http://osax8w13y.bkt.clouddn.com/4.png" alt=""></p>
 <p>gets 从标准输入中读入一行，在末尾加上 null 字符。但是输入只在遇到一个回车符号或文件末尾才停止，并没有加入缓冲区是否会溢出的判断。看栈空间，我们知道 buf 的空间只有 8 个字节，如果我们输入的字符串大于 7 个字节，就会写到我们不该写的地方。如果单看 C 语言，是看不出数组越界写的影响的，只有研究机器代码的程序才能有所体会。</p>
@@ -414,7 +425,7 @@
 <h1 id="对抗栈溢出攻击"><a href="#对抗栈溢出攻击" class="headerlink" title="对抗栈溢出攻击"></a>对抗栈溢出攻击</h1><h2 id="使用安全的函数"><a href="#使用安全的函数" class="headerlink" title="使用安全的函数"></a>使用安全的函数</h2><p>C 语言有很多的库函数，例如<code>strcpy</code>、<code>strcat</code>、<code>sprintf</code> 都不需要告诉它们缓冲区的大小，就能够产生一个字节序列，这样的情况就会导致容易遭受缓冲区溢出的攻击。避免使用这样的没有缓冲区溢出防御机制的函数，更好的做法是是使用例如像<code>fgets</code>、<code>strncpy</code>这样的函数来替代，它包括一个参数，限制读入的最大字节数。</p>
 <h2 id="栈随机化"><a href="#栈随机化" class="headerlink" title="栈随机化"></a>栈随机化</h2><p>为了在系统中插入攻击代码，攻击者不但需要插入攻击代码本身，还要插入指向攻击代码开头的指针，以便当函数返回时，通过这个指针跳到攻击代码的位置。放置这个指针需要知道栈的位置。在过去，程序栈的位置非常<strong>容易预测</strong>，栈的位置是相当固定的，这就让攻击者有机可乘。<strong>栈随机化</strong>的思想就是让栈的位置在程序每次运行的时候都有所变化。程序开始时，在栈上分配一段 0 ~ n 字节的，随机大小空间。程序不使用这段空间，而是接在后面执行，会导致程序每次执行的时候后续栈位置有所变化，让黑客难以预测攻击代码的插入位置。分配的 n 需要足够大，这样随机的变化才足够多样；也不能分配的过大，导致浪费内存。</p>
 <p>下面是一段典型的确定栈位置的代码：</p>
-<figure class="highlight perl"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">int</span> main()</div><div class="line">&#123;</div><div class="line">    <span class="keyword">int</span> <span class="keyword">local</span>;</div><div class="line">    <span class="keyword">printf</span>(<span class="string">"local at %p\n"</span>, &amp;<span class="keyword">local</span>);</div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight perl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> main()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">int</span> <span class="keyword">local</span>;</span><br><span class="line">    <span class="keyword">printf</span>(<span class="string">&quot;local at %p\n&quot;</span>, &amp;<span class="keyword">local</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>书本上做了一个实验：在 32 位 Linux 系统上运行上述代码一万次，得到的地址空间变化范围是 <code>0xff7fa7e0 ~ 0xffffd7e0</code>，这段范围的大小约为 $ 2^{23} $。</p>
 <p>在 Linux 上，栈随机化已经是标准行为。栈随机化是一大类技术中的一种，称为<strong>地址空间布局随机化</strong>（Address-Space Layout Randomization）。采用此技术，每次运行程序时的不同部分，包括程序代码、共享库、堆、栈、全局变量，都会被加载到存储器的不同区域。这意味着一台机器上运行一个程序，与在其他机器上运行同样的程序，它的地址映射会大相径庭。</p>
 <p>然而，一个执著的攻击者可以通过暴力来克服随机化。一种常见的把戏就是在代码开头插入很长的一段 no operation 代码，这段代码除了让程序计数器加一，指向下一条指令外，没有任何效果。攻击者要做的就是猜中栈地址变化序列中的某个地址，程序经过这个序列时，会“滑过”这段代码，达到攻击代码。就会例如上面这段大小为 $ 2^{23} $ 的范围，某黑客有一段 128 字节的缓冲区溢出攻击代码，此黑客想要穷尽所有的起始地址，他需要尝试的次数是 $ \frac{2^{23}}{128} = 2^{17} $ ，也就是说他需要大约十三万次攻击就可以穷尽所有的地址。</p>
@@ -429,10 +440,10 @@
 <p><strong>病毒，virus</strong>：病毒能将自己添加到包括操作系统的其他程序中，但不能独立运行。管蠕虫叫病毒是不对的。</p>
 <hr>
 <h1 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h1><ul>
-<li><a href="http://www.cs.cmu.edu/~./213/schedule.html" target="_blank" rel="external">CMU 2017年春季学期  ICS课程网站</a></li>
-<li><a href="https://zh.wikipedia.org/wiki/%E8%BF%94%E5%9B%9E%E5%AF%BC%E5%90%91%E7%BC%96%E7%A8%8B" target="_blank" rel="external">wiki - 返回导向编程</a></li>
-<li><a href="http://www.csdn.net/article/a/2014-03-03/15818077" target="_blank" rel="external">Return-into-libc 攻击及其防御</a></li>
-<li><a href="https://zhuanlan.zhihu.com/p/25816426" target="_blank" rel="external">手把手教你栈溢出从入门到放弃（上）</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.cs.cmu.edu/~./213/schedule.html">CMU 2017年春季学期  ICS课程网站</a></li>
+<li><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E8%BF%94%E5%9B%9E%E5%AF%BC%E5%90%91%E7%BC%96%E7%A8%8B">wiki - 返回导向编程</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.csdn.net/article/a/2014-03-03/15818077">Return-into-libc 攻击及其防御</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/25816426">手把手教你栈溢出从入门到放弃（上）</a></li>
 </ul>
 
       
@@ -543,8 +554,8 @@
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.png"
-               alt="chaz" />
-          <p class="site-author-name" itemprop="name">chaz</p>
+               alt="" />
+          <p class="site-author-name" itemprop="name"></p>
            
               <p class="site-description motion-element" itemprop="description"></p>
           
@@ -554,7 +565,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">96</span>
+                <span class="site-state-item-count">99</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -602,7 +613,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#x86-64-Linux-内存结构"><span class="nav-number">1.</span> <span class="nav-text">x86-64 Linux 内存结构</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#缓冲区溢出"><span class="nav-number">2.</span> <span class="nav-text">缓冲区溢出</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#对抗栈溢出攻击"><span class="nav-number">3.</span> <span class="nav-text">对抗栈溢出攻击</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#使用安全的函数"><span class="nav-number">3.1.</span> <span class="nav-text">使用安全的函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#栈随机化"><span class="nav-number">3.2.</span> <span class="nav-text">栈随机化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#栈破坏检测：金丝雀"><span class="nav-number">3.3.</span> <span class="nav-text">栈破坏检测：金丝雀</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#限制可执行代码区域"><span class="nav-number">3.4.</span> <span class="nav-text">限制可执行代码区域</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#扯点别的"><span class="nav-number">4.</span> <span class="nav-text">扯点别的</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考链接"><span class="nav-number">5.</span> <span class="nav-text">参考链接</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#x86-64-Linux-%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84"><span class="nav-number">1.</span> <span class="nav-text">x86-64 Linux 内存结构</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BC%93%E5%86%B2%E5%8C%BA%E6%BA%A2%E5%87%BA"><span class="nav-number">2.</span> <span class="nav-text">缓冲区溢出</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AF%B9%E6%8A%97%E6%A0%88%E6%BA%A2%E5%87%BA%E6%94%BB%E5%87%BB"><span class="nav-number">3.</span> <span class="nav-text">对抗栈溢出攻击</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E5%AE%89%E5%85%A8%E7%9A%84%E5%87%BD%E6%95%B0"><span class="nav-number">3.1.</span> <span class="nav-text">使用安全的函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A0%88%E9%9A%8F%E6%9C%BA%E5%8C%96"><span class="nav-number">3.2.</span> <span class="nav-text">栈随机化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A0%88%E7%A0%B4%E5%9D%8F%E6%A3%80%E6%B5%8B%EF%BC%9A%E9%87%91%E4%B8%9D%E9%9B%80"><span class="nav-number">3.3.</span> <span class="nav-text">栈破坏检测：金丝雀</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%99%90%E5%88%B6%E5%8F%AF%E6%89%A7%E8%A1%8C%E4%BB%A3%E7%A0%81%E5%8C%BA%E5%9F%9F"><span class="nav-number">3.4.</span> <span class="nav-text">限制可执行代码区域</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%89%AF%E7%82%B9%E5%88%AB%E7%9A%84"><span class="nav-number">4.</span> <span class="nav-text">扯点别的</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E9%93%BE%E6%8E%A5"><span class="nav-number">5.</span> <span class="nav-text">参考链接</span></a></li></ol></div>
             
 
           </div>
@@ -629,17 +640,17 @@
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
-  <span class="author" itemprop="copyrightHolder">chaz</span>
+  <span class="author" itemprop="copyrightHolder">Chang</span>
 </div>
 
 
 <div class="powered-by">
-  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+  由 <a class="theme-link" target="_blank" rel="noopener" href="https://hexo.io">Hexo</a> 强力驱动
 </div>
 
 <div class="theme-info">
   主题 -
-  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+  <a class="theme-link" target="_blank" rel="noopener" href="https://github.com/iissnan/hexo-theme-next">
     NexT.Mist
   </a>
 </div>
